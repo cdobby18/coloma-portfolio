@@ -1,0 +1,18 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="200" height="200" fill="#16171d"/>
+  
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0891b2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Rounded square border -->
+  <rect x="20" y="20" width="160" height="160" rx="24" fill="none" stroke="url(#grad1)" stroke-width="2"/>
+  
+  <!-- CJC Text -->
+  <text x="100" y="115" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="700" fill="url(#grad1)" text-anchor="middle" letter-spacing="-2">CJC</text>
+</svg>

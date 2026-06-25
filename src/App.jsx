@@ -144,41 +144,45 @@ const EXPERIENCE = [
 
 const PROJECTS = [
   {
-    title: "Powerlift",
+    title: "Powerlift: Precision Pose Estimation for Powerlifting Performance Metrics",
     type: "Computer Vision",
     desc: "AI biomechanics analyzer for powerlifting built with YOLOv8, Kalman Filtering, and SVM classification. Tracks joint positions, stabilizes motion across frames, and classifies squat, bench, and deadlift mechanics in real time — delivering automated lift assessment and performance feedback on mobile hardware.",
-    metric: "30+ FPS on mobile · Overall Best Thesis",
+    metric: "Mobile Application · Overall Best Thesis",
     tags: ["Python", "YOLOv8", "Kalman Filtering", "SVM", "MoveNet"],
     accent: "#22d3ee",
     featured: true,
     award: "Overall Best Thesis",
+    img: "/Powerlift.png",
     link: "https://github.com/cdobby18/powerlift-frontend",
   },
   {
     title: "AI Resume Analyzer",
     type: "NLP System",
     desc: "Resume parsing pipeline using spaCy NER and Transformer-based semantic matching to extract skills, experience, and role fit. Processes 100+ documents per minute with structured JSON output ready for downstream ranking or ATS integration.",
-    metric: "100+ resumes/min · spaCy NER + Semantic Match",
+    metric: "Python · spaCy NER + Semantic Match",
     tags: ["NLP", "spaCy", "Transformers", "FastAPI"],
     accent: "#38bdf8",
+    img: "/Resume.png",
     link: "https://github.com/cdobby18/resume_analyzer",
   },
   {
     title: "Document Summarizer",
     type: "Transformer Pipeline",
     desc: "Abstractive summarization system for multi-page PDFs using BART and T5. Handles long-document chunking strategies to stay within model context limits, then merges section-level summaries into a coherent output — outperforming extractive baselines on readability.",
-    metric: "BART · T5 · Multi-page chunking",
+    metric: "Python · NLP · BART",
     tags: ["BART", "T5", "HuggingFace", "PDF"],
     accent: "#34d399",
+    img: "/Summarize.png",
     link: "https://github.com/cdobby18/ai-summarizer",
   },
   {
-    title: "RAG Knowledge Assistant",
-    type: "LLM + Vector Search",
+    title: "AI Engineering Roadmap",
+    type: "Python",
     desc: "Retrieval-Augmented Generation pipeline built with LangChain and Qdrant. Ingests documents into a vector store, retrieves semantically relevant chunks at query time, and feeds grounded context to an LLM — reducing hallucinations versus vanilla prompting.",
-    metric: "LangChain · Qdrant · OpenAI",
-    tags: ["RAG", "LangChain", "Qdrant", "OpenAI API", "Python"],
+    metric: "Python · FastAPI · ML · LLMs · RAG",
+    tags: ["Python", "FastAPI", "ML", "LLMs", "RAG"],
     accent: "#a78bfa",
+    img: "/Python.png",
     link: "https://github.com/cdobby18/AI-Roadmap",
   },
 ];
@@ -311,13 +315,13 @@ function AboutSection() {
       <div data-cols="true" style={{ display: "flex", gap: 64, alignItems: "flex-start" }}>
         <div style={{ flex: "1 1 0", minWidth: 0 }}>
           <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: 1.85, marginBottom: 18 }}>
-            Hey, I'm CJ — a Computer Science student from the Philippines, graduating from FEU Institute of Technology in 2026. I care about bridging research-grade ML with real-world deployment constraints — building systems that are reliable, observable, and maintainable beyond the notebook.
+            Hey, I'm CJ — an aspiring AI engineer and Computer Science student from the Philippines, graduating from FEU Institute of Technology in 2026. I care about bridging research-grade ML with real-world deployment constraints — building systems that are reliable, observable, and maintainable beyond the notebook.
           </p>
           <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: 1.85, marginBottom: 18 }}>
             I'm currently working as an AI QA Intern at SoFi AI Tech Solutions, where I design adversarial evaluation workflows and build LLM-as-judge pipelines to measure and improve model reliability. My focus is on LLM evaluation, RAG architectures, and production observability.
           </p>
           <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: 1.85 }}>
-            My undergraduate thesis — <span style={{ color: COLORS.textPrimary, fontWeight: 500 }}>Powerlift</span> — earned the Overall Best Thesis Award in the Computer Vision category (December 2025). It's an AI biomechanics analyzer for powerlifting built with YOLOv8 + Kalman Filtering, running at 30+ FPS on mobile.
+            My undergraduate thesis — <span style={{ color: COLORS.textPrimary, fontWeight: 500 }}>Powerlift</span> — earned the Overall Best Thesis Award in the Computer Vision category (November 2025). It's an AI biomechanics analyzer for powerlifting built with YOLOv8 + Kalman Filtering, running at 30+ FPS on mobile.
           </p>
           <div style={{ marginTop: 36, borderTop: `1px solid ${COLORS.stripBorder}` }}>
             {[
@@ -429,42 +433,60 @@ function ProjectsSection() {
         Applied AI systems focused on real-world deployment, computer vision, NLP, and intelligent workflows.
       </p>
       <a href={featured.link} target="_blank" rel="noopener noreferrer"
-        style={{ textDecoration: "none", color: "inherit", display: "block", borderRadius: 14, padding: "36px 40px", background: COLORS.surface, marginBottom: 18, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
-        onMouseEnter={e => { e.currentTarget.style.background = COLORS.hoverBg; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 48px rgba(0,0,0,0.2)"; }}
-        onMouseLeave={e => { e.currentTarget.style.background = COLORS.surface; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 32 }}>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14, flexWrap: "wrap" }}>
-              <span style={{ color: COLORS.cyan, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>Featured Project</span>
-              <span style={{ width: 1, height: 12, background: COLORS.divider, flexShrink: 0 }} />
-              <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11 }}>Computer Vision</span>
-              <span style={{ padding: "3px 10px", background: "rgba(250,204,21,0.1)", border: "1px solid rgba(250,204,21,0.2)", borderRadius: 999, color: "#facc15", fontFamily: "Inter, sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.06em" }}>Best Thesis Award</span>
-            </div>
-            <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 42, fontWeight: 700, color: COLORS.textPrimary, marginBottom: 14, letterSpacing: "-0.02em" }}>{featured.title}</h3>
-            <p style={{ color: COLORS.textSecondary, lineHeight: 1.75, fontFamily: "Inter, sans-serif", fontSize: 14, marginBottom: 20, maxWidth: 680 }}>{featured.desc}</p>
-            <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12, marginBottom: 20 }}>{featured.metric}</p>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-              {featured.tags.map(tag => (
-                <span key={tag} style={{ padding: "5px 12px", borderRadius: 6, background: COLORS.tagBg, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 12, fontWeight: 500 }}>{tag}</span>
-              ))}
+        style={{ textDecoration: "none", color: "inherit", display: "block", borderRadius: 14, overflow: "hidden", background: COLORS.surface, border: `1px solid ${COLORS.border}`, marginBottom: 18, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
+        onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 48px rgba(0,0,0,0.2)"; }}
+        onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
+        {featured.img && (
+          <div style={{ position: "relative", height: 220, overflow: "hidden" }}>
+            <img src={featured.img} alt={featured.title} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
+            <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, transparent 30%, ${COLORS.surface} 100%)` }} />
+            <div style={{ position: "absolute", top: 16, right: 16 }}>
+              <span style={{ padding: "4px 12px", background: "rgba(250,204,21,0.15)", border: "1px solid rgba(250,204,21,0.3)", borderRadius: 999, color: "#facc15", fontFamily: "Inter, sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.06em", backdropFilter: "blur(8px)" }}>Best Thesis Award</span>
             </div>
           </div>
-          <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13, flexShrink: 0, paddingTop: 4 }}>&#8599; GitHub</span>
+        )}
+        <div style={{ padding: "28px 36px 36px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 32 }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
+                <span style={{ color: COLORS.cyan, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>Featured Project</span>
+                <span style={{ width: 1, height: 12, background: COLORS.divider, flexShrink: 0 }} />
+                <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11 }}>Computer Vision</span>
+              </div>
+              <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 700, color: COLORS.textPrimary, marginBottom: 14, letterSpacing: "-0.02em" }}>{featured.title}</h3>
+              <p style={{ color: COLORS.textSecondary, lineHeight: 1.75, fontFamily: "Inter, sans-serif", fontSize: 14, marginBottom: 20, maxWidth: 680 }}>{featured.desc}</p>
+              <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12, marginBottom: 20 }}>{featured.metric}</p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {featured.tags.map(tag => (
+                  <span key={tag} style={{ padding: "5px 12px", borderRadius: 6, background: COLORS.tagBg, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 12, fontWeight: 500 }}>{tag}</span>
+                ))}
+              </div>
+            </div>
+            <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13, flexShrink: 0 }}>&#8599; GitHub</span>
+          </div>
         </div>
       </a>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
         {secondary.map((project) => (
           <a key={project.title} href={project.link} target="_blank" rel="noopener noreferrer"
-            style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", borderRadius: 16, padding: "24px 26px", background: COLORS.surface, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
-            onMouseEnter={e => { e.currentTarget.style.background = COLORS.hoverBg; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 12px 32px rgba(0,0,0,0.15)"; }}
-            onMouseLeave={e => { e.currentTarget.style.background = COLORS.surface; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-              <span style={{ color: project.accent, fontFamily: "Inter, sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>{project.type}</span>
-              <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11 }}>&#8599; GitHub</span>
+            style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", borderRadius: 16, overflow: "hidden", background: COLORS.surface, border: `1px solid ${COLORS.border}`, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 12px 32px rgba(0,0,0,0.15)"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
+            {project.img && (
+              <div style={{ position: "relative", height: 152, overflow: "hidden", flexShrink: 0 }}>
+                <img src={project.img} alt={project.title} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
+                <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, transparent 40%, ${COLORS.surface} 100%)` }} />
+              </div>
+            )}
+            <div style={{ display: "flex", flexDirection: "column", flex: 1, padding: "20px 24px 24px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                <span style={{ color: project.accent, fontFamily: "Inter, sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>{project.type}</span>
+                <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11 }}>&#8599; GitHub</span>
+              </div>
+              <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 18, fontWeight: 600, color: COLORS.textPrimary, marginBottom: 10 }}>{project.title}</h3>
+              <p style={{ color: COLORS.textSecondary, lineHeight: 1.7, fontFamily: "Inter, sans-serif", fontSize: 13, flexGrow: 1, marginBottom: 14 }}>{project.desc}</p>
+              <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12 }}>{project.metric}</p>
             </div>
-            <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 20, fontWeight: 600, color: COLORS.textPrimary, marginBottom: 10 }}>{project.title}</h3>
-            <p style={{ color: COLORS.textSecondary, lineHeight: 1.7, fontFamily: "Inter, sans-serif", fontSize: 13, flexGrow: 1, marginBottom: 16 }}>{project.desc}</p>
-            <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12 }}>{project.metric}</p>
           </a>
         ))}
       </div>

@@ -59,7 +59,7 @@ const LIGHT = {
 const ThemeCtx = createContext(DARK);
 const useColors = () => useContext(ThemeCtx);
 
-const NAV_LINKS = ["About", "Stack", "Experience", "Projects", "Credentials", "Contact"];
+const NAV_LINKS = ["About", "Stack", "Experience", "Projects", "Credentials", "Interests", "Contact"];
 
 const DI = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
 
@@ -71,8 +71,6 @@ const SKILL_GROUPS = [
       { name: "JavaScript", icon: `${DI}/javascript/javascript-original.svg` },
       { name: "SQL",        icon: `${DI}/postgresql/postgresql-original.svg` },
       { name: "C++",        icon: `${DI}/cplusplus/cplusplus-original.svg` },
-      { name: "PHP",        icon: `${DI}/php/php-original.svg` },
-      { name: "Java",       icon: `${DI}/java/java-original.svg` },
     ],
   },
   {
@@ -113,13 +111,23 @@ const SKILL_GROUPS = [
 
 const EXPERIENCE = [
   {
+    role: "Backend AI Engineer Intern",
+    company: "FlyRank AI",
+    period: "July 2026 – Present",
+    points: [
+      "Developed LLM-powered content generation and semantic ranking pipelines to improve content relevance at scale.",
+      "Integrated embedding models with vector search to build semantic retrieval features across the platform.",
+      "Contributed to prompt engineering workflows and output quality evaluation for production AI features.",
+    ],
+  },
+  {
     role: "AI QA Intern",
     company: "SoFi AI Tech Solutions Inc.",
-    period: "Apr 2026 – Present",
+    period: "Apr 2026 – July 2026",
     points: [
-      "Stress-tested conversational AI systems using edge-case prompts and evaluation workflows.",
-      "Performed prompt analysis and hallucination classification for model reliability.",
-      "Collaborated with ML teams to improve response consistency and AI behavior.",
+      "Designed adversarial prompt test suites targeting hallucination, refusal, and instruction-following failure modes across conversational AI systems.",
+      "Built an LLM-as-judge hallucination classification pipeline to systematically label and track model response quality at scale.",
+      "Partnered with ML teams to translate evaluation findings into concrete model behavior improvements, reducing error rates across key failure categories.",
     ],
   },
   {
@@ -127,9 +135,9 @@ const EXPERIENCE = [
     company: "Lamina Studios",
     period: "Dec 2025 – Apr 2026",
     points: [
-      "Built real-time computer vision pipelines with YOLOv8 and OpenCV.",
-      "Developed predictive analytics systems using Scikit-learn and XGBoost.",
-      "Automated AI workflows and tooling to reduce repetitive manual operations.",
+      "Built real-time YOLOv8 object detection pipelines with OpenCV, achieving production-ready inference speeds on GPU hardware.",
+      "Trained XGBoost classification models on time-series datasets using Scikit-learn; deployed predictions to cut manual review overhead.",
+      "Automated model retraining and evaluation workflows, reducing iteration cycles from days to hours.",
     ],
   },
 ];
@@ -138,8 +146,8 @@ const PROJECTS = [
   {
     title: "Powerlift",
     type: "Computer Vision",
-    desc: "AI-powered biomechanics analysis system for powerlifting performance evaluation using YOLOv8, Kalman Filtering, and SVM classification. Designed to analyze lifting mechanics in real time through computer vision, motion tracking, and posture analysis to provide automated lift assessment, movement stabilization, and performance feedback for squat, bench press, and deadlift exercises.",
-    metric: "30+ FPS · Mobile Application",
+    desc: "AI biomechanics analyzer for powerlifting built with YOLOv8, Kalman Filtering, and SVM classification. Tracks joint positions, stabilizes motion across frames, and classifies squat, bench, and deadlift mechanics in real time — delivering automated lift assessment and performance feedback on mobile hardware.",
+    metric: "30+ FPS on mobile · Overall Best Thesis",
     tags: ["Python", "YOLOv8", "Kalman Filtering", "SVM", "MoveNet"],
     accent: "#22d3ee",
     featured: true,
@@ -149,39 +157,37 @@ const PROJECTS = [
   {
     title: "AI Resume Analyzer",
     type: "NLP System",
-    desc: "Resume parsing and skill extraction pipeline with entity recognition and semantic matching.",
-    metric: "100+ resumes/min",
-    tags: ["NLP", "spaCy", "Transformers"],
+    desc: "Resume parsing pipeline using spaCy NER and Transformer-based semantic matching to extract skills, experience, and role fit. Processes 100+ documents per minute with structured JSON output ready for downstream ranking or ATS integration.",
+    metric: "100+ resumes/min · spaCy NER + Semantic Match",
+    tags: ["NLP", "spaCy", "Transformers", "FastAPI"],
     accent: "#38bdf8",
     link: "https://github.com/cdobby18/resume_analyzer",
   },
   {
     title: "Document Summarizer",
     type: "Transformer Pipeline",
-    desc: "Abstractive PDF summarization system powered by Hugging Face transformer models.",
-    metric: "Multi-page summarization",
-    tags: ["BART", "T5", "PDF"],
+    desc: "Abstractive summarization system for multi-page PDFs using BART and T5. Handles long-document chunking strategies to stay within model context limits, then merges section-level summaries into a coherent output — outperforming extractive baselines on readability.",
+    metric: "BART · T5 · Multi-page chunking",
+    tags: ["BART", "T5", "HuggingFace", "PDF"],
     accent: "#34d399",
     link: "https://github.com/cdobby18/ai-summarizer",
   },
   {
-    title: "AI Engineering Roadmap",
-    type: "Learning System",
-    desc: "Structured roadmap from Python to ML to LLMs to RAG to production AI systems.",
-    metric: "End-to-end AI learning system",
-    tags: ["Python", "ML", "LLMs", "RAG"],
+    title: "RAG Knowledge Assistant",
+    type: "LLM + Vector Search",
+    desc: "Retrieval-Augmented Generation pipeline built with LangChain and Qdrant. Ingests documents into a vector store, retrieves semantically relevant chunks at query time, and feeds grounded context to an LLM — reducing hallucinations versus vanilla prompting.",
+    metric: "LangChain · Qdrant · OpenAI",
+    tags: ["RAG", "LangChain", "Qdrant", "OpenAI API", "Python"],
     accent: "#a78bfa",
     link: "https://github.com/cdobby18/AI-Roadmap",
   },
 ];
 
 const CERTIFICATIONS = [
-  { title: "AI Engineer",                  issuer: "Udemy",  desc: "Advanced AI course covering machine learning and deep learning fundamentals.",        link: "https://www.udemy.com/certificate/UC-ce6b30a4-237b-469c-9f60-0039ab82713f/", badge: "AI" },
-  { title: "Python Expert",                issuer: "Credly", desc: "Mastered Python programming and advanced scripting concepts.",                        link: "https://www.credly.com/earner/earned/badge/8ef3efc3-7e58-4ef2-b349-32f818814c5b", badge: "PY" },
-  { title: "Intro to Modern AI",           issuer: "Credly", desc: "Core concepts of modern AI including ML and neural networks.",                        link: "https://www.credly.com/badges/fc10a9c7-172e-47b7-b817-f1116e8b9846/public_url", badge: "ML" },
-  { title: "JavaScript Essentials",        issuer: "Credly", desc: "Fundamentals of JavaScript programming and ES6+ features.",                           link: "https://www.credly.com/earner/earned/badge/2d0c3b41-ee3f-4616-af62-2b3a55be3890", badge: "JS" },
-  { title: "Web Development Fundamentals", issuer: "Credly", desc: "Interface design principles, wireframing, and user experience.",                      link: "https://www.credly.com/badges/b610ac88-9103-441c-9874-f79ea071a605/linked_in_profile", badge: "WD" },
-  { title: "Introduction to Data Science", issuer: "Credly", desc: "Foundations of data science, analytics, and visualization using Python.",             link: "https://www.credly.com/badges/fde949db-9414-4ed4-85d3-d7fccab61366/public_url", badge: "DS" },
+  { title: "AI Engineer",                  issuer: "Udemy",  desc: "Advanced AI engineering covering LLMs, fine-tuning, RAG pipelines, and production deployment patterns.",  link: "https://www.udemy.com/certificate/UC-ce6b30a4-237b-469c-9f60-0039ab82713f/", badge: "AI" },
+  { title: "Python Expert",                issuer: "Credly", desc: "Advanced Python programming including data structures, OOP, and scripting for automation.",               link: "https://www.credly.com/earner/earned/badge/8ef3efc3-7e58-4ef2-b349-32f818814c5b", badge: "PY" },
+  { title: "Intro to Modern AI",           issuer: "Credly", desc: "Core concepts of modern AI: neural networks, ML workflows, and applied deep learning fundamentals.",       link: "https://www.credly.com/badges/fc10a9c7-172e-47b7-b817-f1116e8b9846/public_url", badge: "ML" },
+  { title: "Introduction to Data Science", issuer: "Credly", desc: "Foundations of data science covering statistical analysis, visualization, and Python-based workflows.",   link: "https://www.credly.com/badges/fde949db-9414-4ed4-85d3-d7fccab61366/public_url", badge: "DS" },
 ];
 
 function useInView(threshold = 0.12) {
@@ -305,13 +311,13 @@ function AboutSection() {
       <div data-cols="true" style={{ display: "flex", gap: 64, alignItems: "flex-start" }}>
         <div style={{ flex: "1 1 0", minWidth: 0 }}>
           <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: 1.85, marginBottom: 18 }}>
-            Hey, I'm CJ — a Computer Science student from the Philippines, graduating from FEU Institute of Technology in 2026. I'm passionate about building AI systems that actually work in production, not just in notebooks.
+            Hey, I'm CJ — a Computer Science student from the Philippines, graduating from FEU Institute of Technology in 2026. I care about bridging research-grade ML with real-world deployment constraints — building systems that are reliable, observable, and maintainable beyond the notebook.
           </p>
           <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: 1.85, marginBottom: 18 }}>
-            I'm currently working as an AI QA Intern at SoFi AI Tech Solutions, where I evaluate and stress-test conversational AI systems. My focus right now is on LLM pipelines, RAG architectures, and anything that bridges research-grade ML with real-world deployment.
+            I'm currently working as an AI QA Intern at SoFi AI Tech Solutions, where I design adversarial evaluation workflows and build LLM-as-judge pipelines to measure and improve model reliability. My focus is on LLM evaluation, RAG architectures, and production observability.
           </p>
           <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: 1.85 }}>
-            My undergraduate thesis — <span style={{ color: COLORS.textPrimary, fontWeight: 500 }}>Powerlift</span> — earned the Overall Best Thesis Award in the Computer Vision category (December 2025). It's an AI biomechanics analyzer for powerlifting that runs at 30+ FPS on mobile.
+            My undergraduate thesis — <span style={{ color: COLORS.textPrimary, fontWeight: 500 }}>Powerlift</span> — earned the Overall Best Thesis Award in the Computer Vision category (December 2025). It's an AI biomechanics analyzer for powerlifting built with YOLOv8 + Kalman Filtering, running at 30+ FPS on mobile.
           </p>
           <div style={{ marginTop: 36, borderTop: `1px solid ${COLORS.stripBorder}` }}>
             {[
@@ -355,17 +361,17 @@ function StackSection() {
     <section id="stack" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
       <SectionLabel num="03" text="Technical Stack" />
       <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 5vw, 60px)", color: COLORS.textPrimary, marginBottom: 14, fontWeight: 700 }}>Technical Stack</h2>
-      <p style={{ color: COLORS.textSecondary, maxWidth: 560, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "center", margin: "0 auto 40px" }}>
+      <p style={{ color: COLORS.textSecondary, maxWidth: 560, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "left", margin: "0 0 40px 0" }}>
         Tools and technologies across machine learning, AI systems, frameworks, and development.
       </p>
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "center", marginBottom: 40 }}>
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "flex-start", marginBottom: 40 }}>
         {SKILL_GROUPS.map((group, i) => (
           <button key={group.label} onClick={() => setActiveTab(i)} style={{ padding: "8px 22px", borderRadius: 999, border: "1px solid", borderColor: activeTab === i ? COLORS.accent : COLORS.outlineBorder, background: activeTab === i ? COLORS.accentSoft : "transparent", color: activeTab === i ? COLORS.accent : COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, cursor: "pointer", transition: "all 0.2s", outline: "none" }}>
             {group.label}
           </button>
         ))}
       </div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center", minHeight: 160 }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "flex-start", minHeight: 160 }}>
         {SKILL_GROUPS[activeTab].skills.map((skill) => (
           <SkillIcon key={skill.name} name={skill.name} icon={skill.icon} invert={skill.invert} />
         ))}
@@ -418,8 +424,8 @@ function ProjectsSection() {
   return (
     <section id="projects" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
       <SectionLabel num="05" text="Projects" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 5vw, 60px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "center", fontWeight: 700 }}>Featured Projects</h2>
-      <p style={{ color: COLORS.textSecondary, maxWidth: 600, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "center", margin: "0 auto 48px" }}>
+      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 5vw, 60px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "left", fontWeight: 700 }}>Featured Projects</h2>
+      <p style={{ color: COLORS.textSecondary, maxWidth: 600, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "left", margin: "0 0 48px 0" }}>
         Applied AI systems focused on real-world deployment, computer vision, NLP, and intelligent workflows.
       </p>
       <a href={featured.link} target="_blank" rel="noopener noreferrer"
@@ -473,11 +479,11 @@ function CertificatesSection() {
   return (
     <section id="credentials" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
       <SectionLabel num="06" text="Credentials" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 5vw, 60px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "center", fontWeight: 700 }}>Credentials</h2>
-      <p style={{ color: COLORS.textSecondary, maxWidth: 600, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "center", margin: "0 auto 48px" }}>
+      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 5vw, 60px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "left", fontWeight: 700 }}>Credentials</h2>
+      <p style={{ color: COLORS.textSecondary, maxWidth: 600, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "left", margin: "0 0 48px 0" }}>
         Verified credentials across AI engineering, machine learning, and software development.
       </p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
         {CERTIFICATIONS.map((cert, i) => (
           <a key={cert.title} href={cert.link} target="_blank" rel="noopener noreferrer"
             style={{
@@ -517,33 +523,142 @@ function CertificatesSection() {
   );
 }
 
+function InterestsSection() {
+  const COLORS = useColors();
+  const [ref, visible] = useInView();
+  const items = [
+    {
+      label: "Dance",
+      icon: "💃",
+      content: (
+        <>
+          <p style={{ margin: 0, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 13, lineHeight: 1.6 }}>
+            Began dancing in Grade 1 with a focus on dancehall and open style — performative choreography and team routines. I compete regionally and internationally; notable placements include:
+          </p>
+          <ul style={{ marginTop: 8, marginBottom: 0, paddingLeft: 18, color: COLORS.textSecondary }}>
+            <li>DS Kings (2023) — College Division — 3rd Place</li>
+            <li>Chosen Ground 16 (Open Division) — Champion</li>
+            <li>DS Kings (2024) — College Division — 2nd Place</li>
+            <li>LCDC (2025, Singapore) — BAWZ — Open Division — Champion</li>
+          </ul>
+        </>
+      )
+    },
+    {
+      label: "DJ (Amateur)",
+      icon: "🎧",
+      content: (
+        <div>
+          <p style={{ margin: 0, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 13, lineHeight: 1.6 }}>Curates energetic, dancefloor-focused mixes for friends and small events — focused on smooth transitions, crate-digging, and building a vibe from warm intros to peak-time drops.</p>
+          <p style={{ margin: '8px 0 0 0', color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 13, lineHeight: 1.6, fontWeight: 600 }}>Favorite genres:</p>
+          <ul style={{ marginTop: 6, marginBottom: 0, paddingLeft: 18, color: COLORS.textSecondary }}>
+            <li>R&B</li>
+            <li>Afro</li>
+            <li>Dancehall</li>
+            <li>Amapiano</li>
+            <li>House</li>
+            <li>Baile</li>
+          </ul>
+          <p style={{ marginTop: 8, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 13, lineHeight: 1.6 }}>Gear: Serato DJ Pro. Hercules InPulse 300 MK2.</p>
+        </div>
+      )
+    },
+    {
+      label: "One Piece",
+      icon: "🏴‍☠️",
+      content: (
+        <div>
+          <p style={{ margin: 0, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 13, lineHeight: 1.6 }}>
+            Longtime One Piece fan — I love the epic worldbuilding, emotional stakes, and the way Eiichiro Oda layers mystery across decades.
+          </p>
+          <ul style={{ marginTop: 8, marginBottom: 0, paddingLeft: 18, color: COLORS.textSecondary }}>
+            <li><strong>Favorite characters:</strong> Monkey D. Luffy (for optimism & grit), Roronoa Zoro (for loyalty & discipline), and Trafalgar Law (for style and strategy).</li>
+            <li><strong>Why I love it:</strong> the series rewards patience — long-running mysteries, layered character growth, and moments that land emotionally after years of buildup.</li>
+          </ul>
+          <p style={{ marginTop: 8, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 13, lineHeight: 1.6 }}>It inspires my storytelling and side projects — I appreciate how small details set up huge payoffs later.</p>
+        </div>
+      )
+    }
+  ];
+  return (
+    <section id="interests" ref={ref} style={{ padding: "80px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+      <SectionLabel num="07" text="Interests" />
+      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(24px, 3.6vw, 32px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "left", fontWeight: 700 }}>Beyond Tech</h2>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
+        {items.map(i => (
+          <div key={i.label} className="interest-card" style={{ padding: 16, borderRadius: 10, border: `1px solid ${COLORS.chipBorder}`, background: COLORS.surface, boxShadow: COLORS.isDark ? "0 6px 18px rgba(0,0,0,0.45)" : "0 6px 18px rgba(2,6,23,0.04)", animation: 'fadeUp 420ms cubic-bezier(0.16,1,0.3,1) both' }}>
+            <div style={{ height: 6, borderRadius: 8, marginBottom: 12, background: `linear-gradient(90deg, ${COLORS.accent}, ${COLORS.violet})` }} />
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
+              <div className="interest-icon" style={{ background: COLORS.accentSoft, color: COLORS.accent, width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 8, fontSize: 18, marginRight: 12 }}>{i.icon}</div>
+              <strong style={{ display: "block", fontFamily: "Inter, sans-serif", fontSize: 16, color: COLORS.accent }}>{i.label}</strong>
+            </div>
+            <div style={{ color: COLORS.textSecondary, fontSize: 14, lineHeight: 1.7 }}>{i.content}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function ContactSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
   return (
     <section id="contact" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px) 80px", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)", textAlign: "center" }}>
-      <SectionLabel num="07" text="Contact" />
+      <SectionLabel num="08" text="Contact" />
       <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(32px, 5vw, 56px)", color: COLORS.textPrimary, marginBottom: 14, fontWeight: 700 }}>Let's build something intelligent.</h2>
       <p style={{ color: COLORS.textSecondary, maxWidth: 520, lineHeight: 1.75, fontFamily: "Inter, sans-serif", margin: "0 auto 48px" }}>
         Open to AI engineering opportunities, ML collaborations, and building production-ready intelligent systems.
       </p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 14, maxWidth: 580, margin: "0 auto" }}>
-        {[
-          { label: "Email",    value: "carljoshuamcoloma@gmail.com",        link: "mailto:carljoshuamcoloma@gmail.com" },
-          { label: "Phone",    value: "+63 917 450 4450",                   link: "tel:+639174504450" },
-          { label: "GitHub",   value: "github.com/cdobby18",                link: "https://github.com/cdobby18" },
-          { label: "LinkedIn", value: "linkedin.com/in/carl-joshua-coloma", link: "https://linkedin.com/in/carl-joshua-coloma" },
-        ].map((item) => (
-          <a key={item.label} href={item.link}
-            target={item.link.startsWith("http") ? "_blank" : undefined}
-            rel={item.link.startsWith("http") ? "noopener noreferrer" : undefined}
-            style={{ border: `1px solid ${COLORS.border}`, borderRadius: 12, padding: "20px 22px", background: COLORS.surface, textDecoration: "none", display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 6, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(99,102,241,0.4)"; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(99,102,241,0.1)"; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
-            <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}>{item.label}</p>
-            <p style={{ color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 13, wordBreak: "break-all", textAlign: "left" }}>{item.value}</p>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+        <a
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=carljoshuamcoloma@gmail.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            textDecoration: "none",
+            color: COLORS.textPrimary,
+            fontFamily: "Inter, sans-serif",
+            fontSize: 16,
+            fontWeight: 700,
+            border: `1px solid ${COLORS.chipBorder}`,
+            borderRadius: 10,
+            padding: "12px 18px",
+            background: COLORS.surface,
+            display: "inline-block",
+            transition: "all 0.18s ease"
+          }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accent; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 12px 36px rgba(99,102,241,0.08)"; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}
+        >
+          Contact Me
+        </a>
+        <div style={{ display: "flex", gap: 18 }}>
+          <a
+            href="https://github.com/cdobby18"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            style={{ border: `1px solid ${COLORS.chipBorder}`, borderRadius: 10, padding: 8, display: "flex", alignItems: "center", justifyContent: "center", minWidth: 52, minHeight: 52, color: COLORS.textPrimary, textDecoration: "none", background: COLORS.surface, transition: "all 0.18s ease" }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accent; e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 10px 30px rgba(99,102,241,0.08)"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color: COLORS.textPrimary }}>
+              <path d="M12 .5C5.73.5.5 5.73.5 12c0 5.1 3.29 9.42 7.86 10.95.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.53-1.36-1.3-1.72-1.3-1.72-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.75.41-1.27.74-1.56-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11.02 11.02 0 0 1 2.9-.39c.98 0 1.97.13 2.9.39 2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.77.12 3.06.74.81 1.18 1.84 1.18 3.1 0 4.43-2.71 5.41-5.29 5.69.42.36.8 1.08.8 2.18 0 1.57-.01 2.84-.01 3.23 0 .31.21.68.8.56C20.71 21.42 24 17.1 24 12c0-6.27-5.23-11.5-12-11.5z" fill="currentColor" />
+            </svg>
           </a>
-        ))}
+          <a
+            href="https://linkedin.com/in/carl-joshua-coloma"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            style={{ border: `1px solid ${COLORS.chipBorder}`, borderRadius: 10, padding: 8, display: "flex", alignItems: "center", justifyContent: "center", minWidth: 52, minHeight: 52, color: COLORS.textPrimary, textDecoration: "none", background: COLORS.surface, transition: "all 0.18s ease" }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accent; e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 10px 30px rgba(99,102,241,0.08)"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color: COLORS.textPrimary }}>
+              <path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.1 1 2.5 1 4.98 2.12 4.98 3.5zM0 8h5V24H0V8zM8 8h4.8v2.2h.1c.7-1.3 2.4-2.6 4.9-2.6C24 7.6 24 12 24 16.6V24h-5v-7.2c0-1.8-.1-4.2-2.6-4.2-2.6 0-3 2-3 4.1V24H8V8z" fill="currentColor" />
+            </svg>
+          </a>
+        </div>
       </div>
     </section>
   );
@@ -606,11 +721,12 @@ export default function Portfolio() {
         ::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.5); border-radius: 3px; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
         @keyframes fadeUp { from { opacity:0; transform:translateY(20px) } to { opacity:1; transform:translateY(0) } }
+        @keyframes marquee-f { from { transform:translateX(0) } to { transform:translateX(-50%) } }
+        @keyframes marquee-r { from { transform:translateX(-50%) } to { transform:translateX(0) } }
         .nav-links { display: flex; gap: 28px; align-items: center; }
         .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
         @media (max-width: 900px) {
           #projects > div:last-child { grid-template-columns: repeat(2, 1fr) !important; }
-          #credentials > div { grid-template-columns: repeat(2, 1fr) !important; }
         }
         @media (max-width: 768px) {
           [data-cols] { flex-direction: column !important; }
@@ -632,6 +748,7 @@ export default function Portfolio() {
           {NAV_LINKS.map((link) => (
             <a key={link} href={`#${link.toLowerCase()}`}
               style={{ color: theme.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, transition: "color 0.2s ease" }}
+        
               onMouseEnter={e => { e.currentTarget.style.color = theme.textPrimary; }}
               onMouseLeave={e => { e.currentTarget.style.color = theme.textMuted; }}>
               {link}
@@ -696,6 +813,7 @@ export default function Portfolio() {
         <ExperienceSection />
         <ProjectsSection />
         <CertificatesSection />
+        <InterestsSection />
         <ContactSection />
       </main>
 

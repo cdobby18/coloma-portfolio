@@ -265,8 +265,8 @@ function Hero() {
           <img src="/PROFILE.jpeg" alt="Carl Joshua Coloma" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 15%" }} />
         </div>
         <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 16px", border: "1px solid rgba(99,102,241,0.25)", borderRadius: 999, background: COLORS.accentSoft, marginBottom: 28, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s both" }}>
-          <div style={{ width: 7, height: 7, borderRadius: "50%", background: COLORS.accent, boxShadow: "0 0 6px rgba(99,102,241,0.9)", flexShrink: 0 }} />
-          <span style={{ color: COLORS.accent, fontFamily: "Inter, sans-serif", fontSize: 12, fontWeight: 500, letterSpacing: "0.04em" }}>Available for AI Engineering roles</span>
+          <div style={{ width: 7, height: 7, borderRadius: "50%", background: COLORS.accent, boxShadow: "0 0 6px rgba(99,102,241,0.9)", flexShrink: 0, animation: "blink 1.4s step-end infinite" }} />
+          <span style={{ color: COLORS.accent, fontFamily: "Inter, sans-serif", fontSize: 12, fontWeight: 500, letterSpacing: "0.04em" }}>Open to work</span>
         </div>
         <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(52px, 8vw, 96px)", lineHeight: 0.95, letterSpacing: "-0.04em", color: COLORS.textPrimary, marginBottom: 22, fontWeight: 700, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.3s both" }}>
           Carl Joshua<br /><span style={{ color: COLORS.accent }}>Coloma.</span>

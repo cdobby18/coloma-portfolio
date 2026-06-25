@@ -701,7 +701,6 @@ export default function Portfolio() {
 
       <footer style={{ padding: "32px clamp(24px, 6vw, 96px)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, borderTop: `1px solid ${theme.border}` }}>
         <span style={{ fontFamily: "Inter, sans-serif", fontSize: 13, color: theme.textMuted }}>Carl Joshua Coloma · AI Engineer</span>
-        <span style={{ fontFamily: "Inter, sans-serif", fontSize: 13, color: theme.textMuted }}>Built with React · 2026</span>
       </footer>
     </ThemeCtx.Provider>
   );

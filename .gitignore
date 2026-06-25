@@ -29,3 +29,4 @@ package.json
 
 .vercel
 
+.env*

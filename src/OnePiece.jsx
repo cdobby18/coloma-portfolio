@@ -157,7 +157,7 @@ const PROJECTS = [
     tags: ["Python", "YOLOv8", "Kalman Filtering", "SVM", "MoveNet"],
     accent: "#22d3ee",
     featured: true,
-    img: "/Powerlift.png",
+    img: "/Powerlift.webp",
     link: "https://github.com/cdobby18/powerlift-frontend",
   },
   {
@@ -167,7 +167,7 @@ const PROJECTS = [
     metric: "Python · spaCy NER + Semantic Match",
     tags: ["NLP", "spaCy", "Transformers", "FastAPI"],
     accent: "#38bdf8",
-    img: "/Resume.png",
+    img: "/Resume.webp",
     link: "https://github.com/cdobby18/resume_analyzer",
   },
   {
@@ -177,7 +177,7 @@ const PROJECTS = [
     metric: "Python · NLP · BART",
     tags: ["BART", "T5", "HuggingFace", "PDF"],
     accent: "#34d399",
-    img: "/Summarize.png",
+    img: "/Summarize.webp",
     link: "https://github.com/cdobby18/ai-summarizer",
   },
   {
@@ -187,7 +187,7 @@ const PROJECTS = [
     metric: "Python · FastAPI · ML · LLMs · RAG",
     tags: ["Python", "FastAPI", "ML", "LLMs", "RAG"],
     accent: "#a78bfa",
-    img: "/Python.png",
+    img: "/Python.webp",
     link: "https://github.com/cdobby18/AI-Roadmap",
   },
 ];
@@ -448,7 +448,7 @@ function StackSection() {
   );
 }
 
-const DOT_THRESHOLDS = [0.08, 0.42, 0.74];
+const DOT_THRESHOLDS = EXPERIENCE.map((_, i) => 0.08 + i * (0.66 / Math.max(EXPERIENCE.length - 1, 1)));
 
 function ExperienceSection() {
   const COLORS = useColors();
@@ -520,7 +520,7 @@ function ProjectsSection() {
         onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
         {featured.img && (
           <div style={{ position: "relative", height: 220, overflow: "hidden" }}>
-            <img src={featured.img} alt={featured.title} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
+            <img src={featured.img} alt={featured.title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
             <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, transparent 30%, ${COLORS.surface} 100%)` }} />
             <div style={{ position: "absolute", top: 16, right: 16 }}>
               <span style={{ padding: "4px 12px", background: "rgba(232,162,23,0.15)", border: "1px solid rgba(232,162,23,0.35)", borderRadius: 999, color: COLORS.accent, fontFamily: "Inter, sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.06em", backdropFilter: "blur(8px)" }}>Best Thesis Award</span>
@@ -557,7 +557,7 @@ function ProjectsSection() {
             onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
             {project.img && (
               <div style={{ position: "relative", height: 152, overflow: "hidden", flexShrink: 0 }}>
-                <img src={project.img} alt={project.title} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
+                <img src={project.img} alt={project.title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
                 <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, transparent 40%, ${COLORS.surface} 100%)` }} />
               </div>
             )}
@@ -703,7 +703,7 @@ function ContactSection() {
         Open to AI engineering opportunities, ML collaborations, and building production-ready intelligent systems.
       </p>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=carljoshuamcoloma@gmail.com" target="_blank" rel="noopener noreferrer"
+        <a href="mailto:carljoshuamcoloma@gmail.com"
           style={{ textDecoration: "none", color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 16, fontWeight: 700, border: `1px solid ${COLORS.chipBorder}`, borderRadius: 10, padding: "12px 18px", background: COLORS.surface, display: "inline-block", transition: "all 0.18s ease" }}
           onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accent; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 12px 36px rgba(232,162,23,0.1)"; }}
           onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
@@ -858,7 +858,6 @@ export default function OnePiece() {
   return (
     <ThemeCtx.Provider value={theme}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         #root { width: 100% !important; max-width: 100% !important; text-align: left; }

@@ -710,6 +710,8 @@ function GlidingNavLinks({ links, theme }) {
   const refs = useRef([]);
   const containerRef = useRef(null);
   const [glider, setGlider] = useState({ left: 0, width: 0 });
+  const clickLock = useRef(false);
+  const lockTimer = useRef(null);
 
   const measure = (idx) => {
     const el = refs.current[idx];
@@ -724,6 +726,7 @@ function GlidingNavLinks({ links, theme }) {
 
   useEffect(() => {
     const onScroll = () => {
+      if (clickLock.current) return;
       let current = 0;
       for (let i = 0; i < links.length; i++) {
         const el = document.getElementById(links[i].id);
@@ -757,7 +760,12 @@ function GlidingNavLinks({ links, theme }) {
           key={link.id}
           href={`#${link.id}`}
           ref={el => (refs.current[i] = el)}
-          onClick={() => setActive(i)}
+          onClick={() => {
+            setActive(i);
+            clickLock.current = true;
+            clearTimeout(lockTimer.current);
+            lockTimer.current = setTimeout(() => { clickLock.current = false; }, 800);
+          }}
           style={{
             color: active === i ? theme.textPrimary : theme.textMuted,
             textDecoration: "none",

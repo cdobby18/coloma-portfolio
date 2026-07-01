@@ -727,6 +727,12 @@ function GlidingNavLinks({ links, theme }) {
   useEffect(() => {
     const onScroll = () => {
       if (clickLock.current) return;
+      const atBottom =
+        window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 80;
+      if (atBottom) {
+        setActive(links.length - 1);
+        return;
+      }
       let current = 0;
       for (let i = 0; i < links.length; i++) {
         const el = document.getElementById(links[i].id);

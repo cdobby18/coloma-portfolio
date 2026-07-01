@@ -705,6 +705,75 @@ function ContactSection() {
   );
 }
 
+function GlidingNavLinks({ links, theme }) {
+  const [active, setActive] = useState(0);
+  const refs = useRef([]);
+  const containerRef = useRef(null);
+  const [glider, setGlider] = useState({ left: 0, width: 0 });
+
+  const measure = (idx) => {
+    const el = refs.current[idx];
+    const container = containerRef.current;
+    if (!el || !container) return;
+    const elRect = el.getBoundingClientRect();
+    const cRect = container.getBoundingClientRect();
+    setGlider({ left: elRect.left - cRect.left, width: elRect.width });
+  };
+
+  useEffect(() => { measure(active); }, [active]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      let current = 0;
+      for (let i = 0; i < links.length; i++) {
+        const el = document.getElementById(links[i].id);
+        if (el && el.getBoundingClientRect().top <= 120) current = i;
+      }
+      setActive(current);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [links]);
+
+  return (
+    <div ref={containerRef} style={{ position: "relative", display: "flex", alignItems: "center", gap: 28 }}>
+      <span
+        style={{
+          position: "absolute",
+          bottom: -4,
+          height: 2,
+          borderRadius: 2,
+          background: theme.accent,
+          boxShadow: `0 0 8px ${theme.accent}99`,
+          left: glider.left,
+          width: glider.width,
+          transition: "left .4s cubic-bezier(.65,0,.35,1), width .4s cubic-bezier(.65,0,.35,1)",
+          pointerEvents: "none",
+        }}
+      />
+      {links.map((link, i) => (
+        <a
+          key={link.id}
+          href={`#${link.id}`}
+          ref={el => (refs.current[i] = el)}
+          onClick={() => setActive(i)}
+          style={{
+            color: active === i ? theme.textPrimary : theme.textMuted,
+            textDecoration: "none",
+            fontFamily: "Inter, sans-serif",
+            fontSize: 13,
+            fontWeight: active === i ? 600 : 500,
+            transition: "color 0.2s ease",
+          }}
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+  );
+}
+
 function SunIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -786,14 +855,7 @@ export default function OnePiece() {
         </a>
 
         <div className="op-nav-links">
-          {NAV_LINKS.map((link) => (
-            <a key={link.id} href={`#${link.id}`}
-              style={{ color: theme.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, transition: "color 0.2s ease" }}
-              onMouseEnter={e => { e.currentTarget.style.color = theme.textPrimary; }}
-              onMouseLeave={e => { e.currentTarget.style.color = theme.textMuted; }}>
-              {link.label}
-            </a>
-          ))}
+          <GlidingNavLinks links={NAV_LINKS} theme={theme} />
           <button onClick={toggleTheme} aria-label="Toggle theme"
             style={{ display: "flex", alignItems: "center", gap: 6, padding: "6px 12px", borderRadius: 999, border: `1px solid ${theme.border}`, background: theme.chipBg, color: theme.textMuted, cursor: "pointer", fontSize: 12, fontFamily: "Inter, sans-serif", fontWeight: 500, transition: "all 0.2s", outline: "none" }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = theme.accentBorder; e.currentTarget.style.color = theme.accent; }}
@@ -850,7 +912,7 @@ export default function OnePiece() {
 
       <footer style={{ padding: "32px clamp(24px, 6vw, 96px)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, borderTop: `1px solid ${theme.border}` }}>
         <span style={{ fontFamily: "Inter, sans-serif", fontSize: 13, color: theme.textMuted }}>Carl Joshua Coloma · AI Engineer</span>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: theme.textMuted, opacity: 0.5 }}>cjc⚓</span>
+        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: theme.textMuted, opacity: 0.5 }}>cjc</span>
       </footer>
     </ThemeCtx.Provider>
   );

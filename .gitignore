@@ -28,3 +28,7 @@ eslint.config.js
 
 .env*
 resume.pdf
+
+MEMORY.md 
+user_cj.md 
+feedback_implementation.md

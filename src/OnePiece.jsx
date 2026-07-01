@@ -224,14 +224,14 @@ function SectionLabel({ num, text }) {
   );
 }
 
-function SkillIcon({ name, icon, invert }) {
+function SkillIcon({ name, icon, invert, delay = 0 }) {
   const COLORS = useColors();
   const [err, setErr] = useState(false);
   const initials = name.replace(/[^A-Za-z0-9]/g, "").substring(0, 2).toUpperCase();
   const imgFilter = invert ? (COLORS.isDark ? "brightness(0) invert(1)" : "none") : "none";
   return (
     <div
-      style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: "20px 18px", borderRadius: 12, background: COLORS.chipBg, border: `1px solid ${COLORS.chipBorder}`, transition: "all 0.2s cubic-bezier(0.16,1,0.3,1)", cursor: "default", minWidth: 108, flex: "0 0 auto" }}
+      style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: "20px 18px", borderRadius: 12, background: COLORS.chipBg, border: `1px solid ${COLORS.chipBorder}`, transition: "all 0.2s cubic-bezier(0.16,1,0.3,1)", cursor: "default", minWidth: 108, flex: "0 0 auto", animation: `fadeUp 0.45s cubic-bezier(0.16,1,0.3,1) ${delay}ms both` }}
       onMouseEnter={e => { e.currentTarget.style.background = COLORS.accentSoft; e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; }}
       onMouseLeave={e => { e.currentTarget.style.background = COLORS.chipBg; e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.transform = "translateY(0)"; }}>
       {icon && !err ? (
@@ -334,6 +334,12 @@ function Hero() {
             onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textSecondary; }}>
             Get in Touch
           </a>
+          <a href="/resume.pdf" download
+            style={{ padding: "13px 28px", borderRadius: 8, border: `1px solid ${COLORS.outlineBorder}`, color: COLORS.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 500, background: COLORS.outlineBg, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(232,162,23,0.4)"; e.currentTarget.style.color = COLORS.textPrimary; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textSecondary; }}>
+            Download CV
+          </a>
         </div>
 
         {/* Stats strip */}
@@ -434,26 +440,43 @@ function StackSection() {
         ))}
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "flex-start", minHeight: 160 }}>
-        {SKILL_GROUPS[activeTab].skills.map((skill) => (
-          <SkillIcon key={skill.name} name={skill.name} icon={skill.icon} invert={skill.invert} />
+        {SKILL_GROUPS[activeTab].skills.map((skill, i) => (
+          <SkillIcon key={skill.name} name={skill.name} icon={skill.icon} invert={skill.invert} delay={i * 55} />
         ))}
       </div>
     </section>
   );
 }
 
+const DOT_THRESHOLDS = [0.08, 0.42, 0.74];
+
 function ExperienceSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
+  const containerRef = useRef(null);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (!containerRef.current) return;
+      const { top, height } = containerRef.current.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, (window.innerHeight - top) / (height + window.innerHeight)));
+      setProgress(p);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <section id="experience" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
       <SectionLabel num="03" text="Experience" />
       <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 5vw, 60px)", color: COLORS.textPrimary, marginBottom: 56, fontWeight: 700 }}>Experience</h2>
-      <div style={{ position: "relative", paddingLeft: 36, display: "flex", flexDirection: "column", gap: 28 }}>
-        <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 1, background: "linear-gradient(to bottom, rgba(232,162,23,0.7) 0%, rgba(232,162,23,0.04) 100%)" }} />
+      <div ref={containerRef} style={{ position: "relative", paddingLeft: 36, display: "flex", flexDirection: "column", gap: 28 }}>
+        <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 1, background: "linear-gradient(to bottom, rgba(232,162,23,0.7) 0%, rgba(232,162,23,0.04) 100%)", transformOrigin: "top center", transform: `scaleY(${progress})` }} />
         {EXPERIENCE.map((exp, i) => (
-          <div key={i} style={{ position: "relative" }}>
-            <div style={{ width: 10, height: 10, borderRadius: "50%", background: COLORS.accent, position: "absolute", left: -41, top: 16, boxShadow: "0 0 12px rgba(232,162,23,0.6)" }} />
+          <div key={i} style={{ position: "relative", animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 120}ms both` : "none" }}>
+            <div style={{ width: 10, height: 10, borderRadius: "50%", background: COLORS.accent, position: "absolute", left: -41, top: 16, boxShadow: progress >= DOT_THRESHOLDS[i] ? "0 0 12px rgba(232,162,23,0.6)" : "none", opacity: progress >= DOT_THRESHOLDS[i] ? 1 : 0, transform: progress >= DOT_THRESHOLDS[i] ? "scale(1)" : "scale(0)", transition: "opacity 0.3s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1)" }} />
             <div style={{ border: `1px solid ${COLORS.border}`, borderRadius: 16, padding: "26px 28px", background: COLORS.surface }}>
               <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 18 }}>
                 <div>
@@ -527,9 +550,9 @@ function ProjectsSection() {
       </a>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-        {secondary.map((project) => (
+        {secondary.map((project, i) => (
           <a key={project.title} href={project.link} target="_blank" rel="noopener noreferrer"
-            style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", borderRadius: 16, overflow: "hidden", background: COLORS.surface, border: `1px solid ${COLORS.border}`, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
+            style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", borderRadius: 16, overflow: "hidden", background: COLORS.surface, border: `1px solid ${COLORS.border}`, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)", animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 100}ms both` : "none" }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 12px 32px rgba(232,162,23,0.1)"; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
             {project.img && (

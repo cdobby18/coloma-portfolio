@@ -892,6 +892,7 @@ export default function OnePiece() {
 
         <div className="op-nav-links">
           <GlidingNavLinks links={NAV_LINKS} theme={theme} />
+          <a href="/blog.html" style={{ color: theme.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 600, paddingLeft: 8, borderLeft: `1px solid ${theme.stripBorder}`, marginLeft: 8 }}>Blog</a>
           <button onClick={toggleTheme} aria-label="Toggle theme"
             style={{ display: "flex", alignItems: "center", gap: 6, padding: "6px 12px", borderRadius: 999, border: `1px solid ${theme.border}`, background: theme.chipBg, color: theme.textMuted, cursor: "pointer", fontSize: 12, fontFamily: "Inter, sans-serif", fontWeight: 500, transition: "all 0.2s", outline: "none" }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = theme.accentBorder; e.currentTarget.style.color = theme.accent; }}
@@ -925,6 +926,10 @@ export default function OnePiece() {
               {link.label}
             </a>
           ))}
+          <a href="/blog.html" onClick={() => setMenuOpen(false)}
+            style={{ color: theme.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 15, fontWeight: 600, padding: "14px 0", borderBottom: `1px solid ${theme.stripBorder}` }}>
+            Blog
+          </a>
           <div style={{ paddingTop: 16 }}>
             <button onClick={() => { toggleTheme(); setMenuOpen(false); }}
               style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 16px", borderRadius: 8, border: `1px solid ${theme.border}`, background: theme.chipBg, color: theme.textSecondary, cursor: "pointer", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, outline: "none" }}>

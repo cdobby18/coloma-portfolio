@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Still Figuring It Out: My Path Toward AI Engineering</title>
+  <meta name="description" content="A student's honest take on tutorial hell, feeling stuck, and still chasing AI engineering anyway." />
+  <script>
+    (function () {
+      var stored = null;
+      try { stored = localStorage.getItem("op-theme"); } catch (e) {}
+      var isDark = stored ? stored !== "light" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+    })();
+  </script>
+  <style>
+    :root { color-scheme: light dark; }
+    html[data-theme="dark"] {
+      --bg:#060d1a; --card:#0c1829; --muted:#8a9bb5; --accent:#e8a217;
+      --text:#f0e6c8; --border:rgba(232,162,23,0.12); --quoteBg:rgba(232,162,23,0.05);
+      --quoteBorder:rgba(232,162,23,0.28); --imgBorder:rgba(255,255,255,0.08);
+    }
+    html[data-theme="light"] {
+      --bg:#fdf8f0; --card:#ffffff; --muted:#5c4230; --accent:#c47d0e;
+      --text:#1a0e00; --border:rgba(139,90,0,0.12); --quoteBg:rgba(196,125,14,0.06);
+      --quoteBorder:rgba(196,125,14,0.3); --imgBorder:rgba(0,0,0,0.08);
+    }
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+    body{background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;transition:background 0.2s ease,color 0.2s ease}
+    .wrap{max-width:820px;margin:48px auto;padding:28px;background:var(--card);border-radius:12px;border:1px solid var(--border);transition:background 0.2s ease,border-color 0.2s ease}
+    a{color:var(--accent);text-decoration:none}
+    header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px}
+    h1{font-size:28px;margin:0 0 8px;line-height:1.05}
+    .meta{color:var(--muted);font-size:14px;margin-bottom:20px}
+    p{color:var(--text);font-size:16px;line-height:1.7;margin:0 0 16px}
+    blockquote{margin:0 0 16px;padding:14px 18px;border-left:3px solid var(--quoteBorder);background:var(--quoteBg);color:var(--text)}
+    figure{margin:24px 0}
+    figure img{width:100%;border-radius:10px;display:block;border:1px solid var(--imgBorder)}
+    figcaption{color:var(--muted);font-size:13px;margin-top:8px}
+    .back{display:inline-block;margin-top:18px;padding:8px 12px;border-radius:8px;background:var(--quoteBg);border:1px solid var(--border);color:var(--muted)}
+    .theme-toggle{flex-shrink:0;display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;border:1px solid var(--border);background:var(--quoteBg);color:var(--muted);cursor:pointer;font-size:12px;font-family:inherit;font-weight:500}
+    @media (max-width:640px){.wrap{margin:24px 16px;padding:20px}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div>
+        <h1>Still Figuring It Out</h1>
+        <div class="meta">Carl Joshua Coloma · <span style="opacity:0.9">Journey</span></div>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" type="button">Toggle theme</button>
+    </header>
+
+    <p>I'm a computer science student specializing in software engineering, and if I'm being honest, "aspiring AI engineer" still feels like a big title for someone who spends half his time confused. But that's the goal I'm chasing, so here's the actual story, not the polished version.</p>
+
+    <p>I fell into tutorial hell early. Course after course, video after video, copying along and feeling productive without really building anything on my own. It took a while to admit that finishing a tutorial isn't the same as understanding it.</p>
+
+    <blockquote>Watching someone else build something is not the same as building it yourself.</blockquote>
+
+    <p>There's also this constant feeling of not progressing the right way. Everyone online seems three steps ahead, shipping projects, landing roles, explaining concepts I'm still shaky on. Some days I genuinely feel clueless, like I'm just rearranging the same beginner knowledge instead of moving forward.</p>
+
+    <p>The thing that actually helps is staying curious and not being afraid to ask. During my internship I learned to just keep asking my mentors questions, even the basic ones, even when I could tell it got a little irritating. It's fine. As long as I'm learning something from it, the mild annoyance is worth it.</p>
+
+    <p>These photos are from my internship, with the co-interns and mentors who put up with all my questions.</p>
+
+    <figure>
+      <img src="/pic1.jpeg" alt="Photo with co-interns during the internship" loading="lazy" />
+      <figcaption>Some of the co-interns who made tutorial hell feel less lonely.</figcaption>
+    </figure>
+
+    <figure>
+      <img src="/pic2.jpeg" alt="Group photo with mentors and the internship team" loading="lazy" />
+      <figcaption>The mentors and the rest of the team — patient with a lot of my questions.</figcaption>
+    </figure>
+
+    <p>I don't have a clean ending for this yet. I'm not an AI engineer. I'm a student trying to become one, one confusing concept at a time. If you're in the same spot, tutorial hell and all, I figured it might help to know you're not the only one.</p>
+
+    <a class="back" href="/">← Back to portfolio</a>
+  </main>
+
+  <script>
+    (function () {
+      var btn = document.getElementById("themeToggle");
+      btn.addEventListener("click", function () {
+        var isDark = document.documentElement.getAttribute("data-theme") === "dark";
+        var next = isDark ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        try { localStorage.setItem("op-theme", next); } catch (e) {}
+      });
+    })();
+  </script>
+</body>
+</html>

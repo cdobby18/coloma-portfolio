@@ -89,6 +89,7 @@ const SKILL_GROUPS = [
       { name: "LangChain",    icon: "https://cdn.simpleicons.org/langchain", invert: true },
       { name: "Transformers", icon: "https://cdn.simpleicons.org/huggingface" },
       { name: "RAG",          icon: null },
+      { name: "Prompt Engineering", icon: null },
     ],
   },
   {
@@ -131,8 +132,8 @@ const EXPERIENCE = [
     company: "SoFi AI Tech Solutions Inc.",
     period: "Apr 2026 – July 2026",
     points: [
-      "Designed adversarial prompt test suites targeting hallucination, refusal, and instruction-following failure modes across conversational AI systems.",
-      "Built an LLM-as-judge hallucination classification pipeline to systematically label and track model response quality at scale.",
+      "Designed adversarial prompt test suites targeting hallucination, refusal, and instruction-following failure modes across conversational AI chatbots.",
+      "Evaluated chatbot responses against adversarial prompts to label and track hallucination rates and response quality at scale.",
       "Partnered with ML teams to translate evaluation findings into concrete model behavior improvements, reducing error rates across key failure categories.",
     ],
   },
@@ -219,7 +220,7 @@ function SectionLabel({ num, text }) {
     <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
       <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.2em", opacity: 0.9 }}>{num}</span>
       <div style={{ width: 32, height: 1, background: "rgba(232,162,23,0.4)" }} />
-      <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.16em" }}>⚓ {text}</span>
+      <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.16em" }}>{text}</span>
     </div>
   );
 }
@@ -381,7 +382,7 @@ function AboutSection() {
             Hey, I'm CJ — an aspiring AI engineer and Computer Science student from the Philippines, graduating from FEU Institute of Technology in 2026. I care about bridging research-grade ML with real-world deployment constraints — building systems that are reliable, observable, and maintainable beyond the notebook.
           </p>
           <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: 1.85, marginBottom: 18 }}>
-            I'm currently working as an AI QA Intern at SoFi AI Tech Solutions, where I design adversarial evaluation workflows and build LLM-as-judge pipelines to measure and improve model reliability. My focus is on LLM evaluation, RAG architectures, and production observability.
+            I'm currently working as a Backend AI Engineer Intern at FlyRank AI, where I build LLM-powered content generation and semantic ranking pipelines. Previously, as an AI QA Intern at SoFi AI Tech Solutions, I tested conversational AI chatbots for hallucination and reliability issues, designing adversarial prompt suites to catch failure modes before they reached users. My focus is on LLM evaluation, RAG architectures, and production observability.
           </p>
           <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: 1.85 }}>
             My undergraduate thesis — <span style={{ color: COLORS.textPrimary, fontWeight: 500 }}>Powerlift</span> — earned the Overall Best Thesis Award in the Computer Vision category (November 2025). It's an AI biomechanics analyzer for powerlifting built with YOLOv8 + Kalman Filtering, running at 30+ FPS on mobile.
@@ -789,6 +790,7 @@ function GlidingNavLinks({ links, theme }) {
           key={link.id}
           href={`#${link.id}`}
           ref={el => (refs.current[i] = el)}
+          aria-current={active === i ? "page" : undefined}
           onClick={() => {
             setActive(i);
             clickLock.current = true;
@@ -859,10 +861,11 @@ export default function OnePiece() {
     <ThemeCtx.Provider value={theme}>
       <style>{`
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; scroll-padding-top: 88px; }
         #root { width: 100% !important; max-width: 100% !important; text-align: left; }
         body { overflow-x: hidden; transition: background 0.3s ease, color 0.3s ease; }
         button { font-family: inherit; }
+        a:focus-visible, button:focus-visible { outline: 2px solid ${theme.accent}; outline-offset: 3px; }
         ::-webkit-scrollbar { width: 3px; }
         ::-webkit-scrollbar-thumb { background: rgba(232,162,23,0.5); border-radius: 3px; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
@@ -907,7 +910,7 @@ export default function OnePiece() {
             style={{ display: "none", alignItems: "center", justifyContent: "center", padding: "7px", borderRadius: 8, border: `1px solid ${theme.border}`, background: "none", color: theme.textMuted, cursor: "pointer", outline: "none" }}>
             {isDark ? <SunIcon /> : <MoonIcon />}
           </button>
-          <button className="op-hamburger" onClick={() => setMenuOpen(o => !o)} aria-label="Toggle menu">
+          <button className="op-hamburger" onClick={() => setMenuOpen(o => !o)} aria-label="Toggle menu" aria-expanded={menuOpen}>
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
               {menuOpen
                 ? <><line x1="4" y1="4" x2="18" y2="18" stroke={theme.textSecondary} strokeWidth="2" strokeLinecap="round" /><line x1="18" y1="4" x2="4" y2="18" stroke={theme.textSecondary} strokeWidth="2" strokeLinecap="round" /></>

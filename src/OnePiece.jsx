@@ -643,6 +643,9 @@ function InterestsSection() {
             <li>DS Kings (2024) — College Division — 2nd Place</li>
             <li>LCDC (2025, Singapore) — BAWZ — Open Division — Champion</li>
           </ul>
+          <a href="/blog.html" style={{ display: "inline-block", marginTop: 8, color: COLORS.accent, fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 600 }}>
+            Read the BAWZ Singapore story →
+          </a>
         </>
       )
     },
@@ -680,11 +683,13 @@ function InterestsSection() {
 
   return (
     <section id="interests" ref={ref} style={{ padding: "80px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
-      <SectionLabel num="06" text="Interests" />
+      <SectionLabel num="07" text="Interests" />
       <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(24px, 3.6vw, 32px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "left", fontWeight: 700 }}>Beyond Tech</h2>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
         {items.map((item) => (
-          <div key={item.label} style={{ padding: 16, borderRadius: 10, border: `1px solid ${COLORS.chipBorder}`, background: COLORS.surface, boxShadow: COLORS.isDark ? "0 6px 18px rgba(0,0,0,0.45)" : "0 6px 18px rgba(2,6,23,0.04)", animation: "fadeUp 420ms cubic-bezier(0.16,1,0.3,1) both" }}>
+          <div key={item.label} style={{ padding: 16, borderRadius: 10, border: `1px solid ${COLORS.chipBorder}`, background: COLORS.surface, boxShadow: COLORS.isDark ? "0 6px 18px rgba(0,0,0,0.45)" : "0 6px 18px rgba(2,6,23,0.04)", animation: "fadeUp 420ms cubic-bezier(0.16,1,0.3,1) both", transition: "transform 0.25s cubic-bezier(0.16,1,0.3,1), border-color 0.25s ease" }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.transform = "translateY(0)"; }}>
             <div style={{ height: 3, borderRadius: 8, marginBottom: 12, background: "linear-gradient(90deg, #e8a217, rgba(232,162,23,0.2))" }} />
             <div style={{ display: "flex", alignItems: "center", marginBottom: 8 }}>
               <div style={{ background: COLORS.accentSoft, width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 8, fontSize: 18, marginRight: 12 }}>{item.icon}</div>

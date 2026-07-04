@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, createContext, useContext } from "react";
+import RagDemo from "./demo/RagDemo";
 
 const DARK = {
   isDark: true,
@@ -55,7 +56,7 @@ const LIGHT = {
 };
 
 const ThemeCtx = createContext(DARK);
-const useColors = () => useContext(ThemeCtx);
+export const useColors = () => useContext(ThemeCtx);
 
 const NAV_LINKS = [
   { label: "About",       id: "about"       },
@@ -214,7 +215,7 @@ function useInView(threshold = 0.12) {
   return [ref, visible];
 }
 
-function SectionLabel({ num, text }) {
+export function SectionLabel({ num, text }) {
   const COLORS = useColors();
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
@@ -511,9 +512,13 @@ function ProjectsSection() {
     <section id="projects" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
       <SectionLabel num="04" text="Projects" />
       <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 5vw, 60px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "left", fontWeight: 700 }}>Featured Projects</h2>
-      <p style={{ color: COLORS.textSecondary, maxWidth: 600, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "left", margin: "0 0 48px 0" }}>
+      <p style={{ color: COLORS.textSecondary, maxWidth: 600, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "left", margin: "0 0 20px 0" }}>
         Applied AI systems focused on real-world deployment, computer vision, NLP, and intelligent workflows.
       </p>
+
+      <a href="#demo" style={{ display: "inline-flex", alignItems: "center", gap: 8, color: COLORS.accent, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 600, marginBottom: 40 }}>
+        Try a live mini RAG demo ↓
+      </a>
 
       <a href={featured.link} target="_blank" rel="noopener noreferrer"
         style={{ textDecoration: "none", color: "inherit", display: "block", borderRadius: 14, overflow: "hidden", background: COLORS.surface, border: `1px solid ${COLORS.border}`, marginBottom: 18, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
@@ -584,7 +589,7 @@ function CertificatesSection() {
   const [hovered, setHovered] = useState(null);
   return (
     <section id="credentials" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
-      <SectionLabel num="05" text="Credentials" />
+      <SectionLabel num="06" text="Credentials" />
       <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 5vw, 60px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "left", fontWeight: 700 }}>Credentials</h2>
       <p style={{ color: COLORS.textSecondary, maxWidth: 600, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "left", margin: "0 0 48px 0" }}>
         Verified credentials across AI engineering, machine learning, and software development.
@@ -698,7 +703,7 @@ function ContactSection() {
   const [ref, visible] = useInView();
   return (
     <section id="contact" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px) 80px", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)", textAlign: "center" }}>
-      <SectionLabel num="07" text="Contact" />
+      <SectionLabel num="08" text="Contact" />
       <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(32px, 5vw, 56px)", color: COLORS.textPrimary, marginBottom: 14, fontWeight: 700 }}>Let's build something intelligent.</h2>
       <p style={{ color: COLORS.textSecondary, maxWidth: 520, lineHeight: 1.75, fontFamily: "Inter, sans-serif", margin: "0 auto 48px" }}>
         Open to AI engineering opportunities, ML collaborations, and building production-ready intelligent systems.
@@ -949,6 +954,7 @@ export default function OnePiece() {
         <StackSection />
         <ExperienceSection />
         <ProjectsSection />
+        <RagDemo />
         <CertificatesSection />
         <InterestsSection />
         <ContactSection />

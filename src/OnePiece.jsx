@@ -160,7 +160,7 @@ const PROJECTS = [
     accent: "#22d3ee",
     featured: true,
     img: "/Powerlift.webp",
-    link: "https://github.com/cdobby18/powerlift-frontend",
+    link: "https://github.com/cdobby18/Powerlift",
   },
   {
     title: "AI Resume Analyzer",

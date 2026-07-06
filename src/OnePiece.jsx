@@ -336,7 +336,7 @@ function Hero() {
             onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textSecondary; }}>
             Get in Touch
           </a>
-          <a href="/resume.pdf" download
+          <a href="/CV-Carl-Coloma.pdf" download="CV-Carl-Coloma.pdf"
             style={{ padding: "13px 28px", borderRadius: 8, border: `1px solid ${COLORS.outlineBorder}`, color: COLORS.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 500, background: COLORS.outlineBg, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(232,162,23,0.4)"; e.currentTarget.style.color = COLORS.textPrimary; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textSecondary; }}>

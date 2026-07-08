@@ -349,7 +349,7 @@ function Hero() {
           {[
             { label: "Best Thesis Award", sub: "Nov 2025"       },
             { label: "3 Internships",     sub: "AI Engineering" },
-            { label: "4 Projects",        sub: "Deployed"       },
+            { label: "4 Projects",        sub: "Shipped"        },
           ].map((stat, i, arr) => (
             <div key={stat.label} style={{ flex: "1 1 0", padding: "20px 12px", display: "flex", flexDirection: "column", alignItems: "center", gap: 5, borderRight: i < arr.length - 1 ? `1px solid ${COLORS.stripBorder}` : "none" }}>
               <span style={{ color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, fontWeight: 600, textAlign: "center" }}>{stat.label}</span>
@@ -900,7 +900,7 @@ export default function OnePiece() {
 
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 68, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 clamp(24px, 6vw, 96px)", background: scrolled || menuOpen ? theme.navBg : "transparent", backdropFilter: scrolled || menuOpen ? "blur(20px)" : "none", borderBottom: scrolled || menuOpen ? `1px solid ${theme.border}` : "1px solid transparent", transition: "all 0.3s ease" }}>
         <a href="#hero" style={{ color: theme.textPrimary, textDecoration: "none", fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 16 }}>
-          cjc<span style={{ color: theme.accent }}></span>
+          cjc<span style={{ color: theme.accent }}>.</span>
         </a>
 
         <div className="op-nav-links">

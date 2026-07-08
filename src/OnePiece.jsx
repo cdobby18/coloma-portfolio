@@ -9,7 +9,7 @@ const DARK = {
   border: "rgba(232,162,23,0.12)",
   textPrimary: "#f0e6c8",
   textSecondary: "#8a9bb5",
-  textMuted: "#4a5a72",
+  textMuted: "#6b81a0",
   accent: "#e8a217",
   accentSoft: "rgba(232,162,23,0.09)",
   accentBorder: "rgba(232,162,23,0.28)",
@@ -36,7 +36,7 @@ const LIGHT = {
   border: "rgba(139,90,0,0.1)",
   textPrimary: "#1a0e00",
   textSecondary: "#5c4230",
-  textMuted: "#8c7060",
+  textMuted: "#6f5847",
   accent: "#c47d0e",
   accentSoft: "rgba(196,125,14,0.08)",
   accentBorder: "rgba(196,125,14,0.3)",
@@ -220,7 +220,7 @@ export function SectionLabel({ num, text }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
       <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.2em", opacity: 0.9 }}>{num}</span>
-      <div style={{ width: 32, height: 1, background: "rgba(232,162,23,0.4)" }} />
+      <div style={{ width: 32, height: 1, background: COLORS.accentBorder }} />
       <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.16em" }}>{text}</span>
     </div>
   );
@@ -251,12 +251,14 @@ function SkillIcon({ name, icon, invert, delay = 0 }) {
 function Hero() {
   const COLORS = useColors();
   const [typed, setTyped] = useState("");
-  const phrases = ["AI Engineer", "AI Solutions", "Quality Assurance", "Software Engineer"];
+  const phrases = ["AI Engineer", "Software Engineer", "Quality Assurance"];
+  const prefersReduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
+    if (prefersReduced) { setTyped(phrases[0]); return; }
     const current = phrases[phraseIndex];
     const timeout = setTimeout(() => {
       if (!deleting) {
@@ -296,13 +298,13 @@ function Hero() {
       <div style={{ maxWidth: 780, width: "100%", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", position: "relative", zIndex: 1 }}>
 
         {/* Profile photo */}
-        <div style={{ width: 160, height: 160, borderRadius: "50%", overflow: "hidden", marginBottom: 32, border: "2px solid rgba(232,162,23,0.45)", boxShadow: "0 0 0 8px rgba(232,162,23,0.07), 0 0 48px rgba(232,162,23,0.12)", flexShrink: 0, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s both" }}>
+        <div style={{ width: 160, height: 160, borderRadius: "50%", overflow: "hidden", marginBottom: 32, border: `2px solid ${COLORS.accent}73`, boxShadow: `0 0 0 8px ${COLORS.accent}12, 0 0 48px ${COLORS.accent}1F`, flexShrink: 0, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s both" }}>
           <img src="/PROFILE.jpeg" alt="Carl Joshua Coloma" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 15%" }} />
         </div>
 
         {/* Status badge */}
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 18px", border: "1px solid rgba(232,162,23,0.32)", borderRadius: 999, background: "rgba(232,162,23,0.08)", marginBottom: 28, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s both" }}>
-          <div style={{ width: 7, height: 7, borderRadius: "50%", background: COLORS.accent, boxShadow: "0 0 8px rgba(232,162,23,0.9)", flexShrink: 0, animation: "blink 1.4s step-end infinite" }} />
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 18px", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 999, background: COLORS.accentSoft, marginBottom: 28, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s both" }}>
+          <div style={{ width: 7, height: 7, borderRadius: "50%", background: COLORS.accent, boxShadow: `0 0 8px ${COLORS.accent}E6`, flexShrink: 0, animation: "blink 1.4s step-end infinite" }} />
           <span style={{ color: COLORS.accent, fontFamily: "Inter, sans-serif", fontSize: 12, fontWeight: 500, letterSpacing: "0.04em" }}>Open to work</span>
         </div>
 
@@ -323,26 +325,27 @@ function Hero() {
         </p>
 
         {/* CTA buttons */}
-        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginBottom: 56, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.65s both" }}>
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginBottom: 20, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.65s both" }}>
           <a href="#projects"
             style={{ padding: "13px 28px", borderRadius: 8, background: COLORS.accent, color: "#1a0800", textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 700, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
-            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 8px 28px rgba(232,162,23,0.4)"; }}
+            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = `0 8px 28px ${COLORS.accent}66`; }}
             onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
             View Projects
           </a>
           <a href="#contact"
             style={{ padding: "13px 28px", borderRadius: 8, border: `1px solid ${COLORS.outlineBorder}`, color: COLORS.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 500, background: COLORS.outlineBg, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(232,162,23,0.4)"; e.currentTarget.style.color = COLORS.textPrimary; }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.textPrimary; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textSecondary; }}>
             Get in Touch
           </a>
-          <a href="/CV-Carl-Coloma.pdf" download="CV-Carl-Coloma.pdf"
-            style={{ padding: "13px 28px", borderRadius: 8, border: `1px solid ${COLORS.outlineBorder}`, color: COLORS.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 500, background: COLORS.outlineBg, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(232,162,23,0.4)"; e.currentTarget.style.color = COLORS.textPrimary; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textSecondary; }}>
-            Download CV
-          </a>
         </div>
+
+        <a href="/CV-Carl-Coloma.pdf" download="CV-Carl-Coloma.pdf"
+          style={{ color: COLORS.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, marginBottom: 48, transition: "color 0.2s ease", animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.7s both" }}
+          onMouseEnter={e => { e.currentTarget.style.color = COLORS.accent; }}
+          onMouseLeave={e => { e.currentTarget.style.color = COLORS.textMuted; }}>
+          Download CV ↓
+        </a>
 
         {/* Stats strip */}
         <div style={{ display: "flex", width: "100%", maxWidth: 520, borderTop: `1px solid ${COLORS.stripBorder}`, borderBottom: `1px solid ${COLORS.stripBorder}`, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.75s both" }}>
@@ -475,10 +478,10 @@ function ExperienceSection() {
       <SectionLabel num="03" text="Experience" />
       <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 5vw, 60px)", color: COLORS.textPrimary, marginBottom: 56, fontWeight: 700 }}>Experience</h2>
       <div ref={containerRef} style={{ position: "relative", paddingLeft: 36, display: "flex", flexDirection: "column", gap: 28 }}>
-        <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 1, background: "linear-gradient(to bottom, rgba(232,162,23,0.7) 0%, rgba(232,162,23,0.04) 100%)", transformOrigin: "top center", transform: `scaleY(${progress})` }} />
+        <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 1, background: `linear-gradient(to bottom, ${COLORS.accent}B3 0%, ${COLORS.accent}0A 100%)`, transformOrigin: "top center", transform: `scaleY(${progress})` }} />
         {EXPERIENCE.map((exp, i) => (
           <div key={i} style={{ position: "relative", animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 120}ms both` : "none" }}>
-            <div style={{ width: 10, height: 10, borderRadius: "50%", background: COLORS.accent, position: "absolute", left: -41, top: 16, boxShadow: progress >= DOT_THRESHOLDS[i] ? "0 0 12px rgba(232,162,23,0.6)" : "none", opacity: progress >= DOT_THRESHOLDS[i] ? 1 : 0, transform: progress >= DOT_THRESHOLDS[i] ? "scale(1)" : "scale(0)", transition: "opacity 0.3s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1)" }} />
+            <div style={{ width: 10, height: 10, borderRadius: "50%", background: COLORS.accent, position: "absolute", left: -41, top: 16, boxShadow: progress >= DOT_THRESHOLDS[i] ? `0 0 12px ${COLORS.accent}99` : "none", opacity: progress >= DOT_THRESHOLDS[i] ? 1 : 0, transform: progress >= DOT_THRESHOLDS[i] ? "scale(1)" : "scale(0)", transition: "opacity 0.3s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1)" }} />
             <div style={{ border: `1px solid ${COLORS.border}`, borderRadius: 16, padding: "26px 28px", background: COLORS.surface }}>
               <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 18 }}>
                 <div>
@@ -522,14 +525,14 @@ function ProjectsSection() {
 
       <a href={featured.link} target="_blank" rel="noopener noreferrer"
         style={{ textDecoration: "none", color: "inherit", display: "block", borderRadius: 14, overflow: "hidden", background: COLORS.surface, border: `1px solid ${COLORS.border}`, marginBottom: 18, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
-        onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 48px rgba(232,162,23,0.1)"; }}
+        onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = `0 16px 48px ${COLORS.accent}1A`; }}
         onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
         {featured.img && (
           <div style={{ position: "relative", height: 220, overflow: "hidden" }}>
             <img src={featured.img} alt={featured.title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
             <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, transparent 30%, ${COLORS.surface} 100%)` }} />
             <div style={{ position: "absolute", top: 16, right: 16 }}>
-              <span style={{ padding: "4px 12px", background: "rgba(232,162,23,0.15)", border: "1px solid rgba(232,162,23,0.35)", borderRadius: 999, color: COLORS.accent, fontFamily: "Inter, sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.06em", backdropFilter: "blur(8px)" }}>Best Thesis Award</span>
+              <span style={{ padding: "4px 12px", background: `${COLORS.accent}26`, border: `1px solid ${COLORS.accentBorder}`, borderRadius: 999, color: COLORS.accent, fontFamily: "Inter, sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.06em", backdropFilter: "blur(8px)" }}>Best Thesis Award</span>
             </div>
           </div>
         )}
@@ -559,7 +562,7 @@ function ProjectsSection() {
         {secondary.map((project, i) => (
           <a key={project.title} href={project.link} target="_blank" rel="noopener noreferrer"
             style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", borderRadius: 16, overflow: "hidden", background: COLORS.surface, border: `1px solid ${COLORS.border}`, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)", animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 100}ms both` : "none" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 12px 32px rgba(232,162,23,0.1)"; }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = `0 12px 32px ${COLORS.accent}1A`; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
             {project.img && (
               <div style={{ position: "relative", height: 152, overflow: "hidden", flexShrink: 0 }}>
@@ -597,10 +600,10 @@ function CertificatesSection() {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
         {CERTIFICATIONS.map((cert, i) => (
           <a key={cert.title} href={cert.link} target="_blank" rel="noopener noreferrer"
-            style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", border: `1px solid ${hovered === i ? COLORS.accentBorder : COLORS.border}`, borderRadius: 14, overflow: "hidden", background: COLORS.surface, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)", transform: hovered === i ? "translateY(-4px)" : "translateY(0)", boxShadow: hovered === i ? "0 8px 24px rgba(232,162,23,0.12)" : "none", cursor: "pointer" }}
+            style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", border: `1px solid ${hovered === i ? COLORS.accentBorder : COLORS.border}`, borderRadius: 14, overflow: "hidden", background: COLORS.surface, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)", transform: hovered === i ? "translateY(-4px)" : "translateY(0)", boxShadow: hovered === i ? `0 8px 24px ${COLORS.accent}1F` : "none", cursor: "pointer" }}
             onMouseEnter={() => setHovered(i)}
             onMouseLeave={() => setHovered(null)}>
-            <div style={{ height: 3, background: "linear-gradient(90deg, #e8a217, rgba(232,162,23,0.2))", flexShrink: 0 }} />
+            <div style={{ height: 3, background: `linear-gradient(90deg, ${COLORS.accent}, ${COLORS.accent}33)`, flexShrink: 0 }} />
             <div style={{ padding: "20px 20px 16px", flexGrow: 1, display: "flex", flexDirection: "column" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
                 <div style={{ width: 42, height: 42, borderRadius: 10, background: COLORS.accentSoft, border: `1px solid ${COLORS.accentBorder}`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 12, color: COLORS.accent, flexShrink: 0 }}>
@@ -690,7 +693,7 @@ function InterestsSection() {
           <div key={item.label} style={{ padding: 16, borderRadius: 10, border: `1px solid ${COLORS.chipBorder}`, background: COLORS.surface, boxShadow: COLORS.isDark ? "0 6px 18px rgba(0,0,0,0.45)" : "0 6px 18px rgba(2,6,23,0.04)", animation: "fadeUp 420ms cubic-bezier(0.16,1,0.3,1) both", transition: "transform 0.25s cubic-bezier(0.16,1,0.3,1), border-color 0.25s ease" }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.transform = "translateY(0)"; }}>
-            <div style={{ height: 3, borderRadius: 8, marginBottom: 12, background: "linear-gradient(90deg, #e8a217, rgba(232,162,23,0.2))" }} />
+            <div style={{ height: 3, borderRadius: 8, marginBottom: 12, background: `linear-gradient(90deg, ${COLORS.accent}, ${COLORS.accent}33)` }} />
             <div style={{ display: "flex", alignItems: "center", marginBottom: 8 }}>
               <div style={{ background: COLORS.accentSoft, width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 8, fontSize: 18, marginRight: 12 }}>{item.icon}</div>
               <strong style={{ display: "block", fontFamily: "Inter, sans-serif", fontSize: 16, color: COLORS.accent }}>{item.label}</strong>
@@ -716,20 +719,20 @@ function ContactSection() {
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
         <a href="mailto:carljoshuamcoloma@gmail.com"
           style={{ textDecoration: "none", color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 16, fontWeight: 700, border: `1px solid ${COLORS.chipBorder}`, borderRadius: 10, padding: "12px 18px", background: COLORS.surface, display: "inline-block", transition: "all 0.18s ease" }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accent; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 12px 36px rgba(232,162,23,0.1)"; }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accent; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = `0 12px 36px ${COLORS.accent}1A`; }}
           onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
           Contact Me
         </a>
         <div style={{ display: "flex", gap: 18 }}>
           <a href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
             style={{ border: `1px solid ${COLORS.chipBorder}`, borderRadius: 12, padding: 10, display: "flex", alignItems: "center", justifyContent: "center", minWidth: 64, minHeight: 64, color: COLORS.textPrimary, textDecoration: "none", background: COLORS.surface, transition: "all 0.18s ease" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accent; e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 10px 30px rgba(232,162,23,0.1)"; }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accent; e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = `0 10px 30px ${COLORS.accent}1A`; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.1 3.29 9.42 7.86 10.95.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.53-1.36-1.3-1.72-1.3-1.72-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.75.41-1.27.74-1.56-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11.02 11.02 0 0 1 2.9-.39c.98 0 1.97.13 2.9.39 2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.77.12 3.06.74.81 1.18 1.84 1.18 3.1 0 4.43-2.71 5.41-5.29 5.69.42.36.8 1.08.8 2.18 0 1.57-.01 2.84-.01 3.23 0 .31.21.68.8.56C20.71 21.42 24 17.1 24 12c0-6.27-5.23-11.5-12-11.5z" fill="currentColor" /></svg>
           </a>
           <a href="https://linkedin.com/in/carl-joshua-coloma" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
             style={{ border: `1px solid ${COLORS.chipBorder}`, borderRadius: 12, padding: 10, display: "flex", alignItems: "center", justifyContent: "center", minWidth: 64, minHeight: 64, color: COLORS.textPrimary, textDecoration: "none", background: COLORS.surface, transition: "all 0.18s ease" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accent; e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 10px 30px rgba(232,162,23,0.1)"; }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accent; e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = `0 10px 30px ${COLORS.accent}1A`; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.1 1 2.5 1 4.98 2.12 4.98 3.5zM0 8h5V24H0V8zM8 8h4.8v2.2h.1c.7-1.3 2.4-2.6 4.9-2.6C24 7.6 24 12 24 16.6V24h-5v-7.2c0-1.8-.1-4.2-2.6-4.2-2.6 0-3 2-3 4.1V24H8V8z" fill="currentColor" /></svg>
           </a>
@@ -876,8 +879,12 @@ export default function OnePiece() {
         body { overflow-x: hidden; transition: background 0.3s ease, color 0.3s ease; }
         button { font-family: inherit; }
         a:focus-visible, button:focus-visible { outline: 2px solid ${theme.accent}; outline-offset: 3px; }
-        ::-webkit-scrollbar { width: 3px; }
-        ::-webkit-scrollbar-thumb { background: rgba(232,162,23,0.5); border-radius: 3px; }
+        ::-webkit-scrollbar { width: 7px; }
+        ::-webkit-scrollbar-thumb { background: ${theme.accent}80; border-radius: 4px; }
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+          html { scroll-behavior: auto; }
+        }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
         @keyframes fadeUp { from { opacity:0; transform:translateY(20px) } to { opacity:1; transform:translateY(0) } }
         @keyframes twinkle { 0%,100%{opacity:0.25} 50%{opacity:0.85} }

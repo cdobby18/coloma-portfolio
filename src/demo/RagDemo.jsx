@@ -45,7 +45,7 @@ export default function RagDemo() {
       style={{ padding: "100px clamp(24px, 6vw, 96px)" }}
     >
       <SectionLabel num="05" text="Demo" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 5vw, 60px)", color: COLORS.textPrimary, marginBottom: 14, fontWeight: 700 }}>
+      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 14, fontWeight: 700 }}>
         Mini RAG Demo
       </h2>
       <p style={{ color: COLORS.textSecondary, maxWidth: 620, lineHeight: 1.75, fontFamily: "Inter, sans-serif", margin: "0 0 32px 0" }}>
@@ -65,7 +65,7 @@ export default function RagDemo() {
             background: COLORS.surface,
             color: COLORS.textPrimary,
             fontFamily: "Inter, sans-serif",
-            fontSize: 14,
+            fontSize: 16,
             outline: "none",
           }}
         />

@@ -298,7 +298,7 @@ function Hero() {
       <div style={{ maxWidth: 780, width: "100%", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", position: "relative", zIndex: 1 }}>
 
         {/* Profile photo */}
-        <div style={{ width: 160, height: 160, borderRadius: "50%", overflow: "hidden", marginBottom: 32, border: `2px solid ${COLORS.accent}73`, boxShadow: `0 0 0 8px ${COLORS.accent}12, 0 0 48px ${COLORS.accent}1F`, flexShrink: 0, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s both" }}>
+        <div className="op-avatar" style={{ width: 160, height: 160, borderRadius: "50%", overflow: "hidden", marginBottom: 32, border: `2px solid ${COLORS.accent}73`, boxShadow: `0 0 0 8px ${COLORS.accent}12, 0 0 48px ${COLORS.accent}1F`, flexShrink: 0, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s both" }}>
           <img src="/PROFILE.jpeg" alt="Carl Joshua Coloma" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 15%" }} />
         </div>
 
@@ -309,7 +309,7 @@ function Hero() {
         </div>
 
         {/* Name */}
-        <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(52px, 8vw, 96px)", lineHeight: 0.95, letterSpacing: "-0.04em", color: COLORS.textPrimary, marginBottom: 22, fontWeight: 700, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.3s both" }}>
+        <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(42px, 9vw, 84px)", lineHeight: 0.95, letterSpacing: "-0.04em", color: COLORS.textPrimary, marginBottom: 22, fontWeight: 700, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.3s both" }}>
           Carl Joshua<br /><span style={{ color: COLORS.accent }}>Coloma.</span>
         </h1>
 
@@ -348,7 +348,7 @@ function Hero() {
         </a>
 
         {/* Stats strip */}
-        <div style={{ display: "flex", width: "100%", maxWidth: 520, borderTop: `1px solid ${COLORS.stripBorder}`, borderBottom: `1px solid ${COLORS.stripBorder}`, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.75s both" }}>
+        <div className="op-stats" style={{ display: "flex", width: "100%", maxWidth: 520, borderTop: `1px solid ${COLORS.stripBorder}`, borderBottom: `1px solid ${COLORS.stripBorder}`, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.75s both" }}>
           {[
             { label: "Best Thesis Award", sub: "Nov 2025"       },
             { label: "3 Internships",     sub: "AI Engineering" },
@@ -379,7 +379,7 @@ function AboutSection() {
   return (
     <section id="about" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
       <SectionLabel num="01" text="About" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 5vw, 60px)", color: COLORS.textPrimary, marginBottom: 48, fontWeight: 700 }}>About Me</h2>
+      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 48, fontWeight: 700 }}>About Me</h2>
       <div data-cols="true" style={{ display: "flex", gap: 64, alignItems: "flex-start" }}>
         <div style={{ flex: "1 1 0", minWidth: 0 }}>
           <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: 1.85, marginBottom: 18 }}>
@@ -433,7 +433,7 @@ function StackSection() {
   return (
     <section id="stack" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
       <SectionLabel num="02" text="Stack" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 5vw, 60px)", color: COLORS.textPrimary, marginBottom: 14, fontWeight: 700 }}>Technical Stack</h2>
+      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 14, fontWeight: 700 }}>Technical Stack</h2>
       <p style={{ color: COLORS.textSecondary, maxWidth: 560, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "left", margin: "0 0 40px 0" }}>
         Tools and technologies across machine learning, AI systems, frameworks, and development.
       </p>
@@ -476,7 +476,7 @@ function ExperienceSection() {
   return (
     <section id="experience" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
       <SectionLabel num="03" text="Experience" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 5vw, 60px)", color: COLORS.textPrimary, marginBottom: 56, fontWeight: 700 }}>Experience</h2>
+      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 56, fontWeight: 700 }}>Experience</h2>
       <div ref={containerRef} style={{ position: "relative", paddingLeft: 36, display: "flex", flexDirection: "column", gap: 28 }}>
         <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 1, background: `linear-gradient(to bottom, ${COLORS.accent}B3 0%, ${COLORS.accent}0A 100%)`, transformOrigin: "top center", transform: `scaleY(${progress})` }} />
         {EXPERIENCE.map((exp, i) => (
@@ -514,7 +514,7 @@ function ProjectsSection() {
   return (
     <section id="projects" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
       <SectionLabel num="04" text="Projects" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 5vw, 60px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "left", fontWeight: 700 }}>Featured Projects</h2>
+      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "left", fontWeight: 700 }}>Featured Projects</h2>
       <p style={{ color: COLORS.textSecondary, maxWidth: 600, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "left", margin: "0 0 20px 0" }}>
         Applied AI systems focused on real-world deployment, computer vision, NLP, and intelligent workflows.
       </p>
@@ -593,7 +593,7 @@ function CertificatesSection() {
   return (
     <section id="credentials" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
       <SectionLabel num="06" text="Credentials" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 5vw, 60px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "left", fontWeight: 700 }}>Credentials</h2>
+      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "left", fontWeight: 700 }}>Credentials</h2>
       <p style={{ color: COLORS.textSecondary, maxWidth: 600, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "left", margin: "0 0 48px 0" }}>
         Verified credentials across AI engineering, machine learning, and software development.
       </p>
@@ -712,7 +712,7 @@ function ContactSection() {
   return (
     <section id="contact" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px) 80px", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)", textAlign: "center" }}>
       <SectionLabel num="08" text="Contact" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(32px, 5vw, 56px)", color: COLORS.textPrimary, marginBottom: 14, fontWeight: 700 }}>Let's build something intelligent.</h2>
+      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(28px, 4.5vw, 44px)", color: COLORS.textPrimary, marginBottom: 14, fontWeight: 700 }}>Let's build something intelligent.</h2>
       <p style={{ color: COLORS.textSecondary, maxWidth: 520, lineHeight: 1.75, fontFamily: "Inter, sans-serif", margin: "0 auto 48px" }}>
         Open to AI engineering opportunities, ML collaborations, and building production-ready intelligent systems.
       </p>
@@ -890,18 +890,28 @@ export default function OnePiece() {
         @keyframes twinkle { 0%,100%{opacity:0.25} 50%{opacity:0.85} }
         .op-nav-links { display: flex; gap: 28px; align-items: center; }
         .op-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+        main > section:not(#hero), footer { max-width: 1200px; margin-left: auto; margin-right: auto; }
+        @media (max-width: 1080px) {
+          .op-nav-links { display: none !important; }
+          .op-hamburger { display: flex !important; align-items: center; justify-content: center; }
+        }
         @media (max-width: 900px) {
           #projects > div:last-child { grid-template-columns: repeat(2, 1fr) !important; }
         }
         @media (max-width: 768px) {
           [data-cols] { flex-direction: column !important; }
           [data-cols] > div:last-child { flex: 0 0 auto !important; width: 100%; }
-          .op-nav-links { display: none !important; }
-          .op-hamburger { display: flex !important; align-items: center; justify-content: center; }
         }
         @media (max-width: 640px) {
+          main > section:not(#hero) { padding-top: 64px !important; padding-bottom: 64px !important; }
           #projects > div:last-child { grid-template-columns: 1fr !important; }
           #credentials > div { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 480px) {
+          .op-avatar { width: 120px !important; height: 120px !important; }
+          .op-stats { flex-direction: column; }
+          .op-stats > div { border-right: none !important; border-bottom: 1px solid ${theme.stripBorder}; padding: 14px 12px !important; }
+          .op-stats > div:last-child { border-bottom: none; }
         }
       `}</style>
 

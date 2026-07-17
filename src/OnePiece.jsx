@@ -183,6 +183,16 @@ const PROJECTS = [
     link: "https://github.com/cdobby18/ai-summarizer",
   },
   {
+    title: "Bounty Hunter",
+    type: "ML Pipeline",
+    desc: "End-to-end ML pipeline that predicts pirate bounties from crew stats using scikit-learn and PyTorch. Covers the full workflow from data generation, classical baselines, and neural network training to evaluation and a live demo.",
+    metric: "Python · ML Workflow · Demo",
+    tags: ["NumPy", "Pandas", "scikit-learn", "XGBoost", "PyTorch", "Weights & Biases", "Streamlit"],
+    accent: "#f59e0b",
+    img: "/project.PNG",
+    link: "https://github.com/cdobby18/bountyhunter",
+  },
+  {
     title: "AI Engineering Roadmap",
     type: "Learning Journal",
     desc: "A self-study curriculum documenting my path into AI engineering — tutorials completed, core ML/LLM concepts learned, and small exercises built along the way, tracked publicly from fundamentals through applied projects.",
@@ -352,7 +362,7 @@ function Hero() {
           {[
             { label: "Best Thesis Award", sub: "Nov 2025"       },
             { label: "3 Internships",     sub: "AI Engineering" },
-            { label: "4 Projects",        sub: "Shipped"        },
+            { label: "5 Projects",        sub: "Shipped"        },
           ].map((stat, i, arr) => (
             <div key={stat.label} style={{ flex: "1 1 0", padding: "20px 12px", display: "flex", flexDirection: "column", alignItems: "center", gap: 5, borderRight: i < arr.length - 1 ? `1px solid ${COLORS.stripBorder}` : "none" }}>
               <span style={{ color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, fontWeight: 600, textAlign: "center" }}>{stat.label}</span>
@@ -410,7 +420,7 @@ function AboutSection() {
           {[
             { num: "01", label: "Overall Best Thesis", sub: "Computer Vision · Nov 2025" },
             { num: "02", label: "3 Internships",        sub: "Lamina · SoFi · FlyRank AI" },
-            { num: "03", label: "4 Projects",           sub: "CV · NLP · LLMs · RAG" },
+            { num: "03", label: "5 Projects",           sub: "CV · NLP · LLMs · RAG" },
           ].map((item) => (
             <div key={item.num} style={{ display: "flex", alignItems: "flex-start", gap: 18, background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 12, padding: "18px 20px" }}>
               <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 12, fontWeight: 700, opacity: 0.65, flexShrink: 0, paddingTop: 2 }}>{item.num}</span>
@@ -524,7 +534,7 @@ function ProjectsSection() {
       </a>
 
       <a href={featured.link} target="_blank" rel="noopener noreferrer"
-        style={{ textDecoration: "none", color: "inherit", display: "block", borderRadius: 14, overflow: "hidden", background: COLORS.surface, border: `1px solid ${COLORS.border}`, marginBottom: 18, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
+        style={{ textDecoration: "none", color: "inherit", display: "block", borderRadius: 18, overflow: "hidden", background: COLORS.surface, border: `1px solid ${COLORS.border}`, marginBottom: 16, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
         onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = `0 16px 48px ${COLORS.accent}1A`; }}
         onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
         {featured.img && (
@@ -536,47 +546,38 @@ function ProjectsSection() {
             </div>
           </div>
         )}
-        <div style={{ padding: "28px 36px 36px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 32 }}>
+        <div style={{ padding: "24px 28px 28px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 24 }}>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
-                <span style={{ color: COLORS.accent, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>Featured Project</span>
-                <span style={{ width: 1, height: 12, background: COLORS.divider, flexShrink: 0 }} />
-                <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11 }}>Computer Vision</span>
-              </div>
-              <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(24px, 3.5vw, 36px)", fontWeight: 700, color: COLORS.textPrimary, marginBottom: 14, letterSpacing: "-0.02em" }}>{featured.title}</h3>
-              <p style={{ color: COLORS.textSecondary, lineHeight: 1.75, fontFamily: "Inter, sans-serif", fontSize: 14, marginBottom: 20, maxWidth: 680 }}>{featured.desc}</p>
-              <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12, marginBottom: 20 }}>{featured.metric}</p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                {featured.tags.map(tag => (
-                  <span key={tag} style={{ padding: "5px 12px", borderRadius: 6, background: COLORS.tagBg, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 12, fontWeight: 500 }}>{tag}</span>
-                ))}
-              </div>
+              <p style={{ color: COLORS.accent, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 8 }}>Featured Project</p>
+              <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(22px, 3vw, 30px)", fontWeight: 700, color: COLORS.textPrimary, marginBottom: 10, letterSpacing: "-0.02em", textTransform: "uppercase" }}>{featured.title}</h3>
+              <p style={{ color: COLORS.textSecondary, lineHeight: 1.65, fontFamily: "Inter, sans-serif", fontSize: 14, marginBottom: 14 }}>{featured.desc}</p>
+              <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12 }}>{featured.metric}</p>
             </div>
             <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13, flexShrink: 0 }}>↗ GitHub</span>
           </div>
         </div>
       </a>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 16 }}>
         {secondary.map((project, i) => (
           <a key={project.title} href={project.link} target="_blank" rel="noopener noreferrer"
             style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", borderRadius: 16, overflow: "hidden", background: COLORS.surface, border: `1px solid ${COLORS.border}`, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)", animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 100}ms both` : "none" }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = `0 12px 32px ${COLORS.accent}1A`; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
             {project.img && (
-              <div style={{ position: "relative", height: 152, overflow: "hidden", flexShrink: 0 }}>
+              <div style={{ position: "relative", height: 150, overflow: "hidden", flexShrink: 0 }}>
                 <img src={project.img} alt={project.title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
-                <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, transparent 40%, ${COLORS.surface} 100%)` }} />
+                <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, transparent 35%, ${COLORS.surface} 100%)` }} />
               </div>
             )}
-            <div style={{ display: "flex", flexDirection: "column", flex: 1, padding: "20px 24px 24px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+            <div style={{ display: "flex", flexDirection: "column", flex: 1, padding: "18px 20px 20px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
                 <span style={{ color: project.accent, fontFamily: "Inter, sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>{project.type}</span>
                 <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11 }}>↗ GitHub</span>
               </div>
-              <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 18, fontWeight: 600, color: COLORS.textPrimary, marginBottom: 10 }}>{project.title}</h3>
-              <p style={{ color: COLORS.textSecondary, lineHeight: 1.7, fontFamily: "Inter, sans-serif", fontSize: 13, flexGrow: 1, marginBottom: 14 }}>{project.desc}</p>
+              <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 17, fontWeight: 600, color: COLORS.textPrimary, marginBottom: 8, textTransform: "uppercase" }}>{project.title}</h3>
+              <p style={{ color: COLORS.textSecondary, lineHeight: 1.6, fontFamily: "Inter, sans-serif", fontSize: 13, flexGrow: 1, marginBottom: 10 }}>{project.desc}</p>
               <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12 }}>{project.metric}</p>
             </div>
           </a>

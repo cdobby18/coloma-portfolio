@@ -163,8 +163,8 @@ const PROJECTS = [
     link: "https://github.com/cdobby18/Powerlift",
   },
   {
-    title: "AI Resume Analyzer",
-    type: "NLP System",
+    title: "Resume Analyzer",
+    type: "Natural Language Processing",
     desc: "Resume parsing pipeline using spaCy NER and Transformer-based semantic matching to extract skills, experience, and role fit. Processes 100+ documents per minute with structured JSON output ready for downstream ranking or ATS integration.",
     metric: "Python · spaCy NER + Semantic Match",
     tags: ["NLP", "spaCy", "Transformers", "FastAPI"],
@@ -201,6 +201,14 @@ const PROJECTS = [
     accent: "#a78bfa",
     img: "/Python.webp",
     link: "https://github.com/cdobby18/AI-Roadmap",
+  },
+  {
+    title: "AI Engineer Mentor",
+    type: "Mentorship Platform",
+    desc: "Building an AI-powered mentorship platform for aspiring AI engineers — featuring personalized learning paths, interactive coding challenges, and real-time feedback to bridge the gap from fundamentals to production-ready skills.",
+    metric: "React · Python · LLMs · In Development",
+    tags: ["React", "Python", "LLMs", "RAG", "FastAPI"],
+    accent: "#f472b6",
   },
 ];
 
@@ -560,28 +568,43 @@ function ProjectsSection() {
       </a>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 16 }}>
-        {secondary.map((project, i) => (
-          <a key={project.title} href={project.link} target="_blank" rel="noopener noreferrer"
-            style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", borderRadius: 16, overflow: "hidden", background: COLORS.surface, border: `1px solid ${COLORS.border}`, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)", animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 100}ms both` : "none" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = `0 12px 32px ${COLORS.accent}1A`; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
-            {project.img && (
-              <div style={{ position: "relative", height: 150, overflow: "hidden", flexShrink: 0 }}>
-                <img src={project.img} alt={project.title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
-                <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, transparent 35%, ${COLORS.surface} 100%)` }} />
-              </div>
-            )}
+        {secondary.map((project, i) => {
+          const card = (
             <div style={{ display: "flex", flexDirection: "column", flex: 1, padding: "18px 20px 20px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
                 <span style={{ color: project.accent, fontFamily: "Inter, sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>{project.type}</span>
-                <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11 }}>↗ GitHub</span>
+                <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11 }}>{project.link ? "↗ GitHub" : "In Development"}</span>
               </div>
               <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 17, fontWeight: 600, color: COLORS.textPrimary, marginBottom: 8, textTransform: "uppercase" }}>{project.title}</h3>
               <p style={{ color: COLORS.textSecondary, lineHeight: 1.6, fontFamily: "Inter, sans-serif", fontSize: 13, flexGrow: 1, marginBottom: 10 }}>{project.desc}</p>
               <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12 }}>{project.metric}</p>
             </div>
-          </a>
-        ))}
+          );
+          const style = { textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", borderRadius: 16, overflow: "hidden", background: COLORS.surface, border: `1px solid ${COLORS.border}`, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)", animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 100}ms both` : "none" };
+          const onEnter = e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = `0 12px 32px ${COLORS.accent}1A`; };
+          const onLeave = e => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; };
+          return project.link ? (
+            <a key={project.title} href={project.link} target="_blank" rel="noopener noreferrer" style={style} onMouseEnter={onEnter} onMouseLeave={onLeave}>
+              {project.img && (
+                <div style={{ position: "relative", height: 150, overflow: "hidden", flexShrink: 0 }}>
+                  <img src={project.img} alt={project.title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
+                  <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, transparent 35%, ${COLORS.surface} 100%)` }} />
+                </div>
+              )}
+              {card}
+            </a>
+          ) : (
+            <div key={project.title} style={{ ...style, cursor: "default" }} onMouseEnter={onEnter} onMouseLeave={onLeave}>
+              {project.img && (
+                <div style={{ position: "relative", height: 150, overflow: "hidden", flexShrink: 0 }}>
+                  <img src={project.img} alt={project.title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
+                  <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, transparent 35%, ${COLORS.surface} 100%)` }} />
+                </div>
+              )}
+              {card}
+            </div>
+          );
+        })}
       </div>
     </section>
   );

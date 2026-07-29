@@ -186,7 +186,7 @@ const PROJECTS = [
     title: "Bounty Hunter",
     type: "ML Pipeline",
     desc: "End-to-end ML pipeline that predicts pirate bounties from crew stats using scikit-learn and PyTorch. Covers the full workflow from data generation, classical baselines, and neural network training to evaluation and a live demo.",
-    metric: "Python · ML Workflow · Demo",
+    metric: "Python · ML Workflow",
     tags: ["NumPy", "Pandas", "scikit-learn", "XGBoost", "PyTorch", "Weights & Biases", "Streamlit"],
     accent: "#f59e0b",
     img: "/project.PNG",
@@ -203,12 +203,12 @@ const PROJECTS = [
     link: "https://github.com/cdobby18/AI-Roadmap",
   },
   {
-    title: "AI Engineer Mentor",
-    type: "Mentorship Platform",
-    desc: "Building an AI-powered mentorship platform for aspiring AI engineers — featuring personalized learning paths, interactive coding challenges, and real-time feedback to bridge the gap from fundamentals to production-ready skills.",
+    title: "Sunny AI",
+    type: "RAG-Built Mentor",
+    desc: "A guided platform for aspiring AI engineers starting from zero. No fluff, no shortcuts — RAG-powered mentorship that meets you at the bottom and builds you up through fundamentals, production skills, and real-world readiness.",
     metric: "React · Python · LLMs · In Development",
     tags: ["React", "Python", "LLMs", "RAG", "FastAPI"],
-    accent: "#f472b6",
+    accent: "#0ea5e9",
   },
 ];
 

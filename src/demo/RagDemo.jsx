@@ -40,17 +40,11 @@ export default function RagDemo() {
   }
 
   return (
-    <section
-      id="demo"
-      style={{ padding: "100px clamp(24px, 6vw, 96px)" }}
-    >
-      <SectionLabel num="05" text="Demo" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 14, fontWeight: 700 }}>
-        Mini RAG Demo
-      </h2>
-      <p style={{ color: COLORS.textSecondary, maxWidth: 620, lineHeight: 1.75, fontFamily: "Inter, sans-serif", margin: "0 0 32px 0" }}>
-        A small retrieval-augmented generation demo — the retrieval and grounding logic runs in a Python serverless function (no API keys, no external LLM). Ask a question about my projects or experience; it retrieves the most relevant snippets from a mock document set and grounds an answer in them.
-      </p>
+    <div style={{ padding: "0" }}>
+      <div style={{ padding: "28px clamp(24px, 6vw, 48px)" }}>
+        <p style={{ color: COLORS.textSecondary, maxWidth: 620, lineHeight: 1.75, fontFamily: "Inter, sans-serif", margin: "0 0 24px 0" }}>
+          A small retrieval-augmented generation demo. Ask a question about my projects or experience.
+        </p>
 
       <form onSubmit={handleSubmit} style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 16 }}>
         <input
@@ -111,43 +105,44 @@ export default function RagDemo() {
         ))}
       </div>
 
-      {error && (
-        <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 13, fontStyle: "italic" }}>
-          {error}
-        </p>
-      )}
+        {error && (
+          <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 13, fontStyle: "italic" }}>
+            {error}
+          </p>
+        )}
 
-      {results && (
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <div style={{ border: `1px solid ${COLORS.accentBorder}`, borderRadius: 12, padding: "20px 24px", background: COLORS.accentSoft }}>
-            <p style={{ color: COLORS.accent, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 10 }}>
-              Grounded Answer
-            </p>
-            <p style={{ color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 15, lineHeight: 1.7 }}>
-              {results.answer}
-            </p>
-          </div>
-
-          {results.matches.length > 0 && (
-            <div>
-              <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 12 }}>
-                Retrieved Snippets
+        {results && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <div style={{ border: `1px solid ${COLORS.accentBorder}`, borderRadius: 12, padding: "18px 22px", background: COLORS.accentSoft }}>
+              <p style={{ color: COLORS.accent, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 10 }}>
+                Grounded Answer
               </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {results.matches.map(({ doc, score }) => (
-                  <div key={doc.id} style={{ border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: "14px 18px", background: COLORS.surface }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                      <span style={{ color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 14, fontWeight: 600 }}>{doc.title}</span>
-                      <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11 }}>score {score}</span>
-                    </div>
-                    <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 13, lineHeight: 1.6, margin: 0 }}>{doc.text}</p>
-                  </div>
-                ))}
-              </div>
+              <p style={{ color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 15, lineHeight: 1.7 }}>
+                {results.answer}
+              </p>
             </div>
-          )}
-        </div>
-      )}
-    </section>
+
+            {results.matches.length > 0 && (
+              <div>
+                <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 10 }}>
+                  Retrieved Snippets
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {results.matches.map(({ doc, score }) => (
+                    <div key={doc.id} style={{ border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: "12px 16px", background: COLORS.surface }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                        <span style={{ color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 14, fontWeight: 600 }}>{doc.title}</span>
+                        <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11 }}>score {score}</span>
+                      </div>
+                      <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 13, lineHeight: 1.6, margin: 0 }}>{doc.text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

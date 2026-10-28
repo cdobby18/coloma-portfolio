@@ -1,6 +1,57 @@
 import { useState, useEffect, useRef, createContext, useContext } from "react";
 import RagDemo from "./demo/RagDemo";
 
+function BackToTop() {
+  const COLORS = useColors();
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 600);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  if (!visible) return null;
+  return (
+    <button
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      aria-label="Back to top"
+      style={{
+        position: "fixed",
+        bottom: 24,
+        right: 24,
+        width: 44,
+        height: 44,
+        borderRadius: 999,
+        border: `1px solid ${COLORS.border}`,
+        background: COLORS.navBg,
+        backdropFilter: "blur(12px)",
+        color: COLORS.textSecondary,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        cursor: "pointer",
+        boxShadow: COLORS.isDark ? "0 12px 40px rgba(0,0,0,0.4)" : "0 12px 40px rgba(2,6,23,0.08)",
+        zIndex: 90,
+        transition: "all 0.2s ease",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = COLORS.accentBorder;
+        e.currentTarget.style.color = COLORS.accent;
+        e.currentTarget.style.transform = "translateY(-2px)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = COLORS.border;
+        e.currentTarget.style.color = COLORS.textSecondary;
+        e.currentTarget.style.transform = "translateY(0)";
+      }}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+  );
+}
+
 const DARK = {
   isDark: true,
   bg: "#060d1a",
@@ -59,13 +110,11 @@ const ThemeCtx = createContext(DARK);
 export const useColors = () => useContext(ThemeCtx);
 
 const NAV_LINKS = [
-  { label: "About",       id: "about"       },
-  { label: "Stack",       id: "stack"       },
-  { label: "Experience",  id: "experience"  },
-  { label: "Projects",    id: "projects"    },
-  { label: "Credentials", id: "credentials" },
-  { label: "Interests",   id: "interests"   },
-  { label: "Contact",     id: "contact"     },
+  { label: "About",      id: "about"      },
+  { label: "Skills",     id: "stack"      },
+  { label: "Experience", id: "experience" },
+  { label: "Projects",   id: "projects"   },
+  { label: "Contact",    id: "contact"    },
 ];
 
 const DI = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
@@ -73,47 +122,19 @@ const DI = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
 const SKILL_GROUPS = [
   {
     label: "Languages",
-    skills: [
-      { name: "Python",     icon: `${DI}/python/python-original.svg` },
-      { name: "JavaScript", icon: `${DI}/javascript/javascript-original.svg` },
-      { name: "SQL",        icon: `${DI}/postgresql/postgresql-original.svg` },
-      { name: "C++",        icon: `${DI}/cplusplus/cplusplus-original.svg` },
-    ],
+    skills: ["Python", "JavaScript", "SQL", "C++"],
   },
   {
     label: "AI & ML",
-    skills: [
-      { name: "PyTorch",      icon: `${DI}/pytorch/pytorch-original.svg` },
-      { name: "TensorFlow",   icon: `${DI}/tensorflow/tensorflow-original.svg` },
-      { name: "Scikit-learn", icon: `${DI}/scikitlearn/scikitlearn-original.svg` },
-      { name: "OpenCV",       icon: `${DI}/opencv/opencv-original.svg` },
-      { name: "LangChain",    icon: "https://cdn.simpleicons.org/langchain", invert: true },
-      { name: "Transformers", icon: "https://cdn.simpleicons.org/huggingface" },
-      { name: "RAG",          icon: null },
-      { name: "Prompt Engineering", icon: null },
-    ],
+    skills: ["PyTorch", "TensorFlow", "Scikit-learn", "OpenCV", "LangChain", "Transformers", "RAG", "Prompt Engineering", "LLM APIs"],
   },
   {
-    label: "Frameworks",
-    skills: [
-      { name: "FastAPI",   icon: `${DI}/fastapi/fastapi-original.svg` },
-      { name: "Flask",     icon: `${DI}/flask/flask-original.svg`, invert: true },
-      { name: "React",     icon: `${DI}/react/react-original.svg` },
-      { name: "Streamlit", icon: `${DI}/streamlit/streamlit-original.svg` },
-    ],
+    label: "Frameworks & APIs",
+    skills: ["FastAPI", "Flask", "React", "Streamlit", "RESTful APIs"],
   },
   {
-    label: "Tools",
-    skills: [
-      { name: "Git",         icon: `${DI}/git/git-original.svg` },
-      { name: "Jupyter",     icon: `${DI}/jupyter/jupyter-original.svg` },
-      { name: "MySQL",       icon: `${DI}/mysql/mysql-original.svg` },
-      { name: "VS Code",     icon: `${DI}/vscode/vscode-original.svg` },
-      { name: "Docker",      icon: `${DI}/docker/docker-original.svg` },
-      { name: "Kaggle",      icon: `${DI}/kaggle/kaggle-original.svg` },
-      { name: "Claude Code", icon: "https://cdn.simpleicons.org/anthropic", invert: true },
-      { name: "Qdrant",      icon: "https://cdn.simpleicons.org/qdrant" },
-    ],
+    label: "Tools & Infra",
+    skills: ["Git", "Docker", "Jupyter", "MySQL", "VS Code", "Kaggle", "Claude Code", "Qdrant"],
   },
 ];
 
@@ -162,6 +183,25 @@ const PROJECTS = [
     img: "/Powerlift.webp",
     link: "https://github.com/cdobby18/Powerlift",
   },
+    {
+    title: "Sunny AI",
+    type: "RAG-Built Mentor",
+    desc: "A guided platform for aspiring AI engineers starting from zero. No fluff, no shortcuts — RAG-powered mentorship that meets you at the bottom and builds you up through fundamentals, production skills, and real-world readiness.",
+    metric: "React · Python · LLMs · RAG · LangChain",
+    tags: ["React", "Python", "LLMs", "RAG", "FastAPI"],
+    accent: "#0ea5e9",
+    img: "/sunny.png",
+  },
+    {
+    title: "AI Engineering Roadmap",
+    type: "Learning Journal",
+    desc: "A self-study curriculum documenting my path into AI engineering — tutorials completed, core ML/LLM concepts learned, and small exercises built along the way, tracked publicly from fundamentals through applied projects.",
+    metric: "Python · Self-Study · Documentation",
+    tags: ["Python", "Self-Study", "LLMs", "RAG", "Documentation"],
+    accent: "#a78bfa",
+    img: "/Python.webp",
+    link: "https://github.com/cdobby18/AI-Roadmap",
+  },
   {
     title: "Resume Analyzer",
     type: "Natural Language Processing",
@@ -182,42 +222,9 @@ const PROJECTS = [
     img: "/Summarize.webp",
     link: "https://github.com/cdobby18/ai-summarizer",
   },
-  {
-    title: "Bounty Hunter",
-    type: "ML Pipeline",
-    desc: "End-to-end ML pipeline that predicts pirate bounties from crew stats using scikit-learn and PyTorch. Covers the full workflow from data generation, classical baselines, and neural network training to evaluation and a live demo.",
-    metric: "Python · ML Workflow",
-    tags: ["NumPy", "Pandas", "scikit-learn", "XGBoost", "PyTorch", "Weights & Biases", "Streamlit"],
-    accent: "#f59e0b",
-    img: "/project.PNG",
-    link: "https://github.com/cdobby18/bountyhunter",
-  },
-  {
-    title: "AI Engineering Roadmap",
-    type: "Learning Journal",
-    desc: "A self-study curriculum documenting my path into AI engineering — tutorials completed, core ML/LLM concepts learned, and small exercises built along the way, tracked publicly from fundamentals through applied projects.",
-    metric: "Python · Self-Study · Documentation",
-    tags: ["Python", "Self-Study", "LLMs", "RAG", "Documentation"],
-    accent: "#a78bfa",
-    img: "/Python.webp",
-    link: "https://github.com/cdobby18/AI-Roadmap",
-  },
-  {
-    title: "Sunny AI",
-    type: "RAG-Built Mentor",
-    desc: "A guided platform for aspiring AI engineers starting from zero. No fluff, no shortcuts — RAG-powered mentorship that meets you at the bottom and builds you up through fundamentals, production skills, and real-world readiness.",
-    metric: "React · Python · LLMs · In Development",
-    tags: ["React", "Python", "LLMs", "RAG", "FastAPI"],
-    accent: "#0ea5e9",
-  },
 ];
 
-const CERTIFICATIONS = [
-  { title: "AI Engineer",                  issuer: "Udemy",  desc: "Advanced AI engineering covering LLMs, fine-tuning, RAG pipelines, and production deployment patterns.",  link: "https://www.udemy.com/certificate/UC-ce6b30a4-237b-469c-9f60-0039ab82713f/", badge: "AI" },
-  { title: "Python Expert",                issuer: "Credly", desc: "Advanced Python programming including data structures, OOP, and scripting for automation.",               link: "https://www.credly.com/earner/earned/badge/8ef3efc3-7e58-4ef2-b349-32f818814c5b", badge: "PY" },
-  { title: "Intro to Modern AI",           issuer: "Credly", desc: "Core concepts of modern AI: neural networks, ML workflows, and applied deep learning fundamentals.",       link: "https://www.credly.com/badges/fc10a9c7-172e-47b7-b817-f1116e8b9846/public_url", badge: "ML" },
-  { title: "Introduction to Data Science", issuer: "Credly", desc: "Foundations of data science covering statistical analysis, visualization, and Python-based workflows.",   link: "https://www.credly.com/badges/fde949db-9414-4ed4-85d3-d7fccab61366/public_url", badge: "DS" },
-];
+const CERTIFICATIONS = [];
 
 function useInView(threshold = 0.12) {
   const ref = useRef(null);
@@ -244,59 +251,50 @@ export function SectionLabel({ num, text }) {
   );
 }
 
-function SkillIcon({ name, icon, invert, delay = 0 }) {
+function SkillPill({ name, delay = 0 }) {
   const COLORS = useColors();
-  const [err, setErr] = useState(false);
-  const initials = name.replace(/[^A-Za-z0-9]/g, "").substring(0, 2).toUpperCase();
-  const imgFilter = invert ? (COLORS.isDark ? "brightness(0) invert(1)" : "none") : "none";
   return (
     <div
-      style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: "20px 18px", borderRadius: 12, background: COLORS.chipBg, border: `1px solid ${COLORS.chipBorder}`, transition: "all 0.2s cubic-bezier(0.16,1,0.3,1)", cursor: "default", minWidth: 108, flex: "0 0 auto", animation: `fadeUp 0.45s cubic-bezier(0.16,1,0.3,1) ${delay}ms both` }}
-      onMouseEnter={e => { e.currentTarget.style.background = COLORS.accentSoft; e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; }}
-      onMouseLeave={e => { e.currentTarget.style.background = COLORS.chipBg; e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.transform = "translateY(0)"; }}>
-      {icon && !err ? (
-        <img src={icon} alt={name} width={44} height={44} onError={() => setErr(true)} style={{ objectFit: "contain", filter: imgFilter }} />
-      ) : (
-        <div style={{ width: 44, height: 44, borderRadius: 8, background: COLORS.accentSoft, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 13, fontWeight: 700 }}>{initials}</span>
-        </div>
-      )}
-      <span style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 500, textAlign: "center", lineHeight: 1.3, maxWidth: 80 }}>{name}</span>
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        padding: "9px 18px",
+        borderRadius: 999,
+        background: COLORS.chipBg,
+        border: `1px solid ${COLORS.chipBorder}`,
+        color: COLORS.textSecondary,
+        fontFamily: "Inter, sans-serif",
+        fontSize: 13,
+        fontWeight: 500,
+        letterSpacing: "0.01em",
+        transition: "all 0.2s cubic-bezier(0.16,1,0.3,1)",
+        cursor: "default",
+        animation: `fadeUp 0.45s cubic-bezier(0.16,1,0.3,1) ${delay}ms both`,
+      }}
+      onMouseEnter={e => {
+        e.currentTarget.style.background = COLORS.accentSoft;
+        e.currentTarget.style.borderColor = COLORS.accentBorder;
+        e.currentTarget.style.color = COLORS.textPrimary;
+        e.currentTarget.style.transform = "translateY(-2px)";
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.background = COLORS.chipBg;
+        e.currentTarget.style.borderColor = COLORS.chipBorder;
+        e.currentTarget.style.color = COLORS.textSecondary;
+        e.currentTarget.style.transform = "translateY(0)";
+      }}
+    >
+      {name}
     </div>
   );
 }
 
 function Hero() {
   const COLORS = useColors();
-  const [typed, setTyped] = useState("");
-  const phrases = ["AI Engineer", "Software Engineer", "Quality Assurance"];
   const prefersReduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const [phraseIndex, setPhraseIndex] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
-  const [deleting, setDeleting] = useState(false);
-
-  useEffect(() => {
-    if (prefersReduced) { setTyped(phrases[0]); return; }
-    const current = phrases[phraseIndex];
-    const timeout = setTimeout(() => {
-      if (!deleting) {
-        setTyped(current.slice(0, charIndex + 1));
-        if (charIndex + 1 === current.length) setTimeout(() => setDeleting(true), 1400);
-        else setCharIndex((p) => p + 1);
-      } else {
-        setTyped(current.slice(0, charIndex - 1));
-        if (charIndex - 1 === 0) {
-          setDeleting(false);
-          setPhraseIndex((p) => (p + 1) % phrases.length);
-          setCharIndex(0);
-        } else setCharIndex((p) => p - 1);
-      }
-    }, deleting ? 45 : 90);
-    return () => clearTimeout(timeout);
-  }, [typed, deleting, charIndex, phraseIndex]);
 
   return (
-    <section id="hero" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "120px clamp(24px, 6vw, 96px) 100px", position: "relative", overflow: "hidden" }}>
+    <section id="hero" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "88px clamp(24px, 6vw, 96px) 80px", position: "relative", overflow: "hidden" }}>
 
       {/* Starfield — dark mode only */}
       {COLORS.isDark && (
@@ -313,71 +311,51 @@ function Hero() {
       {/* Ambient ocean glow */}
       <div style={{ position: "absolute", bottom: -60, left: "50%", transform: "translateX(-50%)", width: 700, height: 320, background: `radial-gradient(ellipse, ${COLORS.isDark ? "rgba(6,60,100,0.2)" : "rgba(196,125,14,0.05)"} 0%, transparent 72%)`, pointerEvents: "none" }} />
 
-      <div style={{ maxWidth: 780, width: "100%", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", position: "relative", zIndex: 1 }}>
+      <div style={{ maxWidth: 880, width: "100%", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", position: "relative", zIndex: 1 }}>
 
         {/* Profile photo */}
-        <div className="op-avatar" style={{ width: 160, height: 160, borderRadius: "50%", overflow: "hidden", marginBottom: 32, border: `2px solid ${COLORS.accent}73`, boxShadow: `0 0 0 8px ${COLORS.accent}12, 0 0 48px ${COLORS.accent}1F`, flexShrink: 0, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s both" }}>
-          <img src="/PROFILE.jpeg" alt="Carl Joshua Coloma" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 15%" }} />
+        <div className="op-avatar" style={{ width: 150, height: 150, borderRadius: "50%", overflow: "hidden", marginBottom: 24, border: `1px solid ${COLORS.accentBorder}`, boxShadow: `0 0 0 10px ${COLORS.accent}0F, 0 30px 60px ${COLORS.accent}14`, flexShrink: 0, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.05s both" }}>
+          <img src="/pic.jpeg" alt="Carl Joshua Coloma" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 15%" }} />
         </div>
 
         {/* Status badge */}
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 18px", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 999, background: COLORS.accentSoft, marginBottom: 28, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s both" }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 16px", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 999, background: COLORS.accentSoft, marginBottom: 26, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both" }}>
           <div style={{ width: 7, height: 7, borderRadius: "50%", background: COLORS.accent, boxShadow: `0 0 8px ${COLORS.accent}E6`, flexShrink: 0, animation: "blink 1.4s step-end infinite" }} />
-          <span style={{ color: COLORS.accent, fontFamily: "Inter, sans-serif", fontSize: 12, fontWeight: 500, letterSpacing: "0.04em" }}>Open to work</span>
+          <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase" }}>Junior AI Engineer</span>
         </div>
 
         {/* Name */}
-        <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(42px, 9vw, 84px)", lineHeight: 0.95, letterSpacing: "-0.04em", color: COLORS.textPrimary, marginBottom: 22, fontWeight: 700, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.3s both" }}>
-          Carl Joshua<br /><span style={{ color: COLORS.accent }}>Coloma.</span>
+        <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(38px, 7vw, 72px)", lineHeight: 0.95, letterSpacing: "-0.04em", color: COLORS.textPrimary, marginBottom: 18, fontWeight: 700, textTransform: "uppercase", animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s both" }}>
+          Carl Joshua<br /><span style={{ color: COLORS.accent }}>Coloma</span>
         </h1>
 
-        {/* Typing animation */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 2, height: 36, marginBottom: 26, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.45s both" }}>
-          <span style={{ fontFamily: "Inter, sans-serif", fontSize: "clamp(16px, 1.8vw, 20px)", color: COLORS.textSecondary }}>{typed}</span>
-          <span style={{ color: COLORS.accent, animation: "blink 1s step-end infinite", fontFamily: "Inter, sans-serif", fontSize: "clamp(16px, 1.8vw, 20px)", lineHeight: 1 }}>|</span>
-        </div>
-
         {/* Tagline */}
-        <p style={{ maxWidth: 560, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 17, lineHeight: 1.75, marginBottom: 44, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.55s both" }}>
-          Building intelligent systems at the intersection of machine learning, computer vision, and production AI engineering.
+        <p style={{ maxWidth: 680, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: "clamp(16px, 2vw, 19px)", lineHeight: 1.8, marginBottom: 40, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.32s both" }}>
+          A Computer Science graduate who builds <span style={{ color: COLORS.textPrimary }}>AI agent workflows and automations in Python</span>. Open to junior AI engineering roles.
         </p>
 
         {/* CTA buttons */}
-        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginBottom: 20, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.65s both" }}>
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginBottom: 16, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.44s both" }}>
           <a href="#projects"
             style={{ padding: "13px 28px", borderRadius: 8, background: COLORS.accent, color: "#1a0800", textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 700, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
             onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = `0 8px 28px ${COLORS.accent}66`; }}
             onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
-            View Projects
+            View my work
           </a>
           <a href="#contact"
             style={{ padding: "13px 28px", borderRadius: 8, border: `1px solid ${COLORS.outlineBorder}`, color: COLORS.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 500, background: COLORS.outlineBg, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.textPrimary; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textSecondary; }}>
-            Get in Touch
+            Contact
           </a>
         </div>
 
-        <a href="/CV-Carl-Coloma.pdf" download="CV-Carl-Coloma.pdf"
-          style={{ color: COLORS.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, marginBottom: 48, transition: "color 0.2s ease", animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.7s both" }}
+        <a href="/cv-coloma.pdf" download="cv-coloma.pdf"
+          style={{ color: COLORS.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, marginBottom: 40, transition: "color 0.2s ease", animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.5s both" }}
           onMouseEnter={e => { e.currentTarget.style.color = COLORS.accent; }}
           onMouseLeave={e => { e.currentTarget.style.color = COLORS.textMuted; }}>
           Download CV ↓
         </a>
-
-        {/* Stats strip */}
-        <div className="op-stats" style={{ display: "flex", width: "100%", maxWidth: 520, borderTop: `1px solid ${COLORS.stripBorder}`, borderBottom: `1px solid ${COLORS.stripBorder}`, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.75s both" }}>
-          {[
-            { label: "Best Thesis Award", sub: "Nov 2025"       },
-            { label: "3 Internships",     sub: "AI Engineering" },
-            { label: "5 Projects",        sub: "Shipped"        },
-          ].map((stat, i, arr) => (
-            <div key={stat.label} style={{ flex: "1 1 0", padding: "20px 12px", display: "flex", flexDirection: "column", alignItems: "center", gap: 5, borderRight: i < arr.length - 1 ? `1px solid ${COLORS.stripBorder}` : "none" }}>
-              <span style={{ color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, fontWeight: 600, textAlign: "center" }}>{stat.label}</span>
-              <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11 }}>{stat.sub}</span>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Wave divider */}
@@ -395,9 +373,9 @@ function AboutSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
   return (
-    <section id="about" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+    <section id="about" ref={ref} style={{ padding: "80px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
       <SectionLabel num="01" text="About" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 48, fontWeight: 700 }}>About Me</h2>
+      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 36, fontWeight: 700 }}>About Me</h2>
       <div data-cols="true" style={{ display: "flex", gap: 64, alignItems: "flex-start" }}>
         <div style={{ flex: "1 1 0", minWidth: 0 }}>
           <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: 1.85, marginBottom: 18 }}>
@@ -413,7 +391,7 @@ function AboutSection() {
             {[
               { label: "Current Role", value: "Backend AI Engineer Intern · FlyRank AI" },
               { label: "Location",     value: "Philippines" },
-              { label: "Focus",        value: "LLMs · RAG · Computer Vision" },
+              { label: "Focus",        value: "Agentic AI · LLMs · RAG" },
               { label: "Education",    value: "BS Computer Science · FEU Tech · 2026" },
             ].map((row, i, arr) => (
               <div key={row.label} style={{ display: "flex", gap: 24, alignItems: "center", padding: "14px 0", borderBottom: i < arr.length - 1 ? `1px solid ${COLORS.stripBorder}` : "none" }}>
@@ -447,24 +425,26 @@ function AboutSection() {
 function StackSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
-  const [activeTab, setActiveTab] = useState(0);
   return (
-    <section id="stack" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
-      <SectionLabel num="02" text="Stack" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 14, fontWeight: 700 }}>Technical Stack</h2>
-      <p style={{ color: COLORS.textSecondary, maxWidth: 560, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "left", margin: "0 0 40px 0" }}>
-        Tools and technologies across machine learning, AI systems, frameworks, and development.
+    <section id="stack" ref={ref} style={{ padding: "80px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+      <SectionLabel num="02" text="Skills" />
+      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 14, fontWeight: 700 }}>Technical Skills</h2>
+      <p style={{ color: COLORS.textSecondary, maxWidth: 620, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "left", margin: "0 0 36px 0" }}>
+        Tools and technologies I use to build and ship AI-powered systems.
       </p>
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "flex-start", marginBottom: 40 }}>
-        {SKILL_GROUPS.map((group, i) => (
-          <button key={group.label} onClick={() => setActiveTab(i)} style={{ padding: "8px 22px", borderRadius: 999, border: "1px solid", borderColor: activeTab === i ? COLORS.accent : COLORS.outlineBorder, background: activeTab === i ? COLORS.accentSoft : "transparent", color: activeTab === i ? COLORS.accent : COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, cursor: "pointer", transition: "all 0.2s", outline: "none" }}>
-            {group.label}
-          </button>
-        ))}
-      </div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "flex-start", minHeight: 160 }}>
-        {SKILL_GROUPS[activeTab].skills.map((skill, i) => (
-          <SkillIcon key={skill.name} name={skill.name} icon={skill.icon} invert={skill.invert} delay={i * 55} />
+      <div style={{ display: "flex", flexDirection: "column", gap: 36 }}>
+        {SKILL_GROUPS.map((group, gi) => (
+          <div key={group.label}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+              <span style={{ color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 15, fontWeight: 600 }}>{group.label}</span>
+              <div style={{ flex: 1, height: 1, background: COLORS.stripBorder }} />
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+              {group.skills.map((skill, si) => (
+                <SkillPill key={skill} name={skill} delay={(gi * 4 + si) * 40} />
+              ))}
+            </div>
+          </div>
         ))}
       </div>
     </section>
@@ -492,9 +472,9 @@ function ExperienceSection() {
   }, []);
 
   return (
-    <section id="experience" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+    <section id="experience" ref={ref} style={{ padding: "80px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
       <SectionLabel num="03" text="Experience" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 56, fontWeight: 700 }}>Experience</h2>
+      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 40, fontWeight: 700 }}>Experience</h2>
       <div ref={containerRef} style={{ position: "relative", paddingLeft: 36, display: "flex", flexDirection: "column", gap: 28 }}>
         <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 1, background: `linear-gradient(to bottom, ${COLORS.accent}B3 0%, ${COLORS.accent}0A 100%)`, transformOrigin: "top center", transform: `scaleY(${progress})` }} />
         {EXPERIENCE.map((exp, i) => (
@@ -530,10 +510,10 @@ function ProjectsSection() {
   const featured = PROJECTS.find((p) => p.featured);
   const secondary = PROJECTS.filter((p) => !p.featured);
   return (
-    <section id="projects" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+    <section id="projects" ref={ref} style={{ padding: "80px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
       <SectionLabel num="04" text="Projects" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "left", fontWeight: 700 }}>Featured Projects</h2>
-      <p style={{ color: COLORS.textSecondary, maxWidth: 600, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "left", margin: "0 0 20px 0" }}>
+      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "left", fontWeight: 700 }}>Projects</h2>
+      <p style={{ color: COLORS.textSecondary, maxWidth: 600, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "left", margin: "0 0 28px 0" }}>
         Applied AI systems focused on real-world deployment, computer vision, NLP, and intelligent workflows.
       </p>
 
@@ -611,131 +591,19 @@ function ProjectsSection() {
 }
 
 function CertificatesSection() {
-  const COLORS = useColors();
-  const [ref, visible] = useInView();
-  const [hovered, setHovered] = useState(null);
-  return (
-    <section id="credentials" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
-      <SectionLabel num="06" text="Credentials" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "left", fontWeight: 700 }}>Credentials</h2>
-      <p style={{ color: COLORS.textSecondary, maxWidth: 600, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "left", margin: "0 0 48px 0" }}>
-        Verified credentials across AI engineering, machine learning, and software development.
-      </p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
-        {CERTIFICATIONS.map((cert, i) => (
-          <a key={cert.title} href={cert.link} target="_blank" rel="noopener noreferrer"
-            style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", border: `1px solid ${hovered === i ? COLORS.accentBorder : COLORS.border}`, borderRadius: 14, overflow: "hidden", background: COLORS.surface, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)", transform: hovered === i ? "translateY(-4px)" : "translateY(0)", boxShadow: hovered === i ? `0 8px 24px ${COLORS.accent}1F` : "none", cursor: "pointer" }}
-            onMouseEnter={() => setHovered(i)}
-            onMouseLeave={() => setHovered(null)}>
-            <div style={{ height: 3, background: `linear-gradient(90deg, ${COLORS.accent}, ${COLORS.accent}33)`, flexShrink: 0 }} />
-            <div style={{ padding: "20px 20px 16px", flexGrow: 1, display: "flex", flexDirection: "column" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
-                <div style={{ width: 42, height: 42, borderRadius: 10, background: COLORS.accentSoft, border: `1px solid ${COLORS.accentBorder}`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 12, color: COLORS.accent, flexShrink: 0 }}>
-                  {cert.badge}
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 5 }}>
-                  <span style={{ fontFamily: "Inter, sans-serif", fontSize: 10, fontWeight: 600, color: COLORS.accent, letterSpacing: "0.08em", padding: "3px 9px", borderRadius: 999, border: `1px solid ${COLORS.accentBorder}`, background: COLORS.accentSoft, textTransform: "uppercase" }}>{cert.issuer}</span>
-                  <span style={{ fontFamily: "Inter, sans-serif", fontSize: 10, color: COLORS.textMuted }}>↗ View Cert</span>
-                </div>
-              </div>
-              <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, fontWeight: 600, color: COLORS.textPrimary, marginBottom: 7, lineHeight: 1.3 }}>{cert.title}</h3>
-              <p style={{ fontFamily: "Inter, sans-serif", fontSize: 13, color: COLORS.textSecondary, lineHeight: 1.65, flexGrow: 1 }}>{cert.desc}</p>
-            </div>
-            <div style={{ padding: "10px 20px", background: COLORS.surfaceHigh, display: "flex", alignItems: "center", gap: 8 }}>
-              <div style={{ width: 6, height: 6, borderRadius: "50%", background: COLORS.accent }} />
-              <span style={{ fontFamily: "Inter, sans-serif", fontSize: 11, color: COLORS.textMuted }}>Verified Credential</span>
-            </div>
-          </a>
-        ))}
-      </div>
-    </section>
-  );
+  return null;
 }
 
 function InterestsSection() {
-  const COLORS = useColors();
-  const [ref, visible] = useInView();
-  const items = [
-    {
-      label: "Dance",
-      icon: "💃",
-      content: (
-        <>
-          <p style={{ margin: 0, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 13, lineHeight: 1.6 }}>
-            Began dancing in Grade 1 with a focus on dancehall and open style — performative choreography and team routines. Notable placements include:
-          </p>
-          <ul style={{ marginTop: 8, marginBottom: 0, paddingLeft: 18, color: COLORS.textSecondary }}>
-            <li>DS Kings (2023) — College Division — 3rd Place</li>
-            <li>Chosen Ground 16 (Open Division) — Champion</li>
-            <li>DS Kings (2024) — College Division — 2nd Place</li>
-            <li>LCDC (2025, Singapore) — BAWZ — Open Division — Champion</li>
-          </ul>
-          <a href="/blog.html" style={{ display: "inline-block", marginTop: 8, color: COLORS.accent, fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 600 }}>
-            Read the BAWZ Singapore story →
-          </a>
-        </>
-      )
-    },
-    {
-      label: "DJ (Amateur)",
-      icon: "🎧",
-      content: (
-        <div>
-          <p style={{ margin: 0, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 13, lineHeight: 1.6 }}>Curates energetic, dancefloor-focused mixes for friends and small events — smooth transitions, crate-digging, and building a vibe from warm intros to peak-time drops.</p>
-          <p style={{ margin: "8px 0 0", color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 600 }}>Favorite genres:</p>
-          <ul style={{ marginTop: 6, marginBottom: 0, paddingLeft: 18, color: COLORS.textSecondary }}>
-            <li>R&B</li><li>Afro</li><li>Dancehall</li><li>Amapiano</li><li>House</li><li>Baile</li>
-          </ul>
-          <p style={{ marginTop: 8, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 13 }}>Gear: Serato DJ Pro · Hercules InPulse 300 MK2.</p>
-        </div>
-      )
-    },
-    {
-      label: "One Piece",
-      icon: "🏴‍☠️",
-      content: (
-        <div>
-          <p style={{ margin: 0, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 13, lineHeight: 1.6 }}>
-            Longtime One Piece fan — I love the epic worldbuilding, emotional stakes, and the way Oda layers mystery across decades.
-          </p>
-          <ul style={{ marginTop: 8, marginBottom: 0, paddingLeft: 18, color: COLORS.textSecondary }}>
-            <li><strong>Favorites:</strong> Luffy (optimism & grit), Zoro (loyalty & discipline), Law (style and strategy).</li>
-            <li><strong>Why I love it:</strong> the series rewards patience — long-running mysteries and moments that land after years of buildup.</li>
-          </ul>
-          <p style={{ marginTop: 8, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 13 }}>It inspires how I approach side projects — small details setting up huge payoffs.</p>
-        </div>
-      )
-    }
-  ];
-
-  return (
-    <section id="interests" ref={ref} style={{ padding: "80px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
-      <SectionLabel num="07" text="Interests" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(24px, 3.6vw, 32px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "left", fontWeight: 700 }}>Beyond Tech</h2>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
-        {items.map((item) => (
-          <div key={item.label} style={{ padding: 16, borderRadius: 10, border: `1px solid ${COLORS.chipBorder}`, background: COLORS.surface, boxShadow: COLORS.isDark ? "0 6px 18px rgba(0,0,0,0.45)" : "0 6px 18px rgba(2,6,23,0.04)", animation: "fadeUp 420ms cubic-bezier(0.16,1,0.3,1) both", transition: "transform 0.25s cubic-bezier(0.16,1,0.3,1), border-color 0.25s ease" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.transform = "translateY(0)"; }}>
-            <div style={{ height: 3, borderRadius: 8, marginBottom: 12, background: `linear-gradient(90deg, ${COLORS.accent}, ${COLORS.accent}33)` }} />
-            <div style={{ display: "flex", alignItems: "center", marginBottom: 8 }}>
-              <div style={{ background: COLORS.accentSoft, width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 8, fontSize: 18, marginRight: 12 }}>{item.icon}</div>
-              <strong style={{ display: "block", fontFamily: "Inter, sans-serif", fontSize: 16, color: COLORS.accent }}>{item.label}</strong>
-            </div>
-            <div style={{ color: COLORS.textSecondary, fontSize: 14, lineHeight: 1.7 }}>{item.content}</div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
+  return null;
 }
 
 function ContactSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
   return (
-    <section id="contact" ref={ref} style={{ padding: "100px clamp(24px, 6vw, 96px) 80px", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)", textAlign: "center" }}>
-      <SectionLabel num="08" text="Contact" />
+    <section id="contact" ref={ref} style={{ padding: "80px clamp(24px, 6vw, 96px) 70px", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)", textAlign: "center" }}>
+      <SectionLabel num="07" text="Contact" />
       <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(28px, 4.5vw, 44px)", color: COLORS.textPrimary, marginBottom: 14, fontWeight: 700 }}>Let's build something intelligent.</h2>
       <p style={{ color: COLORS.textSecondary, maxWidth: 520, lineHeight: 1.75, fontFamily: "Inter, sans-serif", margin: "0 auto 48px" }}>
         Open to AI engineering opportunities, ML collaborations, and building production-ready intelligent systems.
@@ -915,6 +783,7 @@ export default function OnePiece() {
         .op-nav-links { display: flex; gap: 28px; align-items: center; }
         .op-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
         main > section:not(#hero), footer { max-width: 1200px; margin-left: auto; margin-right: auto; }
+        main > section { scroll-margin-top: 88px; }
         @media (max-width: 1080px) {
           .op-nav-links { display: none !important; }
           .op-hamburger { display: flex !important; align-items: center; justify-content: center; }
@@ -927,7 +796,7 @@ export default function OnePiece() {
           [data-cols] > div:last-child { flex: 0 0 auto !important; width: 100%; }
         }
         @media (max-width: 640px) {
-          main > section:not(#hero) { padding-top: 64px !important; padding-bottom: 64px !important; }
+          main > section:not(#hero) { padding-top: 56px !important; padding-bottom: 56px !important; }
           #projects > div:last-child { grid-template-columns: 1fr !important; }
           #credentials > div { grid-template-columns: 1fr !important; }
         }
@@ -1001,15 +870,15 @@ export default function OnePiece() {
         <ExperienceSection />
         <ProjectsSection />
         <RagDemo />
-        <CertificatesSection />
-        <InterestsSection />
         <ContactSection />
       </main>
 
-      <footer style={{ padding: "32px clamp(24px, 6vw, 96px)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, borderTop: `1px solid ${theme.border}` }}>
-        <span style={{ fontFamily: "Inter, sans-serif", fontSize: 13, color: theme.textMuted }}>Carl Joshua Coloma · AI Engineer</span>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: theme.textMuted, opacity: 0.5 }}>cjc</span>
+      <footer style={{ padding: "28px clamp(24px, 6vw, 96px)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, borderTop: `1px solid ${theme.border}` }}>
+        <span style={{ fontFamily: "Inter, sans-serif", fontSize: 13, color: theme.textMuted }}>© {new Date().getFullYear()} Carl Joshua Coloma · AI Engineer</span>
+        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: theme.textMuted, opacity: 0.5 }}>cjc.</span>
       </footer>
+
+      <BackToTop />
     </ThemeCtx.Provider>
   );
 }

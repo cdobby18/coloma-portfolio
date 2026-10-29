@@ -54,56 +54,56 @@ function BackToTop() {
 
 const DARK = {
   isDark: true,
-  bg: "#060d1a",
-  surface: "#0c1829",
-  surfaceHigh: "#0f2038",
-  border: "rgba(232,162,23,0.12)",
-  textPrimary: "#f0e6c8",
-  textSecondary: "#8a9bb5",
-  textMuted: "#6b81a0",
-  accent: "#e8a217",
-  accentSoft: "rgba(232,162,23,0.09)",
-  accentBorder: "rgba(232,162,23,0.28)",
+  bg: "#040714",
+  surface: "#0a1028",
+  surfaceHigh: "#10182c",
+  border: "rgba(148,163,184,0.16)",
+  textPrimary: "#f8fafc",
+  textSecondary: "#d6dcf5",
+  textMuted: "#9aa3c4",
+  accent: "#f59e0b",
+  accentSoft: "rgba(245,158,11,0.16)",
+  accentBorder: "rgba(245,158,11,0.38)",
   cyan: "#22d3ee",
   sky: "#38bdf8",
   emerald: "#34d399",
   violet: "#a78bfa",
-  navBg: "rgba(6,13,26,0.92)",
-  mobileMenuBg: "rgba(6,13,26,0.97)",
-  chipBg: "rgba(232,162,23,0.05)",
-  chipBorder: "rgba(232,162,23,0.14)",
-  outlineBorder: "rgba(255,255,255,0.08)",
-  outlineBg: "rgba(255,255,255,0.02)",
-  divider: "rgba(255,255,255,0.15)",
-  tagBg: "rgba(232,162,23,0.09)",
-  stripBorder: "rgba(232,162,23,0.1)",
+  navBg: "rgba(4,7,20,0.92)",
+  mobileMenuBg: "rgba(4,7,20,0.98)",
+  chipBg: "rgba(148,163,184,0.1)",
+  chipBorder: "rgba(148,163,184,0.22)",
+  outlineBorder: "rgba(148,163,184,0.26)",
+  outlineBg: "rgba(148,163,184,0.07)",
+  divider: "rgba(148,163,184,0.22)",
+  tagBg: "rgba(245,158,11,0.18)",
+  stripBorder: "rgba(148,163,184,0.16)",
 };
 
 const LIGHT = {
   isDark: false,
-  bg: "#fdf8f0",
+  bg: "#f7f5f2",
   surface: "#ffffff",
-  surfaceHigh: "#f7f0e0",
-  border: "rgba(139,90,0,0.1)",
-  textPrimary: "#1a0e00",
-  textSecondary: "#5c4230",
-  textMuted: "#6f5847",
-  accent: "#c47d0e",
-  accentSoft: "rgba(196,125,14,0.08)",
-  accentBorder: "rgba(196,125,14,0.3)",
+  surfaceHigh: "#f3efe8",
+  border: "rgba(30,41,59,0.08)",
+  textPrimary: "#0f172a",
+  textSecondary: "#334155",
+  textMuted: "#475569",
+  accent: "#b45309",
+  accentSoft: "rgba(180,83,9,0.12)",
+  accentBorder: "rgba(180,83,9,0.32)",
   cyan: "#0891b2",
   sky: "#0284c7",
   emerald: "#059669",
   violet: "#7c3aed",
-  navBg: "rgba(253,248,240,0.95)",
-  mobileMenuBg: "rgba(253,248,240,0.97)",
-  chipBg: "rgba(139,90,0,0.05)",
-  chipBorder: "rgba(139,90,0,0.1)",
-  outlineBorder: "rgba(0,0,0,0.1)",
-  outlineBg: "rgba(0,0,0,0.02)",
-  divider: "rgba(0,0,0,0.15)",
-  tagBg: "rgba(139,90,0,0.07)",
-  stripBorder: "rgba(0,0,0,0.06)",
+  navBg: "rgba(247,245,242,0.94)",
+  mobileMenuBg: "rgba(247,245,242,0.98)",
+  chipBg: "rgba(30,41,59,0.04)",
+  chipBorder: "rgba(30,41,59,0.1)",
+  outlineBorder: "rgba(30,41,59,0.14)",
+  outlineBg: "rgba(30,41,59,0.02)",
+  divider: "rgba(30,41,59,0.12)",
+  tagBg: "rgba(180,83,9,0.14)",
+  stripBorder: "rgba(30,41,59,0.08)",
 };
 
 const ThemeCtx = createContext(DARK);
@@ -122,19 +122,19 @@ const DI = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
 const SKILL_GROUPS = [
   {
     label: "Languages",
-    skills: ["Python", "JavaScript", "SQL", "C++"],
+    skills: ["Python", "JavaScript"],
   },
   {
     label: "AI & ML",
-    skills: ["PyTorch", "TensorFlow", "Scikit-learn", "OpenCV", "LangChain", "Transformers", "RAG", "Prompt Engineering", "LLM APIs"],
+    skills: ["PyTorch", "TensorFlow", "Scikit-learn", "OpenCV", "LangChain", "Transformers", "RAG", "Prompt Engineering", "LLM APIs", "Agentic Workflows"],
   },
   {
-    label: "Frameworks & APIs",
-    skills: ["FastAPI", "Flask", "React", "Streamlit", "RESTful APIs"],
+    label: "Data & ETL (Learning)",
+    skills: ["SQL", "Databricks", "ETL", "dbt", "Airflow", "Snowflake", "PySpark"],
   },
   {
-    label: "Tools & Infra",
-    skills: ["Git", "Docker", "Jupyter", "MySQL", "VS Code", "Kaggle", "Claude Code", "Qdrant"],
+    label: "Frameworks & Tools",
+    skills: ["FastAPI", "Flask", "React", "Streamlit", "RESTful APIs", "Docker", "Git", "VS Code", "Claude Code", "Hermes Agent", "Obsidian", "Exa AI", "Qdrant"],
   },
 ];
 
@@ -251,37 +251,34 @@ export function SectionLabel({ num, text }) {
   );
 }
 
-function SkillPill({ name, delay = 0 }) {
+function SkillPill({ name, delay = 0, muted = false }) {
   const COLORS = useColors();
   return (
     <div
       style={{
         display: "inline-flex",
         alignItems: "center",
-        padding: "9px 18px",
+        padding: "7px 14px",
         borderRadius: 999,
-        background: COLORS.chipBg,
+        background: "transparent",
         border: `1px solid ${COLORS.chipBorder}`,
-        color: COLORS.textSecondary,
+        color: muted ? COLORS.textMuted : COLORS.textSecondary,
         fontFamily: "Inter, sans-serif",
         fontSize: 13,
         fontWeight: 500,
         letterSpacing: "0.01em",
-        transition: "all 0.2s cubic-bezier(0.16,1,0.3,1)",
+        transition: "all 0.2s ease",
         cursor: "default",
-        animation: `fadeUp 0.45s cubic-bezier(0.16,1,0.3,1) ${delay}ms both`,
+        animation: `fadeUp 0.4s cubic-bezier(0.16,1,0.3,1) ${delay}ms both`,
+        opacity: muted ? 0.8 : 1,
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.background = COLORS.accentSoft;
         e.currentTarget.style.borderColor = COLORS.accentBorder;
-        e.currentTarget.style.color = COLORS.textPrimary;
-        e.currentTarget.style.transform = "translateY(-2px)";
+        e.currentTarget.style.color = muted ? COLORS.textSecondary : COLORS.textPrimary;
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.background = COLORS.chipBg;
         e.currentTarget.style.borderColor = COLORS.chipBorder;
-        e.currentTarget.style.color = COLORS.textSecondary;
-        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.color = muted ? COLORS.textMuted : COLORS.textSecondary;
       }}
     >
       {name}
@@ -291,80 +288,83 @@ function SkillPill({ name, delay = 0 }) {
 
 function Hero() {
   const COLORS = useColors();
-  const prefersReduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   return (
     <section id="hero" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "88px clamp(24px, 6vw, 96px) 80px", position: "relative", overflow: "hidden" }}>
 
-      {/* Starfield — dark mode only */}
-      {COLORS.isDark && (
-        <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
-          {[
-            [9,14],[22,38],[38,8],[51,62],[67,19],[79,47],[88,77],[14,72],[32,52],[58,32],[84,12],
-            [5,90],[46,85],[73,5],[95,55],[18,25],[42,70],[63,88],[76,34],[91,20],[28,44],[54,7],[81,63],[12,50],[37,78],
-          ].map(([x, y], i) => (
-            <div key={i} style={{ position: "absolute", left: `${x}%`, top: `${y}%`, width: i % 5 === 0 ? 2 : 1, height: i % 5 === 0 ? 2 : 1, borderRadius: "50%", background: i % 7 === 0 ? "rgba(232,162,23,0.55)" : "rgba(255,255,255,0.35)", animation: `twinkle ${2 + (i % 3)}s ease-in-out ${(i * 0.3) % 2}s infinite` }} />
-          ))}
-        </div>
-      )}
+      {/* Subtle nautical texture */}
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: COLORS.isDark ? 0.14 : 0.09 }}>
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="waves" width="200" height="48" patternUnits="userSpaceOnUse">
+              <path d="M0 24 Q50 6 100 24 T200 24 L200 48 L0 48 Z" fill="none" stroke={COLORS.accentBorder} strokeWidth="0.4" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#waves)" />
+        </svg>
+      </div>
 
-      {/* Ambient ocean glow */}
-      <div style={{ position: "absolute", bottom: -60, left: "50%", transform: "translateX(-50%)", width: 700, height: 320, background: `radial-gradient(ellipse, ${COLORS.isDark ? "rgba(6,60,100,0.2)" : "rgba(196,125,14,0.05)"} 0%, transparent 72%)`, pointerEvents: "none" }} />
+      {/* Ambient glow */}
+      <div style={{ position: "absolute", top: "-18%", right: "-12%", width: 560, height: 560, background: `radial-gradient(circle, ${COLORS.isDark ? "rgba(245,158,11,0.09)" : "rgba(180,83,9,0.07)"} 0%, transparent 72%)`, pointerEvents: "none" }} />
+      <div style={{ position: "absolute", bottom: "-32%", left: "-18%", width: 640, height: 640, background: `radial-gradient(circle, ${COLORS.isDark ? "rgba(34,211,238,0.07)" : "rgba(180,83,9,0.05)"} 0%, transparent 74%)`, pointerEvents: "none" }} />
 
       <div style={{ maxWidth: 880, width: "100%", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", position: "relative", zIndex: 1 }}>
 
         {/* Profile photo */}
-        <div className="op-avatar" style={{ width: 150, height: 150, borderRadius: "50%", overflow: "hidden", marginBottom: 24, border: `1px solid ${COLORS.accentBorder}`, boxShadow: `0 0 0 10px ${COLORS.accent}0F, 0 30px 60px ${COLORS.accent}14`, flexShrink: 0, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.05s both" }}>
-          <img src="/pic.jpeg" alt="Carl Joshua Coloma" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 15%" }} />
+        <div style={{ position: "relative", marginBottom: 22, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.05s both" }}>
+          <div className="op-avatar" style={{ width: 132, height: 132, borderRadius: "50%", overflow: "hidden", border: `1px solid ${COLORS.accentBorder}`, boxShadow: COLORS.isDark ? "0 40px 80px rgba(245,158,11,0.14)" : "0 40px 80px rgba(180,83,9,0.12)", flexShrink: 0 }}>
+            <img src="/pic.jpeg" alt="Carl Joshua Coloma" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 15%" }} />
+          </div>
+          <div style={{ position: "absolute", bottom: 6, right: -4, width: 28, height: 28, borderRadius: "50%", background: COLORS.surface, border: `1px solid ${COLORS.accentBorder}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={COLORS.accent} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" opacity="0.8">
+              <path d="M4 15c2-5 6-7 8-7s6 2 8 7" />
+              <ellipse cx="12" cy="16" rx="8" ry="2.5" />
+              <path d="M7 14.5v2M10 14v2.5M14 14v2.5M17 14.5v2" />
+            </svg>
+          </div>
         </div>
 
         {/* Status badge */}
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 16px", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 999, background: COLORS.accentSoft, marginBottom: 26, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both" }}>
-          <div style={{ width: 7, height: 7, borderRadius: "50%", background: COLORS.accent, boxShadow: `0 0 8px ${COLORS.accent}E6`, flexShrink: 0, animation: "blink 1.4s step-end infinite" }} />
-          <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase" }}>Junior AI Engineer</span>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 999, background: COLORS.accentSoft, marginBottom: 24, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both", position: "relative" }}>
+          <span style={{ width: 6, height: 6, borderRadius: "50%", background: COLORS.accent, boxShadow: `0 0 0 6px ${COLORS.accentSoft}` }} />
+          <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>Junior AI Engineer</span>
         </div>
 
         {/* Name */}
-        <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(38px, 7vw, 72px)", lineHeight: 0.95, letterSpacing: "-0.04em", color: COLORS.textPrimary, marginBottom: 18, fontWeight: 700, textTransform: "uppercase", animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s both" }}>
-          Carl Joshua<br /><span style={{ color: COLORS.accent }}>Coloma</span>
+        <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(42px, 8vw, 84px)", lineHeight: 0.98, letterSpacing: "-0.05em", color: COLORS.textPrimary, marginBottom: 16, fontWeight: 700, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s both" }}>
+          Carl Joshua Coloma
         </h1>
 
         {/* Tagline */}
-        <p style={{ maxWidth: 680, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: "clamp(16px, 2vw, 19px)", lineHeight: 1.8, marginBottom: 40, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.32s both" }}>
-          A Computer Science graduate who builds <span style={{ color: COLORS.textPrimary }}>AI agent workflows and automations in Python</span>. Open to junior AI engineering roles.
+        <p style={{ maxWidth: 720, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: "clamp(16px, 2vw, 18px)", lineHeight: 1.9, marginBottom: 36, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.32s both" }}>
+          AI Engineer focused on building reliable <span style={{ color: COLORS.textPrimary }}>agentic workflows, RAG systems, and production-ready ML</span> with Python.
         </p>
 
         {/* CTA buttons */}
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginBottom: 16, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.44s both" }}>
           <a href="#projects"
-            style={{ padding: "13px 28px", borderRadius: 8, background: COLORS.accent, color: "#1a0800", textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 700, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
-            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = `0 8px 28px ${COLORS.accent}66`; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
-            View my work
+            style={{ padding: "12px 26px", borderRadius: 10, background: COLORS.accent, color: "#0b1026", textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 600, transition: "all 0.2s ease", boxShadow: COLORS.isDark ? "0 10px 40px rgba(245,158,11,0.18)" : "0 10px 40px rgba(180,83,9,0.16)" }}
+            onMouseEnter={e => { e.currentTarget.style.filter = "brightness(1.05)"; }}
+            onMouseLeave={e => { e.currentTarget.style.filter = "brightness(1)"; }}>
+            View selected work
           </a>
           <a href="#contact"
-            style={{ padding: "13px 28px", borderRadius: 8, border: `1px solid ${COLORS.outlineBorder}`, color: COLORS.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 500, background: COLORS.outlineBg, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.textPrimary; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textSecondary; }}>
-            Contact
+            style={{ padding: "12px 26px", borderRadius: 10, border: `1px solid ${COLORS.outlineBorder}`, color: COLORS.textPrimary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 500, background: "transparent", transition: "all 0.2s ease" }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; }}>
+            Get in touch
           </a>
         </div>
 
         <a href="/cv-coloma.pdf" download="cv-coloma.pdf"
           style={{ color: COLORS.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, marginBottom: 40, transition: "color 0.2s ease", animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.5s both" }}
-          onMouseEnter={e => { e.currentTarget.style.color = COLORS.accent; }}
+          onMouseEnter={e => { e.currentTarget.style.color = COLORS.textPrimary; }}
           onMouseLeave={e => { e.currentTarget.style.color = COLORS.textMuted; }}>
-          Download CV ↓
+          Download resume →
         </a>
       </div>
 
-      {/* Wave divider */}
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, overflow: "hidden", lineHeight: 0, pointerEvents: "none" }}>
-        <svg viewBox="0 0 1440 64" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block", width: "100%", height: 64 }}>
-          <path d="M0 32 C180 56, 360 8, 540 32 C720 56, 900 8, 1080 32 C1260 56, 1380 20, 1440 32 L1440 64 L0 64 Z" fill={COLORS.isDark ? "rgba(12,24,41,0.55)" : "rgba(255,248,240,0.55)"} />
-          <path d="M0 40 C200 64, 400 16, 600 40 C800 64, 1000 16, 1200 40 C1320 52, 1400 36, 1440 40 L1440 64 L0 64 Z" fill={COLORS.isDark ? "rgba(6,13,26,0.4)" : "rgba(253,248,240,0.5)"} />
-        </svg>
-      </div>
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg, transparent, ${COLORS.border}, transparent)` }} />
     </section>
   );
 }
@@ -426,22 +426,24 @@ function StackSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
   return (
-    <section id="stack" ref={ref} style={{ padding: "80px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
-      <SectionLabel num="02" text="Skills" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 14, fontWeight: 700 }}>Technical Skills</h2>
-      <p style={{ color: COLORS.textSecondary, maxWidth: 620, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "left", margin: "0 0 36px 0" }}>
-        Tools and technologies I use to build and ship AI-powered systems.
-      </p>
-      <div style={{ display: "flex", flexDirection: "column", gap: 36 }}>
+    <section id="stack" ref={ref} style={{ padding: "88px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 40 }}>
+        <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase" }}>Skills</span>
+        <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(32px, 5vw, 52px)", color: COLORS.textPrimary, fontWeight: 700, letterSpacing: "-0.03em" }}>Technical Skills</h2>
+        <p style={{ color: COLORS.textSecondary, maxWidth: 640, lineHeight: 1.9, fontFamily: "Inter, sans-serif" }}>
+          A focused toolkit for building agentic AI systems, retrieval pipelines, and reliable backend services.
+        </p>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: 18 }}>
         {SKILL_GROUPS.map((group, gi) => (
-          <div key={group.label}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
-              <span style={{ color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 15, fontWeight: 600 }}>{group.label}</span>
-              <div style={{ flex: 1, height: 1, background: COLORS.stripBorder }} />
+          <div key={group.label} style={{ gridColumn: "span 6", border: `1px solid ${COLORS.border}`, borderRadius: 14, background: COLORS.surface, padding: "26px 28px", display: "flex", flexDirection: "column", gap: 16 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <span style={{ color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, fontWeight: 600 }}>{group.label}</span>
+              <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase" }}>0{gi + 1}</span>
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 9 }}>
               {group.skills.map((skill, si) => (
-                <SkillPill key={skill} name={skill} delay={(gi * 4 + si) * 40} />
+                <SkillPill key={skill} name={skill} delay={(gi * 4 + si) * 35} muted={group.label.includes("Learning")} />
               ))}
             </div>
           </div>
@@ -456,48 +458,40 @@ const DOT_THRESHOLDS = EXPERIENCE.map((_, i) => 0.08 + i * (0.66 / Math.max(EXPE
 function ExperienceSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
-  const containerRef = useRef(null);
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const onScroll = () => {
-      if (!containerRef.current) return;
-      const { top, height } = containerRef.current.getBoundingClientRect();
-      const p = Math.min(1, Math.max(0, (window.innerHeight - top) / (height + window.innerHeight)));
-      setProgress(p);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   return (
-    <section id="experience" ref={ref} style={{ padding: "80px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
-      <SectionLabel num="03" text="Experience" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 40, fontWeight: 700 }}>Experience</h2>
-      <div ref={containerRef} style={{ position: "relative", paddingLeft: 36, display: "flex", flexDirection: "column", gap: 28 }}>
-        <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 1, background: `linear-gradient(to bottom, ${COLORS.accent}B3 0%, ${COLORS.accent}0A 100%)`, transformOrigin: "top center", transform: `scaleY(${progress})` }} />
+    <section id="experience" ref={ref} style={{ padding: "88px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 40 }}>
+        <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase" }}>Experience</span>
+        <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(32px, 5vw, 52px)", color: COLORS.textPrimary, fontWeight: 700, letterSpacing: "-0.03em" }}>Experience</h2>
+        <p style={{ color: COLORS.textSecondary, maxWidth: 640, lineHeight: 1.9, fontFamily: "Inter, sans-serif" }}>
+          Hands-on experience building and evaluating AI systems in production-focused environments.
+        </p>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", borderTop: `1px solid ${COLORS.border}` }}>
         {EXPERIENCE.map((exp, i) => (
-          <div key={i} style={{ position: "relative", animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 120}ms both` : "none" }}>
-            <div style={{ width: 10, height: 10, borderRadius: "50%", background: COLORS.accent, position: "absolute", left: -41, top: 16, boxShadow: progress >= DOT_THRESHOLDS[i] ? `0 0 12px ${COLORS.accent}99` : "none", opacity: progress >= DOT_THRESHOLDS[i] ? 1 : 0, transform: progress >= DOT_THRESHOLDS[i] ? "scale(1)" : "scale(0)", transition: "opacity 0.3s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1)" }} />
-            <div style={{ border: `1px solid ${COLORS.border}`, borderRadius: 16, padding: "26px 28px", background: COLORS.surface }}>
-              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 18 }}>
-                <div>
-                  <h3 style={{ color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 21, fontWeight: 600, marginBottom: 4 }}>{exp.role}</h3>
-                  <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13 }}>{exp.company}</p>
-                </div>
-                <span style={{ color: COLORS.accent, fontFamily: "Inter, sans-serif", fontSize: 12, fontWeight: 500, background: COLORS.accentSoft, border: `1px solid ${COLORS.accentBorder}`, borderRadius: 999, padding: "4px 14px", whiteSpace: "nowrap", flexShrink: 0 }}>{exp.period}</span>
+          <article key={i} style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 28, padding: "30px 0", borderBottom: `1px solid ${COLORS.border}`, animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 90}ms both` : "none" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 12 }}>{exp.period}</span>
+              <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13 }}>{exp.company}</span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <div>
+                <h3 style={{ color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 20, fontWeight: 600, marginBottom: 6 }}>{exp.role}</h3>
+                <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 14, lineHeight: 1.9 }}>
+                  Focused on shipping reliable AI features with an emphasis on evaluation, retrieval, and integration.
+                </p>
               </div>
-              <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 11 }}>
+              <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
                 {exp.points.map((point) => (
-                  <li key={point} style={{ display: "flex", gap: 12, color: COLORS.textSecondary, lineHeight: 1.75, fontFamily: "Inter, sans-serif", fontSize: 14, alignItems: "flex-start" }}>
-                    <span style={{ color: COLORS.accent, flexShrink: 0, lineHeight: "1.75", opacity: 0.8 }}>·</span>
-                    {point}
+                  <li key={point} style={{ display: "flex", gap: 12, color: COLORS.textSecondary, lineHeight: 1.9, fontFamily: "Inter, sans-serif", fontSize: 14, alignItems: "flex-start" }}>
+                    <span style={{ color: COLORS.accent, flexShrink: 0, marginTop: 9, width: 4, height: 4, borderRadius: "50%", background: COLORS.accent }} />
+                    <span style={{ flex: 1 }}>{point}</span>
                   </li>
                 ))}
               </ul>
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </section>
@@ -509,82 +503,97 @@ function ProjectsSection() {
   const [ref, visible] = useInView();
   const featured = PROJECTS.find((p) => p.featured);
   const secondary = PROJECTS.filter((p) => !p.featured);
+
   return (
-    <section id="projects" ref={ref} style={{ padding: "80px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
-      <SectionLabel num="04" text="Projects" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 14, textAlign: "left", fontWeight: 700 }}>Projects</h2>
-      <p style={{ color: COLORS.textSecondary, maxWidth: 600, lineHeight: 1.75, fontFamily: "Inter, sans-serif", textAlign: "left", margin: "0 0 28px 0" }}>
-        Applied AI systems focused on real-world deployment, computer vision, NLP, and intelligent workflows.
-      </p>
+    <section id="projects" ref={ref} style={{ padding: "88px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 40 }}>
+        <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase" }}>Selected Work</span>
+        <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(32px, 5vw, 52px)", color: COLORS.textPrimary, fontWeight: 700, letterSpacing: "-0.03em" }}>Projects</h2>
+        <p style={{ color: COLORS.textSecondary, maxWidth: 640, lineHeight: 1.9, fontFamily: "Inter, sans-serif" }}>
+          Applied AI systems focused on computer vision, NLP, and agentic workflows with an emphasis on usability and deployment.
+        </p>
+      </div>
 
-      <a href="#demo" style={{ display: "inline-flex", alignItems: "center", gap: 8, color: COLORS.accent, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 600, marginBottom: 40 }}>
-        Try a live mini RAG demo ↓
-      </a>
-
-      <a href={featured.link} target="_blank" rel="noopener noreferrer"
-        style={{ textDecoration: "none", color: "inherit", display: "block", borderRadius: 18, overflow: "hidden", background: COLORS.surface, border: `1px solid ${COLORS.border}`, marginBottom: 16, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)" }}
-        onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = `0 16px 48px ${COLORS.accent}1A`; }}
-        onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
-        {featured.img && (
-          <div style={{ position: "relative", height: 220, overflow: "hidden" }}>
-            <img src={featured.img} alt={featured.title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
-            <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, transparent 30%, ${COLORS.surface} 100%)` }} />
-            <div style={{ position: "absolute", top: 16, right: 16 }}>
-              <span style={{ padding: "4px 12px", background: `${COLORS.accent}26`, border: `1px solid ${COLORS.accentBorder}`, borderRadius: 999, color: COLORS.accent, fontFamily: "Inter, sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.06em", backdropFilter: "blur(8px)" }}>Best Thesis Award</span>
-            </div>
-          </div>
-        )}
-        <div style={{ padding: "24px 28px 28px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 24 }}>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ color: COLORS.accent, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 8 }}>Featured Project</p>
-              <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(22px, 3vw, 30px)", fontWeight: 700, color: COLORS.textPrimary, marginBottom: 10, letterSpacing: "-0.02em", textTransform: "uppercase" }}>{featured.title}</h3>
-              <p style={{ color: COLORS.textSecondary, lineHeight: 1.65, fontFamily: "Inter, sans-serif", fontSize: 14, marginBottom: 14 }}>{featured.desc}</p>
-              <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12 }}>{featured.metric}</p>
-            </div>
-            <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13, flexShrink: 0 }}>↗ GitHub</span>
-          </div>
-        </div>
-      </a>
-
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 16 }}>
-        {secondary.map((project, i) => {
-          const card = (
-            <div style={{ display: "flex", flexDirection: "column", flex: 1, padding: "18px 20px 20px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                <span style={{ color: project.accent, fontFamily: "Inter, sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>{project.type}</span>
-                <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11 }}>{project.link ? "↗ GitHub" : "In Development"}</span>
+      {featured && (
+        <article style={{ border: `1px solid ${COLORS.border}`, borderRadius: 16, background: COLORS.surface, overflow: "hidden", marginBottom: 18 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "0.9fr 1.1fr", gap: 0 }}>
+            {featured.img && (
+              <div style={{ position: "relative", minHeight: 260 }}>
+                <img src={featured.img} alt={featured.title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
+                <div style={{ position: "absolute", top: 16, left: 16 }}>
+                  <span style={{ display: "inline-flex", alignItems: "center", padding: "4px 10px", borderRadius: 999, border: `1px solid ${COLORS.accentBorder}`, background: COLORS.accentSoft, color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase" }}>Overall Best Thesis</span>
+                </div>
               </div>
-              <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 17, fontWeight: 600, color: COLORS.textPrimary, marginBottom: 8, textTransform: "uppercase" }}>{project.title}</h3>
-              <p style={{ color: COLORS.textSecondary, lineHeight: 1.6, fontFamily: "Inter, sans-serif", fontSize: 13, flexGrow: 1, marginBottom: 10 }}>{project.desc}</p>
-              <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12 }}>{project.metric}</p>
+            )}
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 20, padding: "28px 32px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>{featured.type}</span>
+                  {featured.link && (
+                    <a href={featured.link} target="_blank" rel="noopener noreferrer" style={{ color: COLORS.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13 }}>
+                      View on GitHub →
+                    </a>
+                  )}
+                </div>
+                <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(22px, 3vw, 30px)", color: COLORS.textPrimary, fontWeight: 700, letterSpacing: "-0.03em" }}>{featured.title}</h3>
+                <p style={{ color: COLORS.textSecondary, lineHeight: 1.85, fontFamily: "Inter, sans-serif", fontSize: 14 }}>{featured.desc}</p>
+                <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13 }}>{featured.metric}</p>
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {featured.tags.map((tag) => (
+                  <span key={tag} style={{ padding: "6px 10px", borderRadius: 999, border: `1px solid ${COLORS.chipBorder}`, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 12 }}>{tag}</span>
+                ))}
+              </div>
             </div>
-          );
-          const style = { textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", borderRadius: 16, overflow: "hidden", background: COLORS.surface, border: `1px solid ${COLORS.border}`, transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)", animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 100}ms both` : "none" };
-          const onEnter = e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = `0 12px 32px ${COLORS.accent}1A`; };
-          const onLeave = e => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; };
-          return project.link ? (
-            <a key={project.title} href={project.link} target="_blank" rel="noopener noreferrer" style={style} onMouseEnter={onEnter} onMouseLeave={onLeave}>
+          </div>
+        </article>
+      )}
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 18 }}>
+        {secondary.map((project, i) => {
+          const content = (
+            <article style={{ height: "100%", display: "flex", flexDirection: "column", border: `1px solid ${COLORS.border}`, borderRadius: 16, background: COLORS.surface, overflow: "hidden", transition: "border-color 0.2s ease", animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 80}ms both` : "none" }}>
               {project.img && (
-                <div style={{ position: "relative", height: 150, overflow: "hidden", flexShrink: 0 }}>
-                  <img src={project.img} alt={project.title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
-                  <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, transparent 35%, ${COLORS.surface} 100%)` }} />
+                <div style={{ position: "relative", height: 190 }}>
+                  <img src={project.img} alt={project.title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
                 </div>
               )}
-              {card}
-            </a>
-          ) : (
-            <div key={project.title} style={{ ...style, cursor: "default" }} onMouseEnter={onEnter} onMouseLeave={onLeave}>
-              {project.img && (
-                <div style={{ position: "relative", height: 150, overflow: "hidden", flexShrink: 0 }}>
-                  <img src={project.img} alt={project.title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
-                  <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, transparent 35%, ${COLORS.surface} 100%)` }} />
+              <div style={{ display: "flex", flexDirection: "column", gap: 14, padding: "26px 28px" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>{project.type}</span>
+                  {project.link ? (
+                    <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13 }}>GitHub →</span>
+                  ) : (
+                    <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13 }}>In development</span>
+                  )}
                 </div>
-              )}
-              {card}
-            </div>
+                <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 20, color: COLORS.textPrimary, fontWeight: 600 }}>{project.title}</h3>
+                <p style={{ color: COLORS.textSecondary, lineHeight: 1.9, fontFamily: "Inter, sans-serif", fontSize: 14 }}>{project.desc}</p>
+                <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13 }}>{project.metric}</p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: "auto" }}>
+                  {project.tags.map((tag) => (
+                    <span key={tag} style={{ padding: "6px 10px", borderRadius: 999, border: `1px solid ${COLORS.chipBorder}`, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 12 }}>{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </article>
           );
+
+          if (project.link) {
+            return (
+              <a key={project.title} href={project.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }} onMouseEnter={(e) => { e.currentTarget.firstChild.style.borderColor = COLORS.accentBorder; }} onMouseLeave={(e) => { e.currentTarget.firstChild.style.borderColor = COLORS.border; }}>
+                {content}
+              </a>
+            );
+          }
+          return <div key={project.title}>{content}</div>;
         })}
+      </div>
+
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 28 }}>
+        <a href="#demo" style={{ display: "inline-flex", alignItems: "center", gap: 8, color: COLORS.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13 }}>
+          Try the mini RAG demo →
+        </a>
       </div>
     </section>
   );
@@ -602,32 +611,38 @@ function ContactSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
   return (
-    <section id="contact" ref={ref} style={{ padding: "80px clamp(24px, 6vw, 96px) 70px", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)", textAlign: "center" }}>
-      <SectionLabel num="07" text="Contact" />
-      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(28px, 4.5vw, 44px)", color: COLORS.textPrimary, marginBottom: 14, fontWeight: 700 }}>Let's build something intelligent.</h2>
-      <p style={{ color: COLORS.textSecondary, maxWidth: 520, lineHeight: 1.75, fontFamily: "Inter, sans-serif", margin: "0 auto 48px" }}>
-        Open to AI engineering opportunities, ML collaborations, and building production-ready intelligent systems.
-      </p>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-        <a href="mailto:carljoshuamcoloma@gmail.com"
-          style={{ textDecoration: "none", color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 16, fontWeight: 700, border: `1px solid ${COLORS.chipBorder}`, borderRadius: 10, padding: "12px 18px", background: COLORS.surface, display: "inline-block", transition: "all 0.18s ease" }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accent; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = `0 12px 36px ${COLORS.accent}1A`; }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
-          Contact Me
-        </a>
-        <div style={{ display: "flex", gap: 18 }}>
-          <a href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
-            style={{ border: `1px solid ${COLORS.chipBorder}`, borderRadius: 12, padding: 10, display: "flex", alignItems: "center", justifyContent: "center", minWidth: 64, minHeight: 64, color: COLORS.textPrimary, textDecoration: "none", background: COLORS.surface, transition: "all 0.18s ease" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accent; e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = `0 10px 30px ${COLORS.accent}1A`; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.1 3.29 9.42 7.86 10.95.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.53-1.36-1.3-1.72-1.3-1.72-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.75.41-1.27.74-1.56-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11.02 11.02 0 0 1 2.9-.39c.98 0 1.97.13 2.9.39 2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.77.12 3.06.74.81 1.18 1.84 1.18 3.1 0 4.43-2.71 5.41-5.29 5.69.42.36.8 1.08.8 2.18 0 1.57-.01 2.84-.01 3.23 0 .31.21.68.8.56C20.71 21.42 24 17.1 24 12c0-6.27-5.23-11.5-12-11.5z" fill="currentColor" /></svg>
+    <section id="contact" ref={ref} style={{ padding: "88px clamp(24px, 6vw, 96px) 80px", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: 24, alignItems: "center" }}>
+        <div style={{ gridColumn: "span 7", display: "flex", flexDirection: "column", gap: 16 }}>
+          <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase" }}>Contact</span>
+          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(34px, 6vw, 64px)", color: COLORS.textPrimary, fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 0.98 }}>
+            Let's build something reliable.
+          </h2>
+          <p style={{ color: COLORS.textSecondary, maxWidth: 560, lineHeight: 1.9, fontFamily: "Inter, sans-serif", fontSize: 16 }}>
+            Open to AI engineering opportunities, agentic system collaborations, and production ML work.
+          </p>
+        </div>
+        <div style={{ gridColumn: "span 5", display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 12 }}>
+          <a href="mailto:carljoshuamcoloma@gmail.com"
+            style={{ textDecoration: "none", color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 15, fontWeight: 600, border: `1px solid ${COLORS.outlineBorder}`, borderRadius: 10, padding: "12px 20px", background: "transparent", transition: "all 0.2s ease" }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; }}>
+            carljoshuamcoloma@gmail.com
           </a>
-          <a href="https://linkedin.com/in/carl-joshua-coloma" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
-            style={{ border: `1px solid ${COLORS.chipBorder}`, borderRadius: 12, padding: 10, display: "flex", alignItems: "center", justifyContent: "center", minWidth: 64, minHeight: 64, color: COLORS.textPrimary, textDecoration: "none", background: COLORS.surface, transition: "all 0.18s ease" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accent; e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = `0 10px 30px ${COLORS.accent}1A`; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.1 1 2.5 1 4.98 2.12 4.98 3.5zM0 8h5V24H0V8zM8 8h4.8v2.2h.1c.7-1.3 2.4-2.6 4.9-2.6C24 7.6 24 12 24 16.6V24h-5v-7.2c0-1.8-.1-4.2-2.6-4.2-2.6 0-3 2-3 4.1V24H8V8z" fill="currentColor" /></svg>
-          </a>
+          <div style={{ display: "flex", gap: 10 }}>
+            <a href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
+              style={{ border: `1px solid ${COLORS.outlineBorder}`, borderRadius: 999, padding: "9px 16px", color: COLORS.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, transition: "all 0.2s ease" }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.textPrimary; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textSecondary; }}>
+              GitHub
+            </a>
+            <a href="https://linkedin.com/in/carl-joshua-coloma" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+              style={{ border: `1px solid ${COLORS.outlineBorder}`, borderRadius: 999, padding: "9px 16px", color: COLORS.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, transition: "all 0.2s ease" }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.textPrimary; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textSecondary; }}>
+              LinkedIn
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -768,60 +783,54 @@ export default function OnePiece() {
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; scroll-padding-top: 88px; }
         #root { width: 100% !important; max-width: 100% !important; text-align: left; }
-        body { overflow-x: hidden; transition: background 0.3s ease, color 0.3s ease; }
+        body { overflow-x: hidden; transition: background 0.3s ease, color 0.3s ease; font-kerning: normal; text-rendering: optimizeLegibility; }
         button { font-family: inherit; }
         a:focus-visible, button:focus-visible { outline: 2px solid ${theme.accent}; outline-offset: 3px; }
-        ::-webkit-scrollbar { width: 7px; }
-        ::-webkit-scrollbar-thumb { background: ${theme.accent}80; border-radius: 4px; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: ${theme.border}; border-radius: 4px; }
         @media (prefers-reduced-motion: reduce) {
           *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
           html { scroll-behavior: auto; }
         }
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-        @keyframes fadeUp { from { opacity:0; transform:translateY(20px) } to { opacity:1; transform:translateY(0) } }
-        @keyframes twinkle { 0%,100%{opacity:0.25} 50%{opacity:0.85} }
-        .op-nav-links { display: flex; gap: 28px; align-items: center; }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:translateY(0) } }
+        .op-nav-links { display: flex; gap: 22px; align-items: center; }
         .op-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
-        main > section:not(#hero), footer { max-width: 1200px; margin-left: auto; margin-right: auto; }
+        main > section:not(#hero), footer { max-width: 1120px; margin-left: auto; margin-right: auto; }
         main > section { scroll-margin-top: 88px; }
         @media (max-width: 1080px) {
           .op-nav-links { display: none !important; }
           .op-hamburger { display: flex !important; align-items: center; justify-content: center; }
-        }
-        @media (max-width: 900px) {
-          #projects > div:last-child { grid-template-columns: repeat(2, 1fr) !important; }
+          #stack > div:last-child { grid-template-columns: 1fr !important; }
+          #experience article { grid-template-columns: 1fr !important; gap: 14px !important; }
+          #projects article > div { grid-template-columns: 1fr !important; }
+          #projects > div:nth-of-type(2) { grid-template-columns: 1fr !important; }
+          #contact > div { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 768px) {
           [data-cols] { flex-direction: column !important; }
           [data-cols] > div:last-child { flex: 0 0 auto !important; width: 100%; }
         }
         @media (max-width: 640px) {
-          main > section:not(#hero) { padding-top: 56px !important; padding-bottom: 56px !important; }
-          #projects > div:last-child { grid-template-columns: 1fr !important; }
-          #credentials > div { grid-template-columns: 1fr !important; }
+          main > section:not(#hero) { padding-top: 64px !important; padding-bottom: 64px !important; }
         }
         @media (max-width: 480px) {
-          .op-avatar { width: 120px !important; height: 120px !important; }
-          .op-stats { flex-direction: column; }
-          .op-stats > div { border-right: none !important; border-bottom: 1px solid ${theme.stripBorder}; padding: 14px 12px !important; }
-          .op-stats > div:last-child { border-bottom: none; }
+          .op-avatar { width: 108px !important; height: 108px !important; }
         }
       `}</style>
 
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 68, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 clamp(24px, 6vw, 96px)", background: scrolled || menuOpen ? theme.navBg : "transparent", backdropFilter: scrolled || menuOpen ? "blur(20px)" : "none", borderBottom: scrolled || menuOpen ? `1px solid ${theme.border}` : "1px solid transparent", transition: "all 0.3s ease" }}>
-        <a href="#hero" style={{ color: theme.textPrimary, textDecoration: "none", fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 16 }}>
-          cjc<span style={{ color: theme.accent }}>.</span>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 clamp(24px, 6vw, 96px)", background: scrolled || menuOpen ? theme.navBg : "transparent", backdropFilter: scrolled || menuOpen ? "blur(18px)" : "none", borderBottom: scrolled || menuOpen ? `1px solid ${theme.border}` : "1px solid transparent", transition: "all 0.3s ease" }}>
+        <a href="#hero" style={{ color: theme.textPrimary, textDecoration: "none", fontFamily: "'JetBrains Mono', monospace", fontWeight: 600, fontSize: 14, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+          Carl Joshua Coloma
         </a>
 
         <div className="op-nav-links">
           <GlidingNavLinks links={NAV_LINKS} theme={theme} />
-          <a href="/blog.html" style={{ color: theme.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 600, paddingLeft: 8, borderLeft: `1px solid ${theme.stripBorder}`, marginLeft: 8 }}>Blog</a>
+          <a href="/blog.html" style={{ color: theme.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13 }}>Blog</a>
           <button onClick={toggleTheme} aria-label="Toggle theme"
-            style={{ display: "flex", alignItems: "center", gap: 6, padding: "6px 12px", borderRadius: 999, border: `1px solid ${theme.border}`, background: theme.chipBg, color: theme.textMuted, cursor: "pointer", fontSize: 12, fontFamily: "Inter, sans-serif", fontWeight: 500, transition: "all 0.2s", outline: "none" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = theme.accentBorder; e.currentTarget.style.color = theme.accent; }}
+            style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 34, height: 34, borderRadius: 999, border: `1px solid ${theme.border}`, background: "transparent", color: theme.textMuted, cursor: "pointer", transition: "all 0.2s", outline: "none" }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = theme.accentBorder; e.currentTarget.style.color = theme.textPrimary; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = theme.border; e.currentTarget.style.color = theme.textMuted; }}>
             {isDark ? <SunIcon /> : <MoonIcon />}
-            <span>{isDark ? "Light" : "Dark"}</span>
           </button>
         </div>
 
@@ -873,9 +882,16 @@ export default function OnePiece() {
         <ContactSection />
       </main>
 
-      <footer style={{ padding: "28px clamp(24px, 6vw, 96px)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, borderTop: `1px solid ${theme.border}` }}>
-        <span style={{ fontFamily: "Inter, sans-serif", fontSize: 13, color: theme.textMuted }}>© {new Date().getFullYear()} Carl Joshua Coloma · AI Engineer</span>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: theme.textMuted, opacity: 0.5 }}>cjc.</span>
+      <footer style={{ padding: "24px clamp(24px, 6vw, 96px)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, borderTop: `1px solid ${theme.border}` }}>
+        <span style={{ fontFamily: "Inter, sans-serif", fontSize: 13, color: theme.textMuted }}>© {new Date().getFullYear()} Carl Joshua Coloma</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.accent} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" opacity="0.6">
+            <path d="M4 15c2-5 6-7 8-7s6 2 8 7" />
+            <ellipse cx="12" cy="16" rx="8" ry="2.5" />
+            <path d="M7 14.5v2M10 14v2.5M14 14v2.5M17 14.5v2" />
+          </svg>
+          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: theme.textMuted, letterSpacing: "0.14em", textTransform: "uppercase" }}>AI Engineer</span>
+        </div>
       </footer>
 
       <BackToTop />

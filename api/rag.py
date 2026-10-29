@@ -10,7 +10,23 @@ from http.server import BaseHTTPRequestHandler
 
 STOP_WORDS = {
     "the", "and", "for", "are", "you", "your", "what",
-    "how", "does", "with", "about", "tell",
+    "how", "does", "with", "about", "tell", "this", "that",
+    "from", "have", "been", "into", "over", "more",
+}
+
+ALIASES = {
+    "sunny": ["sunnyai", "mentor"],
+    "roadmap": ["airoadmap"],
+    "resume": ["resumes", "analyzer", "ats"],
+    "summarizer": ["summarize", "summary", "bart", "t5"],
+    "powerlift": ["thesis", "biomechanics", "pose", "yolov8"],
+    "intern": ["internship", "internships"],
+    "flyrank": ["flyrankai"],
+    "sofi": ["sofiai"],
+    "lamina": ["laminastudios"],
+    "rag": ["retrieval", "retriever"],
+    "llm": ["llms", "language", "gpt"],
+    "skills": ["stack", "tech", "tools", "technologies"],
 }
 
 MOCK_DOCS = [
@@ -26,13 +42,22 @@ MOCK_DOCS = [
         ),
     },
     {
+        "id": "sunny-ai",
+        "title": "Sunny AI — RAG-Built Mentor",
+        "text": (
+            "Sunny AI is a guided platform for aspiring AI engineers built with React, "
+            "Python, FastAPI, LLMs, and RAG using LangChain. It acts as a mentor that "
+            "takes learners from zero to job-ready by teaching fundamentals, production "
+            "skills, and real-world AI engineering practices."
+        ),
+    },
+    {
         "id": "ai-roadmap",
         "title": "AI Engineering Roadmap — Learning Journal",
         "text": (
-            "A self-study curriculum documenting my path into AI engineering: tutorials "
-            "completed, core machine learning and LLM concepts learned, and small "
-            "exercises built along the way, tracked publicly from fundamentals through "
-            "applied projects."
+            "A self-study curriculum documenting the path into AI engineering with tutorials, "
+            "core machine learning and LLM concepts, hands-on exercises, and applied projects. "
+            "Covers Python, PyTorch, Transformers, RAG, evaluation, and building AI systems."
         ),
     },
     {
@@ -42,7 +67,7 @@ MOCK_DOCS = [
             "An NLP pipeline using spaCy named-entity recognition and transformer-based "
             "semantic matching to extract skills and experience from resumes, producing "
             "structured JSON for downstream ranking or ATS integration. Processes over "
-            "100 documents per minute."
+            "100 documents per minute and is built with Python and FastAPI."
         ),
     },
     {
@@ -50,8 +75,8 @@ MOCK_DOCS = [
         "title": "Document Summarizer",
         "text": (
             "An abstractive summarization system for multi-page PDFs using BART and T5 "
-            "models. Long documents are chunked to fit model context limits, then "
-            "section-level summaries are merged into a single coherent output."
+            "from Hugging Face. Long documents are chunked to fit model context limits, "
+            "then section-level summaries are merged into a single coherent, readable output."
         ),
     },
     {
@@ -69,9 +94,8 @@ MOCK_DOCS = [
         "title": "AI QA Intern — SoFi AI Tech Solutions",
         "text": (
             "Designed adversarial prompt test suites targeting hallucination, refusal, "
-            "and instruction-following failures in conversational AI chatbots, and "
-            "evaluated chatbot responses to track hallucination rates and response "
-            "quality at scale."
+            "and instruction-following failures in conversational AI chatbots, evaluated "
+            "responses at scale, and partnered with ML teams to reduce error rates."
         ),
     },
     {
@@ -79,28 +103,19 @@ MOCK_DOCS = [
         "title": "AI Engineer Intern — Lamina Studios",
         "text": (
             "Built real-time YOLOv8 object detection pipelines with OpenCV at "
-            "production-ready inference speeds, and trained XGBoost classification "
-            "models on time-series data to automate manual review workflows."
-        ),
-    },
-    {
-        "id": "dance-bawz",
-        "title": "Dance — BAWZ Crew",
-        "text": (
-            "Competed with the dance group BAWZ at an international competition in "
-            "Singapore in 2025, representing the Philippines and winning the Open "
-            "Division championship after months of rehearsal."
+            "production-ready inference speeds, trained XGBoost classification "
+            "models on time-series data, and automated model retraining workflows."
         ),
     },
     {
         "id": "skills-stack",
         "title": "Technical Skills & Stack",
         "text": (
-            "Works with Python, JavaScript, SQL, and C++, plus PyTorch, TensorFlow, "
-            "Scikit-learn, OpenCV, LangChain, Hugging Face Transformers, and "
-            "Retrieval-Augmented Generation. Builds with FastAPI, Flask, React, and "
-            "Streamlit, and uses Git, Docker, Jupyter, MySQL, VS Code, Kaggle, Claude "
-            "Code, and Qdrant."
+            "Core languages: Python and JavaScript. AI/ML: PyTorch, TensorFlow, Scikit-learn, "
+            "OpenCV, LangChain, Transformers, RAG, Prompt Engineering, LLM APIs, Agentic Workflows. "
+            "Data & ETL (Learning): SQL, Databricks, ETL, dbt, Airflow, Snowflake, PySpark. "
+            "Frameworks & Tools: FastAPI, Flask, React, Streamlit, RESTful APIs, Docker, Git, "
+            "VS Code, Claude Code, Hermes Agent, Obsidian, Exa AI, Qdrant."
         ),
     },
     {
@@ -120,22 +135,46 @@ def tokenize(text):
     return re.findall(r"\w+", text.lower())
 
 
+def expand_query(query_words):
+    expanded = set(query_words)
+    for qw in list(query_words):
+        for key, aliases in ALIASES.items():
+            if qw == key or qw in aliases:
+                expanded.add(key)
+                expanded.update(aliases)
+    return expanded
+
+
 def words_match(a, b):
     if a == b:
         return True
+    if len(a) < 3 or len(b) < 3:
+        return False
     min_shared_len = 4
-    return len(a) >= min_shared_len and len(b) >= min_shared_len and (a.startswith(b) or b.startswith(a))
+    if len(a) >= min_shared_len and len(b) >= min_shared_len and (a.startswith(b) or b.startswith(a)):
+        return True
+    return False
 
 
 def score_doc(query_words, doc):
+    expanded = expand_query(query_words)
     title_words = tokenize(doc["title"])
     text_words = tokenize(doc["text"])
+    all_words = set(title_words + text_words)
     score = 0
-    for qw in query_words:
-        if any(words_match(qw, tw) for tw in title_words):
-            score += 2
-        if any(words_match(qw, tw) for tw in text_words):
-            score += 1
+    for qw in expanded:
+        if qw in all_words:
+            if any(words_match(qw, tw) for tw in title_words):
+                score += 3
+            elif any(words_match(qw, tw) for tw in text_words):
+                score += 2
+            else:
+                score += 1
+        else:
+            if any(words_match(qw, tw) for tw in title_words):
+                score += 2
+            if any(words_match(qw, tw) for tw in text_words):
+                score += 1
     return score
 
 
@@ -143,7 +182,8 @@ def build_answer(top_docs):
     if not top_docs:
         return (
             "No relevant documents found in the mock knowledge base — try asking "
-            "about a project, an internship, or a skill."
+            "about a project (Powerlift, Sunny AI, Resume Analyzer, Document Summarizer), "
+            "an internship (FlyRank, SoFi, Lamina), or skills/tech stack."
         )
     lead, *rest = top_docs
     supporting = " and ".join(d["title"] for d in rest)

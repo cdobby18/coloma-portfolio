@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, createContext, useContext } from "react";
 import RagDemo from "./demo/RagDemo";
+import CardSwap from "./CardSwap";
 
 function BackToTop() {
   const COLORS = useColors();
@@ -110,31 +111,34 @@ const ThemeCtx = createContext(DARK);
 export const useColors = () => useContext(ThemeCtx);
 
 const NAV_LINKS = [
+  { label: "Home",       id: "hero"       },
   { label: "About",      id: "about"      },
-  { label: "Skills",     id: "stack"      },
   { label: "Experience", id: "experience" },
   { label: "Projects",   id: "projects"   },
+  { label: "Skills",     id: "stack"      },
   { label: "Contact",    id: "contact"    },
+  { label: "Blog",       id: "blog", href: "/blog.html" },
 ];
 
 const DI = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
 
 const SKILL_GROUPS = [
   {
-    label: "Languages",
-    skills: ["Python", "JavaScript"],
+    label: "Languages & Frameworks",
+    skills: ["Python", "JavaScript", "FastAPI", "Flask", "React", "Streamlit", "RESTful APIs"],
   },
   {
     label: "AI & ML",
-    skills: ["PyTorch", "TensorFlow", "Scikit-learn", "OpenCV", "LangChain", "Transformers", "RAG", "Prompt Engineering", "LLM APIs", "Agentic Workflows"],
+    skills: ["OpenCV", "LangChain", "RAG", "GenAI", "Agentic AI", "Prompt Engineering", "Automation", "LLM APIs", "PyTorch", "HuggingFace"],
   },
   {
-    label: "Data & ETL (Learning)",
-    skills: ["SQL", "Databricks", "ETL", "dbt", "Airflow", "Snowflake", "PySpark"],
+    label: "Data",
+    skills: ["SQL", "Databricks", "ETL", "dbt", "Airflow", "PySpark", "Pandas", "NumPy", "Snowflake", "Kafka", "Spark", "BigQuery"],
+    muted: true,
   },
   {
-    label: "Frameworks & Tools",
-    skills: ["FastAPI", "Flask", "React", "Streamlit", "RESTful APIs", "Docker", "Git", "VS Code", "Claude Code", "Hermes Agent", "Obsidian", "Exa AI", "Qdrant"],
+    label: "Developer Tools",
+    skills: ["Docker", "Git", "VS Code", "Claude Code", "Hermes Agent", "Obsidian", "Exa AI", "Qdrant", "PostgreSQL", "Jupyter"],
   },
 ];
 
@@ -175,56 +179,82 @@ const PROJECTS = [
   {
     title: "Powerlift: Precision Pose Estimation for Powerlifting Performance Metrics",
     type: "Computer Vision",
+    year: "2025",
+    status: "Best Thesis",
     desc: "AI biomechanics analyzer for powerlifting built with YOLOv8, Kalman Filtering, and SVM classification. Tracks joint positions, stabilizes motion across frames, and classifies squat, bench, and deadlift mechanics in real time — delivering automated lift assessment and performance feedback on mobile hardware.",
     metric: "Mobile Application · Overall Best Thesis",
     tags: ["Python", "YOLOv8", "Kalman Filtering", "SVM", "MoveNet"],
+    features: [
+      "Real-time motion tracking for barbell and body landmarks",
+      "Frame-stabilized posture analysis across lift phases",
+      "Automated classification for squat, bench, and deadlift form",
+      "Mobile-friendly inference optimized for practical evaluation"
+    ],
     accent: "#22d3ee",
     featured: true,
     img: "/Powerlift.webp",
     link: "https://github.com/cdobby18/Powerlift",
+    github: "https://github.com/cdobby18/Powerlift"
   },
     {
     title: "Sunny AI",
     type: "RAG-Built Mentor",
+    private: true,
+    year: "2026",
+    status: "Prototype",
     desc: "A guided platform for aspiring AI engineers starting from zero. No fluff, no shortcuts — RAG-powered mentorship that meets you at the bottom and builds you up through fundamentals, production skills, and real-world readiness.",
     metric: "React · Python · LLMs · RAG · LangChain",
     tags: ["React", "Python", "LLMs", "RAG", "FastAPI"],
+    features: [
+      "Conversational mentoring grounded in structured AI learning paths",
+      "Retrieval-backed explanations for fundamentals and projects",
+      "Production-style workflows for beginner-to-builder progression",
+      "Personalized guidance tuned around the learner's current stage"
+    ],
     accent: "#0ea5e9",
     img: "/sunny.png",
-  },
-    {
-    title: "AI Engineering Roadmap",
-    type: "Learning Journal",
-    desc: "A self-study curriculum documenting my path into AI engineering — tutorials completed, core ML/LLM concepts learned, and small exercises built along the way, tracked publicly from fundamentals through applied projects.",
-    metric: "Python · Self-Study · Documentation",
-    tags: ["Python", "Self-Study", "LLMs", "RAG", "Documentation"],
-    accent: "#a78bfa",
-    img: "/Python.webp",
-    link: "https://github.com/cdobby18/AI-Roadmap",
+    link: "#contact",
+    github: "#contact"
   },
   {
     title: "Resume Analyzer",
     type: "Natural Language Processing",
+    year: "2025",
+    status: "Pipeline",
     desc: "Resume parsing pipeline using spaCy NER and Transformer-based semantic matching to extract skills, experience, and role fit. Processes 100+ documents per minute with structured JSON output ready for downstream ranking or ATS integration.",
     metric: "Python · spaCy NER + Semantic Match",
     tags: ["NLP", "spaCy", "Transformers", "FastAPI"],
+    features: [
+      "Entity extraction for skills, roles, and experience markers",
+      "Semantic matching against target job descriptions",
+      "Structured output for ranking, filtering, and system pipelines",
+      "High-throughput processing for large candidate batches"
+    ],
     accent: "#38bdf8",
     img: "/Resume.webp",
     link: "https://github.com/cdobby18/resume_analyzer",
+    github: "https://github.com/cdobby18/resume_analyzer"
   },
   {
     title: "Document Summarizer",
     type: "Transformer Pipeline",
+    year: "2024",
+    status: "Research Build",
     desc: "Abstractive summarization system for multi-page PDFs using BART and T5. Handles long-document chunking strategies to stay within model context limits, then merges section-level summaries into a coherent output — outperforming extractive baselines on readability.",
     metric: "Python · NLP · BART",
     tags: ["BART", "T5", "HuggingFace", "PDF"],
+    features: [
+      "Chunk-aware processing for long-form multi-page documents",
+      "Abstractive summarization with section-level synthesis",
+      "Context-safe handling of extended inputs and token limits",
+      "Readable outputs suitable for document review and search support"
+    ],
     accent: "#34d399",
     img: "/Summarize.webp",
     link: "https://github.com/cdobby18/ai-summarizer",
+    github: "https://github.com/cdobby18/ai-summarizer"
   },
 ];
-
-const CERTIFICATIONS = [];
 
 function useInView(threshold = 0.12) {
   const ref = useRef(null);
@@ -258,27 +288,34 @@ function SkillPill({ name, delay = 0, muted = false }) {
       style={{
         display: "inline-flex",
         alignItems: "center",
-        padding: "7px 14px",
+        padding: "8px 14px",
         borderRadius: 999,
-        background: "transparent",
+        background: COLORS.chipBg,
         border: `1px solid ${COLORS.chipBorder}`,
         color: muted ? COLORS.textMuted : COLORS.textSecondary,
         fontFamily: "Inter, sans-serif",
         fontSize: 13,
         fontWeight: 500,
         letterSpacing: "0.01em",
-        transition: "all 0.2s ease",
+        transition: "all 0.25s ease",
         cursor: "default",
         animation: `fadeUp 0.4s cubic-bezier(0.16,1,0.3,1) ${delay}ms both`,
-        opacity: muted ? 0.8 : 1,
+        opacity: muted ? 0.85 : 1,
+        boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
       }}
       onMouseEnter={e => {
         e.currentTarget.style.borderColor = COLORS.accentBorder;
-        e.currentTarget.style.color = muted ? COLORS.textSecondary : COLORS.textPrimary;
+        e.currentTarget.style.background = COLORS.accentSoft;
+        e.currentTarget.style.color = COLORS.textPrimary;
+        e.currentTarget.style.transform = "translateY(-2px)";
+        e.currentTarget.style.boxShadow = `0 6px 16px ${COLORS.accent}22`;
       }}
       onMouseLeave={e => {
         e.currentTarget.style.borderColor = COLORS.chipBorder;
+        e.currentTarget.style.background = COLORS.chipBg;
         e.currentTarget.style.color = muted ? COLORS.textMuted : COLORS.textSecondary;
+        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.boxShadow = "0 1px 2px rgba(0,0,0,0.04)";
       }}
     >
       {name}
@@ -288,9 +325,155 @@ function SkillPill({ name, delay = 0, muted = false }) {
 
 function Hero() {
   const COLORS = useColors();
+  const [nameHover, setNameHover] = useState(false);
+  const heroNameRef = useRef(null);
+  const TYPE_LABELS = ["AI & Automation Engineer", "Software Engineer", "GenAI Engineer"];
+  const [typedLabel, setTypedLabel] = useState("");
+  const [typeIndex, setTypeIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = TYPE_LABELS[typeIndex];
+    let timeout;
+    if (!isDeleting && typedLabel === current) {
+      timeout = setTimeout(() => setIsDeleting(true), 1400);
+    } else if (isDeleting && typedLabel === "") {
+      setIsDeleting(false);
+      setTypeIndex((i) => (i + 1) % TYPE_LABELS.length);
+    } else {
+      const next = isDeleting ? current.slice(0, typedLabel.length - 1) : current.slice(0, typedLabel.length + 1);
+      timeout = setTimeout(() => setTypedLabel(next), isDeleting ? 45 : 90);
+    }
+    return () => clearTimeout(timeout);
+  }, [typedLabel, isDeleting, typeIndex]);
+
+  useEffect(() => {
+    const h1 = heroNameRef.current;
+    if (!h1) return;
+    const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/";
+    // split into letter spans if not already
+    if (!h1.querySelector(".ch")) {
+      Array.from(h1.childNodes).forEach((node) => {
+        if (node.nodeType === 3) {
+          const text = node.textContent || "";
+          const frag = document.createDocumentFragment();
+          for (let i = 0; i < text.length; i++) {
+            if (text[i] === " ") {
+              frag.appendChild(document.createTextNode(" "));
+            } else {
+              const c = document.createElement("span");
+              c.className = "ch";
+              c.dataset.final = text[i];
+              c.textContent = text[i];
+              frag.appendChild(c);
+            }
+          }
+          node.parentNode.replaceChild(frag, node);
+        }
+      });
+    }
+    const chars = Array.from(h1.querySelectorAll(".ch")).map((el) => ({
+      el,
+      x: 0,
+      y: 0,
+      hot: false,
+      until: 0,
+      next: 0,
+    }));
+    let px = -1e4;
+    let py = -1e4;
+    let inside = false;
+    let raf = 0;
+    let measured = 0;
+    let R = 80;
+
+    const measure = (now) => {
+      chars.forEach((c) => {
+        const r = c.el.getBoundingClientRect();
+        c.x = r.left + r.width / 2;
+        c.y = r.top + r.height / 2;
+        R = Math.max(48, r.height * 0.8);
+      });
+      measured = now;
+    };
+    const loop = (now) => {
+      let any = false;
+      if (inside && now - measured > 400) measure(now);
+      for (let i = 0; i < chars.length; i++) {
+        const c = chars[i];
+        if (inside) {
+          const dx = c.x - px;
+          const dy = c.y - py;
+          if (dx * dx + dy * dy < R * R) {
+            c.hot = true;
+            c.until = now + 140 + Math.random() * 260;
+          }
+        }
+        if (!c.hot) continue;
+        if (now >= c.until) {
+          c.hot = false;
+          c.el.textContent = c.el.dataset.final;
+          c.el.classList.remove("glyph");
+          continue;
+        }
+        any = true;
+        if (now >= c.next) {
+          c.next = now + 55 + Math.random() * 40;
+          c.el.textContent = GLYPHS.charAt(Math.random() * GLYPHS.length | 0);
+          c.el.classList.add("glyph");
+        }
+      }
+      raf = any || inside ? requestAnimationFrame(loop) : 0;
+    };
+    const kick = () => {
+      if (!raf) raf = requestAnimationFrame(loop);
+    };
+    const onEnter = (e) => {
+      if (e.pointerType === "touch") return;
+      inside = true;
+      measure(performance.now());
+      kick();
+    };
+    const onMove = (e) => {
+      if (e.pointerType === "touch") return;
+      if (!inside) {
+        inside = true;
+        measure(performance.now());
+      }
+      px = e.clientX;
+      py = e.clientY;
+      kick();
+    };
+    const onLeave = () => {
+      inside = false;
+      px = py = -1e4;
+    };
+    const onClick = (e) => {
+      if (e.pointerType && e.pointerType !== "touch") return;
+      const now = performance.now();
+      chars.forEach((c, i) => {
+        c.hot = true;
+        c.next = 0;
+        c.until = now + 250 + i * 35;
+      });
+      kick();
+    };
+    h1.addEventListener("pointerenter", onEnter);
+    h1.addEventListener("pointermove", onMove);
+    h1.addEventListener("pointerleave", onLeave);
+    h1.addEventListener("click", onClick);
+    return () => {
+      h1.removeEventListener("pointerenter", onEnter);
+      h1.removeEventListener("pointermove", onMove);
+      h1.removeEventListener("pointerleave", onLeave);
+      h1.removeEventListener("click", onClick);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
 
   return (
-    <section id="hero" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "108px clamp(24px, 6vw, 96px) 80px", position: "relative", overflow: "hidden" }}>
+    <section id="hero" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px clamp(24px, 6vw, 96px) 56px", position: "relative", overflow: "hidden" }}>
 
       {/* Subtle nautical texture */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: COLORS.isDark ? 0.14 : 0.09 }}>
@@ -308,7 +491,7 @@ function Hero() {
       <div style={{ position: "absolute", top: "-18%", right: "-12%", width: 560, height: 560, background: `radial-gradient(circle, ${COLORS.isDark ? "rgba(245,158,11,0.09)" : "rgba(180,83,9,0.07)"} 0%, transparent 72%)`, pointerEvents: "none" }} />
       <div style={{ position: "absolute", bottom: "-32%", left: "-18%", width: 640, height: 640, background: `radial-gradient(circle, ${COLORS.isDark ? "rgba(34,211,238,0.07)" : "rgba(180,83,9,0.05)"} 0%, transparent 74%)`, pointerEvents: "none" }} />
 
-      <div style={{ maxWidth: 1100, width: "100%", position: "relative", zIndex: 1, display: "grid", gridTemplateColumns: "minmax(260px, 380px) minmax(0, 1fr)", alignItems: "center", gap: "clamp(32px, 5vw, 64px)" }}>
+      <div className="hero-grid" style={{ maxWidth: 1100, width: "100%", position: "relative", zIndex: 1, display: "grid", gridTemplateColumns: "minmax(260px, 380px) minmax(0, 1fr)", alignItems: "center", gap: "clamp(32px, 5vw, 64px)" }}>
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <div style={{ position: "relative", animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.05s both" }}>
             <div style={{ width: "min(100%, 340px)", aspectRatio: "1 / 1.18", borderRadius: 30, overflow: "hidden", border: `1px solid ${COLORS.accentBorder}`, boxShadow: COLORS.isDark ? "0 40px 80px rgba(245,158,11,0.14)" : "0 40px 80px rgba(180,83,9,0.12)", background: COLORS.isDark ? "rgba(15, 23, 42, 0.8)" : "rgba(255,255,255,0.68)", backdropFilter: "blur(8px)" }}>
@@ -320,11 +503,11 @@ function Hero() {
         <div style={{ textAlign: "left", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 999, background: COLORS.accentSoft, marginBottom: 22, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both", position: "relative" }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: COLORS.accent, boxShadow: `0 0 0 6px ${COLORS.accentSoft}` }} />
-            <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>Junior AI Engineer</span>
+            <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", whiteSpace: "nowrap", minWidth: 200, display: "inline-block" }}>{typedLabel}<span style={{ opacity: 0.7 }}>|</span></span>
           </div>
 
-          <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(42px, 6vw, 76px)", lineHeight: 0.98, letterSpacing: "-0.05em", color: COLORS.textPrimary, marginBottom: 18, fontWeight: 700, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s both" }}>
-            Carl Joshua Coloma
+          <h1 id="heroName" ref={heroNameRef} style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(42px, 6vw, 76px)", lineHeight: 0.98, letterSpacing: "-0.05em", color: COLORS.textPrimary, marginBottom: 18, fontWeight: 700, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s both", cursor: "default", whiteSpace: "pre" }}>
+            {"Carl Joshua Coloma".split("").map((c, i) => (c === " " ? " " : <span key={i} className="ch" data-final={c}>{c}</span>))}
           </h1>
 
           <p style={{ maxWidth: 680, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: "clamp(16px, 2vw, 18px)", lineHeight: 1.9, marginBottom: 30, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.32s both" }}>
@@ -346,12 +529,20 @@ function Hero() {
             </a>
           </div>
 
-          <a href="/cv-coloma.pdf" download="cv-coloma.pdf"
-            style={{ color: COLORS.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, marginBottom: 40, transition: "color 0.2s ease", animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.5s both" }}
-            onMouseEnter={e => { e.currentTarget.style.color = COLORS.textPrimary; }}
-            onMouseLeave={e => { e.currentTarget.style.color = COLORS.textMuted; }}>
-            Download resume →
-          </a>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "flex-start", marginBottom: 40, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.5s both" }}>
+            <a href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
+              style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, borderRadius: 999, border: `1px solid ${COLORS.outlineBorder}`, color: COLORS.textSecondary, textDecoration: "none", background: "transparent", transition: "all 0.2s ease" }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.textPrimary; e.currentTarget.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textSecondary; e.currentTarget.style.transform = "translateY(0)"; }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.5 5.74.5 12.02c0 5.11 3.29 9.43 7.86 10.96.57.1.78-.25.78-.55v-2.03c-3.2.7-3.87-1.39-3.87-1.39-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.41.35.78 1.04.78 2.1v3.11c0 .3.2.66.79.55 4.56-1.53 7.85-5.85 7.85-10.96C23.5 5.74 18.27.5 12 .5z"/></svg>
+            </a>
+            <a href="https://linkedin.com/in/carl-joshua-coloma" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+              style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, borderRadius: 999, border: `1px solid ${COLORS.outlineBorder}`, color: COLORS.textSecondary, textDecoration: "none", background: "transparent", transition: "all 0.2s ease" }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.textPrimary; e.currentTarget.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textSecondary; e.currentTarget.style.transform = "translateY(0)"; }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -363,20 +554,18 @@ function Hero() {
 function AboutSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
+  const [hovered, setHovered] = useState(null);
   return (
-    <section id="about" ref={ref} style={{ padding: "80px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+    <section id="about" ref={ref} style={{ padding: "56px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
       <SectionLabel num="01" text="About" />
       <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 36, fontWeight: 700 }}>About Me</h2>
       <div data-cols="true" style={{ display: "flex", gap: 64, alignItems: "flex-start" }}>
         <div style={{ flex: "1 1 0", minWidth: 0 }}>
           <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: 1.85, marginBottom: 18 }}>
-            Hey, I'm CJ — an aspiring AI engineer and Computer Science student from the Philippines, graduating from FEU Institute of Technology in 2026. I care about bridging research-grade ML with real-world deployment constraints — building systems that are reliable, observable, and maintainable beyond the notebook.
+            Hey, I'm CJ — an aspiring AI engineer and CS student from the Philippines (FEU Tech, 2026). I bridge research-grade ML with real-world deployment — reliable, observable, maintainable systems beyond the notebook.
           </p>
           <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: 1.85, marginBottom: 18 }}>
-            I'm currently working as a Backend AI Engineer Intern at FlyRank AI, where I build LLM-powered content generation and semantic ranking pipelines. Previously, as an AI QA Intern at SoFi AI Tech Solutions, I tested conversational AI chatbots for hallucination and reliability issues, designing adversarial prompt suites to catch failure modes before they reached users. My focus is on LLM evaluation, RAG architectures, and production observability.
-          </p>
-          <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: 1.85 }}>
-            My undergraduate thesis — <span style={{ color: COLORS.textPrimary, fontWeight: 500 }}>Powerlift</span> — earned the Overall Best Thesis Award in the Computer Vision category (November 2025). It's an AI biomechanics analyzer for powerlifting built with YOLOv8 + Kalman Filtering, running at 30+ FPS on mobile.
+            Currently Backend AI Engineer Intern at FlyRank AI (LLM content generation, semantic ranking). Previously AI QA Intern at SoFi AI Tech Solutions (adversarial prompt suites, hallucination testing). Focus: LLM evaluation, RAG, production observability.
           </p>
           <div style={{ marginTop: 36, borderTop: `1px solid ${COLORS.stripBorder}` }}>
             {[
@@ -384,29 +573,47 @@ function AboutSection() {
               { label: "Location",     value: "Philippines" },
               { label: "Focus",        value: "Agentic AI · LLMs · RAG" },
               { label: "Education",    value: "BS Computer Science · FEU Tech · 2026" },
+              { label: "Upskilling",   value: "Databricks · dbt · Airflow · Snowflake" },
             ].map((row, i, arr) => (
-              <div key={row.label} style={{ display: "flex", gap: 24, alignItems: "center", padding: "14px 0", borderBottom: i < arr.length - 1 ? `1px solid ${COLORS.stripBorder}` : "none" }}>
+              <div key={row.label}
+                onMouseEnter={(e) => { e.currentTarget.style.background = COLORS.isDark ? "rgba(245,158,11,0.05)" : "rgba(180,83,9,0.04)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+                style={{ display: "flex", gap: 24, alignItems: "center", padding: "14px 12px", borderBottom: i < arr.length - 1 ? `1px solid ${COLORS.stripBorder}` : "none", borderRadius: 8, transition: "background 0.2s ease" }}>
                 <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", flexShrink: 0, minWidth: 108 }}>{row.label}</span>
                 <span style={{ color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 14 }}>{row.value}</span>
               </div>
             ))}
           </div>
+
         </div>
 
         <div style={{ flex: "0 0 280px", display: "flex", flexDirection: "column", gap: 14 }}>
           {[
-            { num: "01", label: "Overall Best Thesis", sub: "Computer Vision · Nov 2025" },
-            { num: "02", label: "3 Internships",        sub: "Lamina · SoFi · FlyRank AI" },
-            { num: "03", label: "5 Projects",           sub: "CV · NLP · LLMs · RAG" },
-          ].map((item) => (
-            <div key={item.num} style={{ display: "flex", alignItems: "flex-start", gap: 18, background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 12, padding: "18px 20px" }}>
+            { num: "01", label: "Overall Best Thesis", sub: "Computer Vision · Nov 2025", detail: "YOLOv8 + Kalman Filtering · 30+ FPS on mobile" },
+            { num: "02", label: "3 Internships",        sub: "Lamina · SoFi · FlyRank AI", detail: "Backend AI · AI QA · LLM pipelines" },
+            { num: "03", label: "5 Projects",           sub: "CV · NLP · LLMs · RAG", detail: "Production-ready ML systems" },
+          ].map((item, idx) => (
+            <div key={item.num}
+              onMouseEnter={() => setHovered(idx)}
+              onMouseLeave={() => setHovered(null)}
+              onClick={() => {
+                const target = idx === 1 ? "experience" : "projects";
+                const el = document.getElementById(target);
+                if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              style={{ display: "flex", alignItems: "flex-start", gap: 18, background: COLORS.surface, border: `1px solid ${hovered === idx ? COLORS.accentBorder : COLORS.border}`, borderRadius: 12, padding: "18px 20px", cursor: "pointer", transition: "all 0.25s ease", transform: hovered === idx ? "translateY(-3px)" : "translateY(0)", boxShadow: hovered === idx ? (COLORS.isDark ? "0 12px 30px rgba(245,158,11,0.12)" : "0 12px 30px rgba(180,83,9,0.1)") : "none" }}>
               <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 12, fontWeight: 700, opacity: 0.65, flexShrink: 0, paddingTop: 2 }}>{item.num}</span>
-              <div>
+              <div style={{ flex: 1 }}>
                 <p style={{ color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 14, fontWeight: 600, marginBottom: 4 }}>{item.label}</p>
                 <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12, lineHeight: 1.5 }}>{item.sub}</p>
+                <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 11, lineHeight: 1.5, marginTop: 6, maxHeight: hovered === idx ? 40 : 0, opacity: hovered === idx ? 1 : 0, overflow: "hidden", transition: "all 0.25s ease" }}>{item.detail}</p>
               </div>
             </div>
           ))}
+
+          <div style={{ marginTop: 14 }}>
+            <RagDemo compact />
+          </div>
         </div>
       </div>
     </section>
@@ -417,24 +624,27 @@ function StackSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
   return (
-    <section id="stack" ref={ref} style={{ padding: "88px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+    <section id="stack" ref={ref} style={{ padding: "56px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+      <SectionLabel num="04" text="Skills" />
       <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 40 }}>
-        <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase" }}>Skills</span>
         <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(32px, 5vw, 52px)", color: COLORS.textPrimary, fontWeight: 700, letterSpacing: "-0.03em" }}>Technical Skills</h2>
         <p style={{ color: COLORS.textSecondary, maxWidth: 640, lineHeight: 1.9, fontFamily: "Inter, sans-serif" }}>
           A focused toolkit for building agentic AI systems, retrieval pipelines, and reliable backend services.
         </p>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: 18 }}>
+      <div style={{ border: `1px solid ${COLORS.border}`, borderRadius: 18, background: COLORS.isDark ? "linear-gradient(180deg, rgba(17,24,39,0.6), rgba(10,16,32,0.6))" : "linear-gradient(180deg, #ffffff, #f8fafc)", padding: "16px 32px", boxShadow: COLORS.isDark ? "0 20px 50px rgba(0,0,0,0.25)" : "0 20px 50px rgba(15,23,42,0.06)" }}>
         {SKILL_GROUPS.map((group, gi) => (
-          <div key={group.label} style={{ gridColumn: "span 6", border: `1px solid ${COLORS.border}`, borderRadius: 14, background: COLORS.surface, padding: "26px 28px", display: "flex", flexDirection: "column", gap: 16 }}>
+          <div key={group.label} style={{ padding: "24px 0", borderBottom: gi < SKILL_GROUPS.length - 1 ? `1px solid ${COLORS.stripBorder}` : "none", display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <span style={{ color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, fontWeight: 600 }}>{group.label}</span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, fontWeight: 600 }}>
+                <span style={{ width: 8, height: 8, borderRadius: "50%", background: COLORS.accent, boxShadow: `0 0 0 4px ${COLORS.accentSoft}` }} />
+                {group.label}
+              </span>
               <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase" }}>0{gi + 1}</span>
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 9 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
               {group.skills.map((skill, si) => (
-                <SkillPill key={skill} name={skill} delay={(gi * 4 + si) * 35} muted={group.label.includes("Learning")} />
+                <SkillPill key={skill} name={skill} delay={(gi * 4 + si) * 35} muted={group.label.includes("Learning") || group.muted} />
               ))}
             </div>
           </div>
@@ -451,9 +661,9 @@ function ExperienceSection() {
   const [ref, visible] = useInView();
 
   return (
-    <section id="experience" ref={ref} style={{ padding: "88px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+    <section id="experience" ref={ref} style={{ padding: "56px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+      <SectionLabel num="02" text="Experience" />
       <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 40 }}>
-        <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase" }}>Experience</span>
         <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(32px, 5vw, 52px)", color: COLORS.textPrimary, fontWeight: 700, letterSpacing: "-0.03em" }}>Experience</h2>
         <p style={{ color: COLORS.textSecondary, maxWidth: 640, lineHeight: 1.9, fontFamily: "Inter, sans-serif" }}>
           Hands-on experience building and evaluating AI systems in production-focused environments.
@@ -461,7 +671,10 @@ function ExperienceSection() {
       </div>
       <div style={{ display: "flex", flexDirection: "column", borderTop: `1px solid ${COLORS.border}` }}>
         {EXPERIENCE.map((exp, i) => (
-          <article key={i} style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 28, padding: "30px 0", borderBottom: `1px solid ${COLORS.border}`, animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 90}ms both` : "none" }}>
+          <article key={i}
+            onMouseEnter={(e) => { e.currentTarget.style.background = COLORS.isDark ? "rgba(245,158,11,0.03)" : "rgba(180,83,9,0.03)"; e.currentTarget.style.borderLeft = `3px solid ${COLORS.accent}`; e.currentTarget.style.paddingLeft = "16px"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderLeft = "3px solid transparent"; e.currentTarget.style.paddingLeft = "0"; }}
+            style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 28, padding: "30px 0", borderBottom: `1px solid ${COLORS.border}`, borderLeft: "3px solid transparent", transition: "all 0.25s ease", animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 90}ms both` : "none" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 12 }}>{exp.period}</span>
               <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13 }}>{exp.company}</span>
@@ -492,103 +705,88 @@ function ExperienceSection() {
 function ProjectsSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
-  const featured = PROJECTS.find((p) => p.featured);
-  const secondary = PROJECTS.filter((p) => !p.featured);
+  const [active, setActive] = useState(0);
+  const items = PROJECTS.map((project) => ({
+    title: project.title,
+    image: project.img,
+    alt: project.title
+  }));
+  const project = PROJECTS[active] || PROJECTS[0];
+  const primaryHref = project.link || "#contact";
+  const secondaryHref = project.github || "#contact";
 
   return (
-    <section id="projects" ref={ref} style={{ padding: "88px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+    <section id="projects" ref={ref} style={{ padding: "56px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+      <SectionLabel num="03" text="Selected Work" />
       <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 40 }}>
-        <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase" }}>Selected Work</span>
         <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(32px, 5vw, 52px)", color: COLORS.textPrimary, fontWeight: 700, letterSpacing: "-0.03em" }}>Projects</h2>
         <p style={{ color: COLORS.textSecondary, maxWidth: 640, lineHeight: 1.9, fontFamily: "Inter, sans-serif" }}>
           Applied AI systems focused on computer vision, NLP, and agentic workflows with an emphasis on usability and deployment.
         </p>
       </div>
 
-      {featured && (
-        <article style={{ border: `1px solid ${COLORS.border}`, borderRadius: 16, background: COLORS.surface, overflow: "hidden", marginBottom: 18 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "0.9fr 1.1fr", gap: 0 }}>
-            {featured.img && (
-              <div style={{ position: "relative", minHeight: 260 }}>
-                <img src={featured.img} alt={featured.title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
-                <div style={{ position: "absolute", top: 16, left: 16 }}>
-                  <span style={{ display: "inline-flex", alignItems: "center", padding: "4px 10px", borderRadius: 999, border: `1px solid ${COLORS.accentBorder}`, background: COLORS.accentSoft, color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase" }}>Overall Best Thesis</span>
-                </div>
+      <div className="project-swap-layout" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.05fr) minmax(0, 1fr)", gap: 32, alignItems: "stretch" }}>
+        <div style={{ height: 460, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <CardSwap
+            items={items}
+            width={400}
+            height={280}
+            delay={3500}
+            autoplay={false}
+            theme={COLORS.isDark ? "dark" : "light"}
+            onChange={(index) => setActive(index)}
+            onCardClick={(index) => setActive(index)}
+          />
+        </div>
+
+        <div key={project.title} className="project-content" style={{ display: "flex", flexDirection: "column", gap: 18, justifyContent: "space-between", padding: "8px 4px", animation: "fadeUp 0.4s cubic-bezier(0.16,1,0.3,1) both" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, fontWeight: 700, letterSpacing: "0.14em" }}>{String(active + 1).padStart(2, "0")} / {String(PROJECTS.length).padStart(2, "0")}</span>
+              <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>{project.type}</span>
+              <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12 }}>•</span>
+              <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12 }}>{project.year}</span>
+              <span style={{ padding: "4px 10px", borderRadius: 999, border: `1px solid ${COLORS.accentBorder}`, background: COLORS.accentSoft, color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase" }}>{project.status}</span>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(22px, 2.8vw, 30px)", color: COLORS.textPrimary, fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.15 }}>{project.title}</h3>
+              <p style={{ color: COLORS.textSecondary, lineHeight: 1.85, fontFamily: "Inter, sans-serif", fontSize: 15 }}>{project.desc}</p>
+              {project.metric && (
+                <p style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", opacity: 0.9 }}>
+                  {project.metric}
+                </p>
+              )}
+            </div>
+
+            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 10, margin: 0 }}>
+              {project.features.map((feature) => (
+                <li key={feature} style={{ display: "flex", gap: 10, alignItems: "flex-start", color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 14, lineHeight: 1.6 }}>
+                  <span style={{ width: 7, height: 7, borderRadius: "50%", background: COLORS.accent, marginTop: 8, flexShrink: 0 }} />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {!project.private && (
+              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 4 }}>
+                <a href={primaryHref} target={primaryHref.startsWith("http") ? "_blank" : undefined} rel={primaryHref.startsWith("http") ? "noopener noreferrer" : undefined}
+                  style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: "11px 18px", borderRadius: 12, background: COLORS.accent, color: COLORS.isDark ? "#0b1026" : "#ffffff", textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 700, boxShadow: COLORS.isDark ? "0 12px 30px rgba(245,158,11,0.18)" : "0 12px 30px rgba(180,83,9,0.14)" }}>
+                  {primaryHref.startsWith("http") ? "View project" : "View details"}
+                </a>
               </div>
             )}
-            <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 20, padding: "28px 32px" }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>{featured.type}</span>
-                  {featured.link && (
-                    <a href={featured.link} target="_blank" rel="noopener noreferrer" style={{ color: COLORS.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13 }}>
-                      View on GitHub →
-                    </a>
-                  )}
-                </div>
-                <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(22px, 3vw, 30px)", color: COLORS.textPrimary, fontWeight: 700, letterSpacing: "-0.03em" }}>{featured.title}</h3>
-                <p style={{ color: COLORS.textSecondary, lineHeight: 1.85, fontFamily: "Inter, sans-serif", fontSize: 14 }}>{featured.desc}</p>
-                <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13 }}>{featured.metric}</p>
-              </div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                {featured.tags.map((tag) => (
-                  <span key={tag} style={{ padding: "6px 10px", borderRadius: 999, border: `1px solid ${COLORS.chipBorder}`, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 12 }}>{tag}</span>
-                ))}
-              </div>
-            </div>
           </div>
-        </article>
-      )}
-
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 18 }}>
-        {secondary.map((project, i) => {
-          const content = (
-            <article style={{ height: "100%", display: "flex", flexDirection: "column", border: `1px solid ${COLORS.border}`, borderRadius: 16, background: COLORS.surface, overflow: "hidden", transition: "border-color 0.2s ease", animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 80}ms both` : "none" }}>
-              {project.img && (
-                <div style={{ position: "relative", height: 190 }}>
-                  <img src={project.img} alt={project.title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
-                </div>
-              )}
-              <div style={{ display: "flex", flexDirection: "column", gap: 14, padding: "26px 28px" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>{project.type}</span>
-                  {project.link ? (
-                    <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13 }}>GitHub →</span>
-                  ) : (
-                    <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13 }}>In development</span>
-                  )}
-                </div>
-                <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 20, color: COLORS.textPrimary, fontWeight: 600 }}>{project.title}</h3>
-                <p style={{ color: COLORS.textSecondary, lineHeight: 1.9, fontFamily: "Inter, sans-serif", fontSize: 14 }}>{project.desc}</p>
-                <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13 }}>{project.metric}</p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: "auto" }}>
-                  {project.tags.map((tag) => (
-                    <span key={tag} style={{ padding: "6px 10px", borderRadius: 999, border: `1px solid ${COLORS.chipBorder}`, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 12 }}>{tag}</span>
-                  ))}
-                </div>
-              </div>
-            </article>
-          );
-
-          if (project.link) {
-            return (
-              <a key={project.title} href={project.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }} onMouseEnter={(e) => { e.currentTarget.firstChild.style.borderColor = COLORS.accentBorder; }} onMouseLeave={(e) => { e.currentTarget.firstChild.style.borderColor = COLORS.border; }}>
-                {content}
-              </a>
-            );
-          }
-          return <div key={project.title}>{content}</div>;
-        })}
+        </div>
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 28 }}>
-        <a href="#demo" style={{ display: "inline-flex", alignItems: "center", gap: 8, color: COLORS.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13 }}>
-          Try the mini RAG demo →
-        </a>
-      </div>
+
     </section>
   );
 }
+
 
 function CertificatesSection() {
   return null;
@@ -601,40 +799,154 @@ function InterestsSection() {
 function ContactSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
+  const [copied, setCopied] = useState(false);
+  const [now, setNow] = useState(null);
+  const email = "carljoshuamcoloma@gmail.com";
+
+  useEffect(() => {
+    setNow(new Date());
+    const t = setInterval(() => setNow(new Date()), 30000);
+    return () => clearInterval(t);
+  }, []);
+  const localTime = now ? (now.toLocaleTimeString("en-PH", { hour: "numeric", minute: "2-digit", hour12: true, timeZone: "Asia/Manila" }) + " PH") : null;
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(email);
+    } catch {
+      const ta = document.createElement("textarea");
+      ta.value = email;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1800);
+  };
+
+  const socials = [
+    { label: "GitHub", handle: "github.com", href: "https://github.com/cdobby18", glyph: "GH" },
+    { label: "LinkedIn", handle: "linkedin.com", href: "https://linkedin.com/in/carl-joshua-coloma", glyph: "in" },
+  ];
+
   return (
-    <section id="contact" ref={ref} style={{ padding: "88px clamp(24px, 6vw, 96px) 80px", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: 24, alignItems: "center" }}>
-        <div style={{ gridColumn: "span 7", display: "flex", flexDirection: "column", gap: 16 }}>
-          <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase" }}>Contact</span>
-          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(34px, 6vw, 64px)", color: COLORS.textPrimary, fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 0.98 }}>
-            Let's build something reliable.
-          </h2>
-          <p style={{ color: COLORS.textSecondary, maxWidth: 560, lineHeight: 1.9, fontFamily: "Inter, sans-serif", fontSize: 16 }}>
-            Open to AI engineering opportunities, agentic system collaborations, and production ML work.
-          </p>
-        </div>
-        <div style={{ gridColumn: "span 5", display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 12 }}>
-          <a href="mailto:carljoshuamcoloma@gmail.com"
-            style={{ textDecoration: "none", color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 15, fontWeight: 600, border: `1px solid ${COLORS.outlineBorder}`, borderRadius: 10, padding: "12px 20px", background: "transparent", transition: "all 0.2s ease" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; }}>
-            carljoshuamcoloma@gmail.com
-          </a>
-          <div style={{ display: "flex", gap: 10 }}>
-            <a href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
-              style={{ border: `1px solid ${COLORS.outlineBorder}`, borderRadius: 999, padding: "9px 16px", color: COLORS.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, transition: "all 0.2s ease" }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.textPrimary; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textSecondary; }}>
-              GitHub
-            </a>
-            <a href="https://linkedin.com/in/carl-joshua-coloma" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
-              style={{ border: `1px solid ${COLORS.outlineBorder}`, borderRadius: 999, padding: "9px 16px", color: COLORS.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, transition: "all 0.2s ease" }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.textPrimary; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textSecondary; }}>
-              LinkedIn
-            </a>
+    <section id="contact" ref={ref} style={{ padding: "72px clamp(24px, 6vw, 96px) 64px", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)", position: "relative" }}>
+      <style>{`
+        @keyframes contactPulse {
+          0% { box-shadow: 0 0 0 0 ${COLORS.accent}66; }
+          70% { box-shadow: 0 0 0 8px transparent; }
+          100% { box-shadow: 0 0 0 0 transparent; }
+        }
+        @keyframes contactRise {
+          from { opacity: 0; transform: translateY(16px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        #contact .contact-card {
+          transform: none;
+          transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), border-color 0.25s ease, box-shadow 0.3s ease, background 0.25s ease;
+        }
+        #contact .contact-card:hover {
+          transform: translateY(-3px);
+          border-color: ${COLORS.accentBorder};
+          box-shadow: 0 12px 28px ${COLORS.accent}22;
+          background: ${COLORS.accentSoft};
+        }
+        #contact .contact-card:hover .card-arw {
+          transform: translateX(5px);
+          color: ${COLORS.accent};
+        }
+        #contact .resume-btn .btn-arrow {
+          transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+        }
+        #contact .resume-btn:hover .btn-arrow {
+          transform: translateX(5px);
+        }
+        #contact .resume-btn .btn-glow {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(120px 60px at 22% -10%, ${COLORS.accent}44, transparent 70%);
+          opacity: 0;
+          transition: opacity 0.35s ease;
+          pointer-events: none;
+        }
+        #contact .resume-btn:hover .btn-glow {
+          opacity: 1;
+        }
+      `}</style>
+
+      <div style={{ maxWidth: 960, margin: "0 auto" }}>
+        {/* status pill + local time chip */}
+        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, marginBottom: 22, opacity: now ? 1 : 0, animation: visible ? "contactRise 0.5s cubic-bezier(0.16,1,0.3,1) both" : "none" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "7px 16px", borderRadius: 999, border: `1px solid ${COLORS.accentBorder}`, background: COLORS.accentSoft }}>
+            <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#34d399", animation: "contactPulse 2s infinite" }} />
+            <span style={{ color: COLORS.textPrimary, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>Open to opportunities</span>
+          </div>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "7px 14px", borderRadius: 999, border: `1px solid ${COLORS.chipBorder}`, background: COLORS.chipBg }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={COLORS.accent} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+            </svg>
+            <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.1em" }}>{localTime || "… PH"}</span>
           </div>
         </div>
+
+        {/* heading */}
+        <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 6.5vw, 72px)", color: COLORS.textPrimary, fontWeight: 700, letterSpacing: "-0.045em", lineHeight: 1.02, margin: "0 0 20px", animation: visible ? "contactRise 0.55s cubic-bezier(0.16,1,0.3,1) both" : "none" }}>
+          Let's build something{" "}
+          <span style={{ position: "relative", display: "inline-block", color: COLORS.accent, WebkitTextStroke: `0.5px ${COLORS.accent}` }}>
+            reliable
+            <span style={{ position: "absolute", left: 0, right: 0, bottom: "0.05em", height: 3, borderRadius: 3, background: `linear-gradient(90deg, ${COLORS.accent}, transparent)` }} />
+          </span>
+        </h2>
+        <p style={{ color: COLORS.textSecondary, maxWidth: 560, lineHeight: 1.9, fontFamily: "Inter, sans-serif", fontSize: 16, margin: "0 0 36px", animation: visible ? "contactRise 0.6s cubic-bezier(0.16,1,0.3,1) 0.05s both" : "none" }}>
+          Open to AI engineering opportunities, agentic system collaborations, and production ML work. Grab my resume below or reach out directly — I usually reply within a day.
+        </p>
+
+        {/* actions: resume + email */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginBottom: 22 }}>
+          {/* resume button */}
+          <a href="/cv-coloma.pdf" target="_blank" rel="noopener noreferrer" download="Carl-Coloma-Resume.pdf" className="resume-btn"
+            style={{ position: "relative", overflow: "hidden", display: "inline-flex", alignItems: "center", gap: 12, textDecoration: "none", padding: "15px 26px", borderRadius: 14, background: COLORS.accent, color: COLORS.isDark ? "#0b1026" : "#ffffff", fontFamily: "Inter, sans-serif", fontSize: 15, fontWeight: 700, letterSpacing: "0.01em", boxShadow: `0 10px 26px ${COLORS.accent}44`, transition: "transform 0.25s cubic-bezier(0.16,1,0.3,1)", animation: visible ? "contactRise 0.6s cubic-bezier(0.16,1,0.3,1) 0.1s both" : "none" }}
+            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; }}>
+            <span className="btn-glow" />
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" /><line x1="12" y1="18" x2="12" y2="12" /><polyline points="9 15 12 18 15 15" />
+            </svg>
+            Download Resume
+            <span className="btn-arrow" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, opacity: 0.8 }}>↓</span>
+          </a>
+
+          {/* copy email */}
+          <button onClick={copyEmail} className="copy-email-btn"
+            style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "15px 24px", borderRadius: 14, background: COLORS.chipBg, border: `1px solid ${copied ? "rgba(52,211,153,0.5)" : COLORS.chipBorder}`, color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 14, cursor: "pointer", transition: "all 0.25s ease", animation: visible ? "contactRise 0.6s cubic-bezier(0.16,1,0.3,1) 0.15s both" : "none" }}
+            onMouseEnter={e => { if (!copied) e.currentTarget.style.borderColor = COLORS.accentBorder; }}
+            onMouseLeave={e => { if (!copied) e.currentTarget.style.borderColor = COLORS.chipBorder; }}>
+            <span style={{ fontFamily: "Inter, sans-serif", opacity: 0.85 }}>{email}</span>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: copied ? "#34d399" : COLORS.accent, transition: "color 0.2s ease" }}>{copied ? "✓ copied" : "⧉ copy"}</span>
+          </button>
+        </div>
+
+        {/* social cards */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 22 }}>
+          {socials.map((s, i) => (
+            <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} title={s.label} className="contact-card"
+              style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: 13, borderRadius: 14, background: COLORS.chipBg, border: `1px solid ${COLORS.chipBorder}`, textDecoration: "none", animation: visible ? `contactRise 0.6s cubic-bezier(0.16,1,0.3,1) ${0.2 + i * 0.05}s both` : "none" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", color: COLORS.accent }}>
+                {s.glyph === "GH" ? (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12z"/>
+                  </svg>
+                ) : (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/>
+                  </svg>
+                )}
+              </span>
+            </a>
+          ))}
+          </div>
       </div>
     </section>
   );
@@ -665,7 +977,10 @@ function GlidingNavLinks({ links, theme }) {
       const atBottom =
         window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 80;
       if (atBottom) {
-        setActive(links.length - 1);
+        // highlight the last on-page section, not external links (e.g. Blog)
+        for (let i = links.length - 1; i >= 0; i--) {
+          if (!links[i].href) { setActive(i); return; }
+        }
         return;
       }
       let current = 0;
@@ -699,7 +1014,7 @@ function GlidingNavLinks({ links, theme }) {
       {links.map((link, i) => (
         <a
           key={link.id}
-          href={`#${link.id}`}
+          href={link.href || `#${link.id}`}
           ref={el => (refs.current[i] = el)}
           aria-current={active === i ? "page" : undefined}
           onClick={() => {
@@ -791,6 +1106,7 @@ export default function OnePiece() {
         @keyframes fadeUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:translateY(0) } }
         .op-nav-links { display: flex; gap: 22px; align-items: center; }
         .op-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+        #heroName .glyph { color: ${theme.accent} !important; }
         main > section:not(#hero), footer { max-width: 1120px; margin-left: auto; margin-right: auto; }
         main > section { scroll-margin-top: 88px; }
         @media (max-width: 1080px) {
@@ -798,8 +1114,11 @@ export default function OnePiece() {
           .op-hamburger { display: flex !important; align-items: center; justify-content: center; }
           #stack > div:last-child { grid-template-columns: 1fr !important; }
           #experience article { grid-template-columns: 1fr !important; gap: 14px !important; }
+          .hero-grid { grid-template-columns: 1fr !important; justify-items: center; }
           #projects article > div { grid-template-columns: 1fr !important; }
           #projects > div:nth-of-type(2) { grid-template-columns: 1fr !important; }
+          .project-swap-layout { grid-template-columns: 1fr !important; }
+          .project-swap-layout > div:first-child { height: 360px !important; }
           #contact > div { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 768px) {
@@ -808,21 +1127,30 @@ export default function OnePiece() {
         }
         @media (max-width: 640px) {
           main > section:not(#hero) { padding-top: 64px !important; padding-bottom: 64px !important; }
+          /* Contact: stack buttons full-width, keep email readable */
+          #contact .copy-email-btn { width: 100% !important; justify-content: space-between !important; min-width: 0; }
+          #contact .copy-email-btn span:first-child { font-size: 12.5px !important; word-break: break-all; }
+          #contact .resume-btn { width: 100% !important; justify-content: center; }
+          /* Skill tooltips: shrink vs viewport, keep inside screen */
+          .skill-tip { width: min(250px, 74vw) !important; }
+          #contact h2 { letter-spacing: -0.03em; }
         }
         @media (max-width: 480px) {
           .op-avatar { width: 108px !important; height: 108px !important; }
+          /* tighter rhythm for small phones */
+          #contact { padding-left: 20px !important; padding-right: 20px !important; }
+          #contact .contact-card { padding: 11px !important; }
         }
       `}</style>
 
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 clamp(24px, 6vw, 96px)", background: scrolled || menuOpen ? theme.navBg : "transparent", backdropFilter: scrolled || menuOpen ? "blur(18px)" : "none", borderBottom: scrolled || menuOpen ? `1px solid ${theme.border}` : "1px solid transparent", transition: "all 0.3s ease" }}>
         <a href="#hero" style={{ display: "inline-flex", alignItems: "center", gap: 10, color: theme.textPrimary, textDecoration: "none", fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 13, letterSpacing: "0.12em", textTransform: "uppercase" }}>
           <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 30, height: 30, borderRadius: 999, background: theme.accent, color: theme.isDark ? "#0b1026" : "#ffffff", fontSize: 12, boxShadow: `0 10px 20px ${theme.accent}44` }}>CJ</span>
-          <span>Carl Joshua</span>
+          <span>Carl Joshua<span style={{ color: theme.accent }}>.</span></span>
         </a>
 
         <div className="op-nav-links" style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <GlidingNavLinks links={NAV_LINKS} theme={theme} />
-          <a href="/blog.html" style={{ color: theme.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 600 }}>Blog</a>
           <button onClick={toggleTheme} aria-label="Toggle theme"
             style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 34, height: 34, borderRadius: 999, border: `1px solid ${theme.border}`, background: "transparent", color: theme.textMuted, cursor: "pointer", transition: "all 0.2s", outline: "none" }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = theme.accentBorder; e.currentTarget.style.color = theme.textPrimary; }}
@@ -847,18 +1175,13 @@ export default function OnePiece() {
         </div>
       </nav>
 
-      {menuOpen && (
-        <div style={{ display: "flex", flexDirection: "column", position: "fixed", top: 68, left: 0, right: 0, background: theme.mobileMenuBg, backdropFilter: "blur(20px)", borderBottom: `1px solid ${theme.border}`, padding: "20px clamp(24px,6vw,96px)", zIndex: 99 }}>
+      <div style={{ display: "flex", flexDirection: "column", position: "fixed", top: 68, left: 0, right: 0, background: theme.mobileMenuBg, backdropFilter: "blur(20px)", borderBottom: `1px solid ${theme.border}`, padding: "20px clamp(24px,6vw,96px)", zIndex: 99, transform: menuOpen ? "translateY(0)" : "translateY(-120%)", opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? "auto" : "none", transition: "transform 0.3s ease, opacity 0.25s ease" }}>
           {NAV_LINKS.map((link) => (
             <a key={link.id} href={`#${link.id}`} onClick={() => setMenuOpen(false)}
               style={{ color: theme.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 15, fontWeight: 500, padding: "14px 0", borderBottom: `1px solid ${theme.stripBorder}` }}>
               {link.label}
             </a>
           ))}
-          <a href="/blog.html" onClick={() => setMenuOpen(false)}
-            style={{ color: theme.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 15, fontWeight: 600, padding: "14px 0", borderBottom: `1px solid ${theme.stripBorder}` }}>
-            Blog
-          </a>
           <div style={{ paddingTop: 16 }}>
             <button onClick={() => { toggleTheme(); setMenuOpen(false); }}
               style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 16px", borderRadius: 8, border: `1px solid ${theme.border}`, background: theme.chipBg, color: theme.textSecondary, cursor: "pointer", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, outline: "none" }}>
@@ -867,15 +1190,13 @@ export default function OnePiece() {
             </button>
           </div>
         </div>
-      )}
 
       <main>
         <Hero />
         <AboutSection />
-        <StackSection />
         <ExperienceSection />
         <ProjectsSection />
-        <RagDemo />
+        <StackSection />
         <ContactSection />
       </main>
 

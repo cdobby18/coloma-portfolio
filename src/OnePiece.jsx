@@ -290,7 +290,7 @@ function Hero() {
   const COLORS = useColors();
 
   return (
-    <section id="hero" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "88px clamp(24px, 6vw, 96px) 80px", position: "relative", overflow: "hidden" }}>
+    <section id="hero" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "108px clamp(24px, 6vw, 96px) 80px", position: "relative", overflow: "hidden" }}>
 
       {/* Subtle nautical texture */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: COLORS.isDark ? 0.14 : 0.09 }}>
@@ -308,60 +308,51 @@ function Hero() {
       <div style={{ position: "absolute", top: "-18%", right: "-12%", width: 560, height: 560, background: `radial-gradient(circle, ${COLORS.isDark ? "rgba(245,158,11,0.09)" : "rgba(180,83,9,0.07)"} 0%, transparent 72%)`, pointerEvents: "none" }} />
       <div style={{ position: "absolute", bottom: "-32%", left: "-18%", width: 640, height: 640, background: `radial-gradient(circle, ${COLORS.isDark ? "rgba(34,211,238,0.07)" : "rgba(180,83,9,0.05)"} 0%, transparent 74%)`, pointerEvents: "none" }} />
 
-      <div style={{ maxWidth: 880, width: "100%", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", position: "relative", zIndex: 1 }}>
-
-        {/* Profile photo */}
-        <div style={{ position: "relative", marginBottom: 22, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.05s both" }}>
-          <div className="op-avatar" style={{ width: 132, height: 132, borderRadius: "50%", overflow: "hidden", border: `1px solid ${COLORS.accentBorder}`, boxShadow: COLORS.isDark ? "0 40px 80px rgba(245,158,11,0.14)" : "0 40px 80px rgba(180,83,9,0.12)", flexShrink: 0 }}>
-            <img src="/pic.jpeg" alt="Carl Joshua Coloma" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 15%" }} />
-          </div>
-          <div style={{ position: "absolute", bottom: 6, right: -4, width: 28, height: 28, borderRadius: "50%", background: COLORS.surface, border: `1px solid ${COLORS.accentBorder}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={COLORS.accent} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" opacity="0.8">
-              <path d="M4 15c2-5 6-7 8-7s6 2 8 7" />
-              <ellipse cx="12" cy="16" rx="8" ry="2.5" />
-              <path d="M7 14.5v2M10 14v2.5M14 14v2.5M17 14.5v2" />
-            </svg>
+      <div style={{ maxWidth: 1100, width: "100%", position: "relative", zIndex: 1, display: "grid", gridTemplateColumns: "minmax(260px, 380px) minmax(0, 1fr)", alignItems: "center", gap: "clamp(32px, 5vw, 64px)" }}>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div style={{ position: "relative", animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.05s both" }}>
+            <div style={{ width: "min(100%, 340px)", aspectRatio: "1 / 1.18", borderRadius: 30, overflow: "hidden", border: `1px solid ${COLORS.accentBorder}`, boxShadow: COLORS.isDark ? "0 40px 80px rgba(245,158,11,0.14)" : "0 40px 80px rgba(180,83,9,0.12)", background: COLORS.isDark ? "rgba(15, 23, 42, 0.8)" : "rgba(255,255,255,0.68)", backdropFilter: "blur(8px)" }}>
+              <img src="/pic.jpeg" alt="Carl Joshua Coloma" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
+            </div>
           </div>
         </div>
 
-        {/* Status badge */}
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 999, background: COLORS.accentSoft, marginBottom: 24, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both", position: "relative" }}>
-          <span style={{ width: 6, height: 6, borderRadius: "50%", background: COLORS.accent, boxShadow: `0 0 0 6px ${COLORS.accentSoft}` }} />
-          <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>Junior AI Engineer</span>
-        </div>
+        <div style={{ textAlign: "left", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 999, background: COLORS.accentSoft, marginBottom: 22, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both", position: "relative" }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: COLORS.accent, boxShadow: `0 0 0 6px ${COLORS.accentSoft}` }} />
+            <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>Junior AI Engineer</span>
+          </div>
 
-        {/* Name */}
-        <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(42px, 8vw, 84px)", lineHeight: 0.98, letterSpacing: "-0.05em", color: COLORS.textPrimary, marginBottom: 16, fontWeight: 700, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s both" }}>
-          Carl Joshua Coloma
-        </h1>
+          <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(42px, 6vw, 76px)", lineHeight: 0.98, letterSpacing: "-0.05em", color: COLORS.textPrimary, marginBottom: 18, fontWeight: 700, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s both" }}>
+            Carl Joshua Coloma
+          </h1>
 
-        {/* Tagline */}
-        <p style={{ maxWidth: 720, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: "clamp(16px, 2vw, 18px)", lineHeight: 1.9, marginBottom: 36, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.32s both" }}>
-          AI Engineer focused on building reliable <span style={{ color: COLORS.textPrimary }}>agentic workflows, RAG systems, and production-ready ML</span> with Python.
-        </p>
+          <p style={{ maxWidth: 680, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: "clamp(16px, 2vw, 18px)", lineHeight: 1.9, marginBottom: 30, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.32s both" }}>
+            AI Engineer focused on building reliable <span style={{ color: COLORS.textPrimary }}>agentic workflows, RAG systems, and production-ready ML</span> with Python.
+          </p>
 
-        {/* CTA buttons */}
-        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginBottom: 16, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.44s both" }}>
-          <a href="#projects"
-            style={{ padding: "12px 26px", borderRadius: 10, background: COLORS.accent, color: "#0b1026", textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 600, transition: "all 0.2s ease", boxShadow: COLORS.isDark ? "0 10px 40px rgba(245,158,11,0.18)" : "0 10px 40px rgba(180,83,9,0.16)" }}
-            onMouseEnter={e => { e.currentTarget.style.filter = "brightness(1.05)"; }}
-            onMouseLeave={e => { e.currentTarget.style.filter = "brightness(1)"; }}>
-            View selected work
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "flex-start", marginBottom: 16, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.44s both" }}>
+            <a href="#projects"
+              style={{ padding: "12px 26px", borderRadius: 10, background: COLORS.accent, color: "#0b1026", textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 600, transition: "all 0.2s ease", boxShadow: COLORS.isDark ? "0 10px 40px rgba(245,158,11,0.18)" : "0 10px 40px rgba(180,83,9,0.16)" }}
+              onMouseEnter={e => { e.currentTarget.style.filter = "brightness(1.05)"; }}
+              onMouseLeave={e => { e.currentTarget.style.filter = "brightness(1)"; }}>
+              View selected work
+            </a>
+            <a href="#contact"
+              style={{ padding: "12px 26px", borderRadius: 10, border: `1px solid ${COLORS.outlineBorder}`, color: COLORS.textPrimary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 500, background: "transparent", transition: "all 0.2s ease" }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; }}>
+              Get in touch
+            </a>
+          </div>
+
+          <a href="/cv-coloma.pdf" download="cv-coloma.pdf"
+            style={{ color: COLORS.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, marginBottom: 40, transition: "color 0.2s ease", animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.5s both" }}
+            onMouseEnter={e => { e.currentTarget.style.color = COLORS.textPrimary; }}
+            onMouseLeave={e => { e.currentTarget.style.color = COLORS.textMuted; }}>
+            Download resume →
           </a>
-          <a href="#contact"
-            style={{ padding: "12px 26px", borderRadius: 10, border: `1px solid ${COLORS.outlineBorder}`, color: COLORS.textPrimary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 500, background: "transparent", transition: "all 0.2s ease" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; }}>
-            Get in touch
-          </a>
         </div>
-
-        <a href="/cv-coloma.pdf" download="cv-coloma.pdf"
-          style={{ color: COLORS.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, marginBottom: 40, transition: "color 0.2s ease", animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.5s both" }}
-          onMouseEnter={e => { e.currentTarget.style.color = COLORS.textPrimary; }}
-          onMouseLeave={e => { e.currentTarget.style.color = COLORS.textMuted; }}>
-          Download resume →
-        </a>
       </div>
 
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg, transparent, ${COLORS.border}, transparent)` }} />
@@ -690,17 +681,17 @@ function GlidingNavLinks({ links, theme }) {
   }, [links]);
 
   return (
-    <div ref={containerRef} style={{ position: "relative", display: "flex", alignItems: "center", gap: 28 }}>
+    <div ref={containerRef} style={{ position: "relative", display: "flex", alignItems: "center", gap: 8, padding: 6, borderRadius: 999, background: theme.isDark ? "rgba(148,163,184,0.08)" : "rgba(255,255,255,0.78)", border: `1px solid ${theme.border}`, boxShadow: theme.isDark ? "0 18px 40px rgba(2,6,23,0.18)" : "0 18px 40px rgba(15,23,42,0.08)", backdropFilter: "blur(18px)" }}>
       <span
         style={{
           position: "absolute",
-          bottom: -4,
-          height: 2,
-          borderRadius: 2,
-          background: theme.accent,
-          boxShadow: `0 0 8px ${theme.accent}99`,
+          top: 6,
           left: glider.left,
           width: glider.width,
+          height: "calc(100% - 12px)",
+          borderRadius: 999,
+          background: theme.accent,
+          boxShadow: `0 8px 18px ${theme.accent}44`,
           transition: "left .4s cubic-bezier(.65,0,.35,1), width .4s cubic-bezier(.65,0,.35,1)",
           pointerEvents: "none",
         }}
@@ -718,11 +709,16 @@ function GlidingNavLinks({ links, theme }) {
             lockTimer.current = setTimeout(() => { clickLock.current = false; }, 800);
           }}
           style={{
-            color: active === i ? theme.textPrimary : theme.textMuted,
+            position: "relative",
+            zIndex: 1,
+            color: active === i ? (theme.isDark ? "#0b1026" : "#ffffff") : theme.textMuted,
             textDecoration: "none",
             fontFamily: "Inter, sans-serif",
             fontSize: 13,
-            fontWeight: active === i ? 600 : 500,
+            fontWeight: active === i ? 700 : 500,
+            letterSpacing: "0.02em",
+            padding: "9px 14px",
+            borderRadius: 999,
             transition: "color 0.2s ease",
           }}
         >
@@ -819,13 +815,14 @@ export default function OnePiece() {
       `}</style>
 
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 clamp(24px, 6vw, 96px)", background: scrolled || menuOpen ? theme.navBg : "transparent", backdropFilter: scrolled || menuOpen ? "blur(18px)" : "none", borderBottom: scrolled || menuOpen ? `1px solid ${theme.border}` : "1px solid transparent", transition: "all 0.3s ease" }}>
-        <a href="#hero" style={{ color: theme.textPrimary, textDecoration: "none", fontFamily: "'JetBrains Mono', monospace", fontWeight: 600, fontSize: 14, letterSpacing: "0.12em", textTransform: "uppercase" }}>
-          Carl Joshua Coloma
+        <a href="#hero" style={{ display: "inline-flex", alignItems: "center", gap: 10, color: theme.textPrimary, textDecoration: "none", fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 13, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+          <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 30, height: 30, borderRadius: 999, background: theme.accent, color: theme.isDark ? "#0b1026" : "#ffffff", fontSize: 12, boxShadow: `0 10px 20px ${theme.accent}44` }}>CJ</span>
+          <span>Carl Joshua</span>
         </a>
 
-        <div className="op-nav-links">
+        <div className="op-nav-links" style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <GlidingNavLinks links={NAV_LINKS} theme={theme} />
-          <a href="/blog.html" style={{ color: theme.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13 }}>Blog</a>
+          <a href="/blog.html" style={{ color: theme.textMuted, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 600 }}>Blog</a>
           <button onClick={toggleTheme} aria-label="Toggle theme"
             style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 34, height: 34, borderRadius: 999, border: `1px solid ${theme.border}`, background: "transparent", color: theme.textMuted, cursor: "pointer", transition: "all 0.2s", outline: "none" }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = theme.accentBorder; e.currentTarget.style.color = theme.textPrimary; }}

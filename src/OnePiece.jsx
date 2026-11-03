@@ -4,6 +4,7 @@ import Architecture from "./Architecture";
 import CertAccordion from "./CertAccordion";
 import CardSwap from "./CardSwap";
 import CodeDemo from "./CodeDemo";
+import { playHoverSound, playClickSound} from "./sound";
 
 function BackToTop() {
   const COLORS = useColors();
@@ -39,6 +40,7 @@ function BackToTop() {
         transition: "all 0.2s ease",
       }}
       onMouseEnter={(e) => {
+        playHoverSound();
         e.currentTarget.style.borderColor = COLORS.accentBorder;
         e.currentTarget.style.color = COLORS.accent;
         e.currentTarget.style.transform = "translateY(-2px)";
@@ -314,6 +316,7 @@ function SkillPill({ name, delay = 0, muted = false }) {
           boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
         }}
         onMouseEnter={e => {
+          playHoverSound();
           e.currentTarget.style.borderColor = COLORS.accentBorder;
           e.currentTarget.style.background = COLORS.accentSoft;
           e.currentTarget.style.color = COLORS.textPrimary;
@@ -527,24 +530,26 @@ function Hero() {
 
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "flex-start", marginBottom: 16, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.44s both" }}>
             <a href="#projects"
+              onClick={() => playClickSound()}
               style={{ padding: "12px 26px", borderRadius: 10, background: COLORS.accent, color: "#0b1026", textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 600, transition: "all 0.2s ease", boxShadow: COLORS.isDark ? "0 10px 40px rgba(245,158,11,0.18)" : "0 10px 40px rgba(180,83,9,0.16)" }}
-              onMouseEnter={e => { e.currentTarget.style.filter = "brightness(1.05)"; }}
+              onMouseEnter={e => { playHoverSound(); e.currentTarget.style.filter = "brightness(1.05)"; }}
               onMouseLeave={e => { e.currentTarget.style.filter = "brightness(1)"; }}>
               View selected work
             </a>
             <a href="#contact"
+              onClick={() => playClickSound()}
               style={{ padding: "12px 26px", borderRadius: 10, border: `1px solid ${COLORS.outlineBorder}`, color: COLORS.textPrimary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 500, background: "transparent", transition: "all 0.2s ease" }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; }}
+              onMouseEnter={e => { playHoverSound(); e.currentTarget.style.borderColor = COLORS.accentBorder; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; }}>
               Get in touch
             </a>
           </div>
 
           <a href="#chat-demo"
-            onClick={(e) => { e.preventDefault(); const el = document.getElementById("chat-demo"); if (el) { el.scrollIntoView({ behavior: "smooth", block: "center" }); } }}
-            style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "9px 16px", borderRadius: 999, border: `1px solid ${COLORS.accentBorder}`, background: COLORS.accentSoft, color: COLORS.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, marginBottom: 18, cursor: "pointer", transition: "all 0.2s ease", animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.48s both" }}
-            onMouseEnter={e => { e.currentTarget.style.color = COLORS.textPrimary; e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.borderColor = COLORS.accent; }}
-            onMouseLeave={e => { e.currentTarget.style.color = COLORS.textSecondary; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.borderColor = COLORS.accentBorder; }}>
+            onClick={(e) => { playClickSound(); e.preventDefault(); const el = document.getElementById("chat-demo"); if (el) { el.scrollIntoView({ behavior: "smooth", block: "center" }); } }}
+            onMouseEnter={e => { playHoverSound(); e.currentTarget.style.color = COLORS.textPrimary; e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.borderColor = COLORS.accent; }}
+            onMouseLeave={e => { e.currentTarget.style.color = COLORS.textSecondary; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.borderColor = COLORS.accentBorder; }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "9px 16px", borderRadius: 999, border: `1px solid ${COLORS.accentBorder}`, background: COLORS.accentSoft, color: COLORS.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, marginBottom: 18, cursor: "pointer", transition: "all 0.2s ease", animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.48s both" }}>
             <span style={{ position: "relative", display: "inline-flex", width: 7, height: 7 }}>
               <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: COLORS.accent }} />
             </span>
@@ -554,14 +559,16 @@ function Hero() {
 
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "flex-start", marginBottom: 40, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.5s both" }}>
             <a href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
+              onClick={() => playClickSound()}
               style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, borderRadius: 999, border: `1px solid ${COLORS.outlineBorder}`, color: COLORS.textSecondary, textDecoration: "none", background: "transparent", transition: "all 0.2s ease" }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.textPrimary; e.currentTarget.style.transform = "translateY(-2px)"; }}
+              onMouseEnter={e => { playHoverSound(); e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.textPrimary; e.currentTarget.style.transform = "translateY(-2px)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textSecondary; e.currentTarget.style.transform = "translateY(0)"; }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.5 5.74.5 12.02c0 5.11 3.29 9.43 7.86 10.96.57.1.78-.25.78-.55v-2.03c-3.2.7-3.87-1.39-3.87-1.39-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.41.35.78 1.04.78 2.1v3.11c0 .3.2.66.79.55 4.56-1.53 7.85-5.85 7.85-10.96C23.5 5.74 18.27.5 12 .5z"/></svg>
             </a>
             <a href="https://linkedin.com/in/carl-joshua-coloma" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+              onClick={() => playClickSound()}
               style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, borderRadius: 999, border: `1px solid ${COLORS.outlineBorder}`, color: COLORS.textSecondary, textDecoration: "none", background: "transparent", transition: "all 0.2s ease" }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.textPrimary; e.currentTarget.style.transform = "translateY(-2px)"; }}
+              onMouseEnter={e => { playHoverSound(); e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.textPrimary; e.currentTarget.style.transform = "translateY(-2px)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textSecondary; e.currentTarget.style.transform = "translateY(0)"; }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
             </a>
@@ -617,9 +624,10 @@ function AboutSection() {
             { num: "03", label: "5 Projects",           sub: "CV · NLP · LLMs · RAG", detail: "Production-ready ML systems" },
           ].map((item, idx) => (
             <div key={item.num}
-              onMouseEnter={() => setHovered(idx)}
+              onMouseEnter={() => { playHoverSound(); setHovered(idx); }}
               onMouseLeave={() => setHovered(null)}
               onClick={() => {
+                playClickSound();
                 const target = idx === 1 ? "experience" : "projects";
                 const el = document.getElementById(target);
                 if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -665,7 +673,8 @@ function StackSection() {
         {SKILL_GROUPS.map((group, gi) => (
           <button
             key={group.label}
-            onClick={() => setActiveTab(gi)}
+            onClick={() => { playClickSound(); setActiveTab(gi); }}
+            onMouseEnter={() => playHoverSound()}
             style={{
               padding: "8px 16px",
               borderRadius: 999,
@@ -729,7 +738,7 @@ function ExperienceSection() {
       <div style={{ display: "flex", flexDirection: "column", borderTop: `1px solid ${COLORS.border}` }}>
         {EXPERIENCE.map((exp, i) => (
           <article key={i}
-            onMouseEnter={(e) => { e.currentTarget.style.background = COLORS.isDark ? "rgba(245,158,11,0.07)" : "rgba(180,83,9,0.05)"; }}
+            onMouseEnter={(e) => { playHoverSound(); e.currentTarget.style.background = COLORS.isDark ? "rgba(245,158,11,0.07)" : "rgba(180,83,9,0.05)"; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
             style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 28, padding: "30px 0", borderBottom: `1px solid ${COLORS.border}`, transition: "background 0.25s ease", animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 90}ms both` : "none" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -793,7 +802,7 @@ function ProjectsSection() {
             autoplay={false}
             theme={COLORS.isDark ? "dark" : "light"}
             onChange={(index) => setActive(index)}
-            onCardClick={(index) => setActive(index)}
+            onCardClick={(index) => { playClickSound(); setActive(index); }}
           />
         </div>
 
@@ -831,13 +840,15 @@ function ProjectsSection() {
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 4 }}>
               {!project.private && (
                 <a href={primaryHref} target={primaryHref.startsWith("http") ? "_blank" : undefined} rel={primaryHref.startsWith("http") ? "noopener noreferrer" : undefined}
+                  onClick={() => playClickSound()}
+                  onMouseEnter={() => playHoverSound()}
                   style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: "11px 18px", borderRadius: 12, background: COLORS.accent, color: COLORS.isDark ? "#0b1026" : "#ffffff", textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 700, boxShadow: COLORS.isDark ? "0 12px 30px rgba(245,158,11,0.18)" : "0 12px 30px rgba(180,83,9,0.14)" }}>
                   {primaryHref.startsWith("http") ? "View project" : "View details"}
                 </a>
               )}
-              <button onClick={() => setArchOpen(true)}
+              <button onClick={() => { playClickSound(); setArchOpen(true); }}
                 style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: "11px 18px", borderRadius: 12, border: `1px solid ${COLORS.outlineBorder}`, background: "transparent", color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 600, cursor: "pointer", transition: "all 0.2s ease" }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.accent; }}
+                onMouseEnter={e => { playHoverSound(); e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.accent; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textPrimary; }}>
                 System architecture
               </button>
@@ -854,7 +865,7 @@ function ProjectsSection() {
                 <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 20, color: COLORS.textPrimary, fontWeight: 700, marginBottom: 2 }}>System Architecture · {project.title}</h3>
                 <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12 }}>How this system is built — frontend to backend, AI/ML, data, automation, and observability.</p>
               </div>
-              <button onClick={() => setArchOpen(false)} aria-label="Close" style={{ width: 36, height: 36, borderRadius: 999, border: `1px solid ${COLORS.border}`, background: "transparent", color: COLORS.textMuted, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+              <button onClick={() => { playClickSound(); setArchOpen(false); }} aria-label="Close" style={{ width: 36, height: 36, borderRadius: 999, border: `1px solid ${COLORS.border}`, background: "transparent", color: COLORS.textMuted, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
             </div>
             <Architecture project={project.title} />
           </div>
@@ -889,6 +900,7 @@ function ContactSection() {
   const localTime = now ? (now.toLocaleTimeString("en-PH", { hour: "numeric", minute: "2-digit", hour12: true, timeZone: "Asia/Manila" }) + " PH") : null;
 
   const copyEmail = async () => {
+    playClickSound();
     try {
       await navigator.clipboard.writeText(email);
     } catch {
@@ -984,6 +996,8 @@ function ContactSection() {
         <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginBottom: 22 }}>
           {socials.map((s, i) => (
             <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} title={s.label} className="contact-card"
+              onClick={() => playClickSound()}
+              onMouseEnter={() => playHoverSound()}
               style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: 13, borderRadius: 14, background: COLORS.chipBg, border: `1px solid ${COLORS.chipBorder}`, textDecoration: "none", animation: visible ? `contactRise 0.6s cubic-bezier(0.16,1,0.3,1) ${0.1 + i * 0.05}s both` : "none" }}>
               <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", color: COLORS.accent }}>
                 {s.glyph === "GH" ? (
@@ -1004,9 +1018,10 @@ function ContactSection() {
         <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginBottom: 22 }}>
           {/* resume button */}
           <a href="/cv-coloma.pdf" target="_blank" rel="noopener noreferrer" download="Carl-Coloma-Resume.pdf" className="resume-btn"
-            style={{ position: "relative", overflow: "hidden", display: "inline-flex", alignItems: "center", gap: 12, textDecoration: "none", padding: "15px 26px", borderRadius: 14, background: COLORS.accent, color: COLORS.isDark ? "#0b1026" : "#ffffff", fontFamily: "Inter, sans-serif", fontSize: 15, fontWeight: 700, letterSpacing: "0.01em", boxShadow: `0 10px 26px ${COLORS.accent}44`, transition: "transform 0.25s cubic-bezier(0.16,1,0.3,1)", animation: visible ? "contactRise 0.6s cubic-bezier(0.16,1,0.3,1) 0.1s both" : "none" }}
-            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; }}>
+            onClick={() => playClickSound()}
+            onMouseEnter={e => { playHoverSound(); e.currentTarget.style.transform = "translateY(-2px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; }}
+            style={{ position: "relative", overflow: "hidden", display: "inline-flex", alignItems: "center", gap: 12, textDecoration: "none", padding: "15px 26px", borderRadius: 14, background: COLORS.accent, color: COLORS.isDark ? "#0b1026" : "#ffffff", fontFamily: "Inter, sans-serif", fontSize: 15, fontWeight: 700, letterSpacing: "0.01em", boxShadow: `0 10px 26px ${COLORS.accent}44`, transition: "transform 0.25s cubic-bezier(0.16,1,0.3,1)", animation: visible ? "contactRise 0.6s cubic-bezier(0.16,1,0.3,1) 0.1s both" : "none" }}>
             <span className="btn-glow" />
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -1019,7 +1034,7 @@ function ContactSection() {
           {/* copy email */}
           <button onClick={copyEmail} className="copy-email-btn"
             style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "15px 24px", borderRadius: 14, background: COLORS.chipBg, border: `1px solid ${copied ? "rgba(52,211,153,0.5)" : COLORS.chipBorder}`, color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 14, cursor: "pointer", transition: "all 0.25s ease", animation: visible ? "contactRise 0.6s cubic-bezier(0.16,1,0.3,1) 0.15s both" : "none" }}
-            onMouseEnter={e => { if (!copied) e.currentTarget.style.borderColor = COLORS.accentBorder; }}
+            onMouseEnter={e => { playHoverSound(); if (!copied) e.currentTarget.style.borderColor = COLORS.accentBorder; }}
             onMouseLeave={e => { if (!copied) e.currentTarget.style.borderColor = COLORS.chipBorder; }}>
             <span style={{ fontFamily: "Inter, sans-serif", opacity: 0.85 }}>{email}</span>
             <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: copied ? "#34d399" : COLORS.accent, transition: "color 0.2s ease" }}>{copied ? "✓ copied" : "⧉ copy"}</span>
@@ -1095,7 +1110,9 @@ function GlidingNavLinks({ links, theme }) {
           href={link.href || `#${link.id}`}
           ref={el => (refs.current[i] = el)}
           aria-current={active === i ? "page" : undefined}
+          onMouseEnter={() => playHoverSound()}
           onClick={() => {
+            playClickSound();
             setActive(i);
             clickLock.current = true;
             clearTimeout(lockTimer.current);
@@ -1404,9 +1421,11 @@ function WorkAndGitHubSection() {
                     <p style={{ color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 12, lineHeight: 1.5, margin: 0 }}>{data.latestCommit.message}</p>
                   </div>
                 )}
-                <a href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 4, marginTop: 6, color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, textDecoration: "none", letterSpacing: "0.06em", transition: "color 0.2s ease" }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.accent; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = COLORS.textMuted; }}>
+                <a href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer"
+                  onClick={() => playClickSound()}
+                  onMouseEnter={(e) => { playHoverSound(); e.currentTarget.style.color = COLORS.accent; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = COLORS.textMuted; }}
+                  style={{ display: "inline-flex", alignItems: "center", gap: 4, marginTop: 6, color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, textDecoration: "none", letterSpacing: "0.06em", transition: "color 0.2s ease" }}>
                   more on github <span style={{ transition: "transform 0.2s ease" }}>→</span>
                 </a>
                 <CodeDemo />
@@ -1544,27 +1563,28 @@ export default function OnePiece() {
       `}</style>
 
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 clamp(24px, 6vw, 96px)", background: scrolled || menuOpen ? theme.navBg : "transparent", backdropFilter: scrolled || menuOpen ? "blur(18px)" : "none", borderBottom: scrolled || menuOpen ? `1px solid ${theme.border}` : "1px solid transparent", transition: "all 0.3s ease" }}>
-        <a href="#hero" style={{ display: "inline-flex", alignItems: "center", gap: 10, color: theme.textPrimary, textDecoration: "none", fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 13, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+        <a href="#hero" onClick={() => playClickSound()} style={{ display: "inline-flex", alignItems: "center", gap: 10, color: theme.textPrimary, textDecoration: "none", fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 13, letterSpacing: "0.12em", textTransform: "uppercase" }}>
           <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 30, height: 30, borderRadius: 999, background: theme.accent, color: theme.isDark ? "#0b1026" : "#ffffff", fontSize: 12, boxShadow: `0 10px 20px ${theme.accent}44` }}>CJ</span>
           <span>Carl Joshua<span style={{ color: theme.accent }}>.</span></span>
         </a>
 
         <div className="op-nav-links" style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <GlidingNavLinks links={NAV_LINKS} theme={theme} />
-          <button onClick={toggleTheme} aria-label="Toggle theme"
+          <button onClick={() => { playClickSound(); toggleTheme(); }} aria-label="Toggle theme"
             style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 34, height: 34, borderRadius: 999, border: `1px solid ${theme.border}`, background: "transparent", color: theme.textMuted, cursor: "pointer", transition: "all 0.2s", outline: "none" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = theme.accentBorder; e.currentTarget.style.color = theme.textPrimary; }}
+            onMouseEnter={e => { playHoverSound(); e.currentTarget.style.borderColor = theme.accentBorder; e.currentTarget.style.color = theme.textPrimary; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = theme.border; e.currentTarget.style.color = theme.textMuted; }}>
             {isDark ? <SunIcon /> : <MoonIcon />}
           </button>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <button onClick={toggleTheme} aria-label="Toggle theme" className="op-hamburger"
+          <button onClick={() => { playClickSound(); toggleTheme(); }} aria-label="Toggle theme" className="op-hamburger"
+            onMouseEnter={() => playHoverSound()}
             style={{ display: "none", alignItems: "center", justifyContent: "center", padding: "7px", borderRadius: 8, border: `1px solid ${theme.border}`, background: "none", color: theme.textMuted, cursor: "pointer", outline: "none" }}>
             {isDark ? <SunIcon /> : <MoonIcon />}
           </button>
-          <button className="op-hamburger" onClick={() => setMenuOpen(o => !o)} aria-label="Toggle menu" aria-expanded={menuOpen}>
+          <button className="op-hamburger" onClick={() => { playClickSound(); setMenuOpen(o => !o); }} onMouseEnter={() => playHoverSound()} aria-label="Toggle menu" aria-expanded={menuOpen}>
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
               {menuOpen
                 ? <><line x1="4" y1="4" x2="18" y2="18" stroke={theme.textSecondary} strokeWidth="2" strokeLinecap="round" /><line x1="18" y1="4" x2="4" y2="18" stroke={theme.textSecondary} strokeWidth="2" strokeLinecap="round" /></>
@@ -1577,13 +1597,13 @@ export default function OnePiece() {
 
       <div style={{ display: "flex", flexDirection: "column", position: "fixed", top: 68, left: 0, right: 0, background: theme.mobileMenuBg, backdropFilter: "blur(20px)", borderBottom: `1px solid ${theme.border}`, padding: "20px clamp(24px,6vw,96px)", zIndex: 99, transform: menuOpen ? "translateY(0)" : "translateY(-120%)", opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? "auto" : "none", transition: "transform 0.3s ease, opacity 0.25s ease" }}>
           {NAV_LINKS.map((link) => (
-            <a key={link.id} href={`#${link.id}`} onClick={() => setMenuOpen(false)}
+            <a key={link.id} href={`#${link.id}`} onClick={() => { playClickSound(); setMenuOpen(false); }} onMouseEnter={() => playHoverSound()}
               style={{ color: theme.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 15, fontWeight: 500, padding: "14px 0", borderBottom: `1px solid ${theme.stripBorder}` }}>
               {link.label}
             </a>
           ))}
           <div style={{ paddingTop: 16 }}>
-            <button onClick={() => { toggleTheme(); setMenuOpen(false); }}
+            <button onClick={() => { playClickSound(); toggleTheme(); setMenuOpen(false); }} onMouseEnter={() => playHoverSound()}
               style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 16px", borderRadius: 8, border: `1px solid ${theme.border}`, background: theme.chipBg, color: theme.textSecondary, cursor: "pointer", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, outline: "none" }}>
               {isDark ? <SunIcon /> : <MoonIcon />}
               <span>Switch to {isDark ? "Light" : "Dark"} Mode</span>

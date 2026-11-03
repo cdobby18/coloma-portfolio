@@ -511,7 +511,7 @@ function Hero() {
         </div>
 
         <div style={{ textAlign: "left", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 999, background: COLORS.accentSoft, marginBottom: 22, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both", position: "relative" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 999, background: COLORS.accentSoft, marginTop: 34, marginBottom: 22, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both", position: "relative" }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: COLORS.accent, boxShadow: `0 0 0 6px ${COLORS.accentSoft}` }} />
             <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", whiteSpace: "nowrap", minWidth: 200, display: "inline-block" }}>{typedLabel}<span style={{ opacity: 0.7 }}>|</span></span>
           </div>
@@ -1144,11 +1144,35 @@ function MoonIcon() {
 function WorkAndGitHubSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
-  const workItems = [
-    { title: "STACK", body: "Python, FastAPI, React, SQL. Small services, clear boundaries.", detail: "I keep projects modular: API layer, business logic, and data access separated, with minimal dependencies." },
-    { title: "GIT", body: "Feature branches, small PRs, clear commits.", detail: "Small reviewable PRs, descriptive commits, and a self-review of my own diff before requesting review." },
-    { title: "TOOLS", body: "VS Code, GitHub, Vercel, Jupyter, Obsidian.", detail: "Jupyter for exploration and quick experiments; Vercel for deploys; GitHub for version control and CI; Obsidian for taking notes." },
-    { title: "AI", body: "Claude Code / Copilot for scaffolding; I own every line.", detail: "AI speeds up scaffolding and refactors, but I read, test, and take responsibility for everything I ship." },
+  const PROCESS = [
+    {
+      num: "01",
+      tag: "Start here",
+      title: "I start with the problem, not the tool",
+      body: "Before I touch a model or a framework, I'm clear on what could go wrong and why it matters. This is the step most beginners skip — jumping straight into the shiny tool — and it's the one that saves months of building the wrong thing.",
+      detail: "Why before how · failure modes before features",
+    },
+    {
+      num: "02",
+      tag: "Experiment",
+      title: "Play before you build",
+      body: "Get your hands dirty early. Test one idea in a notebook, with real data, before committing to a full architecture. As an aspiring AI engineer, your superpower right now is curiosity — and the best way to kill a bad idea fast is to play with it before you build it.",
+      detail: "Jupyter · real data · one idea at a time",
+    },
+    {
+      num: "03",
+      tag: "Build small",
+      title: "Small steps beat big beginnings",
+      body: "You don't need a production system on day one. Break the problem into small, modular pieces, and ship the smallest useful version. Small PRs, small builds — compounding confidence beats one giant launch.",
+      detail: "Small steps · small builds · iterate",
+    },
+    {
+      num: "04",
+      tag: "Measure",
+      title: "Let evaluation guide you",
+      body: "Learn to measure what your system is actually doing. Start with evals — what counts as good output, what failure looks like — and let that guide your next iteration. This habit is what separates people who copy models from people who build AI responsibly.",
+      detail: "Evals · measure · iterate · repeat",
+    },
   ];
 
   const [data, setData] = useState(null);
@@ -1235,33 +1259,42 @@ function WorkAndGitHubSection() {
         </div>
         <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 24, fontWeight: 700 }}>Work & GitHub</h2>
 
-        <div className="work-github-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, alignItems: "start" }}>
-          {/* Left: How I work */}
+        <div className="work-github-grid" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)", gap: 24, alignItems: "start" }}>
+          {/* Left: How I work — process timeline */}
           <div>
-            <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, color: COLORS.textPrimary, fontWeight: 600, marginBottom: 12 }}>How I work</h3>
-            <div className="work-items-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, perspective: 900 }}>
-              {workItems.map((it, idx) => {
-                const isFlipped = flipped.has(idx);
-                return (
-                  <div key={it.title}
-                    onClick={() => setFlipped((prev) => { const n = new Set(prev); if (n.has(idx)) n.delete(idx); else n.add(idx); return n; })}
-                    style={{ position: "relative", height: 110, cursor: "pointer", transformStyle: "preserve-3d", transition: "transform 0.5s cubic-bezier(0.22,1,0.36,1)", transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)" }}
-                    onMouseEnter={(e) => { if (!isFlipped) e.currentTarget.style.transform = "rotateY(0deg) translateY(-4px)"; }}
-                    onMouseLeave={(e) => { if (!isFlipped) e.currentTarget.style.transform = "rotateY(0deg) translateY(0)"; }}
-                  >
-                    <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: "12px 14px", boxShadow: COLORS.isDark ? "0 4px 12px rgba(0,0,0,0.25)" : "0 4px 12px rgba(15,23,42,0.06)", transition: "border-color 0.2s ease, box-shadow 0.2s ease" }}
-                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.boxShadow = `0 8px 20px ${COLORS.accent}22`; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.boxShadow = COLORS.isDark ? "0 4px 12px rgba(0,0,0,0.25)" : "0 4px 12px rgba(15,23,42,0.06)"; }}>
-                      <h4 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: COLORS.accent, fontWeight: 600, marginBottom: 4 }}>{it.title}</h4>
-                      <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 12, lineHeight: 1.6 }}>{it.body}</p>
-                      <span style={{ position: "absolute", bottom: 8, right: 10, fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: COLORS.textMuted }}>tap to flip ↻</span>
-                    </div>
-                    <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)", background: COLORS.isDark ? "rgba(15,23,42,0.95)" : "rgba(248,250,252,0.95)", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 10, padding: "12px 14px", display: "flex", alignItems: "center" }}>
-                      <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 11, lineHeight: 1.6 }}>{it.detail}</p>
-                    </div>
+            <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, color: COLORS.textPrimary, fontWeight: 600, marginBottom: 18 }}>How I work</h3>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              {PROCESS.map((step, i) => (
+                <div key={step.num} style={{ position: "relative", paddingLeft: 40, paddingBottom: i < PROCESS.length - 1 ? 24 : 0, animation: visible ? `fadeUp 0.55s cubic-bezier(0.16,1,0.3,1) ${0.12 + i * 0.1}s both` : "none" }}>
+                  {/* connector line */}
+                  {i < PROCESS.length - 1 && (
+                    <div style={{ position: "absolute", left: 15, top: 30, bottom: 0, width: 1, background: `linear-gradient(180deg, ${COLORS.accentBorder}, ${COLORS.border})` }} />
+                  )}
+                  {/* numbered node */}
+                  <div style={{ position: "absolute", left: 0, top: 0, width: 30, height: 30, borderRadius: 999, display: "flex", alignItems: "center", justifyContent: "center", background: COLORS.isDark ? "rgba(245,158,11,0.12)" : "rgba(180,83,9,0.08)", border: `1px solid ${COLORS.accentBorder}`, color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 9, fontWeight: 700, boxShadow: `0 0 0 4px ${COLORS.isDark ? "rgba(245,158,11,0.05)" : "rgba(180,83,9,0.03)"}` }}>
+                    {step.num.slice(1)}
                   </div>
-                );
-              })}
+
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 7 }}>
+                    <span style={{ color: COLORS.accent, fontFamily: "'Space Grotesk', sans-serif", fontSize: 13.5, fontWeight: 700, letterSpacing: "-0.01em" }}>{step.title}</span>
+                    <span style={{ padding: "2px 9px", borderRadius: 999, border: `1px solid ${COLORS.accentBorder}`, background: COLORS.accentSoft, color: COLORS.isDark ? COLORS.accent : COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase" }}>{step.tag}</span>
+                  </div>
+                  <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 12.5, lineHeight: 1.75, margin: 0 }}>
+                    {step.body}
+                  </p>
+                  <p style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.03em", marginTop: 8, display: "flex", alignItems: "center", gap: 6 }}>
+                    <span style={{ color: COLORS.accent, opacity: 0.8 }}>→</span>{step.detail}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ marginTop: 22, paddingTop: 18, borderTop: `1px solid ${COLORS.stripBorder}`, display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {["Why before how", "Play before building", "Small wins", "Measure & learn"].map((p) => (
+                <span key={p} style={{ padding: "5px 11px", borderRadius: 999, border: `1px solid ${COLORS.chipBorder}`, background: COLORS.chipBg, color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 500 }}>
+                  {p}
+                </span>
+              ))}
             </div>
           </div>
 
@@ -1387,9 +1420,9 @@ function WorkAndGitHubSection() {
           100% { box-shadow: 0 0 0 0 rgba(52,211,153,0); }
         }
         @media (max-width: 768px) {
-          .work-github-grid { grid-template-columns: 1fr !important; }
-          .work-items-grid { grid-template-columns: 1fr !important; }
-          .rag-sources-grid { grid-template-columns: 1fr !important; }
+          .work-github-grid { grid-template-columns: minmax(0, 1fr) !important; }
+          .work-github-grid > div { min-width: 0 !important; max-width: 100% !important; overflow: hidden; }
+          .rag-sources-grid { grid-template-columns: minmax(0, 1fr) !important; }
         }
       `}</style>
     </section>
@@ -1471,6 +1504,7 @@ export default function OnePiece() {
         .op-nav-links { display: flex; gap: 22px; align-items: center; }
         .op-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
         #heroName .glyph { color: ${theme.accent} !important; }
+        .work-github-grid > div { min-width: 0; }
         main > section:not(#hero), footer { max-width: 1120px; margin-left: auto; margin-right: auto; }
         main > section { scroll-margin-top: 88px; }
         @media (max-width: 1080px) {

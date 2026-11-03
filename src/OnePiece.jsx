@@ -3,6 +3,7 @@ import RagDemo from "./demo/RagDemo";
 import Architecture from "./Architecture";
 import CertAccordion from "./CertAccordion";
 import CardSwap from "./CardSwap";
+import CodeDemo from "./CodeDemo";
 
 function BackToTop() {
   const COLORS = useColors();
@@ -1408,6 +1409,7 @@ function WorkAndGitHubSection() {
                   onMouseLeave={(e) => { e.currentTarget.style.color = COLORS.textMuted; }}>
                   more on github <span style={{ transition: "transform 0.2s ease" }}>→</span>
                 </a>
+                <CodeDemo />
               </>
             )}
           </div>

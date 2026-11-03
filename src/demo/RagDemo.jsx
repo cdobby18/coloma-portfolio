@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useColors } from "../OnePiece";
 
 const EXAMPLE_QUERIES = [
@@ -18,39 +18,45 @@ const LOCAL_DOCS = [
   { id: "lamina", title: "AI Engineer Intern — Lamina Studios", text: "Built real-time YOLOv8 object detection pipelines with OpenCV at production-ready inference speeds, trained XGBoost models, automated retraining." },
   { id: "skills-stack", title: "Technical Skills & Stack", text: "Python, JavaScript. AI/ML: PyTorch, TensorFlow, Scikit-learn, OpenCV, LangChain, Transformers, RAG, Prompt Engineering, LLM APIs, Agentic Workflows. Data: SQL, Databricks, ETL, dbt, Airflow, Snowflake, PySpark. Tools: FastAPI, Flask, React, Docker, Git, Qdrant." },
   { id: "internships-overview", title: "Internship Experience Overview", text: "Three AI engineering internships: Lamina Studios (computer vision, Dec 2025-Apr 2026), SoFi AI Tech Solutions (AI QA, Apr-Jul 2026), FlyRank AI (backend AI, Jul 2026-present)." },
-  { id: "about", title: "About CJ", text: "CJ is an aspiring AI engineer and CS student from the Philippines (FEU Tech, 2026). Focus: agentic AI, LLMs, RAG, production observability. Won Overall Best Thesis for Powerlift." },
+  { id: "about", title: "About CJ — Carl Joshua Coloma", text: "CJ is Carl Joshua Coloma, an aspiring AI engineer and CS graduate student from the Philippines (FEU Tech, 2026). Focus: agentic AI, LLMs, RAG, production observability. Won Overall Best Thesis for Powerlift. Open to AI engineering roles." },
   { id: "contact", title: "Contact", text: "Email: carljoshuamcoloma@gmail.com. GitHub: github.com/cdobby18. LinkedIn: linkedin.com/in/carl-joshua-coloma." },
   { id: "education", title: "Education", text: "BS Computer Science, FEU Institute of Technology, graduating 2026. Exchange semester at National Sun Yat-sen University, Taiwan." },
 ];
 
 function localAnswer(q) {
-  const words = q.toLowerCase().split(/\W+/).filter((w) => w.length > 2);
+  const words = q.toLowerCase().split(/\W+/).filter((w) => w.length > 1);
   const scored = LOCAL_DOCS.map((doc) => {
     const text = (doc.title + " " + doc.text).toLowerCase();
     let score = 0;
     for (const w of words) {
-      if (text.includes(w)) score += 2;
+      if (text.includes(w)) {
+        score += w.length > 2 ? 2 : 1;
+      }
     }
     return { doc, score };
   }).sort((a, b) => b.score - a.score);
   const matches = scored.filter((r) => r.score > 0).slice(0, 2);
   const top = matches.length ? matches[0].doc : null;
-  const answer = top ? top.text : "Ask me about anything — projects, internships, skills, or contact info."
+  const answer = top ? top.text : "Hi! I'm CJ's portfolio assistant — ask about Carl Joshua Coloma's projects, internships, skills, or contact info."
   return { answer, matches: matches.map((m) => ({ doc: m.doc, score: m.score })) };
 }
 
 function MiniChat() {
   const COLORS = useColors();
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [typedAnswer, setTypedAnswer] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [phase, setPhase] = useState("idle"); // idle | searching | typing
+  const streamRef = useRef(null);
+  const scrollRef = useRef(null);
 
-  async function runQuery(q) {
-    setLoading(true);
-    setResults(null);
-    setTypedAnswer("");
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [messages, phase]);
+
+  useEffect(() => () => { if (streamRef.current) clearInterval(streamRef.current); }, []);
+
+  async function fetchAnswer(q) {
     try {
       const res = await fetch("/api/rag", {
         method: "POST",
@@ -59,54 +65,144 @@ function MiniChat() {
       });
       if (!res.ok) throw new Error("Request failed");
       const data = await res.json();
-      setResults({ ...data, answer: (data.answer || "").replace(/\. /g, ".\n") });
+      if (!data.answer) throw new Error("Empty answer");
+      return { answer: data.answer, matches: data.matches || [] };
     } catch {
-      setResults(localAnswer(q));
-    } finally {
-      setLoading(false);
+      const local = localAnswer(q);
+      return { answer: local.answer, matches: local.matches };
     }
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (query.trim()) runQuery(query.trim());
-  }
-
-  useEffect(() => {
-    if (!results?.answer) {
-      setTypedAnswer("");
-      return;
-    }
-    setIsTyping(true);
-    setTypedAnswer("");
+  function streamAnswer(answer) {
+    clearInterval(streamRef.current);
+    const parts = (answer.match(/[^.!?\s][^.!?]*[.!?]+|\S[^.!?]*$/g) || [answer]).map((s) => s.trim()).filter(Boolean);
+    setPhase("typing");
     let i = 0;
-    const text = results.answer;
-    const id = setInterval(() => {
-      i += 2;
-      setTypedAnswer(text.slice(0, i));
-      if (i >= text.length) {
-        setTypedAnswer(text);
-        setIsTyping(false);
-        clearInterval(id);
+    streamRef.current = setInterval(() => {
+      i += 1;
+      setMessages((m) => {
+        const copy = [...m];
+        const last = copy[copy.length - 1];
+        if (last && last.role === "ai") {
+          copy[copy.length - 1] = { ...last, text: parts.slice(0, i).join(" ") };
+        }
+        return copy;
+      });
+      if (i >= parts.length) {
+        clearInterval(streamRef.current);
+        streamRef.current = null;
+        setPhase("idle");
       }
-    }, 12);
-    return () => clearInterval(id);
-  }, [results]);
+    }, 160);
+  }
+
+  async function runQuery(q) {
+    if (!q.trim() || phase !== "idle") return;
+    setQuery("");
+    setMessages((m) => [...m, { role: "user", text: q.trim() }]);
+    setPhase("searching");
+    const { answer, matches } = await fetchAnswer(q.trim());
+    setMessages((m) => [...m, { role: "ai", text: "", matches }]);
+    streamAnswer(answer);
+  }
+
+  function reset() {
+    clearInterval(streamRef.current);
+    streamRef.current = null;
+    setMessages([]);
+    setQuery("");
+    setPhase("idle");
+  }
+
+  const chipBtn = {
+    padding: "5px 11px",
+    borderRadius: 999,
+    border: `1px solid ${COLORS.chipBorder}`,
+    background: "transparent",
+    color: COLORS.textMuted,
+    fontFamily: "Inter, sans-serif",
+    fontSize: 11.5,
+    cursor: "pointer",
+    transition: "all 0.2s ease",
+  };
+
+  const statusLabel = phase === "searching" ? "retrieving from corpus…" : phase === "typing" ? "generating response…" : "online";
 
   return (
-    <div id="demo" style={{ width: "100%", border: `1px solid ${COLORS.border}`, borderRadius: 12, background: COLORS.surface, padding: 12, boxSizing: "border-box" }}>
-      <form onSubmit={handleSubmit} style={{ display: "flex", gap: 8 }}>
+    <div id="demo" style={{ width: "100%", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 16, background: COLORS.surface, padding: 14, boxSizing: "border-box", boxShadow: `0 8px 28px ${COLORS.accent}12`, display: "flex", flexDirection: "column", gap: 10 }}>
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 7, color: COLORS.textSecondary, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+          <span style={{ width: 5, height: 5, borderRadius: "50%", background: phase === "idle" ? COLORS.accent : COLORS.textMuted, boxShadow: `0 0 0 3px ${COLORS.accent}22` }} />
+          Portfolio AI
+        </span>
+        <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.06em" }}>{statusLabel}</span>
+      </div>
+
+      {/* Thread */}
+      <div ref={scrollRef} style={{ display: "flex", flexDirection: "column", gap: 10, maxHeight: 250, overflowY: "auto", paddingRight: 2, minHeight: messages.length ? undefined : 0 }}>
+        {messages.length === 0 && (
+          <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12, lineHeight: 1.6, margin: 0, padding: "2px 2px 4px" }}>
+            Ask about my projects, internships, or skills — answers are retrieved live from a corpus.
+          </p>
+        )}
+        {messages.map((m, i) => {
+          const isLast = i === messages.length - 1;
+          if (m.role === "user") {
+            return (
+              <div key={i} style={{ display: "flex", justifyContent: "flex-end" }}>
+                <div style={{ maxWidth: "85%", padding: "8px 12px", borderRadius: "13px 13px 4px 13px", background: COLORS.accentSoft, border: `1px solid ${COLORS.accentBorder}`, color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 12.5, lineHeight: 1.5 }}>
+                  {m.text}
+                </div>
+              </div>
+            );
+          }
+          return (
+            <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+              <span style={{ width: 22, height: 22, borderRadius: 999, background: COLORS.accent, color: COLORS.isDark ? "#0b1026" : "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, flexShrink: 0, fontFamily: "'Space Grotesk', sans-serif", marginTop: 2 }}>AI</span>
+              <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 6 }}>
+                <div style={{ padding: "9px 12px", borderRadius: "13px 13px 13px 4px", border: `1px solid ${COLORS.border}`, background: COLORS.chipBg, color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 12.5, lineHeight: 1.65, whiteSpace: "pre-line" }}>
+                  {m.text}
+                  {phase === "typing" && isLast && <span style={{ opacity: 0.55 }}> ▋</span>}
+                </div>
+                {(m.matches || []).length > 0 && !(phase === "typing" && isLast) && (
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                    <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase" }}>sources</span>
+                    {(m.matches || []).slice(0, 3).map(({ doc }) => (
+                      <span key={doc.id} style={{ padding: "3px 9px", borderRadius: 999, border: `1px solid ${COLORS.chipBorder}`, color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 10.5 }}>
+                        ◈ {doc.title}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+        {phase === "searching" && (
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <span style={{ width: 22, height: 22, borderRadius: 999, background: COLORS.accent, color: COLORS.isDark ? "#0b1026" : "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, flexShrink: 0, fontFamily: "'Space Grotesk', sans-serif" }}>AI</span>
+            <div style={{ padding: "9px 12px", borderRadius: "13px 13px 13px 4px", border: `1px solid ${COLORS.border}`, background: COLORS.chipBg, color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12.5, letterSpacing: "0.08em" }}>
+              <span style={{ display: "inline-block", animation: "miniPulse 1.1s ease-in-out infinite" }}>◈ retrieving relevant context</span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Input */}
+      <form onSubmit={(e) => { e.preventDefault(); runQuery(query); }} style={{ display: "flex", gap: 8 }}>
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Ask me about anything…"
+          placeholder={phase === "idle" ? "Ask me about anything…" : "Assistant is working…"}
+          disabled={phase !== "idle"}
           style={{
             flex: "1 1 auto",
             minWidth: 0,
-            padding: "8px 12px",
-            borderRadius: 8,
+            padding: "9px 12px",
+            borderRadius: 10,
             border: `1px solid ${COLORS.border}`,
-            background: "transparent",
+            background: COLORS.isDark ? "rgba(10,16,32,0.5)" : "rgba(255,255,255,0.6)",
             color: COLORS.textPrimary,
             fontFamily: "Inter, sans-serif",
             fontSize: 13,
@@ -115,58 +211,53 @@ function MiniChat() {
         />
         <button
           type="submit"
-          disabled={loading}
+          disabled={phase !== "idle"}
           style={{
-            padding: "8px 14px",
-            borderRadius: 8,
+            padding: "9px 16px",
+            borderRadius: 10,
             border: "none",
             background: COLORS.accent,
             color: COLORS.isDark ? "#0b1026" : "#f7f5f2",
             fontFamily: "Inter, sans-serif",
             fontSize: 12,
             fontWeight: 600,
-            cursor: loading ? "default" : "pointer",
-            opacity: loading ? 0.7 : 1,
+            cursor: phase === "idle" ? "pointer" : "default",
+            opacity: phase === "idle" ? 1 : 0.6,
+            transition: "all 0.2s ease",
           }}
         >
-          {loading ? "…" : "Ask"}
+          Ask
         </button>
-        <button
-          type="button"
-          onClick={() => { setQuery(""); setResults(null); setTypedAnswer(""); }}
-          style={{
-            padding: "8px 10px",
-            borderRadius: 8,
-            border: `1px solid ${COLORS.chipBorder}`,
-            background: "transparent",
-            color: COLORS.textMuted,
-            fontFamily: "Inter, sans-serif",
-            fontSize: 12,
-            cursor: "pointer",
-          }}
-        >
-          Clear
-        </button>
+        {messages.length > 0 && (
+          <button type="button" onClick={reset} aria-label="Clear conversation"
+            style={{
+              padding: "9px 12px",
+              borderRadius: 10,
+              border: `1px solid ${COLORS.chipBorder}`,
+              background: "transparent",
+              color: COLORS.textMuted,
+              fontFamily: "Inter, sans-serif",
+              fontSize: 12,
+              cursor: "pointer",
+            }}>
+            ✕
+          </button>
+        )}
       </form>
 
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 8 }}>
-        {["What is Powerlift?", "Tech stack?", "Internships?"].map((q) => (
-          <button key={q} type="button" onClick={() => { setQuery(q); runQuery(q); }}
-            style={{ padding: "4px 10px", borderRadius: 999, border: `1px solid ${COLORS.chipBorder}`, background: "transparent", color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11, cursor: "pointer", transition: "all 0.2s ease" }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.textPrimary; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.color = COLORS.textMuted; }}>
-            {q}
-          </button>
-        ))}
-      </div>
-
-      {results && (
-        <div style={{ marginTop: 10, border: `1px solid ${COLORS.accentBorder}`, borderRadius: 8, padding: "10px 12px", background: COLORS.accentSoft, maxHeight: 180, overflowY: "auto" }}>
-          <p style={{ color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 13, lineHeight: 1.7, margin: 0, whiteSpace: "pre-line" }}>
-            {typedAnswer}{isTyping && <span style={{ opacity: 0.6 }}>▋</span>}
-          </p>
+      {/* Suggestions */}
+      {messages.length === 0 && (
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+          {["What is Powerlift?", "Tech stack?", "Internships?"].map((q) => (
+            <button key={q} type="button" onClick={() => runQuery(q)} style={chipBtn}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.textPrimary; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = COLORS.chipBorder; e.currentTarget.style.color = COLORS.textMuted; }}>
+              {q}
+            </button>
+          ))}
         </div>
       )}
+      <style>{`@keyframes miniPulse { 0%, 100% { opacity: 0.45 } 50% { opacity: 1 } }`}</style>
     </div>
   );
 }

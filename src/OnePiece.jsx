@@ -141,7 +141,7 @@ const SKILL_GROUPS = [
   },
   {
     label: "Developer Tools",
-    skills: ["Docker", "Git", "VS Code", "Claude Code", "Hermes Agent", "Obsidian", "Exa AI", "Qdrant", "PostgreSQL", "Jupyter"],
+    skills: ["Docker", "Git", "VS Code", "Claude Code", "Hermes Agent", "Obsidian", "Exa AI", "Qdrant", "PostgreSQL", "Jupyter", "Anaconda"],
   },
 ];
 
@@ -284,29 +284,8 @@ export function SectionLabel({ num, text }) {
   );
 }
 
-const SKILL_USED_IN = {
-  "Python": "Powerlift, Resume Analyzer, Sunny AI",
-  "JavaScript": "Portfolio, Sunny AI",
-  "FastAPI": "Resume Analyzer, Sunny AI",
-  "React": "Portfolio, Sunny AI",
-  "PyTorch": "AI Engineering Roadmap",
-  "OpenCV": "Powerlift, Lamina Studios",
-  "LangChain": "Sunny AI",
-  "RAG": "Sunny AI, Portfolio demo",
-  "Docker": "Deployment workflows",
-  "PostgreSQL": "Backend services",
-  "Pandas": "Data pipelines",
-  "NumPy": "ML experiments",
-  "spaCy": "Resume Analyzer",
-  "Transformers": "Document Summarizer",
-  "YOLOv8": "Powerlift, Lamina Studios",
-  "XGBoost": "Lamina Studios",
-  "Kalman Filtering": "Powerlift",
-};
-
 function SkillPill({ name, delay = 0, muted = false }) {
   const COLORS = useColors();
-  const usedIn = SKILL_USED_IN[name];
   const [hover, setHover] = useState(false);
   return (
     <div
@@ -350,11 +329,6 @@ function SkillPill({ name, delay = 0, muted = false }) {
       >
         {name}
       </div>
-      {hover && usedIn && (
-        <div style={{ position: "absolute", bottom: "calc(100% + 6px)", left: "50%", transform: "translateX(-50%)", background: COLORS.isDark ? "rgba(15,23,42,0.95)" : "rgba(255,255,255,0.98)", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 8, padding: "6px 10px", color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 11, whiteSpace: "nowrap", zIndex: 50, boxShadow: "0 8px 20px rgba(0,0,0,0.15)", pointerEvents: "none" }}>
-          used in: <span style={{ color: COLORS.accent }}>{usedIn}</span>
-        </div>
-      )}
     </div>
   );
 }
@@ -363,7 +337,7 @@ function Hero() {
   const COLORS = useColors();
   const [nameHover, setNameHover] = useState(false);
   const heroNameRef = useRef(null);
-  const TYPE_LABELS = ["AI & Automation Engineer", "Software Engineer", "GenAI Engineer"];
+  const TYPE_LABELS = ["AI & Automation Engineer", "Software Engineer", "GenAI Engineer", "AI Quality Assurance"];
   const [typedLabel, setTypedLabel] = useState("");
   const [typeIndex, setTypeIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -547,7 +521,7 @@ function Hero() {
           </h1>
 
           <p style={{ maxWidth: 680, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: "clamp(16px, 2vw, 18px)", lineHeight: 1.9, marginBottom: 30, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.32s both" }}>
-            AI Engineer focused on building reliable <span style={{ color: COLORS.textPrimary }}>agentic workflows, RAG systems, and production-ready ML</span> with Python.
+            An aspiring AI Engineer focused on building reliable <span style={{ color: COLORS.textPrimary }}>agentic workflows, RAG systems, and production-ready ML</span> with Python.
           </p>
 
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "flex-start", marginBottom: 16, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.44s both" }}>
@@ -564,6 +538,18 @@ function Hero() {
               Get in touch
             </a>
           </div>
+
+          <a href="#chat-demo"
+            onClick={(e) => { e.preventDefault(); const el = document.getElementById("chat-demo"); if (el) { el.scrollIntoView({ behavior: "smooth", block: "center" }); } }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "9px 16px", borderRadius: 999, border: `1px solid ${COLORS.accentBorder}`, background: COLORS.accentSoft, color: COLORS.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 500, marginBottom: 18, cursor: "pointer", transition: "all 0.2s ease", animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.48s both" }}
+            onMouseEnter={e => { e.currentTarget.style.color = COLORS.textPrimary; e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.borderColor = COLORS.accent; }}
+            onMouseLeave={e => { e.currentTarget.style.color = COLORS.textSecondary; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.borderColor = COLORS.accentBorder; }}>
+            <span style={{ position: "relative", display: "inline-flex", width: 7, height: 7 }}>
+              <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: COLORS.accent }} />
+            </span>
+            Curious about my work? <span style={{ color: COLORS.accent, fontWeight: 600 }}>Ask my Portfolio AI</span>
+            <span aria-hidden="true" style={{ color: COLORS.accent }}>→</span>
+          </a>
 
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "flex-start", marginBottom: 40, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.5s both" }}>
             <a href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
@@ -598,7 +584,7 @@ function AboutSection() {
       <div data-cols="true" style={{ display: "flex", gap: 64, alignItems: "flex-start" }}>
         <div style={{ flex: "1 1 0", minWidth: 0 }}>
           <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: 1.85, marginBottom: 18 }}>
-            Hey, I'm CJ — an aspiring AI engineer and CS student from the Philippines (FEU Tech, 2026). I bridge research-grade ML with real-world deployment — reliable, observable, maintainable systems beyond the notebook.
+            Hey, I'm CJ — an aspiring AI engineer and CS graduate student from the Philippines (FEU Tech, 2026). I bridge research-grade ML with real-world deployment — reliable, observable, maintainable systems beyond the notebook.
           </p>
           <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 16, lineHeight: 1.85, marginBottom: 18 }}>
             Currently Backend AI Engineer Intern at FlyRank AI (LLM content generation, semantic ranking). Previously AI QA Intern at SoFi AI Tech Solutions (adversarial prompt suites, hallucination testing). Focus: LLM evaluation, RAG, production observability.
@@ -647,8 +633,10 @@ function AboutSection() {
             </div>
           ))}
 
-          <div style={{ marginTop: 14 }}>
-            <RagDemo compact />
+          <div id="chat-demo" style={{ marginTop: 14 }}>
+            <div style={{ borderRadius: 16, border: `1px solid ${COLORS.accentBorder}`, boxShadow: `0 0 0 1px ${COLORS.accent}22, 0 10px 28px ${COLORS.accent}14`, overflow: "hidden" }}>
+              <RagDemo compact />
+            </div>
           </div>
         </div>
       </div>
@@ -706,6 +694,9 @@ function StackSection() {
           <span style={{ display: "inline-flex", alignItems: "center", gap: 8, color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, fontWeight: 600 }}>
             <span style={{ width: 8, height: 8, borderRadius: "50%", background: COLORS.accent, boxShadow: `0 0 0 4px ${COLORS.accentSoft}` }} />
             {activeGroup.label}
+            {activeGroup.muted && (
+              <span style={{ color: COLORS.accent, background: COLORS.accentSoft, border: `1px solid ${COLORS.accentBorder}`, borderRadius: 999, padding: "2px 10px", fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase" }}>Upskilling</span>
+            )}
           </span>
           <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase" }}>0{activeTab + 1} / 0{SKILL_GROUPS.length}</span>
         </div>
@@ -737,9 +728,9 @@ function ExperienceSection() {
       <div style={{ display: "flex", flexDirection: "column", borderTop: `1px solid ${COLORS.border}` }}>
         {EXPERIENCE.map((exp, i) => (
           <article key={i}
-            onMouseEnter={(e) => { e.currentTarget.style.background = COLORS.isDark ? "rgba(245,158,11,0.03)" : "rgba(180,83,9,0.03)"; e.currentTarget.style.borderLeft = `3px solid ${COLORS.accent}`; e.currentTarget.style.paddingLeft = "16px"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderLeft = "3px solid transparent"; e.currentTarget.style.paddingLeft = "0"; }}
-            style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 28, padding: "30px 0", borderBottom: `1px solid ${COLORS.border}`, borderLeft: "3px solid transparent", transition: "all 0.25s ease", animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 90}ms both` : "none" }}>
+            onMouseEnter={(e) => { e.currentTarget.style.background = COLORS.isDark ? "rgba(245,158,11,0.07)" : "rgba(180,83,9,0.05)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+            style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 28, padding: "30px 0", borderBottom: `1px solid ${COLORS.border}`, transition: "background 0.25s ease", animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${i * 90}ms both` : "none" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 12 }}>{exp.period}</span>
               <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 13 }}>{exp.company}</span>
@@ -1154,9 +1145,9 @@ function WorkAndGitHubSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
   const workItems = [
-    { title: "Stack", body: "Python, FastAPI, React, SQL. Small services, clear boundaries.", detail: "I keep projects modular: API layer, business logic, and data access separated, with minimal dependencies." },
-    { title: "Git", body: "Feature branches, small PRs, clear commits.", detail: "Small reviewable PRs, descriptive commits, and a self-review of my own diff before requesting review." },
-    { title: "Tools", body: "VS Code, GitHub, Vercel, Jupyter.", detail: "Jupyter for exploration and quick experiments; Vercel for deploys; GitHub for version control and CI." },
+    { title: "STACK", body: "Python, FastAPI, React, SQL. Small services, clear boundaries.", detail: "I keep projects modular: API layer, business logic, and data access separated, with minimal dependencies." },
+    { title: "GIT", body: "Feature branches, small PRs, clear commits.", detail: "Small reviewable PRs, descriptive commits, and a self-review of my own diff before requesting review." },
+    { title: "TOOLS", body: "VS Code, GitHub, Vercel, Jupyter, Obsidian.", detail: "Jupyter for exploration and quick experiments; Vercel for deploys; GitHub for version control and CI; Obsidian for taking notes." },
     { title: "AI", body: "Claude Code / Copilot for scaffolding; I own every line.", detail: "AI speeds up scaffolding and refactors, but I read, test, and take responsibility for everything I ship." },
   ];
 

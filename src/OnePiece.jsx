@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, createContext, useContext } from "react";
 import RagDemo from "./demo/RagDemo";
+import Architecture from "./Architecture";
+import CertAccordion from "./CertAccordion";
 import CardSwap from "./CardSwap";
 
 function BackToTop() {
@@ -115,8 +117,9 @@ const NAV_LINKS = [
   { label: "About",      id: "about"      },
   { label: "Experience", id: "experience" },
   { label: "Projects",   id: "projects"   },
-  { label: "Skills",     id: "stack"      },
-  { label: "Contact",    id: "contact"    },
+  { label: "Skills",          id: "stack"      },
+  { label: "Certifications",  id: "certs"      },
+  { label: "Contact",         id: "contact"    },
   { label: "Blog",       id: "blog", href: "/blog.html" },
 ];
 
@@ -281,44 +284,77 @@ export function SectionLabel({ num, text }) {
   );
 }
 
+const SKILL_USED_IN = {
+  "Python": "Powerlift, Resume Analyzer, Sunny AI",
+  "JavaScript": "Portfolio, Sunny AI",
+  "FastAPI": "Resume Analyzer, Sunny AI",
+  "React": "Portfolio, Sunny AI",
+  "PyTorch": "AI Engineering Roadmap",
+  "OpenCV": "Powerlift, Lamina Studios",
+  "LangChain": "Sunny AI",
+  "RAG": "Sunny AI, Portfolio demo",
+  "Docker": "Deployment workflows",
+  "PostgreSQL": "Backend services",
+  "Pandas": "Data pipelines",
+  "NumPy": "ML experiments",
+  "spaCy": "Resume Analyzer",
+  "Transformers": "Document Summarizer",
+  "YOLOv8": "Powerlift, Lamina Studios",
+  "XGBoost": "Lamina Studios",
+  "Kalman Filtering": "Powerlift",
+};
+
 function SkillPill({ name, delay = 0, muted = false }) {
   const COLORS = useColors();
+  const usedIn = SKILL_USED_IN[name];
+  const [hover, setHover] = useState(false);
   return (
     <div
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        padding: "8px 14px",
-        borderRadius: 999,
-        background: COLORS.chipBg,
-        border: `1px solid ${COLORS.chipBorder}`,
-        color: muted ? COLORS.textMuted : COLORS.textSecondary,
-        fontFamily: "Inter, sans-serif",
-        fontSize: 13,
-        fontWeight: 500,
-        letterSpacing: "0.01em",
-        transition: "all 0.25s ease",
-        cursor: "default",
-        animation: `fadeUp 0.4s cubic-bezier(0.16,1,0.3,1) ${delay}ms both`,
-        opacity: muted ? 0.85 : 1,
-        boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
-      }}
-      onMouseEnter={e => {
-        e.currentTarget.style.borderColor = COLORS.accentBorder;
-        e.currentTarget.style.background = COLORS.accentSoft;
-        e.currentTarget.style.color = COLORS.textPrimary;
-        e.currentTarget.style.transform = "translateY(-2px)";
-        e.currentTarget.style.boxShadow = `0 6px 16px ${COLORS.accent}22`;
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.borderColor = COLORS.chipBorder;
-        e.currentTarget.style.background = COLORS.chipBg;
-        e.currentTarget.style.color = muted ? COLORS.textMuted : COLORS.textSecondary;
-        e.currentTarget.style.transform = "translateY(0)";
-        e.currentTarget.style.boxShadow = "0 1px 2px rgba(0,0,0,0.04)";
-      }}
+      style={{ position: "relative", display: "inline-flex" }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
     >
-      {name}
+      <div
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          padding: "8px 14px",
+          borderRadius: 999,
+          background: COLORS.chipBg,
+          border: `1px solid ${COLORS.chipBorder}`,
+          color: muted ? COLORS.textMuted : COLORS.textSecondary,
+          fontFamily: "Inter, sans-serif",
+          fontSize: 13,
+          fontWeight: 500,
+          letterSpacing: "0.01em",
+          transition: "all 0.25s ease",
+          cursor: "default",
+          animation: `fadeUp 0.4s cubic-bezier(0.16,1,0.3,1) ${delay}ms both`,
+          opacity: muted ? 0.85 : 1,
+          boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+        }}
+        onMouseEnter={e => {
+          e.currentTarget.style.borderColor = COLORS.accentBorder;
+          e.currentTarget.style.background = COLORS.accentSoft;
+          e.currentTarget.style.color = COLORS.textPrimary;
+          e.currentTarget.style.transform = "translateY(-2px)";
+          e.currentTarget.style.boxShadow = `0 6px 16px ${COLORS.accent}22`;
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.borderColor = COLORS.chipBorder;
+          e.currentTarget.style.background = COLORS.chipBg;
+          e.currentTarget.style.color = muted ? COLORS.textMuted : COLORS.textSecondary;
+          e.currentTarget.style.transform = "translateY(0)";
+          e.currentTarget.style.boxShadow = "0 1px 2px rgba(0,0,0,0.04)";
+        }}
+      >
+        {name}
+      </div>
+      {hover && usedIn && (
+        <div style={{ position: "absolute", bottom: "calc(100% + 6px)", left: "50%", transform: "translateX(-50%)", background: COLORS.isDark ? "rgba(15,23,42,0.95)" : "rgba(255,255,255,0.98)", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 8, padding: "6px 10px", color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 11, whiteSpace: "nowrap", zIndex: 50, boxShadow: "0 8px 20px rgba(0,0,0,0.15)", pointerEvents: "none" }}>
+          used in: <span style={{ color: COLORS.accent }}>{usedIn}</span>
+        </div>
+      )}
     </div>
   );
 }
@@ -623,32 +659,61 @@ function AboutSection() {
 function StackSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
+  const [activeTab, setActiveTab] = useState(0);
+  const activeGroup = SKILL_GROUPS[activeTab] || SKILL_GROUPS[0];
   return (
     <section id="stack" ref={ref} style={{ padding: "56px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
-      <SectionLabel num="04" text="Skills" />
-      <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 40 }}>
+      <SectionLabel num="05" text="Skills" />
+      <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 32 }}>
         <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(32px, 5vw, 52px)", color: COLORS.textPrimary, fontWeight: 700, letterSpacing: "-0.03em" }}>Technical Skills</h2>
         <p style={{ color: COLORS.textSecondary, maxWidth: 640, lineHeight: 1.9, fontFamily: "Inter, sans-serif" }}>
           A focused toolkit for building agentic AI systems, retrieval pipelines, and reliable backend services.
         </p>
       </div>
-      <div style={{ border: `1px solid ${COLORS.border}`, borderRadius: 18, background: COLORS.isDark ? "linear-gradient(180deg, rgba(17,24,39,0.6), rgba(10,16,32,0.6))" : "linear-gradient(180deg, #ffffff, #f8fafc)", padding: "16px 32px", boxShadow: COLORS.isDark ? "0 20px 50px rgba(0,0,0,0.25)" : "0 20px 50px rgba(15,23,42,0.06)" }}>
+
+      {/* Tabs */}
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20, borderBottom: `1px solid ${COLORS.border}`, paddingBottom: 12 }}>
         {SKILL_GROUPS.map((group, gi) => (
-          <div key={group.label} style={{ padding: "24px 0", borderBottom: gi < SKILL_GROUPS.length - 1 ? `1px solid ${COLORS.stripBorder}` : "none", display: "flex", flexDirection: "column", gap: 14 }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, fontWeight: 600 }}>
-                <span style={{ width: 8, height: 8, borderRadius: "50%", background: COLORS.accent, boxShadow: `0 0 0 4px ${COLORS.accentSoft}` }} />
-                {group.label}
-              </span>
-              <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase" }}>0{gi + 1}</span>
-            </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-              {group.skills.map((skill, si) => (
-                <SkillPill key={skill} name={skill} delay={(gi * 4 + si) * 35} muted={group.label.includes("Learning") || group.muted} />
-              ))}
-            </div>
-          </div>
+          <button
+            key={group.label}
+            onClick={() => setActiveTab(gi)}
+            style={{
+              padding: "8px 16px",
+              borderRadius: 999,
+              border: `1px solid ${activeTab === gi ? COLORS.accentBorder : COLORS.chipBorder}`,
+              background: activeTab === gi ? COLORS.accentSoft : "transparent",
+              color: activeTab === gi ? COLORS.accent : COLORS.textMuted,
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: activeTab === gi ? COLORS.accent : COLORS.textMuted, boxShadow: activeTab === gi ? `0 0 0 3px ${COLORS.accentSoft}` : "none" }} />
+            {group.label}
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, opacity: 0.7 }}>({group.skills.length})</span>
+          </button>
         ))}
+      </div>
+
+      {/* Active group */}
+      <div style={{ border: `1px solid ${COLORS.border}`, borderRadius: 18, background: COLORS.isDark ? "linear-gradient(180deg, rgba(17,24,39,0.6), rgba(10,16,32,0.6))" : "linear-gradient(180deg, #ffffff, #f8fafc)", padding: "24px 28px", boxShadow: COLORS.isDark ? "0 20px 50px rgba(0,0,0,0.25)" : "0 20px 50px rgba(15,23,42,0.06)" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8, color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, fontWeight: 600 }}>
+            <span style={{ width: 8, height: 8, borderRadius: "50%", background: COLORS.accent, boxShadow: `0 0 0 4px ${COLORS.accentSoft}` }} />
+            {activeGroup.label}
+          </span>
+          <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase" }}>0{activeTab + 1} / 0{SKILL_GROUPS.length}</span>
+        </div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+          {activeGroup.skills.map((skill, si) => (
+            <SkillPill key={skill} name={skill} delay={si * 40} muted={activeGroup.label.includes("Learning") || activeGroup.muted} />
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -706,6 +771,7 @@ function ProjectsSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
   const [active, setActive] = useState(0);
+  const [archOpen, setArchOpen] = useState(false);
   const items = PROJECTS.map((project) => ({
     title: project.title,
     image: project.img,
@@ -770,18 +836,38 @@ function ProjectsSection() {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {!project.private && (
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 4 }}>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 4 }}>
+              {!project.private && (
                 <a href={primaryHref} target={primaryHref.startsWith("http") ? "_blank" : undefined} rel={primaryHref.startsWith("http") ? "noopener noreferrer" : undefined}
                   style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: "11px 18px", borderRadius: 12, background: COLORS.accent, color: COLORS.isDark ? "#0b1026" : "#ffffff", textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 700, boxShadow: COLORS.isDark ? "0 12px 30px rgba(245,158,11,0.18)" : "0 12px 30px rgba(180,83,9,0.14)" }}>
                   {primaryHref.startsWith("http") ? "View project" : "View details"}
                 </a>
-              </div>
-            )}
+              )}
+              <button onClick={() => setArchOpen(true)}
+                style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: "11px 18px", borderRadius: 12, border: `1px solid ${COLORS.outlineBorder}`, background: "transparent", color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: 600, cursor: "pointer", transition: "all 0.2s ease" }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.color = COLORS.accent; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = COLORS.outlineBorder; e.currentTarget.style.color = COLORS.textPrimary; }}>
+                System architecture
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
+      {archOpen && (
+        <div onClick={() => setArchOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 200, background: "rgba(0,0,0,0.6)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ maxWidth: 980, width: "100%", maxHeight: "85vh", overflowY: "auto", background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 18, padding: "24px 26px", boxShadow: COLORS.isDark ? "0 40px 80px rgba(0,0,0,0.6)" : "0 40px 80px rgba(15,23,42,0.2)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+              <div>
+                <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 20, color: COLORS.textPrimary, fontWeight: 700, marginBottom: 2 }}>System Architecture · {project.title}</h3>
+                <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12 }}>How this system is built — frontend to backend, AI/ML, data, automation, and observability.</p>
+              </div>
+              <button onClick={() => setArchOpen(false)} aria-label="Close" style={{ width: 36, height: 36, borderRadius: 999, border: `1px solid ${COLORS.border}`, background: "transparent", color: COLORS.textMuted, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+            </div>
+            <Architecture project={project.title} />
+          </div>
+        </div>
+      )}
 
     </section>
   );
@@ -902,6 +988,26 @@ function ContactSection() {
           Open to AI engineering opportunities, agentic system collaborations, and production ML work. Grab my resume below or reach out directly — I usually reply within a day.
         </p>
 
+        {/* social cards */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginBottom: 22 }}>
+          {socials.map((s, i) => (
+            <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} title={s.label} className="contact-card"
+              style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: 13, borderRadius: 14, background: COLORS.chipBg, border: `1px solid ${COLORS.chipBorder}`, textDecoration: "none", animation: visible ? `contactRise 0.6s cubic-bezier(0.16,1,0.3,1) ${0.1 + i * 0.05}s both` : "none" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", color: COLORS.accent }}>
+                {s.glyph === "GH" ? (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12z"/>
+                  </svg>
+                ) : (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/>
+                  </svg>
+                )}
+              </span>
+            </a>
+          ))}
+        </div>
+
         {/* actions: resume + email */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginBottom: 22 }}>
           {/* resume button */}
@@ -927,26 +1033,6 @@ function ContactSection() {
             <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: copied ? "#34d399" : COLORS.accent, transition: "color 0.2s ease" }}>{copied ? "✓ copied" : "⧉ copy"}</span>
           </button>
         </div>
-
-        {/* social cards */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 22 }}>
-          {socials.map((s, i) => (
-            <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} title={s.label} className="contact-card"
-              style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: 13, borderRadius: 14, background: COLORS.chipBg, border: `1px solid ${COLORS.chipBorder}`, textDecoration: "none", animation: visible ? `contactRise 0.6s cubic-bezier(0.16,1,0.3,1) ${0.2 + i * 0.05}s both` : "none" }}>
-              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", color: COLORS.accent }}>
-                {s.glyph === "GH" ? (
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12z"/>
-                  </svg>
-                ) : (
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/>
-                  </svg>
-                )}
-              </span>
-            </a>
-          ))}
-          </div>
       </div>
     </section>
   );
@@ -1061,6 +1147,293 @@ function MoonIcon() {
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
     </svg>
+  );
+}
+
+function WorkAndGitHubSection() {
+  const COLORS = useColors();
+  const [ref, visible] = useInView();
+  const workItems = [
+    { title: "Stack", body: "Python, FastAPI, React, SQL. Small services, clear boundaries.", detail: "I keep projects modular: API layer, business logic, and data access separated, with minimal dependencies." },
+    { title: "Git", body: "Feature branches, small PRs, clear commits.", detail: "Small reviewable PRs, descriptive commits, and a self-review of my own diff before requesting review." },
+    { title: "Tools", body: "VS Code, GitHub, Vercel, Jupyter.", detail: "Jupyter for exploration and quick experiments; Vercel for deploys; GitHub for version control and CI." },
+    { title: "AI", body: "Claude Code / Copilot for scaffolding; I own every line.", detail: "AI speeds up scaffolding and refactors, but I read, test, and take responsibility for everything I ship." },
+  ];
+
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [flipped, setFlipped] = useState(new Set());
+  const [pushCountAnim, setPushCountAnim] = useState(0);
+  const [contributions, setContributions] = useState(null);
+
+  useEffect(() => {
+    if (!data) return;
+    const target = data.pushCount || 0;
+    if (target === 0) { setPushCountAnim(0); return; }
+    let cur = 0;
+    const step = Math.max(1, Math.ceil(target / 20));
+    const id = setInterval(() => {
+      cur = Math.min(target, cur + step);
+      setPushCountAnim(cur);
+      if (cur >= target) clearInterval(id);
+    }, 40);
+    return () => clearInterval(id);
+  }, [data]);
+
+  useEffect(() => {
+    let alive = true;
+    async function load() {
+      try {
+        const user = "cdobby18";
+        const [reposRes, eventsRes, contribRes] = await Promise.all([
+          fetch(`https://api.github.com/users/${user}/repos?sort=pushed&per_page=12`),
+          fetch(`https://api.github.com/users/${user}/events/public?per_page=100`),
+          fetch(`https://github-contributions-api.jogruber.de/v4/${user}?y=last`),
+        ]);
+        if (!reposRes.ok) throw new Error("repos fetch failed");
+        const repos = await reposRes.json();
+        const events = eventsRes.ok ? await eventsRes.json() : [];
+        if (contribRes.ok) {
+          const cj = await contribRes.json();
+          if (alive) setContributions(cj);
+        }
+        const pushedEvents = Array.isArray(events) ? events.filter((e) => e.type === "PushEvent") : [];
+        const cutoff = Date.now() - 14 * 24 * 60 * 60 * 1000;
+        const recentPushes = pushedEvents.filter((e) => new Date(e.created_at).getTime() >= cutoff);
+        const lastPush = repos.length ? repos[0].pushed_at : null;
+        let latestCommit = null;
+        if (pushedEvents.length) {
+          const pe = pushedEvents[0];
+          const commits = pe.payload?.commits || [];
+          if (commits.length) latestCommit = { sha: commits[commits.length - 1].sha?.slice(0, 7), message: commits[commits.length - 1].message, repo: pe.repo?.name };
+        }
+        if (alive) {
+          setData({ lastPush, repos: repos.slice(0, 6), latestCommit, pushCount: recentPushes.length });
+        }
+      } catch (e) {
+        if (alive) setError("Couldn't load GitHub activity right now.");
+      } finally {
+        if (alive) setLoading(false);
+      }
+    }
+    load();
+    return () => { alive = false; };
+  }, []);
+
+  const timeAgo = (iso) => {
+    if (!iso) return "—";
+    const diff = Date.now() - new Date(iso).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 60) return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    const days = Math.floor(hrs / 24);
+    if (days < 30) return `${days}d ago`;
+    const months = Math.floor(days / 30);
+    return `${months}mo ago`;
+  };
+
+  return (
+    <section id="work" ref={ref} style={{ padding: "56px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+      <div style={{ maxWidth: 1120, margin: "0 auto" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+          <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.2em" }}>04</span>
+          <div style={{ width: 32, height: 1, background: COLORS.accentBorder }} />
+          <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.16em" }}>Work & GitHub</span>
+        </div>
+        <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 24, fontWeight: 700 }}>Work & GitHub</h2>
+
+        <div className="work-github-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, alignItems: "start" }}>
+          {/* Left: How I work */}
+          <div>
+            <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, color: COLORS.textPrimary, fontWeight: 600, marginBottom: 12 }}>How I work</h3>
+            <div className="work-items-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, perspective: 900 }}>
+              {workItems.map((it, idx) => {
+                const isFlipped = flipped.has(idx);
+                return (
+                  <div key={it.title}
+                    onClick={() => setFlipped((prev) => { const n = new Set(prev); if (n.has(idx)) n.delete(idx); else n.add(idx); return n; })}
+                    style={{ position: "relative", height: 110, cursor: "pointer", transformStyle: "preserve-3d", transition: "transform 0.5s cubic-bezier(0.22,1,0.36,1)", transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)" }}
+                    onMouseEnter={(e) => { if (!isFlipped) e.currentTarget.style.transform = "rotateY(0deg) translateY(-4px)"; }}
+                    onMouseLeave={(e) => { if (!isFlipped) e.currentTarget.style.transform = "rotateY(0deg) translateY(0)"; }}
+                  >
+                    <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: "12px 14px", boxShadow: COLORS.isDark ? "0 4px 12px rgba(0,0,0,0.25)" : "0 4px 12px rgba(15,23,42,0.06)", transition: "border-color 0.2s ease, box-shadow 0.2s ease" }}
+                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = COLORS.accentBorder; e.currentTarget.style.boxShadow = `0 8px 20px ${COLORS.accent}22`; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.boxShadow = COLORS.isDark ? "0 4px 12px rgba(0,0,0,0.25)" : "0 4px 12px rgba(15,23,42,0.06)"; }}>
+                      <h4 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: COLORS.accent, fontWeight: 600, marginBottom: 4 }}>{it.title}</h4>
+                      <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 12, lineHeight: 1.6 }}>{it.body}</p>
+                      <span style={{ position: "absolute", bottom: 8, right: 10, fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: COLORS.textMuted }}>tap to flip ↻</span>
+                    </div>
+                    <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)", background: COLORS.isDark ? "rgba(15,23,42,0.95)" : "rgba(248,250,252,0.95)", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 10, padding: "12px 14px", display: "flex", alignItems: "center" }}>
+                      <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 11, lineHeight: 1.6 }}>{it.detail}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Right: GitHub activity */}
+          <div>
+            <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, color: COLORS.textPrimary, fontWeight: 600, marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#34d399", boxShadow: "0 0 0 0 rgba(52,211,153,0.6)", animation: "ghPulse 1.8s infinite" }} />
+              GitHub activity
+            </h3>
+            <div style={{ background: COLORS.isDark ? "linear-gradient(180deg, rgba(15,23,42,0.7), rgba(10,16,32,0.7))" : "linear-gradient(180deg, #ffffff, #f8fafc)", border: `1px solid ${COLORS.border}`, borderRadius: 14, padding: "16px 18px", marginBottom: 12, overflowX: "auto", boxShadow: COLORS.isDark ? "0 12px 30px rgba(0,0,0,0.25)" : "0 12px 30px rgba(15,23,42,0.06)", transition: "transform 0.25s ease, box-shadow 0.25s ease" }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = COLORS.isDark ? "0 16px 40px rgba(0,0,0,0.35)" : "0 16px 40px rgba(15,23,42,0.1)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = COLORS.isDark ? "0 12px 30px rgba(0,0,0,0.25)" : "0 12px 30px rgba(15,23,42,0.06)"; }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, flexWrap: "wrap", gap: 8 }}>
+                <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase" }}>Contribution graph · Mar → now</span>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: "0.1em" }}>
+                  <span>Less</span>
+                  {[0.15, 0.35, 0.6, 0.85].map((o, i) => (
+                    <span key={i} style={{ width: 10, height: 10, borderRadius: 2, background: `rgba(34,197,94,${o})`, display: "inline-block" }} />
+                  ))}
+                  <span>More</span>
+                </span>
+              </div>
+              {contributions?.contributions ? (() => {
+                const dark = COLORS.isDark;
+                const palette = dark
+                  ? ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"]
+                  : ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"];
+                const now = new Date();
+                const cutoff = new Date(now.getFullYear(), 2, 1); // March 1
+                if (cutoff > now) cutoff.setFullYear(cutoff.getFullYear() - 1);
+                const cutoffStr = cutoff.toISOString().slice(0, 10);
+                const days = contributions.contributions.filter((d) => d.date >= cutoffStr);
+                // build weeks (Sun-Sat)
+                const weeks = [];
+                let current = [];
+                // pad first week
+                if (days.length) {
+                  const firstDow = new Date(days[0].date + "T00:00:00").getDay();
+                  for (let i = 0; i < firstDow; i++) current.push(null);
+                }
+                for (const d of days) {
+                  current.push(d);
+                  if (current.length === 7) { weeks.push(current); current = []; }
+                }
+                if (current.length) {
+                  while (current.length < 7) current.push(null);
+                  weeks.push(current);
+                }
+                return (
+                  <div style={{ overflowX: "auto", paddingBottom: 4 }}>
+                    <div style={{ display: "flex", gap: 3, minWidth: "max-content" }}>
+                      {weeks.map((week, wi) => (
+                        <div key={wi} style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                          {week.map((day, di) => {
+                            if (!day) return <div key={di} style={{ width: 11, height: 11 }} />;
+                            const lvl = Math.min(4, Math.max(0, day.level || 0));
+                            return (
+                              <div
+                                key={di}
+                                title={`${day.date}: ${day.count} contribution${day.count === 1 ? "" : "s"}`}
+                                style={{
+                                  width: 11,
+                                  height: 11,
+                                  borderRadius: 2,
+                                  background: palette[lvl],
+                                  cursor: "pointer",
+                                  transition: "transform 0.1s ease",
+                                }}
+                                onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.3)"; }}
+                                onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
+                              />
+                            );
+                          })}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })() : (
+                <div style={{ overflow: "hidden", borderRadius: 6 }}>
+                  <img
+                    src="https://ghchart.rshah.org/cdobby18"
+                    alt="GitHub contribution graph for cdobby18"
+                    style={{ width: "100%", display: "block", borderRadius: 6 }}
+                    loading="lazy"
+                  />
+                </div>
+              )}
+            </div>
+            {loading && <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12, fontStyle: "italic" }}>Loading…</p>}
+            {error && <p style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12, fontStyle: "italic" }}>{error}</p>}
+            {data && (
+              <>
+                {data.lastPush && (
+                  <p style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, marginBottom: 8, letterSpacing: "0.04em" }}>
+                    last push {timeAgo(data.lastPush)}
+                    {data.pushCount > 0 && <span> · {pushCountAnim} pushes / 14d</span>}
+                  </p>
+                )}
+                {data.latestCommit && (
+                  <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: "10px 12px", marginBottom: 10 }}>
+                    <div style={{ display: "flex", gap: 8, marginBottom: 4, flexWrap: "wrap", alignItems: "center" }}>
+                      <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, fontWeight: 700 }}>{data.latestCommit.repo}</span>
+                      <span style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 9 }}>{data.latestCommit.sha}</span>
+                    </div>
+                    <p style={{ color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 12, lineHeight: 1.5, margin: 0 }}>{data.latestCommit.message}</p>
+                  </div>
+                )}
+                <a href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 4, marginTop: 6, color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, textDecoration: "none", letterSpacing: "0.06em", transition: "color 0.2s ease" }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.accent; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = COLORS.textMuted; }}>
+                  more on github <span style={{ transition: "transform 0.2s ease" }}>→</span>
+                </a>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+      <style>{`
+        @keyframes ghPulse {
+          0% { box-shadow: 0 0 0 0 rgba(52,211,153,0.6); }
+          70% { box-shadow: 0 0 0 8px rgba(52,211,153,0); }
+          100% { box-shadow: 0 0 0 0 rgba(52,211,153,0); }
+        }
+        @media (max-width: 768px) {
+          .work-github-grid { grid-template-columns: 1fr !important; }
+          .work-items-grid { grid-template-columns: 1fr !important; }
+          .rag-sources-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+const CERTIFICATIONS = [
+  { name: "Introduction to Model Context Protocol", issuer: "Anthropic Education", date: "May 2026", url: "https://verify.skilljar.com/c/remzvordp5e7", image: "/MCP.png" },
+  { name: "The AI Engineer Bootcamp", issuer: "Udemy", date: "Completed", url: "https://www.udemy.com/certificate/UC-ce6b30a4-237b-469c-9f60-0039ab82713f/", image: "/UDEMY.png" },
+  { name: "IT Specialist - Python", issuer: "Certiport (Pearson VUE)", date: "Verified", url: "https://www.credly.com/badges/2d0c3b41-ee3f-4616-af62-2b3a55be3890/public_url", image: "https://images.credly.com/images/3c4602d8-832e-4a24-b42d-00359ce746f7/linkedin_thumb_ITS-Badges_Python_1200px.png" },
+  { name: "Python Essentials 1", issuer: "Cisco (OpenEDG Python Institute)", date: "Verified", url: "https://www.credly.com/badges/c495ce54-6909-4812-bfee-6303486b3c9a/public_url", image: "https://images.credly.com/images/68c0b94d-f6ac-40b1-a0e0-921439eb092e/linkedin_thumb_image.png" },
+  { name: "Artificial Intelligence Fundamentals", issuer: "IBM SkillsBuild", date: "Verified", url: "https://www.credly.com/badges/8ef3efc3-7e58-4ef2-b349-32f818814c5b/public_url", image: "https://images.credly.com/images/82b908e1-fdcd-4785-9d32-97f11ccbcf08/linkedin_thumb_image.png" },
+  { name: "Introduction to Modern AI", issuer: "Cisco", date: "Verified", url: "https://www.credly.com/badges/fc10a9c7-172e-47b7-b817-f1116e8b9846/public_url", image: "https://images.credly.com/images/e2d12302-10f9-40d4-8ff1-066a7008b61d/linkedin_thumb_blob" },
+];
+
+function CertificationsSection() {
+  const COLORS = useColors();
+  const [ref, visible] = useInView();
+  return (
+    <section id="certs" ref={ref} style={{ padding: "56px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
+      <div style={{ maxWidth: 1120, margin: "0 auto" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+          <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.2em" }}>06</span>
+          <div style={{ width: 32, height: 1, background: COLORS.accentBorder }} />
+          <span style={{ color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.16em" }}>Certifications</span>
+        </div>
+        <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 12, fontWeight: 700 }}>Certifications</h2>
+        <p style={{ color: COLORS.textSecondary, maxWidth: 720, lineHeight: 1.85, fontFamily: "Inter, sans-serif", marginBottom: 28 }}>
+          Verified credentials from Anthropic, Cisco, IBM, Certiport, and Udemy.
+        </p>
+        <div style={{ border: `1px solid ${COLORS.border}`, borderRadius: 18, background: COLORS.isDark ? "linear-gradient(180deg, rgba(17,24,39,0.6), rgba(10,16,32,0.6))" : "linear-gradient(180deg, #ffffff, #f8fafc)", padding: "20px 22px", boxShadow: COLORS.isDark ? "0 20px 50px rgba(0,0,0,0.25)" : "0 20px 50px rgba(15,23,42,0.06)" }}>
+          <CertAccordion items={CERTIFICATIONS} height={400} colors={COLORS} />
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -1196,7 +1569,9 @@ export default function OnePiece() {
         <AboutSection />
         <ExperienceSection />
         <ProjectsSection />
+        <WorkAndGitHubSection />
         <StackSection />
+        <CertificationsSection />
         <ContactSection />
       </main>
 

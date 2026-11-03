@@ -332,7 +332,7 @@ export default function RagDemo({ compact = false }) {
                   <p style={{ color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 10 }}>
                     Log Entries
                   </p>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 10 }}>
+                  <div className="rag-sources-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 10 }}>
                     {results.matches.map(({ doc, score }) => (
                       <div key={doc.id} style={{ border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: "12px 14px", background: "transparent" }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>

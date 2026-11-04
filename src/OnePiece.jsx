@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, createContext, useContext } from "react";
 import RagDemo from "./demo/RagDemo";
 import CardSwap from "./CardSwap";
 import CodeDemo from "./CodeDemo";
+import Architecture from "./Architecture";
 import { playHoverSound, playClickSound} from "./sound";
 
 function BackToTop() {

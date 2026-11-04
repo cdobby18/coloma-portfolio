@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef, createContext, useContext } from "react";
 import RagDemo from "./demo/RagDemo";
-import Architecture from "./Architecture";
-import CertAccordion from "./CertAccordion";
 import CardSwap from "./CardSwap";
 import CodeDemo from "./CodeDemo";
 import { playHoverSound, playClickSound} from "./sound";
@@ -634,8 +632,8 @@ function Hero() {
 
         <div style={{ textAlign: "left", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 999, background: COLORS.accentSoft, marginTop: 34, marginBottom: 22, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both", position: "relative" }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: COLORS.accent, boxShadow: `0 0 0 6px ${COLORS.accentSoft}` }} />
-            <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", whiteSpace: "nowrap", minWidth: 200, display: "inline-block" }}>{typedLabel}<span style={{ opacity: 0.7 }}>|</span></span>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: COLORS.accent, flexShrink: 0, animation: "typePulse 2.4s cubic-bezier(0.4,0,0.2,1) infinite" }} />
+            <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", whiteSpace: "nowrap", minWidth: 200, display: "inline-block" }}>{typedLabel}<span style={{ display: "inline-block", width: 7, height: "0.95em", background: COLORS.accent, marginLeft: 2, verticalAlign: "text-bottom", animation: "typeBlink 1.1s step-end infinite" }} /></span>
           </div>
 
           <h1 id="heroName" ref={heroNameRef} style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(42px, 6vw, 76px)", lineHeight: 0.98, letterSpacing: "-0.05em", color: COLORS.textPrimary, marginBottom: 18, fontWeight: 700, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s both", cursor: "default", whiteSpace: "pre" }}>
@@ -1577,6 +1575,70 @@ const CERTIFICATIONS = [
   { name: "Introduction to Modern AI", issuer: "Cisco", date: "Verified", url: "https://www.credly.com/badges/fc10a9c7-172e-47b7-b817-f1116e8b9846/public_url", image: "https://images.credly.com/images/e2d12302-10f9-40d4-8ff1-066a7008b61d/linkedin_thumb_blob" },
 ];
 
+function CertCard({ cert, idx, visible }) {
+  const COLORS = useColors();
+  const [hov, setHov] = useState(false);
+  return (
+    <a
+      href={cert.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={() => playClickSound()}
+      onMouseEnter={e => {
+        playHoverSound();
+        setHov(true);
+        e.currentTarget.style.borderColor = COLORS.accentBorder;
+        e.currentTarget.style.transform = "translateY(-3px)";
+        e.currentTarget.style.boxShadow = COLORS.isDark ? "0 14px 34px rgba(245,158,11,0.14)" : "0 14px 34px rgba(180,83,9,0.12)";
+      }}
+      onMouseLeave={e => {
+        setHov(false);
+        e.currentTarget.style.borderColor = COLORS.border;
+        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.boxShadow = "none";
+      }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        textDecoration: "none",
+        border: `1px solid ${hov ? COLORS.accentBorder : COLORS.border}`,
+        borderRadius: 14,
+        overflow: "hidden",
+        background: COLORS.surface,
+        boxShadow: "none",
+        transition: "all 0.25s ease",
+        transform: hov ? "translateY(-3px)" : "translateY(0)",
+        animation: visible ? `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${idx * 60 + 100}ms both` : "none",
+      }}
+    >
+      <div style={{ height: 140, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 16, background: COLORS.isDark ? "#f1f5f9" : "#f8fafc", borderBottom: `1px solid ${COLORS.border}` }}>
+        <img
+          src={cert.image}
+          alt={cert.name}
+          loading="lazy"
+          draggable={false}
+          style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain", transform: hov ? "scale(1.04)" : "scale(1)", transition: "transform 0.3s ease" }}
+          onError={e => { e.currentTarget.style.display = "none"; }}
+        />
+      </div>
+      <div style={{ padding: "14px 16px 16px", display: "flex", flexDirection: "column", gap: 4, flex: 1 }}>
+        <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 14.5, fontWeight: 600, color: COLORS.textPrimary, lineHeight: 1.35 }}>
+          {cert.name}
+        </span>
+        <span style={{ fontFamily: "Inter, sans-serif", fontSize: 12.5, color: COLORS.textSecondary }}>
+          {cert.issuer}
+        </span>
+        <span style={{ marginTop: "auto", paddingTop: 10, fontFamily: "'JetBrains Mono', monospace", fontSize: 10.5, letterSpacing: "0.1em", textTransform: "uppercase", color: COLORS.textMuted }}>
+          {cert.date}
+        </span>
+        <span style={{ marginTop: 8, display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, fontWeight: 600, color: COLORS.isDark ? COLORS.accent : "#b45309" }}>
+          verify ↗
+        </span>
+      </div>
+    </a>
+  );
+}
+
 function CertificationsSection() {
   const COLORS = useColors();
   const [ref, visible] = useInView();
@@ -1592,8 +1654,10 @@ function CertificationsSection() {
         <p style={{ color: COLORS.textSecondary, maxWidth: 720, lineHeight: 1.85, fontFamily: "Inter, sans-serif", marginBottom: 28 }}>
           Verified credentials from Anthropic, Cisco, IBM, Certiport, and Udemy.
         </p>
-        <div style={{ border: `1px solid ${COLORS.border}`, borderRadius: 18, background: COLORS.isDark ? "linear-gradient(180deg, rgba(17,24,39,0.6), rgba(10,16,32,0.6))" : "linear-gradient(180deg, #ffffff, #f8fafc)", padding: "20px 22px", boxShadow: COLORS.isDark ? "0 20px 50px rgba(0,0,0,0.25)" : "0 20px 50px rgba(15,23,42,0.06)" }}>
-          <CertAccordion items={CERTIFICATIONS} height={400} colors={COLORS} />
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 16 }}>
+          {CERTIFICATIONS.map((c, i) => (
+            <CertCard key={c.name} cert={c} idx={i} visible={visible} />
+          ))}
         </div>
       </div>
     </section>
@@ -1640,6 +1704,12 @@ export default function OnePiece() {
           html { scroll-behavior: auto; }
         }
         @keyframes fadeUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:translateY(0) } }
+        @keyframes typeBlink { 0%, 55% { opacity: 1 } 56%, 100% { opacity: 0 } }
+        @keyframes typePulse {
+          0% { box-shadow: 0 0 0 6px ${theme.accentSoft}, 0 0 0 0 ${theme.accent}55; }
+          70% { box-shadow: 0 0 0 6px ${theme.accentSoft}, 0 0 0 9px transparent; }
+          100% { box-shadow: 0 0 0 6px ${theme.accentSoft}, 0 0 0 0 transparent; }
+        }
         .op-nav-links { display: flex; gap: 22px; align-items: center; }
         .op-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
         #heroName .glyph { color: ${theme.accent} !important; }

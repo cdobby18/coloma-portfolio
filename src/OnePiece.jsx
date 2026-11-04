@@ -287,14 +287,92 @@ export function SectionLabel({ num, text }) {
   );
 }
 
+// skill → "what I actually use it for" (one-liner, first person)
+const SKILL_TIPS = {
+  Python: "my daily driver — scripts, APIs, and data crunching",
+  JavaScript: "the web side of my projects — React frontends & interactivity",
+  FastAPI: "serving models & agents as HTTP APIs",
+  Flask: "quick internal tools & lightweight prototypes",
+  React: "this very portfolio + my project UIs",
+  Streamlit: "fast ML demo apps without touching CSS",
+  "RESTful APIs": "how all my services talk to each other",
+  OpenCV: "computer vision prototyping with cv2",
+  LangChain: "RAG & agent chains before writing my own",
+  RAG: "grounding LLM answers in real documents",
+  GenAI: "exploring generative use cases end-to-end",
+  "Agentic AI": "task-executing agents with tools & memory",
+  "Prompt Engineering": "getting reliable behavior out of models",
+  Automation: "killing repetitive workflows with scripts",
+  "LLM APIs": "OpenAI & Anthropic API integrations",
+  PyTorch: "model experiments & fine-tuning basics",
+  HuggingFace: "models, datasets & transformers in one place",
+  SQL: "querying everything — my sharpest tool",
+  Databricks: "lakehouse experiments on big data",
+  ETL: "moving data from A to B reliably",
+  dbt: "SQL-first transformations with tests",
+  Airflow: "scheduling & orchestrating pipelines",
+  PySpark: "big-data ops that outgrow Pandas",
+  Pandas: "the swiss-army knife of exploration",
+  NumPy: "vectorized math under everything",
+  Snowflake: "cloud warehouse queries",
+  Kafka: "event streams between services",
+  Spark: "distributed compute across clusters",
+  BigQuery: "warehouse analytics at scale",
+  Docker: "so 'works on my machine' actually works",
+  Git: "commit early, commit small",
+  "VS Code": "home base for all my code",
+  "Claude Code": "AI-assisted scaffolding — I own every line",
+  "Hermes Agent": "agent orchestration experiments",
+  Obsidian: "my second brain — notes, projects, ideas",
+  "Exa AI": "semantic search experiments",
+  Qdrant: "vector DB behind my RAG prototypes",
+  PostgreSQL: "the default DB for serious projects",
+  Jupyter: "where every experiment starts",
+  Anaconda: "keeping messy Python environments tame",
+};
+
 function SkillPill({ name, delay = 0, muted = false }) {
   const COLORS = useColors();
   const [hover, setHover] = useState(false);
+  const wrapRef = useRef(null);
+  const tipRef = useRef(null);
+  const [nudge, setNudge] = useState(0);
+  const tip = SKILL_TIPS[name];
+
+  // tap outside closes (mobile)
+  useEffect(() => {
+    if (!hover) return undefined;
+    const onDoc = (e) => { if (wrapRef.current && !wrapRef.current.contains(e.target)) setHover(false); };
+    document.addEventListener("pointerdown", onDoc);
+    return () => document.removeEventListener("pointerdown", onDoc);
+  }, [hover]);
+
+  // clamp tooltips into the viewport even when hidden (visibility:hidden keeps layout,
+  // so an un-clamped one near the right edge would create horizontal scroll on mobile)
+  useEffect(() => {
+    if (!tipRef.current) return undefined;
+    const clamp = () => {
+      const el = tipRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect(); // includes the previous nudge
+      const pad = 10;
+      let extra = 0;
+      if (rect.left < pad) extra = pad - rect.left;
+      else if (rect.right > window.innerWidth - pad) extra = (window.innerWidth - pad) - rect.right;
+      setNudge(extra === 0 ? 0 : nudge + extra);
+    };
+    const raf = requestAnimationFrame(clamp);
+    window.addEventListener("resize", clamp);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", clamp); };
+  }, [tip]);
+
   return (
     <div
+      ref={wrapRef}
       style={{ position: "relative", display: "inline-flex" }}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      onPointerEnter={(e) => { if (e.pointerType === "mouse") setHover(true); }}
+      onPointerLeave={(e) => { if (e.pointerType === "mouse") setHover(false); }}
+      onPointerDown={(e) => { if (e.pointerType !== "mouse") { playHoverSound(); setHover((v) => !v); } }}
     >
       <div
         style={{
@@ -333,6 +411,46 @@ function SkillPill({ name, delay = 0, muted = false }) {
       >
         {name}
       </div>
+
+      {tip && (
+        <div
+          ref={tipRef}
+          style={{
+            position: "absolute",
+            bottom: "calc(100% + 10px)",
+            left: "50%",
+            transform: `translateX(calc(-50% + ${nudge}px))`,
+            zIndex: 60,
+            pointerEvents: "none",
+            visibility: hover ? "visible" : "hidden",
+          }}
+        >
+          <div
+            style={{
+              width: "max-content",
+              maxWidth: 240,
+              padding: "8px 12px",
+              borderRadius: 9,
+              background: "#0f172a",
+              border: "1px solid rgba(148,163,184,0.25)",
+              color: "#e2e8f0",
+              fontFamily: "Inter, sans-serif",
+              fontSize: 12,
+              lineHeight: 1.5,
+              boxShadow: "0 10px 28px rgba(0,0,0,0.28)",
+              opacity: hover ? 1 : 0,
+              transform: hover ? "translateY(0)" : "translateY(6px)",
+              transition: "opacity 0.18s ease, transform 0.18s ease",
+            }}
+          >
+            <span style={{ color: "#8ea0b5", fontFamily: "'JetBrains Mono', monospace", fontSize: 10.5, letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 3 }}>
+              {name}
+            </span>
+            {tip}
+            <span style={{ position: "absolute", bottom: -4.5, left: "50%", width: 9, height: 9, background: "#0f172a", borderRight: "1px solid rgba(148,163,184,0.25)", borderBottom: "1px solid rgba(148,163,184,0.25)", transform: "translateX(-50%) rotate(45deg)" }} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

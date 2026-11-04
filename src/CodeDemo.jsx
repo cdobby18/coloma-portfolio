@@ -8,25 +8,29 @@ import { useColors } from "./OnePiece"; // adjust path if OnePiece.jsx lives els
  * but with a real Run step: it executes the snippet in the browser and shows
  * the captured console output.
  *
+ * The code is EDITABLE: after the typing animation finishes, visitors can
+ * modify the snippet (e.g. change the query) and run their own version.
+ * Code runs inside a Web Worker (sandboxed away from the page's DOM/globals),
+ * with a fallback to in-page eval, and a kill-switch for infinite loops.
+ *
  * No external deps (no Shiki) — syntax highlighting is a light regex tokenizer,
  * enough for a short demo snippet.
  */
 
 const DEMO = {
-  title: "welcome.ts",
-  lang: "ts",
-  code: `const name = "Carl Joshua Coloma";
-const role = "AI Engineer";
-const skills = ["Python", "LLMs", "RAG", "FastAPI"];
+  title: "hello.js",
+  lang: "js",
+  code: `const me = {
+  name: "Carl Joshua Coloma",
+  chasing: "AI engineering",
+  fuelsOn: ["curiosity", "play", "small wins"],
+};
 
-console.log("Welcome to my portfolio! 👋");
-console.log("I'm " + name + ", an aspiring " + role + ".");
-
-for (const skill of skills) {
-  console.log("- " + skill);
-}
-
-console.log("Thanks for stopping by!");`,
+console.log("Hey! I'm " + me.name + " 👋");
+console.log("currently chasing: " + me.chasing);
+console.log("fueled by: " + me.fuelsOn.join(" + "));
+console.log("");
+console.log("psst — edit me, then hit ▶ run.");`,
 };
 
 // ---------- tiny syntax highlighter (no deps) ----------
@@ -38,7 +42,6 @@ const NUMBERS = /\b(\d+\.?\d*)\b/g;
 function highlight(line) {
   // escape html
   let safe = line.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  const tokens = [];
   let comment = safe.match(COMMENTS);
   if (comment) {
     const idx = safe.indexOf(comment[0]);
@@ -54,7 +57,7 @@ function highlightInline(safe) {
   return safe;
 }
 
-// ---------- typing hook ----------
+// ---------- typing hook (time-based — always finishes in ~`duration`) ----------
 function useTyping(fullText, { duration = 2600, delay = 200, startWhenInView = true } = {}) {
   const ref = useRef(null);
   const [written, setWritten] = useState("");
@@ -76,45 +79,86 @@ function useTyping(fullText, { duration = 2600, delay = 200, startWhenInView = t
 
   useEffect(() => {
     if (!inView) return;
-    let i = 0;
+    let raf = 0;
     let cancelled = false;
-    const chars = fullText.length;
-    const perChar = Math.max(6, duration / chars);
-    const start = setTimeout(() => {
-      setWriting(true);
-      const tick = () => {
-        if (cancelled) return;
-        i++;
-        setWritten(fullText.slice(0, i));
-        if (i < chars) {
-          setTimeout(tick, perChar);
-        } else {
-          setWriting(false);
-          setDone(true);
-        }
-      };
-      tick();
-    }, delay);
-    return () => { cancelled = true; clearTimeout(start); };
+    const startTime = performance.now() + delay;
+
+    const tick = (now) => {
+      if (cancelled) return;
+      const elapsed = now - startTime;
+      if (elapsed < 0) { raf = requestAnimationFrame(tick); return; }
+      const t = Math.min(1, elapsed / duration);
+      setWriting(t > 0 && t < 1);
+      setWritten(fullText.slice(0, Math.ceil(t * fullText.length)));
+      if (t < 1) raf = requestAnimationFrame(tick);
+      else setDone(true);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => { cancelled = true; cancelAnimationFrame(raf); };
   }, [inView, fullText, duration, delay]);
 
   return { ref, written, writing, done };
 }
 
-// ---------- sandboxed-ish execution (fixed, non-user-editable snippet) ----------
+// ---------- sandboxed execution (Web Worker, with fallback + loop kill-switch) ----------
 function runSnippet(code) {
+  return new Promise((resolve) => {
+    const workerSource = `
+      const logs = [];
+      const push = (...args) => logs.push(args.map(String).join(" "));
+      const fakeConsole = { log: push, info: push, warn: push, error: push };
+      try {
+        const fn = new Function("console", ${JSON.stringify(code)});
+        fn(fakeConsole);
+        self.postMessage({ ok: true, logs: logs.length ? logs : ["(no output)"] });
+      } catch (err) {
+        push(String(err));
+        self.postMessage({ ok: false, logs });
+      }
+    `;
+
+    let worker = null;
+    const kill = setTimeout(() => {
+      if (worker) worker.terminate();
+      resolve({ ok: false, output: ["timed out after 2s — infinite loop?"] });
+    }, 2000);
+
+    const finish = (result) => {
+      clearTimeout(kill);
+      if (worker) worker.terminate();
+      resolve(result);
+    };
+
+    try {
+      const blob = new Blob([workerSource], { type: "application/javascript" });
+      const url = URL.createObjectURL(blob);
+      worker = new Worker(url);
+      URL.revokeObjectURL(url);
+      worker.onmessage = (e) => {
+        const { ok, logs } = e.data;
+        finish({ ok, output: logs && logs.length ? logs : ["(no output)"] });
+      };
+      worker.onerror = (e) => finish({ ok: false, output: [e.message || "worker error"] });
+    } catch (err) {
+      // Worker/Blob unavailable (e.g. file://) — run in-page as a fallback
+      clearTimeout(kill);
+      resolve(runSnippetInline(code));
+    }
+  });
+}
+
+function runSnippetInline(code) {
   const logs = [];
-  const fakeConsole = {
-    log: (...args) => logs.push(args.map(String).join(" ")),
-    error: (...args) => logs.push("Error: " + args.map(String).join(" ")),
-  };
+  const push = (...args) => logs.push(args.map(String).join(" "));
+  const fakeConsole = { log: push, info: push, warn: push, error: push };
   try {
     // eslint-disable-next-line no-new-func
     const fn = new Function("console", code);
     fn(fakeConsole);
     return { ok: true, output: logs.length ? logs : ["(no output)"] };
   } catch (err) {
-    return { ok: false, output: [String(err)] };
+    push(String(err));
+    return { ok: false, output: logs.length ? logs : [String(err)] };
   }
 }
 
@@ -124,22 +168,25 @@ export default function CodeDemo() {
   const [copied, setCopied] = useState(false);
   const [result, setResult] = useState(null);
   const [running, setRunning] = useState(false);
+  const [code, setCode] = useState(DEMO.code);
+  const [editing, setEditing] = useState(false);
 
-  const lines = written.split("\n");
+  const touched = code !== DEMO.code;
+  const lines = (done ? code : written).split("\n");
 
   const copy = async () => {
-    try { await navigator.clipboard.writeText(DEMO.code); } catch {}
+    try { await navigator.clipboard.writeText(code); } catch {}
     setCopied(true);
     setTimeout(() => setCopied(false), 1600);
   };
 
-  const run = () => {
+  const run = async () => {
+    if (!done || running) return;
     setRunning(true);
     setResult(null);
-    setTimeout(() => {
-      setResult(runSnippet(DEMO.code));
-      setRunning(false);
-    }, 350); // tiny delay so it reads as "running", not instant
+    const [res] = await Promise.all([runSnippet(code), new Promise((r) => setTimeout(r, 350))]);
+    setResult(res);
+    setRunning(false);
   };
 
   return (
@@ -168,14 +215,34 @@ export default function CodeDemo() {
       `}</style>
 
       {/* header */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 14px", borderBottom: `1px solid rgba(255,255,255,0.08)` }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 14px", borderBottom: `1px solid rgba(255,255,255,0.08)`, rowGap: 8, flexWrap: "wrap" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#ef4444" }} />
           <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#eab308" }} />
           <span style={{ width: 9, height: 9, borderRadius: "50%", background: "#22c55e" }} />
           <span style={{ marginLeft: 8, color: "#94a3b8", fontFamily: "'JetBrains Mono', monospace", fontSize: 12 }}>{DEMO.title}</span>
+          {touched && <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 10 }}>· edited</span>}
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <button
+            onClick={() => setEditing((v) => !v)}
+            disabled={!done || running}
+            title="Edit the code, then run your own version"
+            style={{
+              background: "transparent", border: `1px solid ${editing ? COLORS.accent : "rgba(255,255,255,0.14)"}`, color: editing ? COLORS.accent : "#cbd5e1", borderRadius: 7, padding: "4px 10px", fontSize: 11,
+              cursor: done && !running ? "pointer" : "not-allowed", opacity: done && !running ? 1 : 0.5, fontFamily: "Inter, sans-serif",
+            }}
+          >
+            {editing ? "editing…" : "✎ edit"}
+          </button>
+          {touched && (
+            <button
+              onClick={() => setCode(DEMO.code)}
+              style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.14)", color: "#cbd5e1", borderRadius: 7, padding: "4px 10px", fontSize: 11, cursor: "pointer", fontFamily: "Inter, sans-serif" }}
+            >
+              ↺ reset
+            </button>
+          )}
           <button
             onClick={copy}
             style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.14)", color: "#cbd5e1", borderRadius: 7, padding: "4px 10px", fontSize: 11, cursor: "pointer", fontFamily: "Inter, sans-serif" }}
@@ -187,8 +254,8 @@ export default function CodeDemo() {
             disabled={!done || running}
             style={{
               background: COLORS.accent, border: "none", color: "#0b1026", borderRadius: 7,
-              padding: "4px 12px", fontSize: 11, fontWeight: 700, cursor: done ? "pointer" : "not-allowed",
-              opacity: done ? 1 : 0.5, fontFamily: "Inter, sans-serif",
+              padding: "4px 12px", fontSize: 11, fontWeight: 700, cursor: done && !running ? "pointer" : "not-allowed",
+              opacity: done && !running ? 1 : 0.5, fontFamily: "Inter, sans-serif",
             }}
           >
             {running ? "running…" : "▶ run"}
@@ -196,26 +263,50 @@ export default function CodeDemo() {
         </div>
       </div>
 
-      {/* code */}
-      <pre style={{ margin: 0, padding: "16px 18px", overflowX: "auto", fontFamily: "'JetBrains Mono', monospace", fontSize: 13, lineHeight: 1.7 }}>
-        {lines.map((line, i) => (
-          <div key={i} style={{ whiteSpace: "pre" }}>
-            <span style={{ color: "#475569", display: "inline-block", width: 24, userSelect: "none" }}>{i + 1}</span>
-            <span dangerouslySetInnerHTML={{ __html: highlight(line) }} />
-            {writing && i === lines.length - 1 && <span className="cd-cursor" />}
-          </div>
-        ))}
-      </pre>
+      {/* code — read-only typed view or editable textarea */}
+      {editing ? (
+        <textarea
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          onKeyDown={(e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); run(); } }}
+          spellCheck={false}
+          style={{
+            display: "block", width: "100%", minHeight: Math.max(260, lines.length * 22 + 32),
+            boxSizing: "border-box", margin: 0, padding: "16px 18px", border: "none", outline: "none", resize: "vertical",
+            background: "transparent", color: "#e2e8f0", caretColor: COLORS.accent,
+            fontFamily: "'JetBrains Mono', monospace", fontSize: 13, lineHeight: 1.7,
+          }}
+        />
+      ) : (
+        <pre style={{ margin: 0, padding: "16px 18px", overflowX: "auto", fontFamily: "'JetBrains Mono', monospace", fontSize: 13, lineHeight: 1.7, color: "#e2e8f0" }}>
+          {lines.map((line, i) => (
+            <div key={i} style={{ whiteSpace: "pre" }}>
+              <span style={{ color: "#475569", display: "inline-block", width: 24, userSelect: "none" }}>{i + 1}</span>
+              <span dangerouslySetInnerHTML={{ __html: highlight(line) }} />
+              {writing && i === lines.length - 1 && <span className="cd-cursor" />}
+            </div>
+          ))}
+        </pre>
+      )}
+
+      {/* footer hint */}
+      {done && !editing && (
+        <div style={{ padding: "8px 18px 12px", borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", flexWrap: "wrap", gap: 6 }}>
+          <span style={{ color: "#64748b", fontFamily: "'JetBrains Mono', monospace", fontSize: 10.5, letterSpacing: "0.05em" }}>
+            live code · tap <span style={{ color: COLORS.accent }}>✎ edit</span> to change the query, then <span style={{ color: COLORS.accent }}>▶ run</span> · ⌘/ctrl+enter
+          </span>
+        </div>
+      )}
 
       {/* output */}
       {result && (
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", padding: "12px 18px", background: "rgba(0,0,0,0.25)" }}>
           <div style={{ color: "#64748b", fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 6 }}>
-            output
+            output{touched ? " — your version" : ""}
           </div>
           {result.output.map((line, i) => (
-            <div key={i} style={{ color: result.ok ? "#86efac" : "#fca5a5", fontFamily: "'JetBrains Mono', monospace", fontSize: 12.5, lineHeight: 1.6 }}>
-              {line}
+            <div key={i} style={{ color: result.ok ? "#86efac" : "#fca5a5", fontFamily: "'JetBrains Mono', monospace", fontSize: 12.5, lineHeight: 1.6, whiteSpace: "pre-wrap" }}>
+              {line || "\u00a0"}
             </div>
           ))}
         </div>

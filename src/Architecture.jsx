@@ -110,7 +110,7 @@ function PipelineDiagram({ nodes, COLORS }) {
           const isAI = n.kind === "ai";
           const fill = isIO ? COLORS.accent : isAI ? (COLORS.isDark ? "rgba(167,139,250,0.18)" : "rgba(124,58,237,0.12)") : (COLORS.isDark ? "rgba(148,163,184,0.08)" : "rgba(30,41,59,0.04)");
           const stroke = isIO ? COLORS.accent : isAI ? COLORS.violet : COLORS.border;
-          const textColor = isIO ? (COLORS.isDark ? "#0b1026" : "#ffffff") : COLORS.textPrimary;
+          const textColor = isIO ? "#ffffff" : COLORS.textPrimary;
           return (
             <g key={i}>
               <rect x={x} y={6} width={w} height={h} rx={8} fill={fill} stroke={stroke} strokeWidth={isIO ? 0 : 1} />

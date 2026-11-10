@@ -18,7 +18,7 @@
   letter-spacing: 0.18px;
   color-scheme: light dark;
   color: var(--text);
-  background: #0a0e1a;
+  background: #111110;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -111,4 +111,67 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+/* ─── Manga ink utilities ─────────────────────────────────────────
+   The theme component injects --ink / --paper / --red per mode.
+   Light = "Day Paper" (ink on cream), Dark = "Night Ink" (paper on black). */
+
+:root {
+  --ink: #171512;
+  --paper: #f3eee4;
+  --red: #c92a2a;
+  --font-manga: 'Reggae One', 'Space Grotesk', system-ui, sans-serif;
+}
+
+/* classic screentone / halftone shading */
+.screentone {
+  background-image: radial-gradient(rgba(23, 21, 18, 0.22) 1px, transparent 1.4px);
+  background-size: 7px 7px;
+}
+.screentone-dark {
+  background-image: radial-gradient(rgba(237, 232, 220, 0.13) 1px, transparent 1.4px);
+  background-size: 7px 7px;
+}
+
+/* radial speed lines converging on a focal point */
+.speedlines {
+  background: repeating-conic-gradient(
+    from 0deg at 78% 30%,
+    transparent 0deg 2.6deg,
+    rgba(23, 21, 18, 0.05) 2.6deg 3.2deg
+  );
+}
+.speedlines-dark {
+  background: repeating-conic-gradient(
+    from 0deg at 78% 30%,
+    transparent 0deg 2.6deg,
+    rgba(237, 232, 220, 0.045) 2.6deg 3.2deg
+  );
+}
+
+/* printed manga panel: thick ink frame + hard offset shadow */
+.manga-panel {
+  border: 3px solid var(--ink);
+  box-shadow: 7px 7px 0 var(--ink);
+  border-radius: 4px;
+}
+
+/* block-print button: ink frame + hard shadow that "presses" on click */
+.manga-btn {
+  border: 2.5px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.manga-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 var(--ink);
+}
+.manga-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.manga-font {
+  font-family: var(--font-manga);
 }

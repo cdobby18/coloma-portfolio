@@ -159,7 +159,7 @@ function MiniChat() {
           }
           return (
             <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
-              <span style={{ width: 22, height: 22, borderRadius: 999, background: COLORS.accent, color: COLORS.isDark ? "#0b1026" : "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, flexShrink: 0, fontFamily: "'Space Grotesk', sans-serif", marginTop: 2 }}>AI</span>
+              <span style={{ width: 22, height: 22, borderRadius: 999, background: COLORS.accent, color: "#ffffff", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, flexShrink: 0, fontFamily: "'Space Grotesk', sans-serif", marginTop: 2 }}>AI</span>
               <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 6 }}>
                 <div style={{ padding: "9px 12px", borderRadius: "13px 13px 13px 4px", border: `1px solid ${COLORS.border}`, background: COLORS.chipBg, color: COLORS.textPrimary, fontFamily: "Inter, sans-serif", fontSize: 12.5, lineHeight: 1.65, whiteSpace: "pre-line" }}>
                   {m.text}
@@ -181,7 +181,7 @@ function MiniChat() {
         })}
         {phase === "searching" && (
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            <span style={{ width: 22, height: 22, borderRadius: 999, background: COLORS.accent, color: COLORS.isDark ? "#0b1026" : "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, flexShrink: 0, fontFamily: "'Space Grotesk', sans-serif" }}>AI</span>
+            <span style={{ width: 22, height: 22, borderRadius: 999, background: COLORS.accent, color: "#ffffff", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, flexShrink: 0, fontFamily: "'Space Grotesk', sans-serif" }}>AI</span>
             <div style={{ padding: "9px 12px", borderRadius: "13px 13px 13px 4px", border: `1px solid ${COLORS.border}`, background: COLORS.chipBg, color: COLORS.textMuted, fontFamily: "Inter, sans-serif", fontSize: 12.5, letterSpacing: "0.08em" }}>
               <span style={{ display: "inline-block", animation: "miniPulse 1.1s ease-in-out infinite" }}>◈ retrieving relevant context</span>
             </div>
@@ -217,7 +217,7 @@ function MiniChat() {
             borderRadius: 10,
             border: "none",
             background: COLORS.accent,
-            color: COLORS.isDark ? "#0b1026" : "#f7f5f2",
+            color: "#ffffff",
             fontFamily: "Inter, sans-serif",
             fontSize: 12,
             fontWeight: 600,
@@ -357,7 +357,7 @@ export default function RagDemo({ compact = false }) {
                 borderRadius: 10,
                 border: "none",
                 background: COLORS.accent,
-                color: COLORS.isDark ? "#0b1026" : "#f7f5f2",
+                color: "#ffffff",
                 fontFamily: "Inter, sans-serif",
                 fontSize: 13,
                 fontWeight: 600,

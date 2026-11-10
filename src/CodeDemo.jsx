@@ -253,7 +253,7 @@ export default function CodeDemo() {
             onClick={run}
             disabled={!done || running}
             style={{
-              background: COLORS.accent, border: "none", color: "#0b1026", borderRadius: 7,
+              background: COLORS.accent, border: "none", color: "#ffffff", borderRadius: 7,
               padding: "4px 12px", fontSize: 11, fontWeight: 700, cursor: done && !running ? "pointer" : "not-allowed",
               opacity: done && !running ? 1 : 0.5, fontFamily: "Inter, sans-serif",
             }}

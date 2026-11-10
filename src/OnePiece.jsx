@@ -714,7 +714,7 @@ function Hero() {
                 <span>No. <span style={{ color: COLORS.accent }}>001</span></span>
               </div>
               <div style={{ position: "relative", aspectRatio: "1 / 1" }}>
-                <img src="/pic.jpeg" alt="Carl Joshua Coloma" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block", filter: "grayscale(1) contrast(1.06)" }} />
+                <img src="/pic.jpeg" alt="Carl Joshua Coloma" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
                 {/* print shading rising from the bottom edge, like a manga page */}
                 <div className={COLORS.isDark ? "screentone-dark" : "screentone"} style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "40%", opacity: 0.45, pointerEvents: "none", maskImage: "linear-gradient(to top, black, transparent)", WebkitMaskImage: "linear-gradient(to top, black, transparent)" }} />
                 <div
@@ -1564,7 +1564,7 @@ function WorkAndGitHubSection() {
 
                   <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 7 }}>
                     <span style={{ color: COLORS.accent, fontFamily: "'Space Grotesk', sans-serif", fontSize: 13.5, fontWeight: 700, letterSpacing: "-0.01em" }}>{step.title}</span>
-                    <span style={{ padding: "2px 9px", borderRadius: 999, border: `1px solid ${COLORS.accentBorder}`, background: COLORS.accentSoft, color: COLORS.isDark ? COLORS.accent : COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase" }}>{step.tag}</span>
+                    <span style={{ padding: "2px 9px", borderRadius: 999, border: `1px solid ${COLORS.accentBorder}`, background: COLORS.accentSoft, color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase", animation: "tagBlink 1.8s ease-in-out infinite" }}>{step.tag}</span>
                   </div>
                   <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 12.5, lineHeight: 1.75, margin: 0 }}>
                     {step.body}
@@ -1863,6 +1863,7 @@ export default function OnePiece() {
           html { scroll-behavior: auto; }
         }
         @keyframes fadeUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:translateY(0) } }
+        @keyframes tagBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
         @keyframes donFlash { 0% { opacity: 0; transform: scale(0.5) rotate(-10deg); } 22% { opacity: 1; transform: scale(1.07) rotate(-10deg); } 55% { opacity: 1; transform: scale(1) rotate(-10deg); } 100% { opacity: 0; transform: scale(1.03) rotate(-10deg); } }
         .next-chapter .nc-text { color: ${theme.textMuted}; transition: color 0.2s ease; }
         .next-chapter:hover .nc-text { color: ${theme.accent}; }

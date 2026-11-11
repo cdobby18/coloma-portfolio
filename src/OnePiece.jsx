@@ -3,7 +3,7 @@ import RagDemo from "./demo/RagDemo";
 import CardSwap from "./CardSwap";
 import CodeDemo from "./CodeDemo";
 import Architecture from "./Architecture";
-import { playHoverSound, playClickSound} from "./sound";
+import { playHoverSound, playClickSound } from "./sound";
 
 function BackToTop() {
   const COLORS = useColors();
@@ -657,6 +657,7 @@ function Hero() {
   const [typeIndex, setTypeIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [flagDon, setFlagDon] = useState(false);
+  const [zoomDon, setZoomDon] = useState(false);
 
   useEffect(() => {
     const current = TYPE_LABELS[typeIndex];
@@ -685,8 +686,8 @@ function Hero() {
         style={{ position: "absolute", bottom: "-8%", left: "-4%", width: 480, height: 480, transform: "rotate(6deg)", opacity: 0.6, pointerEvents: "none", maskImage: "radial-gradient(circle at 40% 60%, black 25%, transparent 68%)", WebkitMaskImage: "radial-gradient(circle at 40% 60%, black 25%, transparent 68%)" }}
       />
 
-      {/* Compass rose watermark */}
-      <svg width="150" height="150" viewBox="0 0 100 100" fill="none" style={{ position: "absolute", bottom: 42, right: "clamp(24px, 6vw, 96px)", opacity: 0.14, pointerEvents: "none" }} aria-hidden="true">
+      {/* Compass rose watermark — click for a ZOOM! */}
+      <svg width="150" height="150" viewBox="0 0 100 100" fill="none" onClick={() => { playClickSound(); setZoomDon(true); setTimeout(() => setZoomDon(false), 560); }} style={{ position: "absolute", bottom: 42, right: "clamp(24px, 6vw, 96px)", opacity: 0.14, cursor: "pointer" }} aria-hidden="true">
         <circle cx="50" cy="50" r="30" stroke={COLORS.textPrimary} strokeWidth="1" />
         <circle cx="50" cy="50" r="22" stroke={COLORS.textPrimary} strokeWidth="0.6" strokeDasharray="2 3" />
         <path d="M50 10 54 46 90 50 54 54 50 90 46 54 10 50 46 46z" fill={COLORS.textPrimary} opacity="0.85" />
@@ -696,7 +697,7 @@ function Hero() {
       {/* Chapter tag — cover page corner */}
       <div style={{ position: "absolute", top: 92, left: "clamp(24px, 6vw, 96px)", display: "flex", alignItems: "center", gap: 10, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.18em", color: COLORS.textMuted, textTransform: "uppercase" }}>
         <span style={{ width: 8, height: 8, background: COLORS.textPrimary, borderRadius: 2, flexShrink: 0 }} />
-        Chapter 1 — Romance Dawn
+        Chapter 1 — Setting Sail
       </div>
 
       <div className="hero-grid" style={{ maxWidth: 1100, width: "100%", position: "relative", zIndex: 1, display: "grid", gridTemplateColumns: "minmax(260px, 380px) minmax(0, 1fr)", alignItems: "center", gap: "clamp(32px, 5vw, 64px)" }}>
@@ -721,7 +722,7 @@ function Hero() {
                   onClick={() => { playClickSound(); setFlagDon(true); setTimeout(() => setFlagDon(false), 560); }}
                   title="hehe."
                   style={{ position: "absolute", top: 10, left: 10, width: 44, height: 44, borderRadius: "50%", background: COLORS.surface, border: `2px solid ${COLORS.textPrimary}`, boxShadow: `3px 3px 0 ${COLORS.textPrimary}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-                  <MiniFlag size={32} />
+                  <img src="/straw.png" alt="Straw hat" style={{ width: 30, height: 30, borderRadius: "50%", objectFit: "cover", display: "block" }} />
                 </div>
               </div>
               <div style={{ padding: "10px 14px 12px", borderTop: `3px solid ${COLORS.textPrimary}` }}>
@@ -738,13 +739,19 @@ function Hero() {
             <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", whiteSpace: "nowrap", minWidth: 200, display: "inline-block" }}>{typedLabel}<span style={{ display: "inline-block", width: 7, height: "0.95em", background: COLORS.accent, marginLeft: 2, verticalAlign: "text-bottom", animation: "typeBlink 1.1s step-end infinite" }} /></span>
           </div>
 
-          <h1 style={{ fontFamily: "var(--font-manga)", fontSize: "clamp(40px, 5.6vw, 70px)", lineHeight: 1.02, letterSpacing: "-0.01em", color: COLORS.textPrimary, marginBottom: 18, fontWeight: 400, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s both" }}>
+          <h1 style={{ fontFamily: "var(--font-manga)", fontSize: "clamp(40px, 5.6vw, 70px)", lineHeight: 1.02, letterSpacing: "-0.01em", color: COLORS.textPrimary, marginBottom: 18, fontWeight: 400, className: "stamp-in", animation: "stampIn 0.55s cubic-bezier(0.16,1,0.3,1) 0.25s both" }}>
             Carl Joshua Coloma
           </h1>
 
-          <p style={{ maxWidth: 680, color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: "clamp(16px, 2vw, 18px)", lineHeight: 1.9, marginBottom: 30, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.32s both" }}>
-            An aspiring AI Engineer focused on building reliable <span style={{ color: COLORS.textPrimary }}>agentic workflows, RAG systems, and production-ready ML</span> with Python.
-          </p>
+          <div style={{ position: "relative", display: "inline-block", maxWidth: "min(680px, 100%)", padding: "18px 22px", marginBottom: 30, background: COLORS.surface, border: `2.5px solid ${COLORS.textPrimary}`, borderRadius: 18, boxShadow: `4px 4px 0 ${COLORS.border}` }}>
+            <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: "clamp(16px, 2vw, 18px)", lineHeight: 1.9, margin: 0, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.32s both" }}>
+              Aspiring AI Engineer who set sail on his first AI workflow — and he's sworn to keep sailing, building reliable <span style={{ color: COLORS.textPrimary }}>agentic workflows, RAG systems, and production-ready ML</span> with Python. One island at a time.
+            </p>
+            <div style={{ marginTop: 10, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", color: COLORS.textMuted }}>
+              Sail on. Build the impossible.
+            </div>
+            <div style={{ position: "absolute", bottom: -13, left: 44, width: 0, height: 0, borderLeft: "9px solid transparent", borderRight: "11px solid transparent", borderTop: `13px solid ${COLORS.textPrimary}` }} />
+          </div>
 
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "flex-start", marginBottom: 16, animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.44s both" }}>
             <a href="#projects"
@@ -752,7 +759,7 @@ function Hero() {
               className="manga-btn"
               style={{ padding: "12px 26px", borderRadius: 6, background: COLORS.accent, color: "#ffffff", textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 700 }}
               onMouseEnter={e => { playHoverSound(); }}>
-              View selected work
+              View Projects
             </a>
             <a href="#contact"
               onClick={() => playClickSound()}
@@ -762,6 +769,10 @@ function Hero() {
               Get in touch
             </a>
           </div>
+
+          <p style={{ marginTop: -6, marginBottom: 40, color: COLORS.textMuted, fontFamily: "var(--font-manga)", fontSize: 14, letterSpacing: "0.22em", textTransform: "uppercase" }}>
+            One crew. One ship. One dream.
+          </p>
 
           <a href="#chat-demo"
             onClick={(e) => { playClickSound(); e.preventDefault(); const el = document.getElementById("chat-demo"); if (el) { el.scrollIntoView({ behavior: "smooth", block: "center" }); } }}
@@ -798,6 +809,11 @@ function Hero() {
       {flagDon && (
         <div style={{ position: "fixed", inset: 0, zIndex: 300, pointerEvents: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <SFX lines={["SHISHI", "SHISHI!"]} size={160} rotate={-8} style={{ animation: "donFlash 0.55s ease-out forwards" }} />
+        </div>
+      )}
+      {zoomDon && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 300, pointerEvents: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <SFX lines={["ZOOM!"]} size={150} rotate={-14} style={{ animation: "donFlash 0.55s ease-out forwards" }} />
         </div>
       )}
 
@@ -863,6 +879,7 @@ function AboutSection() {
                 if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
               style={{ display: "flex", alignItems: "flex-start", gap: 18, background: COLORS.surface, border: `1px solid ${hovered === idx ? COLORS.accentBorder : COLORS.border}`, borderRadius: 12, padding: "18px 20px", cursor: "pointer", transition: "all 0.25s ease", transform: hovered === idx ? "translateY(-3px)" : "translateY(0)", boxShadow: hovered === idx ? "0 12px 30px rgba(0,0,0,0.16)" : "none" }}>
+              <span style={{ color: COLORS.accent, display: "inline-flex", marginBottom: 8 }}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={COLORS.accent} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M6 12v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-8" /><path d="M15 22v-7a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v7" /><path d="M12 12v13" /><path d="M8 12V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v6" /></svg></span>
               <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 12, fontWeight: 700, opacity: 0.65, flexShrink: 0, paddingTop: 2 }}>{item.num}</span>
               <div style={{ flex: 1 }}>
                 <p style={{ color: COLORS.textPrimary, fontFamily: "'Space Grotesk', sans-serif", fontSize: 14, fontWeight: 600, marginBottom: 4 }}>{item.label}</p>
@@ -1384,8 +1401,11 @@ function GlidingNavLinks({ links, theme }) {
           ref={el => (refs.current[i] = el)}
           aria-current={active === i ? "page" : undefined}
           onMouseEnter={() => playHoverSound()}
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             playClickSound();
+            const el = document.getElementById(link.id);
+            if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
             setActive(i);
             clickLock.current = true;
             clearTimeout(lockTimer.current);
@@ -1541,8 +1561,11 @@ function WorkAndGitHubSection() {
   };
 
   return (
-    <section id="work" ref={ref} style={{ padding: "56px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)" }}>
-      <div style={{ maxWidth: 1120, margin: "0 auto" }}>
+    <section id="work" ref={ref} style={{ padding: "56px clamp(24px, 6vw, 96px)", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1)", position: "relative", overflow: "hidden" }}>
+      {/* nautical map wash */}
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", backgroundImage: `radial-gradient(rgba(23,21,18,0.11) 0.9px, transparent 1.4px)`, backgroundSize: "7px 7px", opacity: COLORS.isDark ? 0.5 : 1 }} />
+      <div style={{ position: "absolute", top: "26%", left: "-80px", width: 14, height: 14, borderRadius: "50%", background: COLORS.accent, opacity: 0.55, pointerEvents: "none" }} />
+      <div style={{ maxWidth: 1120, margin: "0 auto", position: "relative" }}>
         <SectionLabel en="Side Story" text="Work & GitHub" />
         <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(30px, 4.5vw, 46px)", color: COLORS.textPrimary, marginBottom: 24, fontWeight: 700 }}>Work & GitHub</h2>
 
@@ -1821,6 +1844,50 @@ function CertificationsSection() {
   );
 }
 
+function ChapterTurn() {
+  const [turn, setTurn] = useState(null);
+  const titles = {
+    about: { n: "Chapter 2", t: "The Beginning" },
+    experience: { n: "Chapter 3", t: "The Voyage" },
+    projects: { n: "Chapter 4", t: "Island Arcs" },
+    work: { n: "Side Story", t: "Work & GitHub" },
+    stack: { n: "Chapter 5", t: "Awakened Fruits" },
+    certs: { n: "Chapter 6", t: "Poneglyphs" },
+    contact: { n: "Final Chapter", t: "Den Den Mushi" },
+  };
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting && titles[e.target.id]) {
+            setTurn({ n: titles[e.target.id].n, t: titles[e.target.id].t });
+          }
+        }
+      },
+      { rootMargin: "-38% 0px -55% 0px", threshold: 0 }
+    );
+    Object.keys(titles).forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) obs.observe(el);
+    });
+    return () => obs.disconnect();
+  }, []);
+  useEffect(() => {
+    if (!turn) return;
+    const t = setTimeout(() => setTurn(null), 1500);
+    return () => clearTimeout(t);
+  }, [turn]);
+  if (!turn) return null;
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 400, background: "var(--ink)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 18, pointerEvents: "none", animation: "turnFlash 1.4s ease forwards" }}>
+      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.34em", color: "var(--red)", textTransform: "uppercase" }}>The Next Chapter</span>
+      <span style={{ fontFamily: "var(--font-manga)", fontSize: "clamp(28px, 6vw, 46px)", color: "var(--paper)", letterSpacing: "0.02em" }}>{turn.t}</span>
+      <div style={{ width: 140, height: 3, background: "var(--red)" }} />
+      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.24em", color: "var(--paper)", textTransform: "uppercase", opacity: 0.55 }}>{turn.n}</span>
+    </div>
+  );
+}
+
 export default function OnePiece() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -1863,6 +1930,8 @@ export default function OnePiece() {
           html { scroll-behavior: auto; }
         }
         @keyframes fadeUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:translateY(0) } }
+        @keyframes stampIn { 0% { opacity:0; transform:rotate(-6deg) scale(1.35); filter:blur(3px); } 55% { opacity:1; transform:rotate(-2deg) scale(0.98); filter:blur(0); } 75% { transform:rotate(1deg) scale(1.015); } 100% { opacity:1; transform:rotate(0deg) scale(1); filter:none; } }
+        @keyframes turnFlash { 0% { opacity:0; } 18% { opacity:1; } 45% { opacity:1; } 100% { opacity:0; } }
         @keyframes tagBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
         @keyframes donFlash { 0% { opacity: 0; transform: scale(0.5) rotate(-10deg); } 22% { opacity: 1; transform: scale(1.07) rotate(-10deg); } 55% { opacity: 1; transform: scale(1) rotate(-10deg); } 100% { opacity: 0; transform: scale(1.03) rotate(-10deg); } }
         .next-chapter .nc-text { color: ${theme.textMuted}; transition: color 0.2s ease; }
@@ -1987,6 +2056,7 @@ export default function OnePiece() {
       </footer>
 
       <BackToTop />
+      <ChapterTurn />
     </ThemeCtx.Provider>
   );
 }

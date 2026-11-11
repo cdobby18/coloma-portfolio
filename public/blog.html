@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Still Figuring It Out: My Path Toward AI Engineering</title>
-  <meta name="description" content="A student's honest take on tutorial hell, feeling stuck, and still chasing AI engineering anyway." />
+  <title>Chapter III — The First Build: My Path Toward AI Engineering</title>
+  <meta name="description" content="How my first AI workflow became the first build of the voyage — a fresh graduate's story of setting sail." />
   <link rel="canonical" href="https://carlcoloma.vercel.app/blog.html" />
 
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Still Figuring It Out: My Path Toward AI Engineering" />
-  <meta property="og:description" content="A student's honest take on tutorial hell, feeling stuck, and still chasing AI engineering anyway." />
+  <meta property="og:title" content="Chapter III — The First Build" />
+  <meta property="og:description" content="How my first AI workflow became the first build of the voyage — a fresh graduate's story of setting sail." />
   <meta property="og:url" content="https://carlcoloma.vercel.app/blog.html" />
   <meta property="og:image" content="https://carlcoloma.vercel.app/PROFILE.jpeg" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Still Figuring It Out: My Path Toward AI Engineering" />
-  <meta name="twitter:description" content="A student's honest take on tutorial hell, feeling stuck, and still chasing AI engineering anyway." />
+  <meta name="twitter:title" content="Chapter III — The First Build" />
+  <meta name="twitter:description" content="How my first AI workflow became the first build of the voyage — a fresh graduate's story of setting sail." />
   <meta name="twitter:image" content="https://carlcoloma.vercel.app/PROFILE.jpeg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -97,7 +97,9 @@
     figure img{width:100%;border-radius:6px;display:block;border:2.5px solid var(--ink);
       filter:grayscale(1) contrast(1.06);
       transition:filter .4s ease, transform .45s cubic-bezier(.16,1,.3,1)}
-    figure:hover img{filter:none;transform:scale(1.01)}
+    figure:hover img{transform:scale(1.01)}
+    html[data-theme="light"] figure img{filter:grayscale(0) contrast(1.06);}
+    #post-firstbuild figure{margin-top:-30px;}
     figcaption{display:flex;align-items:flex-start;gap:7px;color:var(--muted);font-size:12.5px;
       margin-top:10px;font-family:'JetBrains Mono',monospace;letter-spacing:.02em}
     figcaption::before{content:"✦";color:var(--accent);flex-shrink:0}
@@ -137,8 +139,8 @@
     .blog-list button:hover:not([aria-selected="true"]){background:var(--chip);transform:translateX(3px)}
     .blog-posts{display:grid;gap:24px;min-width:0}
     .blog-post{display:none}
-    .blog-post.active{display:block;animation:postIn .5s cubic-bezier(.16,1,.3,1) both}
-    @keyframes postIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    .blog-post.active{display:block;animation:postIn .55s cubic-bezier(.16,1,.3,1) both}
+    @keyframes postIn{from{opacity:0;transform:translateX(56px)}to{opacity:1;transform:translateX(0)}}
     @media (max-width:840px){.layout{display:block}.blog-list{position:static;flex-direction:row;flex-wrap:wrap}}
     @media (max-width:640px){
       .wrap{margin:22px 14px;padding:24px 20px}
@@ -155,8 +157,8 @@
     <header>
       <div>
         <span class="kicker"><span class="dot"></span>Still Figuring It Out</span>
-        <h1 id="pageTitle">Still Figuring It Out</h1>
-        <div class="meta">Carl Joshua Coloma <span class="sep">·</span> <span id="pageTag" style="color:var(--accent)">Journey</span> <span class="sep">·</span> 2025 – now</div>
+        <h1 id="pageTitle">Chapter I — Still Figuring It Out</h1>
+        <div class="meta">Carl Joshua Coloma <span class="sep">·</span> <span id="pageTag" style="color:var(--accent)">Journey</span> <span class="sep">·</span> 2026 </div>
       </div>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" type="button"></button>
     </header>
@@ -165,13 +167,17 @@
     <div class="layout">
       <aside class="blog-list" role="tablist" aria-label="Blog posts">
         <span class="list-label">Writing</span>
-        <button type="button" class="blog-list-item" data-post="still" data-title="Still Figuring It Out" data-tag="Journey" aria-selected="true" role="tab">
-          <span class="btn-title">Still Figuring It Out</span>
+        <button type="button" class="blog-list-item" data-post="still" data-title="Chapter I — Still Figuring It Out" data-tag="Journey" aria-selected="true" role="tab">
+          <span class="btn-title">Chapter I — Still Figuring It Out</span>
           <span class="btn-tags"><span class="tag">Journey</span><span class="tag">Students</span></span>
         </button>
-        <button type="button" class="blog-list-item" data-post="bawz" data-title="Beyond Tech: BAWZ" data-tag="Dance" aria-selected="false" role="tab">
-          <span class="btn-title">Beyond Tech: BAWZ</span>
+        <button type="button" class="blog-list-item" data-post="bawz" data-title="Chapter II — Beyond Tech: BAWZ" data-tag="Dance" aria-selected="false" role="tab">
+          <span class="btn-title">Chapter II — Beyond Tech: BAWZ</span>
           <span class="btn-tags"><span class="tag">Dance</span><span class="tag">Singapore</span></span>
+        </button>
+        <button type="button" class="blog-list-item" data-post="firstbuild" data-title="Chapter III — The First Build" data-tag="Fresh Grad" aria-selected="false" role="tab">
+          <span class="btn-title">Chapter III — The First Build</span>
+          <span class="btn-tags"><span class="tag">Fresh Grad</span><span class="tag">Journey</span></span>
         </button>
       </aside>
 
@@ -203,7 +209,7 @@
         </article>
 
         <article id="post-bawz" class="blog-post" role="tabpanel" aria-hidden="true">
-          <h2>BAWZ: Dance Group</h2>
+          <h2>Chapter II — BAWZ: Dance Group</h2>
           <p>In August 2025 I competed with my dance group BAWZ at an international event in Singapore. We represented the Philippines against teams from across Asia, and we came home with the champion award.</p>
           <p>BAWZ is not just a group; it's a team built around discipline, rhythm, and trust. Our coach pushed us through long rehearsals, and every routine had to be precise enough to stand out on an international stage.</p>
           <blockquote>The moment we heard that we had won was unforgettable. We had trained for months, and the award validated every injury, every early practice, and every late-night rehearsal.</blockquote>
@@ -217,6 +223,24 @@
             <figcaption>Our champion trophy from the Singapore competition.</figcaption>
           </figure>
           <p>That win is part of my story too. It taught me how teamwork and preparation pay off, and it gave me confidence that I can represent the Philippines at a high level — whether on a stage, in a project, or in a technical role.</p>
+          <div class="post-footer">
+            <span class="end-mark">end of chapter</span>
+            <a class="back" href="index.html">← Back to portfolio</a>
+          </div>
+        </article>
+
+        <article id="post-firstbuild" class="blog-post" role="tabpanel" aria-hidden="true">
+          <h2>Chapter III — The First Build</h2>
+          <p>The first build is the smallest part of my story — and somehow the most important one. No grand adventure, no glory, no legend. Just me, a fresh graduate with a computer science degree and a head full of theory, deciding enough was enough.</p>
+          <p>My first build was the first thing I ever built on my own. I decided to set sail on my first AI workflow — and I didn't wait until I felt ready. I just built the thing I wanted to build, badly, gloriously badly.</p>
+          <p>The first workflow was a mess. It worked. It didn't work. It worked again. And in that messy loop was the same lesson I found in every tutorial I ever watched: building is understanding, and understanding comes from doing.</p>
+          <blockquote>You can watch a thousand tutorials, but you only learn by building.</blockquote>
+          <p>For anyone my age or older, staring at a finished degree and an unfinished skills list: I get it. The leap from "I know about AI" to "I can build with AI" felt enormous. It did for me too. But the first build doesn't ask for a grand plan. It asks for one small thing. Mine was a workflow. Yours might be an agent, a RAG pipeline, a fine-tune, or just a very stubborn notebook.</p>
+          <p>I didn't become an AI engineer with that first build. I just became someone who builds — and that still inspires me to keep going today.</p>
+          <figure>
+            <img src="/op.jpg" alt="The ship sailing the Grand Line" loading="lazy" />
+            <figcaption>The crew, the ship, the dream.</figcaption>
+          </figure>
           <div class="post-footer">
             <span class="end-mark">end of chapter</span>
             <a class="back" href="index.html">← Back to portfolio</a>
@@ -276,7 +300,7 @@
       }
 
       updateButton(currentTheme() === "dark");
-      selectPost("still", "Still Figuring It Out");
+      selectPost("still", "Chapter I — Still Figuring It Out");
       updateProgress();
 
       window.addEventListener("scroll", updateProgress, { passive: true });

@@ -1402,8 +1402,12 @@ function GlidingNavLinks({ links, theme }) {
           aria-current={active === i ? "page" : undefined}
           onMouseEnter={() => playHoverSound()}
           onClick={(e) => {
-            e.preventDefault();
             playClickSound();
+            if (link.href) {
+              // real page link (e.g. Blog → /blog.html) — let the browser navigate normally
+              return;
+            }
+            e.preventDefault();
             const el = document.getElementById(link.id);
             if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
             setActive(i);
@@ -2018,7 +2022,7 @@ export default function OnePiece() {
 
       <div style={{ display: "flex", flexDirection: "column", position: "fixed", top: 68, left: 0, right: 0, background: theme.mobileMenuBg, backdropFilter: "blur(20px)", borderBottom: `1px solid ${theme.border}`, padding: "20px clamp(24px,6vw,96px)", zIndex: 99, transform: menuOpen ? "translateY(0)" : "translateY(-120%)", opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? "auto" : "none", transition: "transform 0.3s ease, opacity 0.25s ease" }}>
           {NAV_LINKS.map((link) => (
-            <a key={link.id} href={`#${link.id}`} onClick={() => { playClickSound(); setMenuOpen(false); }} onMouseEnter={() => playHoverSound()}
+            <a key={link.id} href={link.href || `#${link.id}`} onClick={() => { playClickSound(); setMenuOpen(false); }} onMouseEnter={() => playHoverSound()}
               style={{ color: theme.textSecondary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 15, fontWeight: 500, padding: "14px 0", borderBottom: `1px solid ${theme.stripBorder}` }}>
               {link.label}
             </a>

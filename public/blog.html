@@ -43,6 +43,9 @@
       --imgBorder:rgba(23,21,18,0.25); --ink:#171512;
     }
     html,body{height:100%;margin:0}
+    :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+    .skip-link{position:absolute;left:-9999px;top:0;background:var(--card);color:var(--text);padding:10px 16px;border:2px solid var(--ink);border-radius:6px;z-index:200;font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;text-decoration:none}
+    .skip-link:focus{left:8px;top:8px}
     body{
       font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
       background:var(--bg);color:var(--text);
@@ -69,7 +72,7 @@
       background:var(--card);border-radius:6px;border:3px solid var(--ink);
       box-shadow:8px 8px 0 var(--ink)}
     a{color:var(--accent);text-decoration:none}
-    header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:26px}
+    header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:26px}
     .kicker{display:inline-flex;align-items:center;gap:9px;font-family:'JetBrains Mono',monospace;
       font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);
       border:2px solid var(--ink);border-radius:6px;background:var(--card);
@@ -105,6 +108,7 @@
     figcaption::before{content:"✦";color:var(--accent);flex-shrink:0}
     .post-footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;
       gap:12px;margin-top:30px;padding-top:22px;border-top:2px solid var(--ink)}
+    .post-nav{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
     .end-mark{display:inline-flex;align-items:center;gap:8px;color:var(--muted);
       font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase}
     .end-mark::before,.end-mark::after{content:"";width:26px;height:1px;background:var(--ink);opacity:.5}
@@ -141,23 +145,43 @@
     .blog-post{display:none}
     .blog-post.active{display:block;animation:postIn .55s cubic-bezier(.16,1,.3,1) both}
     @keyframes postIn{from{opacity:0;transform:translateX(56px)}to{opacity:1;transform:translateX(0)}}
-    @media (max-width:840px){.layout{display:block}.blog-list{position:static;flex-direction:row;flex-wrap:wrap}}
+    @media (max-width:960px){
+      .layout{display:block}
+      .blog-list{position:static;flex-direction:column;align-items:stretch;gap:12px}
+      .blog-list button{flex:initial;width:100%}
+      .blog-list button[aria-selected="true"]{transform:none}
+      .blog-list button:hover:not([aria-selected="true"]){transform:none}
+    }
     @media (max-width:640px){
-      .wrap{margin:22px 14px;padding:24px 20px}
+      .wrap{margin:22px 14px;padding:20px 16px}
       .layout{gap:18px}
-      .blog-list{gap:9px;padding:14px}
-      .blog-list button{flex:1 1 140px}
+      .blog-list{gap:10px;padding:14px}
+      .blog-list button{flex:initial;width:100%}
       p:first-of-type::first-letter{font-size:2.6em}
+      header{margin-bottom:18px}
+      .kicker{padding:5px 12px;margin-bottom:12px}
+      .divider{margin:14px 0 20px}
+    }
+    @media print{
+      body{background:#fff !important;color:#000 !important}
+      .wrap{border:none;box-shadow:none;max-width:none;margin:0;padding:0}
+      .blog-list{display:none}
+      .post-nav{display:none}
+      figure img{display:block;filter:none}
+      .post-footer{border:none}
+      .back{box-shadow:none}
+      #progress{display:none}
     }
   </style>
 </head>
 <body>
-  <div id="progress"></div>
-  <main class="wrap">
+  <div id="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Reading progress"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <main class="wrap" id="main">
     <header>
       <div>
-        <span class="kicker"><span class="dot"></span>Still Figuring It Out</span>
-        <h1 id="pageTitle">Chapter I — Still Figuring It Out</h1>
+        <span class="kicker" id="pageKicker"><span class="dot"></span>Still Figuring It Out</span>
+        <h1 id="pageTitle" aria-live="polite">Chapter I — Still Figuring It Out</h1>
         <div class="meta">Carl Joshua Coloma <span class="sep">·</span> <span id="pageTag" style="color:var(--accent)">Journey</span> <span class="sep">·</span> 2026 </div>
       </div>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" type="button"></button>
@@ -167,16 +191,20 @@
     <div class="layout">
       <aside class="blog-list" role="tablist" aria-label="Blog posts">
         <span class="list-label">Writing</span>
-        <button type="button" class="blog-list-item" data-post="still" data-title="Chapter I — Still Figuring It Out" data-tag="Journey" aria-selected="true" role="tab">
+        <button type="button" class="blog-list-item" data-post="still" data-title="Chapter I — Still Figuring It Out" data-tag="Journey" aria-controls="post-still" aria-selected="true" role="tab">
           <span class="btn-title">Chapter I — Still Figuring It Out</span>
           <span class="btn-tags"><span class="tag">Journey</span><span class="tag">Students</span></span>
         </button>
-        <button type="button" class="blog-list-item" data-post="bawz" data-title="Chapter II — Beyond Tech: BAWZ" data-tag="Dance" aria-selected="false" role="tab">
+        <button type="button" class="blog-list-item" data-post="bawz" data-title="Chapter II — Beyond Tech: BAWZ" data-tag="Dance" aria-controls="post-bawz" aria-selected="false" role="tab">
           <span class="btn-title">Chapter II — Beyond Tech: BAWZ</span>
           <span class="btn-tags"><span class="tag">Dance</span><span class="tag">Singapore</span></span>
         </button>
-        <button type="button" class="blog-list-item" data-post="firstbuild" data-title="Chapter III — The First Build" data-tag="Fresh Grad" aria-selected="false" role="tab">
+        <button type="button" class="blog-list-item" data-post="firstbuild" data-title="Chapter III — The First Build" data-tag="Fresh Grad" aria-controls="post-firstbuild" aria-selected="false" role="tab">
           <span class="btn-title">Chapter III — The First Build</span>
+          <span class="btn-tags"><span class="tag">Fresh Grad</span><span class="tag">Journey</span></span>
+        </button>
+        <button type="button" class="blog-list-item" data-post="iv" data-title="Chapter IV — The Voyage Begins" data-tag="Fresh Grad" aria-controls="post-iv" aria-selected="false" role="tab">
+          <span class="btn-title">Chapter IV — The Voyage Begins</span>
           <span class="btn-tags"><span class="tag">Fresh Grad</span><span class="tag">Journey</span></span>
         </button>
       </aside>
@@ -204,6 +232,9 @@
           </figure>
           <div class="post-footer">
             <span class="end-mark">end of chapter</span>
+            <div class="post-nav">
+              <a class="back nav-next" href="#" data-post="bawz">Next — Chapter II — Beyond Tech: BAWZ →</a>
+            </div>
             <a class="back" href="index.html">← Back to portfolio</a>
           </div>
         </article>
@@ -225,6 +256,10 @@
           <p>That win is part of my story too. It taught me how teamwork and preparation pay off, and it gave me confidence that I can represent the Philippines at a high level — whether on a stage, in a project, or in a technical role.</p>
           <div class="post-footer">
             <span class="end-mark">end of chapter</span>
+            <div class="post-nav">
+              <a class="back nav-prev" href="#" data-post="still">← Chapter I — Still Figuring It Out</a>
+              <a class="back nav-next" href="#" data-post="firstbuild">Next — Chapter III — The First Build →</a>
+            </div>
             <a class="back" href="index.html">← Back to portfolio</a>
           </div>
         </article>
@@ -243,6 +278,25 @@
           </figure>
           <div class="post-footer">
             <span class="end-mark">end of chapter</span>
+            <div class="post-nav">
+              <a class="back nav-prev" href="#" data-post="bawz">← Chapter II — Beyond Tech: BAWZ</a>
+            </div>
+            <a class="back" href="index.html">← Back to portfolio</a>
+          </div>
+        </article>
+
+        <article id="post-iv" class="blog-post" role="tabpanel" aria-hidden="true">
+          <h2>Chapter IV — The Voyage Begins</h2>
+          <p>The AI engineering journey started with a simple thing: watching. At first, I was just absorbing — hours of professional software engineering and AI content online, the deep technical breakdowns from creators like Gazi, Bryl, and Daniel, full of pipelines, agents, and production-grade thinking.</p>
+          <p>Most of it went in one ear and out the other at first. But something about their code, their breakdowns, and the "why" behind the "how" planted a seed. If they could build these systems, I could start building mine.</p>
+          <blockquote>At first I was watching. Then I decided to build.</blockquote>
+          <p>That inspiration pushed me from passive learning to action. I stopped admiring the voyage and started sketching my own first workflow — badly, gloriously badly, exactly like Chapter III. The journey from "watching" to "doing" became the real story.</p>
+          <p>And that's the heart of it: the AI engineering journey began with a spark of inspiration from creators I watched online, and it became my own because I chose to do my best.</p>
+          <div class="post-footer">
+            <span class="end-mark">end of chapter</span>
+            <div class="post-nav">
+              <a class="back nav-prev" href="#" data-post="firstbuild">← Chapter III — The First Build</a>
+            </div>
             <a class="back" href="index.html">← Back to portfolio</a>
           </div>
         </article>
@@ -256,6 +310,37 @@
       var listButtons = document.querySelectorAll(".blog-list-item");
       var posts = document.querySelectorAll(".blog-post");
       var progress = document.getElementById("progress");
+
+      var POST_META = {
+        still: {
+          title: "Chapter I — Still Figuring It Out",
+          description: "A computer science student's honest story of falling into tutorial hell and finding curiosity as the first step toward AI engineering.",
+          prev: null,
+          next: "bawz",
+          image: "https://carlcoloma.vercel.app/pic.jpeg"
+        },
+        bawz: {
+          title: "Chapter II — Beyond Tech: BAWZ",
+          description: "My international dance competition with BAWZ — from months of discipline and rehearsals to winning the championship in Singapore.",
+          prev: "still",
+          next: "firstbuild",
+          image: "https://carlcoloma.vercel.app/bawz.webp"
+        },
+        firstbuild: {
+          title: "Chapter III — The First Build",
+          description: "How my first AI workflow became the first build of the voyage — a fresh graduate's story of setting sail.",
+          prev: "bawz",
+          next: "iv",
+          image: "https://carlcoloma.vercel.app/op.jpg"
+        },
+        iv: {
+          title: "Chapter IV — The Voyage Begins",
+          description: "How the AI engineering journey started — from watching professional SE and AI creators like Gazi, Bryl, and Daniel to deciding to build my own first workflow.",
+          prev: "firstbuild",
+          next: null,
+          image: "https://carlcoloma.vercel.app/pic.jpeg"
+        }
+      };
       var sunSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
       var moonSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
 
@@ -289,7 +374,53 @@
         var tagEl = document.getElementById("pageTag");
         var tagBtn = document.querySelector('.blog-list-item[data-post="' + postId + '"]');
         if (tagEl && tagBtn && tagBtn.dataset.tag) tagEl.textContent = tagBtn.dataset.tag;
-        document.title = title + " | Blog";
+        var meta = POST_META[postId] || POST_META.still;
+        document.title = meta.title + " | Blog";
+        var descMeta = document.querySelector('meta[name="description"]');
+        if (descMeta) descMeta.content = meta.description;
+        var ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) ogTitle.content = meta.title;
+        var ogDesc = document.querySelector('meta[property="og:description"]');
+        if (ogDesc) ogDesc.content = meta.description;
+        var twTitle = document.querySelector('meta[name="twitter:title"]');
+        if (twTitle) twTitle.content = meta.title;
+        var twDesc = document.querySelector('meta[name="twitter:description"]');
+        if (twDesc) twDesc.content = meta.description;
+        var ogImage = document.querySelector('meta[property="og:image"]');
+        if (ogImage) ogImage.content = meta.image;
+        var twImage = document.querySelector('meta[name="twitter:image"]');
+        if (twImage) twImage.content = meta.image;
+
+        var kickerEl = document.getElementById("pageKicker");
+        if (kickerEl) kickerEl.innerHTML = '<span class="dot"></span>JOURNEY';
+
+        var activeArticle = document.getElementById("post-" + postId);
+        var postNav = activeArticle ? activeArticle.querySelector(".post-nav") : null;
+        var prevLink = postNav ? postNav.querySelector(".nav-prev") : null;
+        var nextLink = postNav ? postNav.querySelector(".nav-next") : null;
+        if (prevLink) prevLink.style.display = meta.prev ? "" : "none";
+        if (nextLink) nextLink.style.display = meta.next ? "" : "none";
+
+        if (prevLink) {
+          prevLink.onclick = function (e) {
+            e.preventDefault();
+            if (meta.prev) {
+              selectPost(meta.prev, POST_META[meta.prev].title);
+              if (window.location.hash !== "#" + meta.prev) window.location.hash = meta.prev;
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          };
+        }
+        if (nextLink) {
+          nextLink.onclick = function (e) {
+            e.preventDefault();
+            if (meta.next) {
+              selectPost(meta.next, POST_META[meta.next].title);
+              if (window.location.hash !== "#" + meta.next) window.location.hash = meta.next;
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          };
+        }
       }
 
       function updateProgress() {
@@ -297,10 +428,17 @@
         var max = doc.scrollHeight - window.innerHeight;
         var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
         progress.style.width = pct + "%";
+        progress.setAttribute("aria-valuenow", String(Math.round(pct)));
       }
 
       updateButton(currentTheme() === "dark");
-      selectPost("still", "Chapter I — Still Figuring It Out");
+
+      var initialPostId = (window.location.hash || "").replace(/^#/, "");
+      if (POST_META[initialPostId]) {
+        selectPost(initialPostId, POST_META[initialPostId].title);
+      } else {
+        selectPost("still", POST_META.still.title);
+      }
       updateProgress();
 
       window.addEventListener("scroll", updateProgress, { passive: true });
@@ -317,6 +455,9 @@
       listButtons.forEach(function (button) {
         button.addEventListener("click", function () {
           selectPost(button.dataset.post, button.dataset.title);
+          if (window.location.hash !== "#" + button.dataset.post) {
+            window.location.hash = button.dataset.post;
+          }
           window.scrollTo({ top: 0, behavior: "smooth" });
         });
       });

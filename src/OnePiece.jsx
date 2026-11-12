@@ -651,6 +651,7 @@ function SkillPill({ name, delay = 0, muted = false }) {
 
 function Hero() {
   const COLORS = useColors();
+  const [heroPage, setHeroPage] = useState(0);
   const [nameHover, setNameHover] = useState(false);
   const TYPE_LABELS = ["AI & Automation Engineer", "Software Engineer", "GenAI Engineer", "AI Quality Assurance"];
   const [typedLabel, setTypedLabel] = useState("");
@@ -700,6 +701,7 @@ function Hero() {
         Chapter 1 — Setting Sail
       </div>
 
+      {heroPage === 0 ? (
       <div className="hero-grid" style={{ maxWidth: 1100, width: "100%", position: "relative", zIndex: 1, display: "grid", gridTemplateColumns: "minmax(260px, 380px) minmax(0, 1fr)", alignItems: "center", gap: "clamp(32px, 5vw, 64px)" }}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "-40px" }}>
           <div style={{ position: "relative", animation: "fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.05s both" }}>
@@ -804,6 +806,27 @@ function Hero() {
 
         </div>
       </div>
+      ) : (
+        <div style={{ position: "relative", zIndex: 1, maxWidth: 780, textAlign: "center", padding: "0 20px" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "6px 14px", border: `1px solid ${COLORS.accentBorder}`, borderRadius: 999, background: COLORS.accentSoft, marginBottom: 18 }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: COLORS.accent }} />
+            <span style={{ color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>The Ship</span>
+          </div>
+          <h2 style={{ fontFamily: "var(--font-manga)", fontSize: "clamp(36px, 5vw, 56px)", color: COLORS.textPrimary, margin: "0 0 18px", fontWeight: 400, lineHeight: 1.05 }}>The Grand Line is just a map</h2>
+          <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 16.5, lineHeight: 1.9, maxWidth: 640, margin: "0 auto 18px" }}>
+            Every good engineer keeps a log of their own adventure. Mine is written in manga panels — the Straw Hat setting sail across the Grand Line, island by island, build by build. This portfolio isn't just a site about me. It's the ship. And every workflow I ship is another island claimed.
+          </p>
+          <blockquote style={{ position: "relative", margin: "8px auto 18px", padding: "18px 22px", border: `2.5px solid ${COLORS.textPrimary}`, background: COLORS.surface, borderRadius: 16, fontFamily: "var(--font-manga)", fontSize: 17, lineHeight: 1.55, color: COLORS.textPrimary, fontWeight: 400, maxWidth: 560 }}>
+            At first I was watching. Then I decided to build.
+          </blockquote>
+          <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 15, lineHeight: 1.8, maxWidth: 620, margin: "0 auto 28px" }}>
+            The same way a pirate crew charts unknown waters, I chart unknown AI problems — and I sail anyway. The adventure was always the point.
+          </p>
+          <a style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "12px 26px", borderRadius: 6, background: COLORS.surface, color: COLORS.textPrimary, textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 600, cursor: "pointer" }} onClick={() => setHeroPage(0)}>
+            ← Back to the voyage
+          </a>
+        </div>
+      )}
 
       {/* easter egg — the captain laughs */}
       {flagDon && (
@@ -1782,10 +1805,7 @@ function CertCard({ cert, idx, visible }) {
         display: "flex",
         flexDirection: "column",
         textDecoration: "none",
-        border: `1px solid ${hov ? COLORS.accentBorder : COLORS.border}`,
-        borderRadius: 14,
-        overflow: "hidden",
-        background: COLORS.surface,
+        background: "transparent",
         boxShadow: "none",
         transition: "all 0.25s ease",
         transform: hov ? "translateY(-3px)" : "translateY(0)",
@@ -1797,7 +1817,7 @@ function CertCard({ cert, idx, visible }) {
           Road Poneglyph
         </span>
       )}
-      <div style={{ height: 140, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 16, background: COLORS.isDark ? "#f1f5f9" : "#f8fafc", borderBottom: `1px solid ${COLORS.border}` }}>
+      <div style={{ height: 140, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
         <img
           src={cert.image}
           alt={cert.name}

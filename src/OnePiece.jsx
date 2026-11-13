@@ -227,25 +227,34 @@ const DI = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
 
 const SKILL_GROUPS = [
   {
-    label: "Languages & Frameworks",
+    label: "Programming Languages",
     fruit: "Paramecia class",
-    skills: ["Python", "JavaScript", "FastAPI", "Flask", "React", "Streamlit", "RESTful APIs"],
+    desc: "Core languages for building AI-powered products.",
+    skills: ["Python", "JavaScript"],
   },
   {
-    label: "AI & ML",
+    label: "Frameworks & Libraries",
     fruit: "Logia class",
-    skills: ["OpenCV", "LangChain", "RAG", "GenAI", "Agentic AI", "Prompt Engineering", "Automation", "LLM APIs", "PyTorch", "HuggingFace"],
+    desc: "Frameworks and libraries that ship the workflows.",
+    skills: ["FastAPI", "Streamlit", "OpenCV", "NumPy", "scikit-learn", "Pydantic"],
   },
   {
-    label: "Data",
+    label: "Generative AI & LLMs",
     fruit: "Zoan class",
-    skills: ["SQL", "Databricks", "ETL", "dbt", "Airflow", "PySpark", "Pandas", "NumPy", "Snowflake", "Kafka", "Spark", "BigQuery"],
-    muted: true,
+    desc: "Generation, RAG and agentic AI systems.",
+    skills: ["RAG", "LangChain", "Agentic AI", "Prompt Engineering", "LLM Integration"],
   },
   {
-    label: "Developer Tools",
+    label: "AI & Developer Tools",
     fruit: "Ancient Weapons",
-    skills: ["Docker", "Git", "VS Code", "Claude Code", "Hermes Agent", "Obsidian", "Exa AI", "Qdrant", "PostgreSQL", "Jupyter", "Anaconda"],
+    desc: "Tools in the AI-powered development loop.",
+    skills: ["Ollama", "Hermes", "Exa AI", "OpenCode", "Git", "VS Code", "Jupyter", "Obsidian", "Google Colab"],
+  },
+  {
+    label: "Databases",
+    fruit: "Hito class",
+    desc: "Data stores for agents and models.",
+    skills: ["MySQL", "Qdrant"],
   },
 ];
 

@@ -76,6 +76,24 @@ const ARCHITECTURES = {
       { name: "Observability", body: "Latency, token counts, chunk counts, and readability metrics." },
     ],
   },
+  "ReSOLVE: Customer Support Automation Platform": {
+    overview: "AI-assisted customer support: intake, triage, grounded response drafting, and escalation — with human authority and deterministic fallbacks.",
+    nodes: [
+      { label: "Ticket Intake", kind: "io" },
+      { label: "Guardrails", kind: "proc" },
+      { label: "Triage Agent", kind: "ai" },
+      { label: "RAG Draft", kind: "ai" },
+      { label: "Human Decision", kind: "io" },
+    ],
+    layers: [
+      { name: "Frontend (Web)", body: "React SPA for ticket queue, triage detail, response drafts, and analytics. SSE live updates, shareable filtered views, keyboard-first board." },
+      { name: "Backend / API", body: "FastAPI with routers for auth, tickets, webhooks, admin, agent-assist, and system health. JWT auth, role guards, transactional boundaries." },
+      { name: "AI / ML", body: "Triage agent (intent, priority, sentiment) with deterministic fallback. RAG response drafting grounded in knowledge base with confidence + citations. Escalation agent scores risk and routes." },
+      { name: "Data", body: "PostgreSQL/SQLite for tickets, users, audit, sessions; FAISS inner-product index over Markdown knowledge base." },
+      { name: "Automation", body: "Celery + Redis for outbound notifications; eager mode for dev; webhook HMAC verification and idempotent intake." },
+      { name: "Observability", body: "Structured JSON logs, Prometheus metrics, optional OpenTelemetry, bounded retries, dead-letter handling, coverage gates." },
+    ],
+  },
   "AI Engineering Roadmap": {
     overview: "Public learning journal: structured curriculum from fundamentals to production, with notes, exercises, and applied mini-projects.",
     nodes: [

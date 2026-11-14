@@ -223,8 +223,6 @@ const NAV_LINKS = [
   { label: "Blog",       id: "blog", href: "/blog.html" },
 ];
 
-const DI = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
-
 const SKILL_GROUPS = [
   {
     label: "Programming Languages",
@@ -248,7 +246,7 @@ const SKILL_GROUPS = [
     label: "AI & Developer Tools",
     fruit: "Ancient Weapons",
     desc: "Tools in the AI-powered development loop.",
-    skills: ["Ollama", "Hermes", "Exa AI", "OpenCode", "Git", "VS Code", "Jupyter", "Obsidian", "Google Colab"],
+    skills: ["Ollama", "Hermes", "Exa AI", "OpenCode", "Git", "VS Code", "Jupyter", "Obsidian", "Google Colab", "pytest", "Debugging", "Technical Documentation", "Code Review and PRs", "Jira"],
   },
   {
     label: "Databases",
@@ -334,6 +332,25 @@ const PROJECTS = [
     img: "/sunny.png",
     link: "#contact",
     github: "#contact"
+  },
+  {
+    title: "ReSOLVE: Customer Support Automation Platform",
+    type: "Agentic AI",
+    year: "2026",
+    status: "Built",
+    desc: "AI-powered support platform that triages tickets using intent, priority, and sentiment classification, then routes requests through automated workflows or human escalation. Built with RAG-based response drafting featuring confidence scoring, guardrails, and deterministic fallback logic to keep the system functional when LLM services are unavailable.",
+    metric: "FastAPI · RAG · Agents · Guardrails",
+    tags: ["FastAPI", "React", "RAG", "LangChain", "PostgreSQL", "FAISS", "LLM Gateway"],
+    features: [
+      "Intent, priority, and sentiment triage with deterministic fallback classification",
+      "RAG-grounded response drafts with confidence scoring and source citations",
+      "Guardrails plus deterministic fallbacks so the platform holds without LLM access",
+      "Human-in-the-loop approval and escalation for consequential actions",
+    ],
+    accent: "#171512",
+    img: "/resolve.png",
+    link: "https://github.com/cdobby18/ReSOLVE",
+    github: "https://github.com/cdobby18/ReSOLVE"
   },
   {
     title: "Resume Analyzer",
@@ -524,6 +541,19 @@ const SKILL_TIPS = {
   Docker: "so 'works on my machine' actually works",
   Git: "commit early, commit small",
   "VS Code": "home base for all my code",
+  pytest: "tests before the magic — confidence for agents",
+  Debugging: "console.log is a skill too",
+  "Technical Documentation": "docs are the API for your future self",
+  "Code Review and PRs": "review early, review kindly",
+  Jira: "tickets keep the ship sailing",
+  "scikit-learn": "classical ML — training, eval, and pipelines",
+  "Pydantic": "data contracts that keep AI outputs honest",
+  "LLM Integration": "provider calls with retries, cost & contract checks",
+  "Ollama": "local model serving for dev and edge deployments",
+  "Hermes": "agent orchestration experiments",
+  "OpenCode": "AI-assisted coding inside my workflow",
+  "Google Colab": "GPU-backed experimentation notebooks",
+  "MySQL": "relational storage for structured data",
   "Claude Code": "AI-assisted scaffolding — I own every line",
   "Hermes Agent": "agent orchestration experiments",
   Obsidian: "my second brain — notes, projects, ideas",
@@ -581,6 +611,7 @@ function SkillPill({ name, delay = 0, muted = false }) {
         style={{
           display: "inline-flex",
           alignItems: "center",
+          gap: 8,
           padding: "8px 14px",
           borderRadius: 999,
           background: COLORS.chipBg,
@@ -980,7 +1011,7 @@ function StackSection() {
       </div>
 
       {/* Active group */}
-      <div style={{ position: "relative", overflow: "hidden", border: `1px solid ${COLORS.border}`, borderRadius: 18, background: COLORS.isDark ? "linear-gradient(180deg, #1c1c1a, #161615)" : "linear-gradient(180deg, #faf7ef, #f3eee4)", padding: "24px 28px", boxShadow: COLORS.isDark ? "0 20px 50px rgba(0,0,0,0.25)" : "0 20px 50px rgba(15,23,42,0.06)" }}>
+      <div style={{ position: "relative", overflow: "visible", border: `1px solid ${COLORS.border}`, borderRadius: 18, background: COLORS.isDark ? "linear-gradient(180deg, #1c1c1a, #161615)" : "linear-gradient(180deg, #faf7ef, #f3eee4)", padding: "24px 28px", boxShadow: COLORS.isDark ? "0 20px 50px rgba(0,0,0,0.25)" : "0 20px 50px rgba(15,23,42,0.06)" }}>
         {/* flag watermark */}
         <div style={{ position: "absolute", top: -30, right: -24, opacity: 0.055, transform: "rotate(-8deg)", pointerEvents: "none" }}>
           <MiniFlag size={150} />
@@ -1092,11 +1123,11 @@ function ProjectsSection() {
       </div>
 
       <div className="project-swap-layout" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.05fr) minmax(0, 1fr)", gap: 32, alignItems: "stretch" }}>
-        <div style={{ height: 460, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ height: 440, display: "flex", alignItems: "center", justifyContent: "center" }}>
           <CardSwap
             items={items}
-            width={400}
-            height={280}
+            width={440}
+            height={320}
             delay={3500}
             autoplay={false}
             theme={COLORS.isDark ? "dark" : "light"}
@@ -1515,10 +1546,10 @@ function WorkAndGitHubSection() {
     },
     {
       num: "04",
-      tag: "Measure",
+      tag: "Evaluate",
       title: "Let evaluation guide you",
       body: "Learn to measure what your system is actually doing. Start with evals — what counts as good output, what failure looks like — and let that guide your next iteration. This habit is what separates people who copy models from people who build AI responsibly.",
-      detail: "Evals · measure · iterate · repeat",
+      detail: "Evals · evaluate · iterate · repeat",
     },
   ];
 
@@ -1623,7 +1654,7 @@ function WorkAndGitHubSection() {
 
                   <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 7 }}>
                     <span style={{ color: COLORS.accent, fontFamily: "'Space Grotesk', sans-serif", fontSize: 13.5, fontWeight: 700, letterSpacing: "-0.01em" }}>{step.title}</span>
-                    <span style={{ padding: "2px 9px", borderRadius: 999, border: `1px solid ${COLORS.accentBorder}`, background: COLORS.accentSoft, color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase", animation: "tagBlink 1.8s ease-in-out infinite" }}>{step.tag}</span>
+                    <span style={{ padding: "2px 9px", borderRadius: 999, border: `1px solid ${COLORS.accentBorder}`, background: COLORS.accentSoft, color: COLORS.accent, fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase" }}>{step.tag}</span>
                   </div>
                   <p style={{ color: COLORS.textSecondary, fontFamily: "Inter, sans-serif", fontSize: 12.5, lineHeight: 1.75, margin: 0 }}>
                     {step.body}
@@ -1647,7 +1678,7 @@ function WorkAndGitHubSection() {
           {/* Right: GitHub activity */}
           <div>
             <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, color: COLORS.textPrimary, fontWeight: 600, marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#34d399", boxShadow: "0 0 0 0 rgba(52,211,153,0.6)", animation: "ghPulse 1.8s infinite" }} />
+              <span style={{ width: 8, height: 8, borderRadius: "50%", background: COLORS.accent, boxShadow: "0 0 0 0 rgba(201,42,42,0.6)", animation: "ghPulse 1.8s infinite" }} />
               GitHub activity
             </h3>
             <div style={{ background: COLORS.isDark ? "linear-gradient(180deg, rgba(15,23,42,0.7), rgba(10,16,32,0.7))" : "linear-gradient(180deg, #ffffff, #f8fafc)", border: `1px solid ${COLORS.border}`, borderRadius: 14, padding: "16px 18px", marginBottom: 12, overflowX: "auto", boxShadow: COLORS.isDark ? "0 12px 30px rgba(0,0,0,0.25)" : "0 12px 30px rgba(15,23,42,0.06)", transition: "transform 0.25s ease, box-shadow 0.25s ease" }}
@@ -1658,7 +1689,7 @@ function WorkAndGitHubSection() {
                 <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: COLORS.textMuted, fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: "0.1em" }}>
                   <span>Less</span>
                   {[0.15, 0.35, 0.6, 0.85].map((o, i) => (
-                    <span key={i} style={{ width: 10, height: 10, borderRadius: 2, background: `rgba(34,197,94,${o})`, display: "inline-block" }} />
+                    <span key={i} style={{ width: 10, height: 10, borderRadius: 2, background: `rgba(201,42,42,${o})`, display: "inline-block" }} />
                   ))}
                   <span>More</span>
                 </span>
@@ -1666,8 +1697,8 @@ function WorkAndGitHubSection() {
               {contributions?.contributions ? (() => {
                 const dark = COLORS.isDark;
                 const palette = dark
-                  ? ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"]
-                  : ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"];
+                  ? ["#161b22", "#5c1414", "#8f1d1d", "#c92a2a", "#e03131"]
+                  : ["#ebedf0", "#f2c8c8", "#eba8a8", "#e58f8f", "#c92a2a"];
                 const now = new Date();
                 const cutoff = new Date(now.getFullYear(), 2, 1); // March 1
                 if (cutoff > now) cutoff.setFullYear(cutoff.getFullYear() - 1);
@@ -1764,9 +1795,9 @@ function WorkAndGitHubSection() {
       </div>
       <style>{`
         @keyframes ghPulse {
-          0% { box-shadow: 0 0 0 0 rgba(52,211,153,0.6); }
-          70% { box-shadow: 0 0 0 8px rgba(52,211,153,0); }
-          100% { box-shadow: 0 0 0 0 rgba(52,211,153,0); }
+          0% { box-shadow: 0 0 0 0 rgba(201,42,42,0.6); }
+          70% { box-shadow: 0 0 0 8px rgba(201,42,42,0); }
+          100% { box-shadow: 0 0 0 0 rgba(201,42,42,0); }
         }
         @media (max-width: 768px) {
           .work-github-grid { grid-template-columns: minmax(0, 1fr) !important; }
@@ -1965,7 +1996,6 @@ export default function OnePiece() {
         @keyframes fadeUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:translateY(0) } }
         @keyframes stampIn { 0% { opacity:0; transform:rotate(-6deg) scale(1.35); filter:blur(3px); } 55% { opacity:1; transform:rotate(-2deg) scale(0.98); filter:blur(0); } 75% { transform:rotate(1deg) scale(1.015); } 100% { opacity:1; transform:rotate(0deg) scale(1); filter:none; } }
         @keyframes turnFlash { 0% { opacity:0; } 18% { opacity:1; } 45% { opacity:1; } 100% { opacity:0; } }
-        @keyframes tagBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
         @keyframes donFlash { 0% { opacity: 0; transform: scale(0.5) rotate(-10deg); } 22% { opacity: 1; transform: scale(1.07) rotate(-10deg); } 55% { opacity: 1; transform: scale(1) rotate(-10deg); } 100% { opacity: 0; transform: scale(1.03) rotate(-10deg); } }
         .next-chapter .nc-text { color: ${theme.textMuted}; transition: color 0.2s ease; }
         .next-chapter:hover .nc-text { color: ${theme.accent}; }

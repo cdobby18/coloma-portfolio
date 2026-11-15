@@ -965,74 +965,81 @@ function ContactSection() {
   return (
     <Section id="contact">
       <Reveal>
-        <div className="contact-grid">
+        <div className="contact-intro">
           <div>
-            <SectionHead num="06" label="Contact" title="Let's build something reliable." />
-            <p className="body" style={{ maxWidth: 440 }}>
+            <p className="eyebrow"><em>06</em> — Contact</p>
+            <h2 className="h2">Let's build something reliable.</h2>
+          </div>
+          <div className="contact-intro-copy">
+            <p className="body">
               I'm open to AI engineering opportunities, agentic system collaborations, and
-              production ML work. Tell me what you're building — I usually reply within a day.
+              production ML work. Tell me what you're building — I'd like to hear about it.
             </p>
+            <p className="contact-availability">
+              <span className="status-dot" />
+              Available for AI engineering roles
+            </p>
+          </div>
+        </div>
 
-            <div className="contact-list">
-              <div className="contact-row">
-                <span className="contact-icon"><MailIcon /></span>
-                <div>
-                  <span className="fact-label">Email</span>
-                  <div className="contact-value">
-                    <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-                    <button className="copy-btn" type="button" onClick={copyEmail}>
-                      {copied ? <><CheckIcon /> Copied</> : <><CopyIcon /> Copy</>}
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="contact-row">
-                <span className="contact-icon"><LinkedInIcon /></span>
-                <div>
-                  <span className="fact-label">LinkedIn</span>
-                  <div className="contact-value">
-                    <a href="https://linkedin.com/in/carl-joshua-coloma" target="_blank" rel="noopener noreferrer">
-                      in/carl-joshua-coloma
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="contact-row">
-                <span className="contact-icon"><GitHubIcon /></span>
-                <div>
-                  <span className="fact-label">GitHub</span>
-                  <div className="contact-value">
-                    <a href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer">
-                      github.com/cdobby18
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="contact-row">
-                <span className="contact-icon"><ClockIcon /></span>
-                <div>
-                  <span className="fact-label">Local time</span>
-                  <div className="contact-value muted">{time ? `${time} PHT` : "—"} · Manila, Philippines</div>
-                </div>
-              </div>
+        <div className="contact-spread">
+          <div className="contact-direct">
+            <p className="mono-label">Direct</p>
+            <a className="contact-email" href={`mailto:${EMAIL}`}>{EMAIL}</a>
+            <div className="contact-email-actions">
+              <button className="contact-copy" type="button" onClick={copyEmail}>
+                {copied ? <><CheckIcon /> Copied</> : <><CopyIcon /> Copy email</>}
+              </button>
+              <span className="muted-note">Usually replies within a day</span>
             </div>
 
+            <dl className="contact-meta">
+              <div className="contact-meta-row">
+                <dt>LinkedIn</dt>
+                <dd>
+                  <a href="https://linkedin.com/in/carl-joshua-coloma" target="_blank" rel="noopener noreferrer">
+                    in/carl-joshua-coloma <ArrowUpRight size={11} />
+                  </a>
+                </dd>
+              </div>
+              <div className="contact-meta-row">
+                <dt>GitHub</dt>
+                <dd>
+                  <a href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer">
+                    github.com/cdobby18 <ArrowUpRight size={11} />
+                  </a>
+                </dd>
+              </div>
+              <div className="contact-meta-row">
+                <dt>Based in</dt>
+                <dd>Manila, Philippines</dd>
+              </div>
+              <div className="contact-meta-row">
+                <dt>Local time</dt>
+                <dd>{time ? `${time} PHT` : "—"}</dd>
+              </div>
+            </dl>
+
             <a
-              className="btn btn-secondary"
+              className="contact-resume"
               href="/cv-coloma.pdf"
               target="_blank"
               rel="noopener noreferrer"
               download="Carl-Coloma-Resume.pdf"
-              style={{ marginTop: 26 }}
             >
-              <FileDown /> Download résumé
+              <FileDown size={14} /> Download résumé
             </a>
           </div>
 
-          <form className="form-card" onSubmit={submit} noValidate>
+          <form className="contact-form" onSubmit={submit} noValidate>
+            <div className="contact-form-head">
+              <div>
+                <p className="mono-label">Or send a note</p>
+                <h3 className="contact-form-title">Start a conversation</h3>
+              </div>
+              <span className="muted-note">Opens in your email app</span>
+            </div>
+
             <div className="form-row">
               <div className="field">
                 <label htmlFor="name">Name</label>
@@ -1078,13 +1085,16 @@ function ContactSection() {
                 value={form.message}
                 onChange={(e) => update("message", e.target.value)}
                 placeholder="Tell me about the role, project, or idea…"
-                rows={6}
+                rows={5}
               />
             </div>
 
-            <button className="btn btn-primary" type="submit" style={{ width: "100%" }}>
-              Send message <ArrowUpRight />
-            </button>
+            <div className="contact-form-foot">
+              <span className="form-note">I read every message.</span>
+              <button className="btn btn-primary" type="submit">
+                Send message <ArrowUpRight />
+              </button>
+            </div>
 
             {status === "error" && (
               <p className="form-status error">Please add your name, a valid email, and a message.</p>
@@ -1092,7 +1102,6 @@ function ContactSection() {
             {status === "sent" && (
               <p className="form-status success">Your email app should open with the message ready to send.</p>
             )}
-            <p className="form-note">Submitting opens your email app with the message pre-filled.</p>
           </form>
         </div>
       </Reveal>
@@ -1992,66 +2001,162 @@ export default function OnePiece() {
         }
 
         /* contact */
-        .contact-grid {
+        .contact-intro {
           display: grid;
-          grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-          gap: clamp(32px, 5vw, 56px);
-          align-items: start;
+          grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+          gap: clamp(26px, 5vw, 64px);
+          align-items: end;
+          padding-bottom: clamp(28px, 4vw, 40px);
         }
-        .contact-list { display: flex; flex-direction: column; gap: 4px; margin-top: 28px; }
-        .contact-row {
-          display: flex;
-          align-items: flex-start;
-          gap: 12px;
-          padding: 12px 0;
-          border-bottom: 1px solid var(--border);
-        }
-        .contact-row:first-child { border-top: 1px solid var(--border); }
-        .contact-icon {
-          width: 30px; height: 30px;
+        .contact-intro .h2 { max-width: 15ch; }
+        .contact-intro-copy { padding-bottom: 4px; }
+        .contact-intro-copy .body { max-width: 430px; }
+        .contact-availability {
           display: inline-flex;
           align-items: center;
-          justify-content: center;
-          border: 1px solid var(--border);
-          border-radius: 7px;
-          color: var(--text-2);
-          flex-shrink: 0;
-          margin-top: 2px;
-        }
-        .contact-value {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          flex-wrap: wrap;
-          margin-top: 3px;
-          font-size: 13.5px;
-          color: var(--text);
-        }
-        .contact-value a { text-decoration: none; }
-        .contact-value a:hover { color: var(--accent); }
-        .copy-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 5px;
-          padding: 3px 8px;
-          border: 1px solid var(--chip-border);
-          border-radius: 5px;
-          background: var(--chip-bg);
+          gap: 9px;
+          margin-top: 16px;
           font-family: var(--mono);
-          font-size: 9.5px;
+          font-size: 10px;
           letter-spacing: 0.08em;
           text-transform: uppercase;
           color: var(--muted);
+        }
+        .contact-spread {
+          display: grid;
+          grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+          border-top: 1px solid var(--border);
+        }
+        .contact-direct {
+          padding: clamp(28px, 4vw, 38px) clamp(24px, 4vw, 44px) 0 0;
+          border-right: 1px solid var(--border);
+        }
+        .contact-email {
+          display: inline-block;
+          margin-top: 10px;
+          padding-bottom: 5px;
+          border-bottom: 1px solid var(--border-strong);
+          font-family: var(--display);
+          font-size: clamp(17px, 1.5vw, 19px);
+          font-weight: 500;
+          line-height: 1.2;
+          letter-spacing: -0.035em;
+          color: var(--text);
+          text-decoration: none;
+          overflow-wrap: anywhere;
+          transition: color 0.18s ease, border-color 0.18s ease;
+        }
+        .contact-email:hover { color: var(--accent); border-color: var(--accent); }
+        .contact-email-actions {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          flex-wrap: wrap;
+          margin-top: 12px;
+        }
+        .contact-copy {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          padding: 0 0 2px;
+          border: 0;
+          border-bottom: 1px solid var(--border-strong);
+          background: none;
+          font-family: var(--mono);
+          font-size: 9.5px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--muted);
           cursor: pointer;
-          transition: all 0.18s ease;
+          transition: color 0.18s ease, border-color 0.18s ease;
         }
-        .copy-btn:hover { color: var(--text); border-color: var(--border-strong); }
-        .form-card {
-          border: 1px solid var(--border);
-          border-radius: 14px;
-          background: var(--surface);
-          padding: clamp(18px, 3vw, 26px);
+        .contact-copy:hover { color: var(--text); border-color: var(--text); }
+        .contact-meta { margin: 30px 0 0; }
+        .contact-meta-row {
+          display: grid;
+          grid-template-columns: 88px minmax(0, 1fr);
+          gap: 14px;
+          padding: 11px 0;
+          border-top: 1px solid var(--border);
         }
+        .contact-meta-row:last-child { border-bottom: 1px solid var(--border); }
+        .contact-meta dt {
+          padding-top: 2px;
+          font-family: var(--mono);
+          font-size: 9.5px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--muted);
+        }
+        .contact-meta dd {
+          margin: 0;
+          font-size: 13.5px;
+          line-height: 1.5;
+          color: var(--text);
+        }
+        .contact-meta dd a {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          text-decoration: none;
+          transition: color 0.18s ease;
+        }
+        .contact-meta dd a:hover { color: var(--accent); }
+        .contact-resume {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          margin-top: 22px;
+          padding-bottom: 3px;
+          border-bottom: 1px solid var(--border-strong);
+          font-size: 12.5px;
+          color: var(--text-2);
+          text-decoration: none;
+          transition: color 0.18s ease, border-color 0.18s ease;
+        }
+        .contact-resume:hover { color: var(--accent); border-color: var(--accent); }
+        .contact-form {
+          padding: clamp(28px, 4vw, 38px) 0 0 clamp(24px, 4vw, 44px);
+        }
+        .contact-form-head {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 18px;
+          flex-wrap: wrap;
+          margin-bottom: 24px;
+        }
+        .contact-form-title {
+          margin-top: 7px;
+          font-family: var(--display);
+          font-size: 23px;
+          font-weight: 600;
+          line-height: 1.2;
+          letter-spacing: -0.03em;
+          color: var(--text);
+        }
+        .contact-form .field { margin-bottom: 18px; }
+        .contact-form .input {
+          padding: 8px 0;
+          border: 0;
+          border-bottom: 1px solid var(--border-strong);
+          border-radius: 0;
+          background: transparent;
+        }
+        .contact-form .input:focus {
+          border-color: var(--accent);
+          box-shadow: none;
+        }
+        .contact-form .textarea { min-height: 112px; resize: vertical; }
+        .contact-form-foot {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          flex-wrap: wrap;
+          padding-top: 4px;
+        }
+        .contact-form-foot .form-note { margin: 0; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
         .field label {
@@ -2082,7 +2187,7 @@ export default function OnePiece() {
           box-shadow: 0 0 0 3px var(--accent-soft);
         }
         .textarea { resize: vertical; min-height: 130px; }
-        .form-note { margin-top: 10px; font-size: 11.5px; color: var(--muted); text-align: center; }
+        .form-note { margin-top: 10px; font-size: 11.5px; color: var(--muted); }
         .form-status { margin-top: 10px; font-size: 12.5px; line-height: 1.5; }
         .form-status.error { color: var(--accent); }
         .form-status.success { color: #2e9e5b; }
@@ -2181,7 +2286,11 @@ export default function OnePiece() {
         }
         @media (max-width: 820px) {
           .about-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
-          .contact-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+          .contact-intro { grid-template-columns: minmax(0, 1fr); align-items: start; gap: 20px; }
+          .contact-intro .h2 { max-width: none; }
+          .contact-spread { grid-template-columns: minmax(0, 1fr); }
+          .contact-direct { padding-right: 0; border-right: 0; }
+          .contact-form { margin-top: 28px; padding: 28px 0 0; border-top: 1px solid var(--border); }
         }
         @media (max-width: 760px) {
           .exp-item { grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 24px 0; }

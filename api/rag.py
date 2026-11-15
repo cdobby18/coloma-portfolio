@@ -86,7 +86,7 @@ MOCK_DOCS = [
             "Built LLM-powered content generation and semantic ranking "
             "pipelines, integrated embedding models with vector search for semantic "
             "retrieval, and contributed to prompt engineering workflows for production "
-            "AI features."
+            "AI features. Internship ran July to October 2026."
         ),
     },
     {
@@ -125,10 +125,140 @@ MOCK_DOCS = [
             "Completed three AI engineering internships: Lamina Studios in computer "
             "vision (Dec 2025 to Apr 2026), SoFi AI Tech Solutions in AI QA and chatbot "
             "testing (Apr to Jul 2026), and FlyRank AI in backend AI engineering (Jul "
-            "2026 to present)."
+            "to Oct 2026)."
         ),
     },
 ]
+
+CONTACT_REPLY = (
+    "You can reach CJ at carljoshuamcoloma@gmail.com. GitHub is "
+    "github.com/cdobby18, and LinkedIn is linkedin.com/in/carl-joshua-coloma."
+)
+
+INTENTS = [
+    (
+        r"^\s*(hi|hey|hello|yo|sup|good (morning|afternoon|evening))[\s!,.?]*$",
+        "Hey — I'm CJ's portfolio assistant. What would you like to know?",
+    ),
+    (
+        r"^\s*(thanks|thank you|ty|appreciate it)[\s!,.?]*$",
+        "Anytime. Feel free to keep asking.",
+    ),
+    (
+        r"\b(contact|email|e-mail|reach|get in touch|linkedin|github)\b",
+        CONTACT_REPLY,
+    ),
+    (
+        r"\b(available|availability|open to work|open to roles|hiring|hire|recruit|job opportunity|full[- ]time role|looking for a role)\b",
+        "CJ is open to AI engineering roles, especially work around LLMs, RAG, and "
+        "agentic systems. His most recent internship at FlyRank AI ended in October "
+        "2026, so he's available now. Email is the fastest way to reach him: "
+        "carljoshuamcoloma@gmail.com.",
+    ),
+    (
+        r"\b(currently|current work|right now|working on|these days|latest role|recent role|most recent|now)\b",
+        "CJ's most recent role was a Backend AI Engineer internship at FlyRank AI, "
+        "which ended in October 2026. He's now focused on AI engineering — building "
+        "with LLMs, RAG, and agentic systems — and is open to new roles.",
+    ),
+    (
+        r"\bflyrank\b",
+        "CJ was a Backend AI Engineer Intern at FlyRank AI from July to October 2026. "
+        "He built LLM-powered content generation and semantic ranking pipelines, "
+        "integrated embedding models with vector search, and worked on prompt "
+        "engineering for production AI features.",
+    ),
+    (
+        r"\bsofi\b",
+        "CJ was an AI QA Intern at SoFi AI Tech Solutions from April to July 2026. "
+        "He designed adversarial prompt test suites for hallucination, refusal, and "
+        "instruction-following failures, evaluated chatbot responses at scale, and "
+        "worked with ML teams to reduce error rates.",
+    ),
+    (
+        r"\blamina\b",
+        "CJ was an AI Engineer Intern at Lamina Studios from December 2025 to April "
+        "2026. He built real-time YOLOv8 object detection pipelines with OpenCV, "
+        "trained XGBoost models on time-series data, and automated model retraining.",
+    ),
+    (
+        r"\b(rag|retrieval|llms?|agents?|agentic|prompt engineering|computer vision)\b",
+        "CJ's AI work centers on LLMs, RAG, and agentic systems. He's built retrieval "
+        "pipelines with embeddings and vector search at FlyRank, a RAG-based mentor "
+        "with LangChain for Sunny AI, and adversarial evaluation for chatbots at SoFi. "
+        "His computer vision work includes real-time YOLOv8 detection and the "
+        "Powerlift thesis.",
+    ),
+    (
+        r"\b(internships?|interns?|work experience|experience|worked|companies)\b",
+        "CJ has completed three AI engineering internships: Lamina Studios in computer "
+        "vision (Dec 2025–Apr 2026), SoFi AI Tech Solutions in AI QA (Apr–Jul 2026), "
+        "and FlyRank AI in backend AI engineering (Jul–Oct 2026). FlyRank was the most "
+        "recent, and that internship has wrapped up.",
+    ),
+    (
+        r"\bpowerlift\b",
+        "Powerlift is CJ's thesis project: an AI biomechanics analyzer for powerlifting. "
+        "It combines YOLOv8 pose estimation, Kalman filtering for motion stabilization, "
+        "and an SVM for lift-phase classification, all running in real time on mobile "
+        "hardware. It won Overall Best Thesis in the Computer Vision category in "
+        "November 2025.",
+    ),
+    (
+        r"\bsunny\b",
+        "Sunny AI is a guided platform CJ built for aspiring AI engineers — React and "
+        "FastAPI on the outside, LLMs and RAG with LangChain underneath. It mentors "
+        "learners from zero to job-ready by mixing fundamentals with production AI "
+        "practices.",
+    ),
+    (
+        r"\b(resume|résumé|ats)\b",
+        "The AI Resume Analyzer is an NLP pipeline that extracts skills and experience "
+        "from resumes using spaCy NER plus transformer-based semantic matching, then "
+        "returns structured JSON for ranking or ATS use. It processes more than 100 "
+        "documents a minute and is built with Python and FastAPI.",
+    ),
+    (
+        r"\b(summarizer|summarization|summarize|bart|t5)\b",
+        "The Document Summarizer is an abstractive summarization system for long PDFs. "
+        "It uses BART and T5, chunks documents to fit context limits, then merges "
+        "section-level summaries into one coherent output.",
+    ),
+    (
+        r"\b(projects?|portfolio|built|what has cj built)\b",
+        "CJ's main projects are Powerlift, Sunny AI, the AI Resume Analyzer, and the "
+        "Document Summarizer. Powerlift is the standout — a real-time biomechanics "
+        "analyzer for powerlifting that won Overall Best Thesis in Computer Vision. "
+        "He's happy to go deeper on any of them.",
+    ),
+    (
+        r"\b(stack|skills?|tech|tools|technologies|languages?|frameworks?)\b",
+        "CJ's core stack is Python and JavaScript. For AI/ML he works with PyTorch, "
+        "scikit-learn, OpenCV, LangChain, Transformers, RAG, and prompt engineering; "
+        "for data, MySQL, PostgreSQL, and Qdrant; and for tooling, FastAPI, React, Git, "
+        "pytest, and Jupyter. He's also building up on the data-engineering side with "
+        "SQL, dbt, Airflow, and Databricks.",
+    ),
+    (
+        r"\b(education|school|university|degree|study|studied|student|feu|taiwan)\b",
+        "CJ is finishing a BS in Computer Science at FEU Institute of Technology "
+        "(2026), with an exchange semester at National Sun Yat-sen University in Taiwan.",
+    ),
+    (
+        r"\b(about cj|about you|about him|about yourself|who is cj|who are you|your background|his background|what do you do)\b",
+        "CJ is Carl Joshua Coloma, a computer science student focused on software "
+        "engineering and AI engineering. His hands-on work spans computer vision, LLMs, "
+        "RAG, and agentic systems, and he cares most about building AI that works in "
+        "production.",
+    ),
+]
+
+
+def match_intent(query):
+    for pattern, reply in INTENTS:
+        if re.search(pattern, query, re.IGNORECASE):
+            return reply
+    return None
 
 
 def tokenize(text):
@@ -181,19 +311,22 @@ def score_doc(query_words, doc):
 def build_answer(top_docs):
     if not top_docs:
         return (
-            "No relevant documents found in the mock knowledge base — try asking "
-            "about a project (Powerlift, Sunny AI, Resume Analyzer, Document Summarizer), "
-            "an internship (FlyRank, SoFi, Lamina), or skills/tech stack."
+            "I don't have a good answer for that yet. You can reach CJ directly at "
+            "carljoshuamcoloma@gmail.com."
         )
     lead, *rest = top_docs
     supporting = " and ".join(d["title"] for d in rest)
-    answer = f'Based on "{lead["title"]}": {lead["text"]}'
+    answer = f"Here's what I have on that: {lead['text']}"
     if supporting:
         answer += f" (Also relevant: {supporting}.)"
     return answer
 
 
 def run_query(query):
+    intent_reply = match_intent(query) if query else None
+    if intent_reply:
+        return {"query": query, "matches": [], "answer": intent_reply}
+
     query_words = [w for w in tokenize(query) if len(w) > 2 and w not in STOP_WORDS]
     if not query_words:
         return {"query": query, "matches": [], "answer": build_answer([])}

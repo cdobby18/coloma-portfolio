@@ -775,6 +775,24 @@ function GitHubCard() {
             };
           }
         }
+        if (!latestCommit && repos.length) {
+          const latestRepo = repos[0].full_name;
+          try {
+            const commitRes = await fetch(`https://api.github.com/repos/${latestRepo}/commits?per_page=1`);
+            if (commitRes.ok) {
+              const commits = await commitRes.json();
+              if (Array.isArray(commits) && commits[0]) {
+                latestCommit = {
+                  sha: commits[0].sha?.slice(0, 7),
+                  message: (commits[0].commit?.message || "").split("\n")[0],
+                  repo: latestRepo.split("/")[1],
+                };
+              }
+            }
+          } catch {
+            // Keep the card usable even if the commit lookup is rate-limited.
+          }
+        }
         if (alive) setData({ lastPush, latestCommit });
       } catch {
         if (alive) setError("Couldn't load GitHub activity right now.");

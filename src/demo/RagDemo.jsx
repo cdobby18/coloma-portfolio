@@ -7,37 +7,133 @@ const LOCAL_DOCS = [
   { id: "resume-analyzer", title: "AI Resume Analyzer", text: "An NLP pipeline using spaCy NER and transformer semantic matching to extract skills from resumes, producing structured JSON. Processes 100+ docs/min." },
   { id: "doc-summarizer", title: "Document Summarizer", text: "Abstractive summarization for multi-page PDFs using BART and T5 with chunking and section-level synthesis." },
   { id: "resolve", title: "ReSOLVE — Customer Support Automation", text: "An agentic support platform that triages tickets by intent, priority, and sentiment, drafts grounded responses with RAG confidence scoring, and escalates to humans with deterministic fallbacks." },
-  { id: "flyrank", title: "Backend AI Engineer Intern — FlyRank AI", text: "Built LLM-powered content generation and semantic ranking pipelines with embeddings and vector search. Worked on prompt engineering for production AI features." },
-  { id: "sofi-qa", title: "AI QA Intern — SoFi AI Tech Solutions", text: "Designed adversarial prompt test suites targeting hallucination, refusal, and instruction-following failures in chatbots. Evaluated responses at scale." },
-  { id: "lamina", title: "AI Engineer Intern — Lamina Studios", text: "Built real-time YOLOv8 object detection pipelines with OpenCV at production-ready inference speeds, trained XGBoost models, automated retraining." },
+  { id: "flyrank", title: "Backend AI Engineer Intern — FlyRank AI", text: "Built LLM-powered content generation and semantic ranking pipelines with embeddings and vector search. Worked on prompt engineering for production AI features. Internship ran July to October 2026." },
+  { id: "sofi-qa", title: "AI QA Intern — SoFi AI Tech Solutions", text: "Designed adversarial prompt test suites targeting hallucination, refusal, and instruction-following failures in chatbots. Evaluated responses at scale. Internship ran April to July 2026." },
+  { id: "lamina", title: "AI Engineer Intern — Lamina Studios", text: "Built real-time YOLOv8 object detection pipelines with OpenCV at production-ready inference speeds, trained XGBoost models, automated retraining. Internship ran December 2025 to April 2026." },
+  { id: "internships", title: "Internship Experience Overview", text: "Completed three AI engineering internships: Lamina Studios in computer vision (Dec 2025 to Apr 2026), SoFi AI Tech Solutions in AI QA (Apr to Jul 2026), and FlyRank AI in backend AI engineering (Jul to Oct 2026)." },
   { id: "skills-stack", title: "Technical Skills & Stack", text: "Python, JavaScript. AI/ML: PyTorch, scikit-learn, OpenCV, LangChain, Transformers, RAG, prompt engineering, LLM integration, agentic workflows. Data: MySQL, Qdrant, PostgreSQL. Tools: FastAPI, React, Git, pytest, Jupyter." },
   { id: "about", title: "About CJ — Carl Joshua Coloma", text: "CJ is Carl Joshua Coloma, an aspiring AI engineer and CS graduate student from the Philippines (FEU Tech, 2026). Focus: agentic AI, LLMs, RAG, production observability. Won Overall Best Thesis for Powerlift. Open to AI engineering roles." },
   { id: "contact", title: "Contact", text: "Email: carljoshuamcoloma@gmail.com. GitHub: github.com/cdobby18. LinkedIn: linkedin.com/in/carl-joshua-coloma." },
   { id: "education", title: "Education", text: "BS Computer Science, FEU Institute of Technology, graduating 2026. Exchange semester at National Sun Yat-sen University, Taiwan." },
 ];
 
-const SUGGESTIONS = [
-  "What is Powerlift?",
-  "Tell me about your internships",
-  "What's your tech stack?",
-  "How can I contact you?",
+const CONTACT_REPLY =
+  "You can reach CJ at carljoshuamcoloma@gmail.com. GitHub is github.com/cdobby18, and LinkedIn is linkedin.com/in/carl-joshua-coloma.";
+
+const INTENTS = [
+  {
+    id: "greeting",
+    match: /^\s*(hi|hey|hello|yo|sup|good (morning|afternoon|evening))[\s!,.?]*$/i,
+    reply: "Hey — I'm CJ's portfolio assistant. What would you like to know?",
+  },
+  {
+    id: "thanks",
+    match: /^\s*(thanks|thank you|ty|appreciate it)[\s!,.?]*$/i,
+    reply: "Anytime. Feel free to keep asking.",
+  },
+  {
+    id: "contact",
+    match: /\b(contact|email|e-mail|reach|get in touch|linkedin|github)\b/i,
+    reply: CONTACT_REPLY,
+  },
+  {
+    id: "availability",
+    match: /\b(available|availability|open to work|open to roles|hiring|hire|recruit|job opportunity|full[- ]time role|looking for a role)\b/i,
+    reply: "CJ is open to AI engineering roles, especially work around LLMs, RAG, and agentic systems. His most recent internship at FlyRank AI ended in October 2026, so he's available now. Email is the fastest way to reach him: carljoshuamcoloma@gmail.com.",
+  },
+  {
+    id: "current",
+    match: /\b(currently|current work|right now|working on|these days|latest role|recent role|most recent|now)\b/i,
+    reply: "CJ's most recent role was a Backend AI Engineer internship at FlyRank AI, which ended in October 2026. He's now focused on AI engineering — building with LLMs, RAG, and agentic systems — and is open to new roles.",
+  },
+  {
+    id: "flyrank",
+    match: /\bflyrank\b/i,
+    reply: "CJ was a Backend AI Engineer Intern at FlyRank AI from July to October 2026. He built LLM-powered content generation and semantic ranking pipelines, integrated embedding models with vector search, and worked on prompt engineering for production AI features.",
+  },
+  {
+    id: "sofi",
+    match: /\bsofi\b/i,
+    reply: "CJ was an AI QA Intern at SoFi AI Tech Solutions from April to July 2026. He designed adversarial prompt test suites for hallucination, refusal, and instruction-following failures, evaluated chatbot responses at scale, and worked with ML teams to reduce error rates.",
+  },
+  {
+    id: "lamina",
+    match: /\blamina\b/i,
+    reply: "CJ was an AI Engineer Intern at Lamina Studios from December 2025 to April 2026. He built real-time YOLOv8 object detection pipelines with OpenCV, trained XGBoost models on time-series data, and automated model retraining.",
+  },
+  {
+    id: "ai-focus",
+    match: /\b(rag|retrieval|llms?|agents?|agentic|prompt engineering|computer vision)\b/i,
+    reply: "CJ's AI work centers on LLMs, RAG, and agentic systems. He's built retrieval pipelines with embeddings and vector search at FlyRank, a RAG-based mentor with LangChain for Sunny AI, and adversarial evaluation for chatbots at SoFi. His computer vision work includes real-time YOLOv8 detection and the Powerlift thesis.",
+  },
+  {
+    id: "internships",
+    match: /\b(internships?|interns?|work experience|experience|worked|companies)\b/i,
+    reply: "CJ has completed three AI engineering internships: Lamina Studios in computer vision (Dec 2025–Apr 2026), SoFi AI Tech Solutions in AI QA (Apr–Jul 2026), and FlyRank AI in backend AI engineering (Jul–Oct 2026). FlyRank was the most recent, and that internship has wrapped up.",
+  },
+  {
+    id: "powerlift",
+    match: /\bpowerlift\b/i,
+    reply: "Powerlift is CJ's thesis project: an AI biomechanics analyzer for powerlifting. It combines YOLOv8 pose estimation, Kalman filtering for motion stabilization, and an SVM for lift-phase classification, all running in real time on mobile hardware. It won Overall Best Thesis in the Computer Vision category in November 2025.",
+  },
+  {
+    id: "sunny",
+    match: /\bsunny\b/i,
+    reply: "Sunny AI is a guided platform CJ built for aspiring AI engineers — React and FastAPI on the outside, LLMs and RAG with LangChain underneath. It mentors learners from zero to job-ready by mixing fundamentals with production AI practices.",
+  },
+  {
+    id: "resume",
+    match: /\b(resume|résumé|ats)\b/i,
+    reply: "The AI Resume Analyzer is an NLP pipeline that extracts skills and experience from resumes using spaCy NER plus transformer-based semantic matching, then returns structured JSON for ranking or ATS use. It processes more than 100 documents a minute and is built with Python and FastAPI.",
+  },
+  {
+    id: "summarizer",
+    match: /\b(summarizer|summarization|summarize|bart|t5)\b/i,
+    reply: "The Document Summarizer is an abstractive summarization system for long PDFs. It uses BART and T5, chunks documents to fit context limits, then merges section-level summaries into one coherent output.",
+  },
+  {
+    id: "projects",
+    match: /\b(projects?|portfolio|built|what has cj built)\b/i,
+    reply: "CJ's main projects are Powerlift, Sunny AI, the AI Resume Analyzer, and the Document Summarizer. Powerlift is the standout — a real-time biomechanics analyzer for powerlifting that won Overall Best Thesis in Computer Vision. He's happy to go deeper on any of them.",
+  },
+  {
+    id: "stack",
+    match: /\b(stack|skills?|tech|tools|technologies|languages?|frameworks?)\b/i,
+    reply: "CJ's core stack is Python and JavaScript. For AI/ML he works with PyTorch, scikit-learn, OpenCV, LangChain, Transformers, RAG, and prompt engineering; for data, MySQL, PostgreSQL, and Qdrant; and for tooling, FastAPI, React, Git, pytest, and Jupyter. He's also building up on the data-engineering side with SQL, dbt, Airflow, and Databricks.",
+  },
+  {
+    id: "education",
+    match: /\b(education|school|university|degree|study|studied|student|feu|taiwan)\b/i,
+    reply: "CJ is finishing a BS in Computer Science at FEU Institute of Technology (2026), with an exchange semester at National Sun Yat-sen University in Taiwan.",
+  },
+  {
+    id: "about",
+    match: /\b(about cj|about you|about him|about yourself|who is cj|who are you|your background|his background|what do you do)\b/i,
+    reply: "CJ is Carl Joshua Coloma, a computer science student focused on software engineering and AI engineering. His hands-on work spans computer vision, LLMs, RAG, and agentic systems, and he cares most about building AI that works in production.",
+  },
 ];
 
 function localAnswer(q) {
-  const words = q.toLowerCase().split(/\W+/).filter((w) => w.length > 1);
+  const text = q.trim();
+  const intent = INTENTS.find((item) => item.match.test(text));
+  if (intent) {
+    return { answer: intent.reply, matches: [] };
+  }
+
+  const words = text.toLowerCase().split(/\W+/).filter((w) => w.length > 1);
   const scored = LOCAL_DOCS.map((doc) => {
-    const text = (doc.title + " " + doc.text).toLowerCase();
+    const haystack = (doc.title + " " + doc.text).toLowerCase();
     let score = 0;
     for (const w of words) {
-      if (text.includes(w)) score += w.length > 2 ? 2 : 1;
+      if (haystack.includes(w)) score += w.length > 2 ? 2 : 1;
     }
     return { doc, score };
   }).sort((a, b) => b.score - a.score);
   const matches = scored.filter((r) => r.score > 0).slice(0, 2);
   const top = matches.length ? matches[0].doc : null;
   const answer = top
-    ? top.text
-    : "I'm CJ's portfolio assistant. Ask me about his projects, internships, skills, or contact details.";
+    ? `Here's what I have on that: ${top.text}`
+    : "I don't have a good answer for that yet. You can reach CJ directly at carljoshuamcoloma@gmail.com.";
   return { answer, matches: matches.map((m) => ({ doc: m.doc, score: m.score })) };
 }
 
@@ -209,44 +305,9 @@ export default function RagDemo() {
         }}
       >
         {messages.length === 0 && (
-          <div style={{ padding: "20px 0 4px" }}>
-            <p style={{ fontSize: 14, lineHeight: 1.7, color: COLORS.textSecondary, maxWidth: 620 }}>
-              Answers are retrieved from a small corpus of my work — ask about Powerlift, my
-              internships, the stack I use, or how to get in touch.
-            </p>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
-                gap: 8,
-                marginTop: 14,
-              }}
-            >
-              {SUGGESTIONS.map((q) => (
-                <button
-                  key={q}
-                  type="button"
-                  className="ai-suggestion"
-                  onClick={() => runQuery(q)}
-                  style={{
-                    textAlign: "left",
-                    padding: "9px 12px",
-                    borderRadius: 8,
-                    border: `1px solid ${COLORS.chipBorder}`,
-                    background: COLORS.chipBg,
-                    color: COLORS.textSecondary,
-                    fontFamily: "Inter, sans-serif",
-                    fontSize: 12.5,
-                    lineHeight: 1.4,
-                    cursor: "pointer",
-                    transition: "all 0.18s ease",
-                  }}
-                >
-                  {q}
-                </button>
-              ))}
-            </div>
-          </div>
+          <p style={{ padding: "18px 0 4px", fontSize: 14, lineHeight: 1.7, color: COLORS.textSecondary, maxWidth: 620 }}>
+            Hey — I'm CJ's portfolio assistant. What would you like to know?
+          </p>
         )}
 
         {messages.map((m, i) => {
@@ -422,11 +483,6 @@ export default function RagDemo() {
 
       <style>{`
         @keyframes aiPulse { 0%, 100% { opacity: 0.45 } 50% { opacity: 1 } }
-        .ai-suggestion:hover {
-          border-color: var(--accent-border) !important;
-          color: var(--text) !important;
-          background: var(--accent-soft) !important;
-        }
       `}</style>
     </div>
   );

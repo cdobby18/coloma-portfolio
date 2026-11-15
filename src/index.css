@@ -1,53 +1,14 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+/* Global reset. The portfolio's design tokens and component styles live in
+   src/OnePiece.jsx and are injected per theme. */
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: #111110;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@media (max-width: 1024px) {
-  :root {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #a8adb8;
-    --text-h: #f5f7fa;
-    --bg: #0f1119;
-    --border: #272d38;
-    --code-bg: #151b28;
-    --accent: #06b6d4;
-    --accent-bg: rgba(6, 182, 212, 0.12);
-    --accent-border: rgba(6, 182, 212, 0.4);
-    --social-bg: rgba(30, 41, 59, 0.6);
-    --shadow: rgba(0, 0, 0, 0.6) 0 20px 25px -5px, rgba(0, 0, 0, 0.3) 0 10px 10px -5px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(1.8);
-  }
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -55,123 +16,5 @@ body {
 }
 
 #root {
-  width: 100%;
-  max-width: 100%;
   min-height: 100svh;
-  box-sizing: border-box;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-}
-
-@media (max-width: 1024px) {
-  h1 {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-}
-
-@media (max-width: 1024px) {
-  h2 {
-    font-size: 20px;
-  }
-}
-
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
-}
-
-/* ─── Manga ink utilities ─────────────────────────────────────────
-   The theme component injects --ink / --paper / --red per mode.
-   Light = "Day Paper" (ink on cream), Dark = "Night Ink" (paper on black). */
-
-:root {
-  --ink: #171512;
-  --paper: #f3eee4;
-  --red: #c92a2a;
-  --font-manga: 'Reggae One', 'Space Grotesk', system-ui, sans-serif;
-}
-
-/* classic screentone / halftone shading */
-.screentone {
-  background-image: radial-gradient(rgba(23, 21, 18, 0.22) 1px, transparent 1.4px);
-  background-size: 7px 7px;
-}
-.screentone-dark {
-  background-image: radial-gradient(rgba(237, 232, 220, 0.13) 1px, transparent 1.4px);
-  background-size: 7px 7px;
-}
-
-/* radial speed lines converging on a focal point */
-.speedlines {
-  background: repeating-conic-gradient(
-    from 0deg at 78% 30%,
-    transparent 0deg 2.6deg,
-    rgba(23, 21, 18, 0.05) 2.6deg 3.2deg
-  );
-}
-.speedlines-dark {
-  background: repeating-conic-gradient(
-    from 0deg at 78% 30%,
-    transparent 0deg 2.6deg,
-    rgba(237, 232, 220, 0.045) 2.6deg 3.2deg
-  );
-}
-
-/* printed manga panel: thick ink frame + hard offset shadow */
-.manga-panel {
-  border: 3px solid var(--ink);
-  box-shadow: 7px 7px 0 var(--ink);
-  border-radius: 4px;
-}
-
-/* block-print button: ink frame + hard shadow that "presses" on click */
-.manga-btn {
-  border: 2.5px solid var(--ink);
-  box-shadow: 5px 5px 0 var(--ink);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-.manga-btn:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 8px 8px 0 var(--ink);
-}
-.manga-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 var(--ink);
-}
-
-.manga-font {
-  font-family: var(--font-manga);
 }

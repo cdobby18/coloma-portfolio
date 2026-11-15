@@ -83,9 +83,9 @@ MOCK_DOCS = [
         "id": "flyrank",
         "title": "Backend AI Engineer Intern — FlyRank AI",
         "text": (
-            "Currently building LLM-powered content generation and semantic ranking "
-            "pipelines, integrating embedding models with vector search for semantic "
-            "retrieval, and contributing to prompt engineering workflows for production "
+            "Built LLM-powered content generation and semantic ranking "
+            "pipelines, integrated embedding models with vector search for semantic "
+            "retrieval, and contributed to prompt engineering workflows for production "
             "AI features."
         ),
     },

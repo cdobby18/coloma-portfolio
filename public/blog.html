@@ -3,23 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Chapter III — The First Build: My Path Toward AI Engineering</title>
-  <meta name="description" content="How my first AI workflow became the first build of the voyage — a fresh graduate's story of setting sail." />
+  <title>Still Figuring It Out — Carl Joshua Coloma</title>
+  <meta name="description" content="A computer science student's honest story of falling into tutorial hell and finding curiosity as the first step toward AI engineering." />
   <link rel="canonical" href="https://carlcoloma.vercel.app/blog.html" />
 
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Chapter III — The First Build" />
-  <meta property="og:description" content="How my first AI workflow became the first build of the voyage — a fresh graduate's story of setting sail." />
+  <meta property="og:title" content="Still Figuring It Out — Carl Joshua Coloma" />
+  <meta property="og:description" content="A computer science student's honest story of falling into tutorial hell and finding curiosity as the first step toward AI engineering." />
   <meta property="og:url" content="https://carlcoloma.vercel.app/blog.html" />
-  <meta property="og:image" content="https://carlcoloma.vercel.app/PROFILE.jpeg" />
+  <meta property="og:image" content="https://carlcoloma.vercel.app/pic.jpeg" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter III — The First Build" />
-  <meta name="twitter:description" content="How my first AI workflow became the first build of the voyage — a fresh graduate's story of setting sail." />
-  <meta name="twitter:image" content="https://carlcoloma.vercel.app/PROFILE.jpeg" />
+  <meta name="twitter:title" content="Still Figuring It Out — Carl Joshua Coloma" />
+  <meta name="twitter:description" content="A computer science student's honest story of falling into tutorial hell and finding curiosity as the first step toward AI engineering." />
+  <meta name="twitter:image" content="https://carlcoloma.vercel.app/pic.jpeg" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Reggae+One&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
   <script>
     (function () {
       var stored = null;
@@ -28,276 +30,578 @@
       document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
     })();
   </script>
+
   <style>
     :root { color-scheme: light dark; }
+
     html[data-theme="dark"] {
-      --bg:#111110; --card:#191917; --muted:#8f897d; --accent:#e03131;
-      --text:#ede8dc; --border:rgba(237,232,220,0.16); --chip:rgba(237,232,220,0.07);
-      --quoteBg:rgba(237,232,220,0.05); --quoteBorder:rgba(237,232,220,0.3);
-      --imgBorder:rgba(237,232,220,0.2); --ink:#ede8dc;
+      --bg: #0a0a0b;
+      --surface: #111113;
+      --surface-2: #17171a;
+      --border: rgba(255,255,255,0.10);
+      --border-strong: rgba(255,255,255,0.20);
+      --text: #f4f4f5;
+      --text-2: #a1a1aa;
+      --muted: #71717a;
+      --accent: #e5484d;
+      --accent-soft: rgba(229,72,77,0.10);
+      --accent-border: rgba(229,72,77,0.30);
+      --nav-bg: rgba(10,10,11,0.82);
+      --chip-bg: rgba(255,255,255,0.04);
+      --chip-border: rgba(255,255,255,0.12);
     }
     html[data-theme="light"] {
-      --bg:#f3eee4; --card:#faf7ef; --muted:#6f6a5e; --accent:#c92a2a;
-      --text:#171512; --border:rgba(23,21,18,0.18); --chip:rgba(23,21,18,0.05);
-      --quoteBg:rgba(23,21,18,0.04); --quoteBorder:rgba(23,21,18,0.35);
-      --imgBorder:rgba(23,21,18,0.25); --ink:#171512;
+      --bg: #fcfcfc;
+      --surface: #ffffff;
+      --surface-2: #f4f4f5;
+      --border: rgba(9,9,11,0.10);
+      --border-strong: rgba(9,9,11,0.20);
+      --text: #09090b;
+      --text-2: #52525b;
+      --muted: #71717a;
+      --accent: #d92d2d;
+      --accent-soft: rgba(217,45,45,0.06);
+      --accent-border: rgba(217,45,45,0.24);
+      --nav-bg: rgba(252,252,252,0.85);
+      --chip-bg: #f4f4f5;
+      --chip-border: rgba(9,9,11,0.12);
     }
-    html,body{height:100%;margin:0}
-    :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-    .skip-link{position:absolute;left:-9999px;top:0;background:var(--card);color:var(--text);padding:10px 16px;border:2px solid var(--ink);border-radius:6px;z-index:200;font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;text-decoration:none}
-    .skip-link:focus{left:8px;top:8px}
-    body{
-      font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
-      background:var(--bg);color:var(--text);
-      -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
-      transition:background .2s ease,color .2s ease;
-      overflow-x:hidden;
-    }
-    /* printed halftone wash, top-right */
-    body::before{
-      content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-      background-image:radial-gradient(rgba(23,21,18,0.10) 1px, transparent 1.4px);
-      background-size:7px 7px;
-      -webkit-mask-image:radial-gradient(640px 400px at 88% -4%, black, transparent 72%);
-      mask-image:radial-gradient(640px 400px at 88% -4%, black, transparent 72%);
-    }
-    html[data-theme="dark"] body::before{
-      background-image:radial-gradient(rgba(237,232,220,0.08) 1px, transparent 1.4px);
-    }
-    /* reading progress — red ink */
-    #progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
-      background:var(--accent);
-      transition:width .1s linear}
-    .wrap{position:relative;z-index:1;max-width:880px;margin:56px auto;padding:32px 36px;
-      background:var(--card);border-radius:6px;border:3px solid var(--ink);
-      box-shadow:8px 8px 0 var(--ink)}
-    a{color:var(--accent);text-decoration:none}
-    header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:26px}
-    .kicker{display:inline-flex;align-items:center;gap:9px;font-family:'JetBrains Mono',monospace;
-      font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);
-      border:2px solid var(--ink);border-radius:6px;background:var(--card);
-      box-shadow:3px 3px 0 var(--ink);
-      padding:6px 14px;margin-bottom:14px}
-    .kicker .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
-    h1{font-family:'Reggae One','Space Grotesk',Inter,system-ui,sans-serif;font-size:clamp(26px,4.4vw,38px);
-      margin:0 0 10px;line-height:1.15;letter-spacing:.01em;font-weight:400}
-    .meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;color:var(--muted);
-      font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em}
-    .meta .sep{opacity:.45}
-    .divider{height:1px;background:linear-gradient(90deg, var(--accent), var(--border) 55%, transparent);
-      margin:18px 0 26px;border:none}
-    p{color:var(--text);font-size:16px;line-height:1.85;margin:0 0 18px}
-    p:first-of-type::first-letter{font-family:'Reggae One','Space Grotesk',Inter,sans-serif;font-weight:400;
-      float:left;font-size:3.1em;line-height:.82;padding:4px 12px 0 0;color:var(--accent)}
-    blockquote{position:relative;margin:28px 0;padding:20px 22px;
-      border:2.5px solid var(--ink);background:var(--card);color:var(--text);
-      border-radius:16px;font-family:'Reggae One','Space Grotesk',Inter,sans-serif;
-      font-size:17px;line-height:1.55;font-weight:400;box-shadow:4px 4px 0 var(--border)}
-    blockquote::after{content:"";position:absolute;bottom:-12px;left:38px;width:0;height:0;
-      border-left:9px solid transparent;border-right:11px solid transparent;
-      border-top:12px solid var(--ink)}
-    figure{position:relative;margin:30px 0}
-    figure img{width:100%;border-radius:6px;display:block;border:2.5px solid var(--ink);
-      filter:grayscale(1) contrast(1.06);
-      transition:filter .4s ease, transform .45s cubic-bezier(.16,1,.3,1)}
-    figure:hover img{transform:scale(1.01)}
-    html[data-theme="light"] figure img{filter:grayscale(0) contrast(1.06);}
-    #post-firstbuild figure{margin-top:-30px;}
-    figcaption{display:flex;align-items:flex-start;gap:7px;color:var(--muted);font-size:12.5px;
-      margin-top:10px;font-family:'JetBrains Mono',monospace;letter-spacing:.02em}
-    figcaption::before{content:"✦";color:var(--accent);flex-shrink:0}
-    .post-footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;
-      gap:12px;margin-top:30px;padding-top:22px;border-top:2px solid var(--ink)}
-    .post-nav{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
-    .end-mark{display:inline-flex;align-items:center;gap:8px;color:var(--muted);
-      font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase}
-    .end-mark::before,.end-mark::after{content:"";width:26px;height:1px;background:var(--ink);opacity:.5}
-    .back{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:6px;
-      background:var(--card);border:2.5px solid var(--ink);color:var(--text);font-size:13.5px;font-weight:600;
-      box-shadow:4px 4px 0 var(--ink);
-      transition:transform .15s ease, box-shadow .15s ease, color .2s ease}
-    .back:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);color:var(--accent)}
-    .back:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
-    .theme-toggle{flex-shrink:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0;
-      padding:0;border-radius:6px;border:2.5px solid var(--ink);background:var(--card);
-      color:var(--text);cursor:pointer;width:46px;height:46px;box-shadow:4px 4px 0 var(--ink);
-      transition:transform .15s ease, box-shadow .15s ease}
-    .theme-toggle:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
 
-    .layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:28px;align-items:start}
-    .blog-list{position:sticky;top:24px;display:flex;flex-direction:column;gap:12px;padding:18px;
-      border:2.5px solid var(--ink);border-radius:8px;background:var(--card);box-shadow:6px 6px 0 var(--border)}
-    .list-label{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;
-      text-transform:uppercase;color:var(--muted);margin:2px 6px 4px}
-    .blog-list button{display:flex;flex-direction:column;gap:4px;padding:14px 16px;border:2px solid transparent;
-      border-radius:8px;background:transparent;color:var(--text);cursor:pointer;text-align:left;
-      font-family:'Space Grotesk',Inter,sans-serif;transition:background .2s ease,color .2s ease,
-      border-color .2s ease, transform .25s cubic-bezier(.16,1,.3,1)}
-    .blog-list button .btn-title{font-size:15px;font-weight:600;line-height:1.3}
-    .blog-list button .btn-tags{display:flex;gap:6px;flex-wrap:wrap}
-    .blog-list button .tag{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;
-      text-transform:uppercase;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:2px 8px}
-    .blog-list button[aria-selected="true"]{background:var(--bg);border-color:var(--accent);color:var(--accent);
-      transform:translateX(3px)}
-    .blog-list button[aria-selected="true"] .tag{color:var(--accent);border-color:var(--accent)}
-    .blog-list button:hover:not([aria-selected="true"]){background:var(--chip);transform:translateX(3px)}
-    .blog-posts{display:grid;gap:24px;min-width:0}
-    .blog-post{display:none}
-    .blog-post.active{display:block;animation:postIn .55s cubic-bezier(.16,1,.3,1) both}
-    @keyframes postIn{from{opacity:0;transform:translateX(56px)}to{opacity:1;transform:translateX(0)}}
-    @media (max-width:960px){
-      .layout{display:block}
-      .blog-list{position:static;flex-direction:column;align-items:stretch;gap:12px}
-      .blog-list button{flex:initial;width:100%}
-      .blog-list button[aria-selected="true"]{transform:none}
-      .blog-list button:hover:not([aria-selected="true"]){transform:none}
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body { margin: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background 0.2s ease, color 0.2s ease;
     }
-    @media (max-width:640px){
-      .wrap{margin:22px 14px;padding:20px 16px}
-      .layout{gap:18px}
-      .blog-list{gap:10px;padding:14px}
-      .blog-list button{flex:initial;width:100%}
-      p:first-of-type::first-letter{font-size:2.6em}
-      header{margin-bottom:18px}
-      .kicker{padding:5px 12px;margin-bottom:12px}
-      .divider{margin:14px 0 20px}
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    a { color: inherit; text-decoration: none; }
+
+    .mono {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
-    @media print{
-      body{background:#fff !important;color:#000 !important}
-      .wrap{border:none;box-shadow:none;max-width:none;margin:0;padding:0}
-      .blog-list{display:none}
-      .post-nav{display:none}
-      figure img{display:block;filter:none}
-      .post-footer{border:none}
-      .back{box-shadow:none}
-      #progress{display:none}
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      padding: 10px 14px;
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--text);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      z-index: 200;
+    }
+    .skip-link:focus { left: 12px; top: 12px; }
+
+    /* reading progress */
+    #progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--accent);
+      z-index: 60;
+      transition: width 0.1s linear;
+    }
+
+    /* nav */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--nav-bg);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+    main.shell { padding: 56px 28px 140px; }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      height: 60px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "Space Grotesk", Inter, sans-serif;
+      font-size: 14.5px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+    .brand-mark {
+      width: 26px;
+      height: 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      background: var(--surface);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--text-2);
+    }
+    .nav-right { display: flex; align-items: center; gap: 18px; }
+    .nav-back {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-2);
+      transition: color 0.18s ease;
+    }
+    .nav-back:hover { color: var(--text); }
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border: 1px solid var(--border-strong);
+      border-radius: 7px;
+      background: transparent;
+      color: var(--text-2);
+      cursor: pointer;
+      transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+    .theme-toggle:hover {
+      color: var(--text);
+      border-color: var(--text-2);
+      background: var(--chip-bg);
+    }
+
+    /* page */
+    main { padding: 56px 0 96px; }
+
+    .page-head {
+      max-width: 780px;
+      margin-bottom: 40px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .eyebrow::before {
+      content: "";
+      width: 22px;
+      height: 1px;
+      background: var(--accent);
+    }
+    h1 {
+      margin: 14px 0 12px;
+      font-family: "Space Grotesk", Inter, sans-serif;
+      font-size: clamp(30px, 4.4vw, 44px);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+    .meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+    }
+    .meta .sep { opacity: 0.45; }
+    #pageTag { color: var(--text-2); }
+
+    /* layout */
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: clamp(32px, 5vw, 72px);
+      align-items: start;
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+    }
+
+    /* post list */
+    .blog-list {
+      position: sticky;
+      top: 88px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .list-label {
+      margin: 0 0 14px 12px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .list-label-gap { margin-top: 24px; }
+    .blog-list-item {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      padding: 12px;
+      border: 0;
+      border-left: 2px solid transparent;
+      border-radius: 0 8px 8px 0;
+      background: transparent;
+      color: var(--text-2);
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    }
+    .blog-list-item:hover { background: var(--surface-2); color: var(--text); }
+    .blog-list-item[aria-selected="true"] {
+      border-left-color: var(--accent);
+      background: var(--surface);
+      color: var(--text);
+    }
+    .post-num {
+      flex-shrink: 0;
+      padding-top: 2px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+    }
+    .post-copy { min-width: 0; }
+    .btn-title {
+      display: block;
+      font-family: "Space Grotesk", Inter, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      color: inherit;
+    }
+    .btn-tags {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 5px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+    }
+    .btn-tags .tag + .tag::before {
+      content: "·";
+      padding: 0 6px;
+      opacity: 0.6;
+    }
+
+    /* article */
+    .blog-posts { min-width: 0; }
+    .blog-post { display: none; }
+    .blog-post.active { display: block; }
+    .prose {
+      max-width: 68ch;
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text-2);
+    }
+    .prose p { margin: 0 0 20px; }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose strong { color: var(--text); font-weight: 600; }
+
+    blockquote {
+      margin: 30px 0;
+      padding: 4px 0 4px 20px;
+      border-left: 2px solid var(--accent);
+      font-family: "Space Grotesk", Inter, sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.55;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+
+    figure { margin: 36px 0; }
+    figure img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface-2);
+    }
+    figure img.obj-high { object-position: center 32%; }
+    figure img.obj-mid { object-position: center 62%; }
+    figure img.obj-low { object-position: center 88%; }
+    figcaption {
+      margin-top: 10px;
+      text-align: left;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px;
+      letter-spacing: 0.02em;
+      color: var(--muted);
+    }
+
+    /* footer */
+    .post-footer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+      max-width: 68ch;
+      margin-top: 44px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .post-nav { display: flex; flex-direction: column; gap: 10px; }
+    .post-nav a {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 3px;
+      font-family: "Space Grotesk", Inter, sans-serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text);
+      transition: color 0.18s ease;
+    }
+    .post-nav a::before {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .post-nav .nav-prev::before { content: "Previous"; }
+    .post-nav .nav-next::before { content: "Next"; }
+    .post-nav a:hover { color: var(--accent); }
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 13px;
+      border: 1px solid var(--border-strong);
+      border-radius: 7px;
+      background: transparent;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text-2);
+      transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+    .back:hover {
+      color: var(--text);
+      border-color: var(--text-2);
+      background: var(--chip-bg);
+    }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+      .blog-list {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--border);
+      }
+      .list-label { grid-column: 1 / -1; margin-left: 12px; margin-bottom: 6px; }
+    }
+    @media (max-width: 640px) {
+      .shell { padding: 0 18px; }
+      main.shell { padding: 36px 18px 104px; }
+      .nav-back { display: none; }
+      .blog-list { grid-template-columns: minmax(0, 1fr); }
+      .page-head { margin-bottom: 28px; }
+      .prose { font-size: 15.5px; line-height: 1.75; }
+      blockquote { font-size: 16.5px; }
+      .post-footer { flex-direction: column; align-items: flex-start; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    @media print {
+      body { background: #fff !important; color: #000 !important; }
+      .site-nav, .blog-list, .post-nav, .back, #progress { display: none !important; }
+      main.shell { padding: 0; }
+      .layout { border: none; padding: 0; }
+      .blog-post { display: block !important; }
+      figure img { border: none; }
     }
   </style>
 </head>
 <body>
   <div id="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Reading progress"></div>
   <a class="skip-link" href="#main">Skip to content</a>
-  <main class="wrap" id="main">
-    <header>
-      <div>
-        <span class="kicker" id="pageKicker"><span class="dot"></span>Still Figuring It Out</span>
-        <h1 id="pageTitle" aria-live="polite">Chapter I — Still Figuring It Out</h1>
-        <div class="meta">Carl Joshua Coloma <span class="sep">·</span> <span id="pageTag" style="color:var(--accent)">Journey</span> <span class="sep">·</span> 2026 </div>
+
+  <header class="site-nav">
+    <div class="shell nav-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark">CJ</span>
+        <span>Carl Coloma</span>
+      </a>
+      <div class="nav-right">
+        <a class="nav-back" href="/">← Portfolio</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" type="button"></button>
       </div>
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" type="button"></button>
-    </header>
-    <hr class="divider" />
+    </div>
+  </header>
+
+  <main class="shell" id="main">
+    <div class="page-head">
+      <span class="eyebrow">Writing</span>
+      <h1 id="pageTitle" aria-live="polite">Still Figuring It Out</h1>
+      <div class="meta">
+        Carl Joshua Coloma
+        <span class="sep">·</span>
+        <span id="pageTag">June 2026</span>
+      </div>
+    </div>
 
     <div class="layout">
       <aside class="blog-list" role="tablist" aria-label="Blog posts">
-        <span class="list-label">Writing</span>
-        <button type="button" class="blog-list-item" data-post="still" data-title="Chapter I — Still Figuring It Out" data-tag="Journey" aria-controls="post-still" aria-selected="true" role="tab">
-          <span class="btn-title">Chapter I — Still Figuring It Out</span>
-          <span class="btn-tags"><span class="tag">Journey</span><span class="tag">Students</span></span>
+        <span class="list-label">Tech</span>
+
+        <button type="button" class="blog-list-item" data-post="still" data-title="Still Figuring It Out" data-tag="June 2026" aria-controls="post-still" aria-selected="true" role="tab">
+          <span class="post-num">01</span>
+          <span class="post-copy">
+            <span class="btn-title">Still Figuring It Out</span>
+            <span class="btn-tags"><span class="tag">June 2026</span></span>
+          </span>
         </button>
-        <button type="button" class="blog-list-item" data-post="bawz" data-title="Chapter II — Beyond Tech: BAWZ" data-tag="Dance" aria-controls="post-bawz" aria-selected="false" role="tab">
-          <span class="btn-title">Chapter II — Beyond Tech: BAWZ</span>
-          <span class="btn-tags"><span class="tag">Dance</span><span class="tag">Singapore</span></span>
+
+        <button type="button" class="blog-list-item" data-post="iv" data-title="The Gap Between Watching and Building" data-tag="August 2026" aria-controls="post-iv" aria-selected="false" role="tab">
+          <span class="post-num">02</span>
+          <span class="post-copy">
+            <span class="btn-title">The Gap Between Watching and Building</span>
+            <span class="btn-tags"><span class="tag">August 2026</span></span>
+          </span>
         </button>
-        <button type="button" class="blog-list-item" data-post="firstbuild" data-title="Chapter III — The First Build" data-tag="Fresh Grad" aria-controls="post-firstbuild" aria-selected="false" role="tab">
-          <span class="btn-title">Chapter III — The First Build</span>
-          <span class="btn-tags"><span class="tag">Fresh Grad</span><span class="tag">Journey</span></span>
-        </button>
-        <button type="button" class="blog-list-item" data-post="iv" data-title="Chapter IV — The Voyage Begins" data-tag="Fresh Grad" aria-controls="post-iv" aria-selected="false" role="tab">
-          <span class="btn-title">Chapter IV — The Voyage Begins</span>
-          <span class="btn-tags"><span class="tag">Fresh Grad</span><span class="tag">Journey</span></span>
+
+        <span class="list-label list-label-gap">Life</span>
+
+        <button type="button" class="blog-list-item" data-post="bawz" data-title="Beyond the Code: What BAWZ Taught Me" data-tag="August 2025" aria-controls="post-bawz" aria-selected="false" role="tab">
+          <span class="post-num">01</span>
+          <span class="post-copy">
+            <span class="btn-title">Beyond the Code: What BAWZ Taught Me</span>
+            <span class="btn-tags"><span class="tag">August 2025</span></span>
+          </span>
         </button>
       </aside>
 
       <section class="blog-posts">
         <article id="post-still" class="blog-post active" role="tabpanel">
-          <p>I'm a computer science student specializing in software engineering, and if I'm being honest, "aspiring AI engineer" still feels like a big title for someone who spends half his time confused. But that's the goal I'm chasing, so here's the actual story, not the polished version.</p>
+          <div class="prose">
+            <p>I'm a computer science student specializing in software engineering, and "aspiring AI engineer" still feels like a big title for someone who spends half his time confused. But that's the goal, so here's the honest version.</p>
 
-    <p>I fell into tutorial hell early. Course after course, video after video, copying along and feeling productive without really building anything on my own. It took a while to admit that finishing a tutorial isn't the same as understanding it.</p>
+            <p>I fell into tutorial hell early: course after course, copying along, feeling productive without building anything on my own. Finishing a tutorial isn't the same as understanding it.</p>
 
-    <blockquote>Watching someone else build something is not the same as building it yourself.</blockquote>
+            <figure>
+              <img class="obj-low" src="/self.jpeg" alt="Carl Joshua Coloma" loading="lazy" />
+              <figcaption>Me, still figuring it out.</figcaption>
+            </figure>
 
-    <p>There's also this constant feeling of not progressing the right way. Everyone online seems three steps ahead, shipping projects, landing roles, explaining concepts I'm still shaky on. Some days I genuinely feel clueless, like I'm just rearranging the same beginner knowledge instead of moving forward.</p>
+            <blockquote>I'd rather look clueless for a minute than stay stuck for a month.</blockquote>
 
-    <p>The thing that actually helps is staying curious and not being afraid to ask. During my internship I learned to just keep asking my mentors questions, even the basic ones, even when I could tell it got a little irritating. It's fine. As long as I'm learning something from it, the mild annoyance is worth it.</p>
+            <p>The comparison never stops — everyone online seems three steps ahead. What helped was staying curious and asking questions. During my internships in computer vision and AI QA, my co-interns and mentors made even the basic questions feel normal. If I learned something, the mild annoyance was worth it.</p>
 
-    <p>I don't have a clean ending for this yet. I'm not an AI engineer. I'm a student trying to become one, one confusing concept at a time. If you're in the same spot, tutorial hell and all, I figured it might help to know you're not the only one.</p>
-          <figure>
-            <img src="/pic1.webp" alt="Carl Joshua Coloma with fellow interns" loading="lazy" />
-            <figcaption>My co-interns, figuring it out together.</figcaption>
-          </figure>
-          <figure>
-            <img src="/pic2.webp" alt="Carl Joshua Coloma with the internship team" loading="lazy" />
-            <figcaption>The team that guided every step.</figcaption>
-          </figure>
-          <div class="post-footer">
-            <span class="end-mark">end of chapter</span>
-            <div class="post-nav">
-              <a class="back nav-next" href="#" data-post="bawz">Next — Chapter II — Beyond Tech: BAWZ →</a>
-            </div>
-            <a class="back" href="index.html">← Back to portfolio</a>
+            <figure>
+              <img src="/pic2.webp" alt="Carl Joshua Coloma with his co-interns" loading="lazy" />
+              <figcaption>The team that guided every step.</figcaption>
+            </figure>
+
+            <p>I'm not an AI engineer yet. I'm a student becoming one, one confusing concept at a time — learning from mentors and co-interns along the way. If you're in the same spot, you're not the only one.</p>
           </div>
-        </article>
 
-        <article id="post-bawz" class="blog-post" role="tabpanel" aria-hidden="true">
-          <h2>Chapter II — BAWZ: Dance Group</h2>
-          <p>In August 2025 I competed with my dance group BAWZ at an international event in Singapore. We represented the Philippines against teams from across Asia, and we came home with the champion award.</p>
-          <p>BAWZ is not just a group; it's a team built around discipline, rhythm, and trust. Our coach pushed us through long rehearsals, and every routine had to be precise enough to stand out on an international stage.</p>
-          <blockquote>The moment we heard that we had won was unforgettable. We had trained for months, and the award validated every injury, every early practice, and every late-night rehearsal.</blockquote>
-          <figure>
-            <img src="/bawz.webp" alt="BAWZ dance crew with coach in Singapore" loading="lazy" />
-            <figcaption>BAWZ with our coach after the Singapore finals.</figcaption>
-          </figure>
-          <p>We took the stage against teams from different countries, and our performance brought home the trophy. It showed what a Philippine crew can do when we combine creativity, precision, and cultural pride.</p>
-          <figure>
-            <img src="/trophy.webp" alt="Champion trophy from BAWZ Singapore competition" loading="lazy" />
-            <figcaption>Our champion trophy from the Singapore competition.</figcaption>
-          </figure>
-          <p>That win is part of my story too. It taught me how teamwork and preparation pay off, and it gave me confidence that I can represent the Philippines at a high level — whether on a stage, in a project, or in a technical role.</p>
           <div class="post-footer">
-            <span class="end-mark">end of chapter</span>
             <div class="post-nav">
-              <a class="back nav-prev" href="#" data-post="still">← Chapter I — Still Figuring It Out</a>
-              <a class="back nav-next" href="#" data-post="firstbuild">Next — Chapter III — The First Build →</a>
+              <a class="nav-next" href="#" data-post="iv">The Gap Between Watching and Building</a>
             </div>
-            <a class="back" href="index.html">← Back to portfolio</a>
-          </div>
-        </article>
-
-        <article id="post-firstbuild" class="blog-post" role="tabpanel" aria-hidden="true">
-          <h2>Chapter III — The First Build</h2>
-          <p>The first build is the smallest part of my story — and somehow the most important one. No grand adventure, no glory, no legend. Just me, a fresh graduate with a computer science degree and a head full of theory, deciding enough was enough.</p>
-          <p>My first build was the first thing I ever built on my own. I decided to set sail on my first AI workflow — and I didn't wait until I felt ready. I just built the thing I wanted to build, badly, gloriously badly.</p>
-          <p>The first workflow was a mess. It worked. It didn't work. It worked again. And in that messy loop was the same lesson I found in every tutorial I ever watched: building is understanding, and understanding comes from doing.</p>
-          <blockquote>You can watch a thousand tutorials, but you only learn by building.</blockquote>
-          <p>For anyone my age or older, staring at a finished degree and an unfinished skills list: I get it. The leap from "I know about AI" to "I can build with AI" felt enormous. It did for me too. But the first build doesn't ask for a grand plan. It asks for one small thing. Mine was a workflow. Yours might be an agent, a RAG pipeline, a fine-tune, or just a very stubborn notebook.</p>
-          <p>I didn't become an AI engineer with that first build. I just became someone who builds — and that still inspires me to keep going today.</p>
-          <figure>
-            <img src="/op.jpg" alt="The ship sailing the Grand Line" loading="lazy" />
-            <figcaption>The crew, the ship, the dream.</figcaption>
-          </figure>
-          <div class="post-footer">
-            <span class="end-mark">end of chapter</span>
-            <div class="post-nav">
-              <a class="back nav-prev" href="#" data-post="bawz">← Chapter II — Beyond Tech: BAWZ</a>
-            </div>
-            <a class="back" href="index.html">← Back to portfolio</a>
+            <a class="back" href="/">← Back to portfolio</a>
           </div>
         </article>
 
         <article id="post-iv" class="blog-post" role="tabpanel" aria-hidden="true">
-          <h2>Chapter IV — The Voyage Begins</h2>
-          <p>The AI engineering journey started with a simple thing: watching. At first, I was just absorbing — hours of professional software engineering and AI content online, the deep technical breakdowns from creators like Gazi, Bryl, and Daniel, full of pipelines, agents, and production-grade thinking.</p>
-          <p>Most of it went in one ear and out the other at first. But something about their code, their breakdowns, and the "why" behind the "how" planted a seed. If they could build these systems, I could start building mine.</p>
-          <blockquote>At first I was watching. Then I decided to build.</blockquote>
-          <p>That inspiration pushed me from passive learning to action. I stopped admiring the voyage and started sketching my own first workflow — badly, gloriously badly, exactly like Chapter III. The journey from "watching" to "doing" became the real story.</p>
-          <p>And that's the heart of it: the AI engineering journey began with a spark of inspiration from creators I watched online, and it became my own because I chose to do my best.</p>
+          <div class="prose">
+            <p>The AI engineering journey started with a simple thing: watching. At first, I was just absorbing — hours of professional software engineering and AI content online, the deep technical breakdowns from creators like Gazi, Bryl, and Daniel, full of pipelines, agents, and production-grade thinking.</p>
+
+            <p>Most of it went over my head at first. But their breakdowns — the "why" behind the "how" — planted a seed. If they could build these systems, I could start building mine.</p>
+
+            <blockquote>You can watch a thousand tutorials, but you only learn by building.</blockquote>
+
+            <p>That quote is what finally moved me from passive learning to action. I closed the tabs, opened an editor, and started on my first workflow.</p>
+
+            <figure>
+              <img src="/build.jpeg" alt="Laptop showing an AI engineering study plan and FastAPI authentication code" loading="lazy" />
+              <figcaption>Mapping the path, then writing the first real code.</figcaption>
+            </figure>
+
+            <p>The journey from watching to doing became the real story: inspiration got me curious, but building made it mine.</p>
+          </div>
+
           <div class="post-footer">
-            <span class="end-mark">end of chapter</span>
             <div class="post-nav">
-              <a class="back nav-prev" href="#" data-post="firstbuild">← Chapter III — The First Build</a>
+              <a class="nav-prev" href="#" data-post="still">Still Figuring It Out</a>
+              <a class="nav-next" href="#" data-post="bawz">Beyond the Code: What BAWZ Taught Me</a>
             </div>
-            <a class="back" href="index.html">← Back to portfolio</a>
+            <a class="back" href="/">← Back to portfolio</a>
+          </div>
+        </article>
+
+        <article id="post-bawz" class="blog-post" role="tabpanel" aria-hidden="true">
+          <div class="prose">
+            <p>In August 2025 I competed with my dance group BAWZ at an international event in Singapore. We represented the Philippines against teams from across Asia, and we came home with the champion award.</p>
+
+            <p>BAWZ is not just a group; it's a team built around discipline, rhythm, and trust. Our coach pushed us through long rehearsals, and every routine had to be precise enough to stand out on an international stage.</p>
+
+            <figure>
+              <img class="obj-high" src="/bawz.webp" alt="BAWZ dance crew with coach in Singapore" loading="lazy" />
+              <figcaption>BAWZ with our coach after the Singapore finals.</figcaption>
+            </figure>
+
+            <blockquote>The moment we heard that we had won was unforgettable. We had trained for months, and the award validated every injury, every early practice, and every late-night rehearsal.</blockquote>
+
+            <p>We took the stage against teams from different countries, and our performance brought home the trophy. It showed what a Philippine crew can do when we combine creativity, precision, and cultural pride.</p>
+
+            <figure>
+              <img class="obj-mid" src="/trophy.webp" alt="Champion trophy from BAWZ Singapore competition" loading="lazy" />
+              <figcaption>Our champion trophy from the Singapore competition.</figcaption>
+            </figure>
+
+            <p>That win is part of my story too. It taught me how teamwork and preparation pay off, and it gave me confidence that I can represent the Philippines at a high level — whether on a stage, in a project, or in a technical role.</p>
+          </div>
+
+          <div class="post-footer">
+            <div class="post-nav">
+              <a class="nav-prev" href="#" data-post="iv">The Gap Between Watching and Building</a>
+            </div>
+            <a class="back" href="/">← Back to portfolio</a>
           </div>
         </article>
       </section>
@@ -313,36 +617,30 @@
 
       var POST_META = {
         still: {
-          title: "Chapter I — Still Figuring It Out",
+          title: "Still Figuring It Out",
           description: "A computer science student's honest story of falling into tutorial hell and finding curiosity as the first step toward AI engineering.",
           prev: null,
+          next: "iv",
+          image: "https://carlcoloma.vercel.app/pic.jpeg"
+        },
+        iv: {
+          title: "The Gap Between Watching and Building",
+          description: "How my AI engineering journey started — from watching professional SE and AI creators like Gazi, Bryl, and Daniel to building my own first workflow.",
+          prev: "still",
           next: "bawz",
           image: "https://carlcoloma.vercel.app/pic.jpeg"
         },
         bawz: {
-          title: "Chapter II — Beyond Tech: BAWZ",
+          title: "Beyond the Code: What BAWZ Taught Me",
           description: "My international dance competition with BAWZ — from months of discipline and rehearsals to winning the championship in Singapore.",
-          prev: "still",
-          next: "firstbuild",
-          image: "https://carlcoloma.vercel.app/bawz.webp"
-        },
-        firstbuild: {
-          title: "Chapter III — The First Build",
-          description: "How my first AI workflow became the first build of the voyage — a fresh graduate's story of setting sail.",
-          prev: "bawz",
-          next: "iv",
-          image: "https://carlcoloma.vercel.app/op.jpg"
-        },
-        iv: {
-          title: "Chapter IV — The Voyage Begins",
-          description: "How the AI engineering journey started — from watching professional SE and AI creators like Gazi, Bryl, and Daniel to deciding to build my own first workflow.",
-          prev: "firstbuild",
+          prev: "iv",
           next: null,
-          image: "https://carlcoloma.vercel.app/pic.jpeg"
+          image: "https://carlcoloma.vercel.app/bawz.webp"
         }
       };
-      var sunSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
-      var moonSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+
+      var sunSvg = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+      var moonSvg = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
 
       function currentTheme() {
         return document.documentElement.getAttribute("data-theme");
@@ -350,32 +648,30 @@
 
       function updateButton(isDark) {
         btn.innerHTML = isDark ? sunSvg : moonSvg;
-        btn.setAttribute("aria-label", isDark ? "Switch to Day Paper mode" : "Switch to Night Ink mode");
+        btn.setAttribute("aria-label", isDark ? "Switch to light theme" : "Switch to dark theme");
       }
 
       function selectPost(postId, title) {
         listButtons.forEach(function (button) {
-          var selected = button.dataset.post === postId;
-          button.setAttribute("aria-selected", selected ? "true" : "false");
+          button.setAttribute("aria-selected", button.dataset.post === postId ? "true" : "false");
         });
+
         posts.forEach(function (post) {
           var active = post.id === "post-" + postId;
           post.classList.toggle("active", active);
           post.setAttribute("aria-hidden", active ? "false" : "true");
-          if (active) {
-            // restart the entrance animation
-            post.style.animation = "none";
-            void post.offsetWidth;
-            post.style.animation = "";
-          }
         });
+
         var titleEl = document.getElementById("pageTitle");
         if (titleEl) titleEl.textContent = title;
+
         var tagEl = document.getElementById("pageTag");
         var tagBtn = document.querySelector('.blog-list-item[data-post="' + postId + '"]');
         if (tagEl && tagBtn && tagBtn.dataset.tag) tagEl.textContent = tagBtn.dataset.tag;
+
         var meta = POST_META[postId] || POST_META.still;
-        document.title = meta.title + " | Blog";
+        document.title = meta.title + " — Carl Joshua Coloma";
+
         var descMeta = document.querySelector('meta[name="description"]');
         if (descMeta) descMeta.content = meta.description;
         var ogTitle = document.querySelector('meta[property="og:title"]');
@@ -390,9 +686,6 @@
         if (ogImage) ogImage.content = meta.image;
         var twImage = document.querySelector('meta[name="twitter:image"]');
         if (twImage) twImage.content = meta.image;
-
-        var kickerEl = document.getElementById("pageKicker");
-        if (kickerEl) kickerEl.innerHTML = '<span class="dot"></span>JOURNEY';
 
         var activeArticle = document.getElementById("post-" + postId);
         var postNav = activeArticle ? activeArticle.querySelector(".post-nav") : null;

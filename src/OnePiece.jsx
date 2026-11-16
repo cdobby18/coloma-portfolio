@@ -158,7 +158,8 @@ const PROJECTS = [
     desc: "AI biomechanics analyzer for powerlifting built with YOLOv8, Kalman filtering, and SVM classification. Tracks joint positions, stabilizes motion across frames, and classifies squat, bench, and deadlift mechanics in real time — delivering automated lift assessment and performance feedback on mobile hardware.",
     metric: "Mobile application · Overall Best Thesis",
     tags: ["Python", "YOLOv8", "Kalman Filtering", "SVM", "MoveNet"],
-    img: "/Powerlift.webp",
+    img: "/powerlift.png",
+    logo: "/logos/powerlift.webp",
     link: "https://github.com/cdobby18/Powerlift",
   },
   {
@@ -173,6 +174,7 @@ const PROJECTS = [
     metric: "React · Python · LLMs · RAG · LangChain",
     tags: ["React", "Python", "LLMs", "RAG", "FastAPI"],
     img: "/sunny.png",
+    logo: "/logos/sunny.webp",
     link: "#contact",
   },
   {
@@ -186,6 +188,7 @@ const PROJECTS = [
     metric: "FastAPI · RAG · Agents · Guardrails",
     tags: ["FastAPI", "React", "RAG", "LangChain", "PostgreSQL", "FAISS"],
     img: "/resolve.png",
+    logo: "/logos/resolve.webp",
     link: "https://github.com/cdobby18/ReSOLVE",
   },
   {
@@ -326,9 +329,9 @@ function Reveal({ children }) {
   );
 }
 
-function Section({ id, children }) {
+function Section({ id, children, tone }) {
   return (
-    <section id={id} className="section">
+    <section id={id} className={`section${tone ? " section--tone" : ""}`}>
       <div className="shell">{children}</div>
     </section>
   );
@@ -358,20 +361,21 @@ function Hero() {
           <div>
             <span className="status-pill">
               <span className="status-dot" />
-              Available for AI engineering roles
+              Open to AI automation roles &amp; projects
             </span>
 
             <h1 className="hero-title">Carl Joshua<br />Coloma</h1>
 
             <p className="hero-role">
-              AI &amp; Automation Engineer
+              AI Automation Engineer
               <span className="hero-role-sep">/</span>
               <span className="muted">Manila, Philippines</span>
             </p>
 
             <p className="hero-bio">
-              I build reliable AI systems — agentic workflows, retrieval-augmented generation,
-              and production-ready machine learning with Python. Most recently a{" "}
+              I design <strong>LLM-powered workflows</strong> that take repetitive, judgment-heavy
+              work off people's plates — triage, routing, drafting, and document intake — with
+              guardrails and a human decision where it matters. Most recently a{" "}
               <strong>Backend AI Engineer Intern at FlyRank AI</strong>, with earlier work in AI QA
               at SoFi AI and computer vision at Lamina Studios.
             </p>
@@ -417,7 +421,15 @@ function Hero() {
 
           <div className="hero-side">
             <div className="portrait">
-              <img src="/pic.jpeg" alt="Carl Joshua Coloma" />
+              <img
+                src="/pic-portrait.webp"
+                alt="Carl Joshua Coloma"
+                width={900}
+                height={1350}
+                loading="eager"
+                decoding="async"
+                fetchpriority="high"
+              />
             </div>
             <div className="portrait-cap">
               <span><PinIcon size={12} /> Manila, PH</span>
@@ -441,9 +453,9 @@ function Hero() {
 function AboutSection() {
   const facts = [
     ["Recent role", "Backend AI Engineer Intern · FlyRank AI"],
-    ["Focus", "Agentic AI · LLMs · RAG · Evaluation"],
+    ["Focus", "AI · Automation · Agentic workflows"],
     ["Education", "BS Computer Science · FEU Tech · 2026"],
-    ["Upskilling", "Databricks · dbt · Airflow · Snowflake"],
+    ["Open to", "Full-time roles · Remote or Metro Manila"],
     ["Location", "Manila, Philippines"],
   ];
 
@@ -454,9 +466,10 @@ function AboutSection() {
         <div className="about-grid">
           <div className="prose">
             <p className="body-lg">
-              Hey, I'm CJ — an aspiring AI engineer and computer science graduate student from the
-              Philippines. I bridge research-grade machine learning with real-world deployment:
-              systems that are reliable, observable, and maintainable beyond the notebook.
+              Hey, I'm CJ — an AI automation engineer and BS Computer Science graduate from the
+              Philippines. I turn messy manual processes into reliable workflows: LLM steps where
+              language is fuzzy, deterministic code where correctness matters, and a human in the
+              loop before anything irreversible happens.
             </p>
             <p className="body">
               I recently wrapped up my internship as a Backend AI Engineer Intern at FlyRank AI,
@@ -466,11 +479,11 @@ function AboutSection() {
               computer vision pipelines.
             </p>
             <p className="body">
-              My focus is LLM evaluation, retrieval-augmented generation, and production
-              observability. I care about systems that keep working when models don't.
+              My focus is AI, automation, and agentic workflows — systems that keep working when
+              models don't, and that measurably save people time.
             </p>
             <div className="focus-row">
-              {["Agentic AI", "LLMs", "RAG", "Computer Vision", "ML Evaluation"].map((f) => (
+              {["AI", "Automation", "Agentic Workflows", "LLMs", "RAG"].map((f) => (
                 <span className="chip" key={f}>{f}</span>
               ))}
             </div>
@@ -496,7 +509,7 @@ function AboutSection() {
 
 function ExperienceSection() {
   return (
-    <Section id="experience">
+    <Section id="experience" tone>
       <Reveal>
         <SectionHead
           num="02"
@@ -531,13 +544,21 @@ function ExperienceSection() {
    Projects
    ───────────────────────────────────────────────────────────── */
 
+function ProjectMark({ project }) {
+  return (
+    <span className="proj-mark" aria-hidden="true">
+      <img src={project.logo} alt="" width={240} height={240} loading="lazy" decoding="async" />
+    </span>
+  );
+}
+
 function ProjectRow({ project, index, onArchitecture }) {
   const isPrivate = !!project.private;
   const primary = isPrivate ? "#contact" : project.link;
 
   return (
-    <article className="proj-row">
-      <span className="proj-index">{String(index + 1).padStart(2, "0")}</span>
+    <article className={`proj-row${project.logo ? "" : " proj-row--plain"}`}>
+      {project.logo && <ProjectMark project={project} />}
 
       <div className="proj-main">
         <div className="proj-head">
@@ -566,6 +587,8 @@ function ProjectRow({ project, index, onArchitecture }) {
         <p className="proj-desc">{project.short}</p>
 
         <div className="proj-sub">
+          <span className="proj-num">{String(index + 1).padStart(2, "0")}</span>
+          <span className="sep">·</span>
           <span>{project.type}</span>
           <span className="sep">·</span>
           <span>{project.year}</span>
@@ -576,6 +599,7 @@ function ProjectRow({ project, index, onArchitecture }) {
           </span>
         </div>
       </div>
+
     </article>
   );
 }
@@ -628,9 +652,16 @@ function ProjectsSection() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="modal-head">
-              <div>
-                <h3 className="modal-title">System Architecture</h3>
-                <p className="modal-sub">{arch.title}</p>
+              <div className="modal-head-main">
+                {arch.logo && (
+                  <span className="modal-logo" aria-hidden="true">
+                    <img src={arch.logo} alt="" width={240} height={240} />
+                  </span>
+                )}
+                <div>
+                  <h3 className="modal-title">System Architecture</h3>
+                  <p className="modal-sub">{arch.title}</p>
+                </div>
               </div>
               <button className="icon-btn" onClick={() => setArch(null)} aria-label="Close">
                 <Icon size={16}><path d="M18 6 6 18M6 6l12 12" /></Icon>
@@ -650,7 +681,7 @@ function ProjectsSection() {
 
 function StackSection() {
   return (
-    <Section id="stack">
+    <Section id="stack" tone>
       <Reveal>
         <SectionHead
           num="04"
@@ -662,7 +693,11 @@ function StackSection() {
           {SKILL_GROUPS.map((group) => (
             <div className="stack-row" key={group.label}>
               <h3 className="stack-label">{group.label}</h3>
-              <p className="stack-items">{group.skills.join("  ·  ")}</p>
+              <div className="stack-items">
+                {group.skills.map((skill) => (
+                  <span className="stack-chip" key={skill}>{skill}</span>
+                ))}
+              </div>
             </div>
           ))}
         </div>
@@ -972,12 +1007,13 @@ function ContactSection() {
           </div>
           <div className="contact-intro-copy">
             <p className="body">
-              I'm open to AI engineering opportunities, agentic system collaborations, and
-              production ML work. Tell me what you're building — I'd like to hear about it.
+              I'm open to AI automation roles, agentic workflow collaborations, and production AI
+              work. If you have a process that eats hours every week, send me the manual steps —
+              I'd like to hear about it.
             </p>
             <p className="contact-availability">
               <span className="status-dot" />
-              Available for AI engineering roles
+              Open to AI automation roles &amp; projects
             </p>
           </div>
         </div>
@@ -1138,6 +1174,7 @@ export default function OnePiece() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState("");
+  const [progress, setProgress] = useState(0);
   const [isDark, setIsDark] = useState(() => {
     try {
       const stored = localStorage.getItem("op-theme");
@@ -1153,6 +1190,8 @@ export default function OnePiece() {
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 8);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? Math.min(1, window.scrollY / max) : 0);
       const y = window.scrollY + 120;
       let current = "";
       for (const link of NAV_LINKS) {
@@ -1249,21 +1288,22 @@ export default function OnePiece() {
 
         .shell {
           width: 100%;
-          max-width: 1080px;
+          max-width: 1120px;
           margin: 0 auto;
           padding-left: clamp(20px, 5vw, 48px);
           padding-right: clamp(20px, 5vw, 48px);
         }
         .section { padding: clamp(64px, 8vw, 96px) 0; border-top: 1px solid var(--border); }
+        .section--tone { background: var(--surface); }
         .section-head { margin-bottom: clamp(32px, 4vw, 44px); }
         .eyebrow {
           display: flex;
           align-items: center;
           gap: 8px;
           font-family: var(--mono);
-          font-size: 11px;
+          font-size: 11.5px;
           font-weight: 500;
-          letter-spacing: 0.16em;
+          letter-spacing: 0.14em;
           text-transform: uppercase;
           color: var(--muted);
         }
@@ -1288,20 +1328,20 @@ export default function OnePiece() {
         .lede {
           margin-top: 14px;
           max-width: 620px;
-          font-size: 15.5px;
+          font-size: 16px;
           line-height: 1.75;
           color: var(--text-2);
         }
-        .body { font-size: 15.5px; line-height: 1.85; color: var(--text-2); }
-        .body-lg { font-size: 17px; line-height: 1.8; color: var(--text-2); }
+        .body { font-size: 16px; line-height: 1.85; color: var(--text-2); }
+        .body-lg { font-size: 17.5px; line-height: 1.8; color: var(--text-2); }
         .prose > p + p { margin-top: 18px; }
         .muted { color: var(--muted) !important; }
         .muted-note { font-size: 13px; color: var(--muted); line-height: 1.6; }
         .mono-label {
           font-family: var(--mono);
-          font-size: 10.5px;
+          font-size: 11px;
           font-weight: 500;
-          letter-spacing: 0.1em;
+          letter-spacing: 0.09em;
           text-transform: uppercase;
           color: var(--muted);
         }
@@ -1321,6 +1361,18 @@ export default function OnePiece() {
           border-bottom-color: var(--border);
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
+        }
+        .scroll-progress {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -1px;
+          height: 1.5px;
+          background: var(--accent);
+          transform-origin: left center;
+          transform: scaleX(0);
+          opacity: 0.8;
+          pointer-events: none;
         }
         .nav-inner {
           height: 64px;
@@ -1454,7 +1506,7 @@ export default function OnePiece() {
           transition: all 0.18s ease;
         }
         .btn-primary { background: var(--text); color: var(--bg); border-color: var(--text); }
-        .btn-primary:hover { opacity: 0.85; }
+        .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
         .btn-secondary { background: var(--surface); color: var(--text); border-color: var(--border-strong); }
         .btn-secondary:hover { background: var(--surface-2); border-color: var(--text-2); }
         .text-link {
@@ -1484,8 +1536,22 @@ export default function OnePiece() {
 
         /* hero */
         .hero {
+          position: relative;
+          isolation: isolate;
           padding-top: calc(52px + clamp(28px, 5vw, 56px));
           padding-bottom: clamp(44px, 6vw, 72px);
+        }
+        .hero::before {
+          content: "";
+          position: absolute;
+          top: -60px;
+          right: -6%;
+          z-index: -1;
+          width: min(620px, 58vw);
+          height: 620px;
+          border-radius: 50%;
+          background: radial-gradient(circle, var(--accent-soft), transparent 68%);
+          pointer-events: none;
         }
         .hero-grid {
           display: grid;
@@ -1513,6 +1579,11 @@ export default function OnePiece() {
           background: var(--accent);
           box-shadow: 0 0 0 3px var(--accent-soft);
           flex-shrink: 0;
+          animation: statusPulse 3.4s ease-in-out infinite;
+        }
+        @keyframes statusPulse {
+          0%, 100% { box-shadow: 0 0 0 3px var(--accent-soft); }
+          50% { box-shadow: 0 0 0 5px transparent; }
         }
         .hero-title {
           margin-top: 20px;
@@ -1582,10 +1653,18 @@ export default function OnePiece() {
           position: relative;
           aspect-ratio: 4 / 5;
           border: 1px solid var(--border);
-          border-radius: 14px;
+          border-radius: 16px;
           overflow: hidden;
           background: var(--surface-2);
           box-shadow: var(--shadow);
+        }
+        .portrait::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.10);
+          pointer-events: none;
         }
         .portrait img {
           width: 100%;
@@ -1624,10 +1703,23 @@ export default function OnePiece() {
           color: var(--accent);
         }
         .facts-card {
+          position: relative;
+          overflow: hidden;
           border: 1px solid var(--border);
           border-radius: 12px;
           background: var(--surface);
-          padding: 4px 18px;
+          padding: 4px 18px 4px 22px;
+        }
+        .facts-card::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 20px;
+          bottom: 20px;
+          width: 2px;
+          border-radius: 2px;
+          background: var(--accent);
+          opacity: 0.55;
         }
         .fact-row {
           display: flex;
@@ -1639,23 +1731,36 @@ export default function OnePiece() {
         .fact-row:last-child { border-bottom: 0; }
         .fact-label {
           font-family: var(--mono);
-          font-size: 9.5px;
+          font-size: 10.5px;
           font-weight: 500;
-          letter-spacing: 0.12em;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
           color: var(--muted);
         }
-        .fact-value { font-size: 13.5px; line-height: 1.5; color: var(--text-2); }
+        .fact-value { font-size: 14px; line-height: 1.5; color: var(--text-2); }
 
         /* experience */
         .exp-list { display: flex; flex-direction: column; }
         .exp-item {
+          position: relative;
           display: grid;
           grid-template-columns: 210px minmax(0, 1fr);
           gap: clamp(20px, 3vw, 36px);
           padding: 28px 0;
           border-top: 1px solid var(--border);
         }
+        .exp-item::before {
+          content: "";
+          position: absolute;
+          left: -2.5px;
+          top: -2.5px;
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background: var(--accent);
+          box-shadow: 0 0 0 3px var(--bg);
+        }
+        .section--tone .exp-item::before { box-shadow: 0 0 0 3px var(--surface); }
         .exp-item:last-child { border-bottom: 1px solid var(--border); }
         .exp-meta { display: flex; flex-direction: column; gap: 4px; }
         .exp-period {
@@ -1682,7 +1787,7 @@ export default function OnePiece() {
         .bullets li {
           position: relative;
           padding-left: 16px;
-          font-size: 14.5px;
+          font-size: 15px;
           line-height: 1.75;
           color: var(--text-2);
         }
@@ -1710,22 +1815,37 @@ export default function OnePiece() {
         }
         .proj-row {
           display: grid;
-          grid-template-columns: 40px minmax(0, 1fr);
+          grid-template-columns: 60px minmax(0, 1fr);
+          align-items: start;
           gap: 18px;
-          padding: 18px 12px;
+          padding: 20px 12px;
           margin: 0 -12px;
           border-bottom: 1px solid var(--border);
           border-radius: 8px;
           transition: background 0.2s ease;
         }
         .proj-row:hover { background: var(--surface); }
-        .proj-index {
-          padding-top: 4px;
-          font-family: var(--mono);
-          font-size: 11px;
-          letter-spacing: 0.04em;
-          color: var(--muted);
+        .proj-row--plain { grid-template-columns: minmax(0, 1fr); }
+        .proj-mark {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 60px;
+          height: 60px;
+          overflow: hidden;
+          border: 1px solid var(--border);
+          border-radius: 14px;
+          background: #15181f;
+          box-shadow: var(--shadow);
         }
+        .proj-mark img {
+          width: 100%;
+          height: 100%;
+          display: block;
+          object-fit: cover;
+          transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .proj-row:hover .proj-mark img { transform: scale(1.06); }
         .proj-main { min-width: 0; }
         .proj-head {
           display: flex;
@@ -1743,7 +1863,7 @@ export default function OnePiece() {
         }
         .proj-title {
           font-family: var(--display);
-          font-size: 16.5px;
+          font-size: 17px;
           font-weight: 600;
           line-height: 1.35;
           letter-spacing: -0.02em;
@@ -1752,7 +1872,7 @@ export default function OnePiece() {
         .proj-desc {
           margin-top: 4px;
           max-width: 780px;
-          font-size: 13.5px;
+          font-size: 14px;
           line-height: 1.65;
           color: var(--text-2);
           display: -webkit-box;
@@ -1767,11 +1887,12 @@ export default function OnePiece() {
           flex-wrap: wrap;
           margin-top: 7px;
           font-family: var(--mono);
-          font-size: 10.5px;
+          font-size: 11px;
           letter-spacing: 0.02em;
           color: var(--muted);
         }
         .proj-sub .sep { opacity: 0.5; }
+        .proj-num { color: var(--text-2); }
         .tag {
           display: inline-flex;
           align-items: center;
@@ -1780,7 +1901,7 @@ export default function OnePiece() {
           border-radius: 5px;
           background: var(--chip-bg);
           font-family: var(--mono);
-          font-size: 9.5px;
+          font-size: 10px;
           letter-spacing: 0.06em;
           text-transform: uppercase;
           color: var(--text-2);
@@ -1852,9 +1973,26 @@ export default function OnePiece() {
           color: var(--text);
         }
         .stack-items {
-          font-size: 14px;
-          line-height: 1.9;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 7px;
+        }
+        .stack-chip {
+          display: inline-flex;
+          align-items: center;
+          padding: 4px 9px;
+          border: 1px solid var(--chip-border);
+          border-radius: 6px;
+          background: var(--chip-bg);
+          font-size: 12px;
+          line-height: 1.55;
           color: var(--text-2);
+          transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+        }
+        .stack-chip:hover {
+          color: var(--text);
+          border-color: var(--accent-border);
+          background: var(--accent-soft);
         }
 
         /* certifications */
@@ -1873,7 +2011,11 @@ export default function OnePiece() {
           text-decoration: none;
           transition: border-color 0.2s ease, transform 0.25s ease;
         }
-        .cert-card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+        .cert-card:hover {
+          border-color: var(--accent-border);
+          transform: translateY(-2px);
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        }
         .cert-img {
           height: 108px;
           display: flex;
@@ -2259,6 +2401,22 @@ export default function OnePiece() {
           gap: 16px;
           margin-bottom: 18px;
         }
+        .modal-head-main {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          min-width: 0;
+        }
+        .modal-logo {
+          width: 46px;
+          height: 46px;
+          flex-shrink: 0;
+          overflow: hidden;
+          border: 1px solid var(--border);
+          border-radius: 11px;
+          background: #15181f;
+        }
+        .modal-logo img { width: 100%; height: 100%; display: block; object-fit: cover; }
         .modal-title {
           font-family: var(--display);
           font-size: 19px;
@@ -2296,16 +2454,17 @@ export default function OnePiece() {
           .exp-item { grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 24px 0; }
           .exp-meta { flex-direction: row; align-items: center; gap: 10px; flex-wrap: wrap; }
           .proj-row {
-            grid-template-columns: minmax(0, 1fr);
-            gap: 0;
-            padding: 16px 0;
+            grid-template-columns: 48px minmax(0, 1fr);
+            gap: 14px;
+            padding: 18px 0;
             margin: 0;
             border-radius: 0;
           }
-          .proj-index { display: none; }
+          .proj-row--plain { grid-template-columns: minmax(0, 1fr); }
+          .proj-mark { width: 48px; height: 48px; border-radius: 12px; }
           .proj-head { gap: 10px; }
           .proj-actions { justify-content: flex-start; width: 100%; margin-top: 4px; }
-          .stack-row { grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 14px 0; }
+          .stack-row { grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 14px 0; }
         }
         @media (max-width: 520px) {
           .form-row { grid-template-columns: minmax(0, 1fr); }
@@ -2323,6 +2482,11 @@ export default function OnePiece() {
       `}</style>
 
       <nav className={`nav${scrolled ? " scrolled" : ""}`}>
+        <span
+          className="scroll-progress"
+          aria-hidden="true"
+          style={{ transform: `scaleX(${progress})` }}
+        />
         <div className="shell nav-inner">
           <a className="brand" href="#hero">
             <span className="brand-mark">CJ</span>

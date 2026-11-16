@@ -71,6 +71,27 @@ MOCK_DOCS = [
         ),
     },
     {
+        "id": "resolve",
+        "title": "ReSOLVE — Customer Support Automation",
+        "text": (
+            "ReSOLVE is an agentic support platform that triages tickets by intent, "
+            "priority, and sentiment; drafts grounded responses with RAG confidence "
+            "scoring and citations; and escalates risky requests to humans with "
+            "deterministic fallbacks and an audit trail."
+        ),
+    },
+    {
+        "id": "automation",
+        "title": "AI Automation Focus",
+        "text": (
+            "CJ builds LLM-powered workflows for support triage, document intake, and "
+            "research operations. He maps the manual process first, then automates one "
+            "step at a time with deterministic fallbacks, citations, human approval for "
+            "irreversible actions, retries, idempotency, and audit logs. ReSOLVE is his "
+            "featured automation project."
+        ),
+    },
+    {
         "id": "doc-summarizer",
         "title": "Document Summarizer",
         "text": (
@@ -150,16 +171,17 @@ INTENTS = [
     ),
     (
         r"\b(available|availability|open to work|open to roles|hiring|hire|recruit|job opportunity|full[- ]time role|looking for a role)\b",
-        "CJ is open to AI engineering roles, especially work around LLMs, RAG, and "
-        "agentic systems. His most recent internship at FlyRank AI ended in October "
-        "2026, so he's available now. Email is the fastest way to reach him: "
-        "carljoshuamcoloma@gmail.com.",
+        "CJ is open to AI automation roles and select workflow projects, especially "
+        "work around LLM workflows, agentic systems, and human-in-the-loop operations. "
+        "His most recent internship "
+        "at FlyRank AI ended in October 2026, so he's available now. Email is the "
+        "fastest way to reach him: carljoshuamcoloma@gmail.com.",
     ),
     (
         r"\b(currently|current work|right now|working on|these days|latest role|recent role|most recent|now)\b",
         "CJ's most recent role was a Backend AI Engineer internship at FlyRank AI, "
-        "which ended in October 2026. He's now focused on AI engineering — building "
-        "with LLMs, RAG, and agentic systems — and is open to new roles.",
+        "which ended in October 2026. He's now focused on AI automation — building "
+        "LLM workflows with guardrails and human oversight — and is open to new roles.",
     ),
     (
         r"\bflyrank\b",
@@ -180,6 +202,15 @@ INTENTS = [
         "CJ was an AI Engineer Intern at Lamina Studios from December 2025 to April "
         "2026. He built real-time YOLOv8 object detection pipelines with OpenCV, "
         "trained XGBoost models on time-series data, and automated model retraining.",
+    ),
+    (
+        r"\b(automation|automate|automated|workflows?|triage|human[- ]in[- ]the[- ]loop|guardrails?)\b",
+        "CJ builds LLM-powered workflows for support triage, document intake, and "
+        "research operations. He starts by mapping the manual process, then automates "
+        "one step at a time with deterministic fallbacks, citations, human approval for "
+        "irreversible actions, retries, idempotency, and audit logs. ReSOLVE is his "
+        "featured automation project — a support platform that triages tickets and "
+        "drafts grounded replies with human escalation.",
     ),
     (
         r"\b(rag|retrieval|llms?|agents?|agentic|prompt engineering|computer vision)\b",
@@ -226,10 +257,11 @@ INTENTS = [
     ),
     (
         r"\b(projects?|portfolio|built|what has cj built)\b",
-        "CJ's main projects are Powerlift, Sunny AI, the AI Resume Analyzer, and the "
-        "Document Summarizer. Powerlift is the standout — a real-time biomechanics "
-        "analyzer for powerlifting that won Overall Best Thesis in Computer Vision. "
-        "He's happy to go deeper on any of them.",
+        "CJ's main projects are ReSOLVE, Powerlift, Sunny AI, the AI Resume Analyzer, "
+        "and the Document Summarizer. ReSOLVE is the automation showcase — a support "
+        "platform that triages tickets, drafts grounded replies, and escalates to "
+        "humans. Powerlift won Overall Best Thesis in Computer Vision. He's happy to "
+        "go deeper on any of them.",
     ),
     (
         r"\b(stack|skills?|tech|tools|technologies|languages?|frameworks?)\b",
@@ -240,16 +272,17 @@ INTENTS = [
         "SQL, dbt, Airflow, and Databricks.",
     ),
     (
-        r"\b(education|school|university|degree|study|studied|student|feu|taiwan)\b",
-        "CJ is finishing a BS in Computer Science at FEU Institute of Technology "
-        "(2026), with an exchange semester at National Sun Yat-sen University in Taiwan.",
+        r"\b(education|school|university|degree|study|studied|student|feu)\b",
+        "CJ graduated with a BS in Computer Science from FEU Institute of Technology "
+        "(2026).",
     ),
     (
         r"\b(about cj|about you|about him|about yourself|who is cj|who are you|your background|his background|what do you do)\b",
-        "CJ is Carl Joshua Coloma, a computer science student focused on software "
-        "engineering and AI engineering. His hands-on work spans computer vision, LLMs, "
-        "RAG, and agentic systems, and he cares most about building AI that works in "
-        "production.",
+        "CJ is Carl Joshua Coloma, an AI automation engineer and BS Computer Science "
+        "graduate from FEU Tech (2026). His focus is AI, automation, and agentic "
+        "workflows — with hands-on work spanning LLMs, RAG, computer vision, and "
+        "evaluation. He cares most about building AI that works in production, with "
+        "guardrails, fallbacks, and a human in the loop.",
     ),
 ]
 

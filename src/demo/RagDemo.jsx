@@ -7,14 +7,15 @@ const LOCAL_DOCS = [
   { id: "resume-analyzer", title: "AI Resume Analyzer", text: "An NLP pipeline using spaCy NER and transformer semantic matching to extract skills from resumes, producing structured JSON. Processes 100+ docs/min." },
   { id: "doc-summarizer", title: "Document Summarizer", text: "Abstractive summarization for multi-page PDFs using BART and T5 with chunking and section-level synthesis." },
   { id: "resolve", title: "ReSOLVE — Customer Support Automation", text: "An agentic support platform that triages tickets by intent, priority, and sentiment, drafts grounded responses with RAG confidence scoring, and escalates to humans with deterministic fallbacks." },
+  { id: "automation", title: "AI Automation Focus", text: "CJ builds LLM-powered workflows for support triage, document intake, and research operations. He starts by mapping the manual process, then automates one step at a time with deterministic fallbacks, citations, human approval for irreversible actions, retries, idempotency, and audit logs. ReSOLVE is his featured automation project." },
   { id: "flyrank", title: "Backend AI Engineer Intern — FlyRank AI", text: "Built LLM-powered content generation and semantic ranking pipelines with embeddings and vector search. Worked on prompt engineering for production AI features. Internship ran July to October 2026." },
   { id: "sofi-qa", title: "AI QA Intern — SoFi AI Tech Solutions", text: "Designed adversarial prompt test suites targeting hallucination, refusal, and instruction-following failures in chatbots. Evaluated responses at scale. Internship ran April to July 2026." },
   { id: "lamina", title: "AI Engineer Intern — Lamina Studios", text: "Built real-time YOLOv8 object detection pipelines with OpenCV at production-ready inference speeds, trained XGBoost models, automated retraining. Internship ran December 2025 to April 2026." },
   { id: "internships", title: "Internship Experience Overview", text: "Completed three AI engineering internships: Lamina Studios in computer vision (Dec 2025 to Apr 2026), SoFi AI Tech Solutions in AI QA (Apr to Jul 2026), and FlyRank AI in backend AI engineering (Jul to Oct 2026)." },
   { id: "skills-stack", title: "Technical Skills & Stack", text: "Python, JavaScript. AI/ML: PyTorch, scikit-learn, OpenCV, LangChain, Transformers, RAG, prompt engineering, LLM integration, agentic workflows. Data: MySQL, Qdrant, PostgreSQL. Tools: FastAPI, React, Git, pytest, Jupyter." },
-  { id: "about", title: "About CJ — Carl Joshua Coloma", text: "CJ is Carl Joshua Coloma, an aspiring AI engineer and CS graduate student from the Philippines (FEU Tech, 2026). Focus: agentic AI, LLMs, RAG, production observability. Won Overall Best Thesis for Powerlift. Open to AI engineering roles." },
+  { id: "about", title: "About CJ — Carl Joshua Coloma", text: "CJ is Carl Joshua Coloma, an AI automation engineer and BS Computer Science graduate from the Philippines (FEU Tech, 2026). Focus: AI, automation, and agentic workflows, with hands-on work in LLMs, RAG, and LLM evaluation. Won Overall Best Thesis for Powerlift. Open to AI automation roles." },
   { id: "contact", title: "Contact", text: "Email: carljoshuamcoloma@gmail.com. GitHub: github.com/cdobby18. LinkedIn: linkedin.com/in/carl-joshua-coloma." },
-  { id: "education", title: "Education", text: "BS Computer Science, FEU Institute of Technology, graduating 2026. Exchange semester at National Sun Yat-sen University, Taiwan." },
+  { id: "education", title: "Education", text: "BS Computer Science, FEU Institute of Technology (2026)." },
 ];
 
 const CONTACT_REPLY =
@@ -39,12 +40,12 @@ const INTENTS = [
   {
     id: "availability",
     match: /\b(available|availability|open to work|open to roles|hiring|hire|recruit|job opportunity|full[- ]time role|looking for a role)\b/i,
-    reply: "CJ is open to AI engineering roles, especially work around LLMs, RAG, and agentic systems. His most recent internship at FlyRank AI ended in October 2026, so he's available now. Email is the fastest way to reach him: carljoshuamcoloma@gmail.com.",
+    reply: "CJ is open to AI automation roles and select workflow projects, especially work around LLM workflows, agentic systems, and human-in-the-loop operations. His most recent internship at FlyRank AI ended in October 2026, so he's available now. Email is the fastest way to reach him: carljoshuamcoloma@gmail.com.",
   },
   {
     id: "current",
     match: /\b(currently|current work|right now|working on|these days|latest role|recent role|most recent|now)\b/i,
-    reply: "CJ's most recent role was a Backend AI Engineer internship at FlyRank AI, which ended in October 2026. He's now focused on AI engineering — building with LLMs, RAG, and agentic systems — and is open to new roles.",
+    reply: "CJ's most recent role was a Backend AI Engineer internship at FlyRank AI, which ended in October 2026. He's now focused on AI automation — building LLM workflows with guardrails and human oversight — and is open to new roles.",
   },
   {
     id: "flyrank",
@@ -60,6 +61,11 @@ const INTENTS = [
     id: "lamina",
     match: /\blamina\b/i,
     reply: "CJ was an AI Engineer Intern at Lamina Studios from December 2025 to April 2026. He built real-time YOLOv8 object detection pipelines with OpenCV, trained XGBoost models on time-series data, and automated model retraining.",
+  },
+  {
+    id: "automation",
+    match: /\b(automation|automate|automated|workflows?|triage|human[- ]in[- ]the[- ]loop|guardrails?)\b/i,
+    reply: "CJ builds LLM-powered workflows for support triage, document intake, and research operations. He starts by mapping the manual process, then automates one step at a time with deterministic fallbacks, citations, human approval for irreversible actions, retries, idempotency, and audit logs. ReSOLVE is his featured automation project — a support platform that triages tickets and drafts grounded replies with human escalation.",
   },
   {
     id: "ai-focus",
@@ -94,7 +100,7 @@ const INTENTS = [
   {
     id: "projects",
     match: /\b(projects?|portfolio|built|what has cj built)\b/i,
-    reply: "CJ's main projects are Powerlift, Sunny AI, the AI Resume Analyzer, and the Document Summarizer. Powerlift is the standout — a real-time biomechanics analyzer for powerlifting that won Overall Best Thesis in Computer Vision. He's happy to go deeper on any of them.",
+    reply: "CJ's main projects are ReSOLVE, Powerlift, Sunny AI, the AI Resume Analyzer, and the Document Summarizer. ReSOLVE is the automation showcase — a support platform that triages tickets, drafts grounded replies, and escalates to humans. Powerlift won Overall Best Thesis in Computer Vision. He's happy to go deeper on any of them.",
   },
   {
     id: "stack",
@@ -103,13 +109,13 @@ const INTENTS = [
   },
   {
     id: "education",
-    match: /\b(education|school|university|degree|study|studied|student|feu|taiwan)\b/i,
-    reply: "CJ is finishing a BS in Computer Science at FEU Institute of Technology (2026), with an exchange semester at National Sun Yat-sen University in Taiwan.",
+    match: /\b(education|school|university|degree|study|studied|student|feu)\b/i,
+    reply: "CJ graduated with a BS in Computer Science from FEU Institute of Technology (2026).",
   },
   {
     id: "about",
     match: /\b(about cj|about you|about him|about yourself|who is cj|who are you|your background|his background|what do you do)\b/i,
-    reply: "CJ is Carl Joshua Coloma, a computer science student focused on software engineering and AI engineering. His hands-on work spans computer vision, LLMs, RAG, and agentic systems, and he cares most about building AI that works in production.",
+    reply: "CJ is Carl Joshua Coloma, an AI automation engineer and BS Computer Science graduate from FEU Tech. His hands-on work spans computer vision, LLMs, RAG, and agentic workflows, and he cares most about building AI that works in production — with guardrails, fallbacks, and a human in the loop.",
   },
 ];
 

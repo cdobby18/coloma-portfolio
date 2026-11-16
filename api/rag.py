@@ -159,11 +159,12 @@ CONTACT_REPLY = (
 INTENTS = [
     (
         r"^\s*(hi|hey|hello|yo|sup|good (morning|afternoon|evening))[\s!,.?]*$",
-        "Hey — I'm CJ's portfolio assistant. What would you like to know?",
+        "I can answer questions about CJ's automation work, projects, and "
+        "technical background.",
     ),
     (
         r"^\s*(thanks|thank you|ty|appreciate it)[\s!,.?]*$",
-        "Anytime. Feel free to keep asking.",
+        "You're welcome. Ask anything else about CJ's work.",
     ),
     (
         r"\b(contact|email|e-mail|reach|get in touch|linkedin|github)\b",
@@ -344,12 +345,12 @@ def score_doc(query_words, doc):
 def build_answer(top_docs):
     if not top_docs:
         return (
-            "I don't have a good answer for that yet. You can reach CJ directly at "
-            "carljoshuamcoloma@gmail.com."
+            "I don't have that in the portfolio context yet. The fastest way to "
+            "reach CJ is carljoshuamcoloma@gmail.com."
         )
     lead, *rest = top_docs
     supporting = " and ".join(d["title"] for d in rest)
-    answer = f"Here's what I have on that: {lead['text']}"
+    answer = lead["text"]
     if supporting:
         answer += f" (Also relevant: {supporting}.)"
     return answer

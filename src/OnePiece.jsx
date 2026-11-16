@@ -373,11 +373,9 @@ function Hero() {
             </p>
 
             <p className="hero-bio">
-              I design <strong>LLM-powered workflows</strong> that take repetitive, judgment-heavy
-              work off people's plates — triage, routing, drafting, and document intake — with
-              guardrails and a human decision where it matters. Most recently a{" "}
-              <strong>Backend AI Engineer Intern at FlyRank AI</strong>, with earlier work in AI QA
-              at SoFi AI and computer vision at Lamina Studios.
+              I build <strong>AI agent workflows</strong> and <strong>Python automations</strong> —
+              from a pile of syntax to systems that ship, with guardrails, evals, and a human in
+              the loop.
             </p>
 
             <div className="hero-actions">

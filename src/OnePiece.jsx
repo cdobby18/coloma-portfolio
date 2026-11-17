@@ -84,7 +84,6 @@ const NAV_LINKS = [
   { label: "Stack", id: "stack" },
   { label: "Certifications", id: "certs" },
   { label: "Contact", id: "contact" },
-  { label: "Blog", href: "/blog.html" },
 ];
 
 const SKILL_GROUPS = [
@@ -118,7 +117,7 @@ const EXPERIENCE = [
   {
     role: "Backend AI Engineer Intern",
     company: "FlyRank AI",
-    period: "July 2026 – Oct 2026",
+    period: "July 2026 – Present",
     points: [
       "Developed LLM-powered content generation and semantic ranking pipelines to improve content relevance at scale.",
       "Integrated embedding models with vector search to build semantic retrieval features across the platform.",
@@ -149,55 +148,44 @@ const EXPERIENCE = [
 
 const PROJECTS = [
   {
-    name: "Powerlift — Precision Pose Estimation",
     title: "Powerlift: Precision Pose Estimation for Powerlifting Performance Metrics",
     type: "Computer Vision",
     year: "2025",
     status: "Best Thesis",
-    short: "Real-time biomechanics analyzer for powerlifting, built with YOLOv8 and Kalman filtering.",
     desc: "AI biomechanics analyzer for powerlifting built with YOLOv8, Kalman filtering, and SVM classification. Tracks joint positions, stabilizes motion across frames, and classifies squat, bench, and deadlift mechanics in real time — delivering automated lift assessment and performance feedback on mobile hardware.",
     metric: "Mobile application · Overall Best Thesis",
     tags: ["Python", "YOLOv8", "Kalman Filtering", "SVM", "MoveNet"],
-    img: "/powerlift.png",
-    logo: "/logos/powerlift.webp",
+    img: "/Powerlift.webp",
     link: "https://github.com/cdobby18/Powerlift",
   },
   {
-    name: "Sunny AI",
     title: "Sunny AI",
     type: "RAG-Built Mentor",
     private: true,
     year: "2026",
     status: "Prototype",
-    short: "RAG-powered mentorship platform that takes aspiring AI engineers from zero to job-ready.",
     desc: "A guided platform for aspiring AI engineers starting from zero. No fluff, no shortcuts — RAG-powered mentorship that meets you at the bottom and builds you up through fundamentals, production skills, and real-world readiness.",
     metric: "React · Python · LLMs · RAG · LangChain",
     tags: ["React", "Python", "LLMs", "RAG", "FastAPI"],
     img: "/sunny.png",
-    logo: "/logos/sunny.webp",
     link: "#contact",
   },
   {
-    name: "ReSOLVE — Support Automation",
     title: "ReSOLVE: Customer Support Automation Platform",
     type: "Agentic AI",
     year: "2026",
     status: "Built",
-    short: "Agentic support platform for ticket triage, grounded response drafting, and human escalation.",
     desc: "AI-powered support platform that triages tickets using intent, priority, and sentiment classification, then routes requests through automated workflows or human escalation. Includes RAG-based response drafting with confidence scoring, guardrails, and deterministic fallback logic.",
     metric: "FastAPI · RAG · Agents · Guardrails",
     tags: ["FastAPI", "React", "RAG", "LangChain", "PostgreSQL", "FAISS"],
     img: "/resolve.png",
-    logo: "/logos/resolve.webp",
     link: "https://github.com/cdobby18/ReSOLVE",
   },
   {
-    name: "Resume Analyzer",
     title: "Resume Analyzer",
     type: "Natural Language Processing",
     year: "2025",
     status: "Pipeline",
-    short: "NLP pipeline that extracts and scores resume skills with spaCy and transformer matching.",
     desc: "Resume parsing pipeline using spaCy NER and transformer-based semantic matching to extract skills, experience, and role fit. Processes 100+ documents per minute with structured JSON output ready for downstream ranking or ATS integration.",
     metric: "Python · spaCy NER + Semantic Match",
     tags: ["NLP", "spaCy", "Transformers", "FastAPI"],
@@ -205,12 +193,10 @@ const PROJECTS = [
     link: "https://github.com/cdobby18/resume_analyzer",
   },
   {
-    name: "Document Summarizer",
     title: "Document Summarizer",
     type: "Transformer Pipeline",
     year: "2024",
     status: "Research Build",
-    short: "Abstractive summarization for multi-page PDFs using BART and T5 with chunk-aware merging.",
     desc: "Abstractive summarization system for multi-page PDFs using BART and T5. Handles long-document chunking strategies to stay within model context limits, then merges section-level summaries into a coherent output — outperforming extractive baselines on readability.",
     metric: "Python · NLP · BART",
     tags: ["BART", "T5", "HuggingFace", "PDF"],
@@ -329,9 +315,9 @@ function Reveal({ children }) {
   );
 }
 
-function Section({ id, children, tone }) {
+function Section({ id, children }) {
   return (
-    <section id={id} className={`section${tone ? " section--tone" : ""}`}>
+    <section id={id} className="section">
       <div className="shell">{children}</div>
     </section>
   );
@@ -361,21 +347,22 @@ function Hero() {
           <div>
             <span className="status-pill">
               <span className="status-dot" />
-              Open to AI automation roles &amp; projects
+              Available for AI engineering roles
             </span>
 
             <h1 className="hero-title">Carl Joshua<br />Coloma</h1>
 
             <p className="hero-role">
-              AI Automation Engineer
+              AI &amp; Automation Engineer
               <span className="hero-role-sep">/</span>
               <span className="muted">Manila, Philippines</span>
             </p>
 
             <p className="hero-bio">
-              I build <strong>AI agent workflows</strong> and <strong>Python automations</strong> —
-              from a pile of syntax to systems that ship, with guardrails, evals, and a human in
-              the loop.
+              I build reliable AI systems — agentic workflows, retrieval-augmented generation,
+              and production-ready machine learning with Python. Currently a{" "}
+              <strong>Backend AI Engineer Intern at FlyRank AI</strong>, previously in AI QA at
+              SoFi AI and computer vision at Lamina Studios.
             </p>
 
             <div className="hero-actions">
@@ -419,15 +406,7 @@ function Hero() {
 
           <div className="hero-side">
             <div className="portrait">
-              <img
-                src="/pic-portrait.webp"
-                alt="Carl Joshua Coloma"
-                width={900}
-                height={1350}
-                loading="eager"
-                decoding="async"
-                fetchpriority="high"
-              />
+              <img src="/pic.jpeg" alt="Carl Joshua Coloma" />
             </div>
             <div className="portrait-cap">
               <span><PinIcon size={12} /> Manila, PH</span>
@@ -450,10 +429,10 @@ function Hero() {
 
 function AboutSection() {
   const facts = [
-    ["Recent role", "Backend AI Engineer Intern · FlyRank AI"],
-    ["Focus", "AI · Automation · Agentic workflows"],
+    ["Current role", "Backend AI Engineer Intern · FlyRank AI"],
+    ["Focus", "Agentic AI · LLMs · RAG · Evaluation"],
     ["Education", "BS Computer Science · FEU Tech · 2026"],
-    ["Open to", "Full-time roles · Remote or Metro Manila"],
+    ["Upskilling", "Databricks · dbt · Airflow · Snowflake"],
     ["Location", "Manila, Philippines"],
   ];
 
@@ -464,24 +443,22 @@ function AboutSection() {
         <div className="about-grid">
           <div className="prose">
             <p className="body-lg">
-              Hey, I'm CJ — an AI automation engineer and BS Computer Science graduate from the
-              Philippines. I turn messy manual processes into reliable workflows: LLM steps where
-              language is fuzzy, deterministic code where correctness matters, and a human in the
-              loop before anything irreversible happens.
+              Hey, I'm CJ — an aspiring AI engineer and computer science graduate student from the
+              Philippines. I bridge research-grade machine learning with real-world deployment:
+              systems that are reliable, observable, and maintainable beyond the notebook.
             </p>
             <p className="body">
-              I recently wrapped up my internship as a Backend AI Engineer Intern at FlyRank AI,
-              working on LLM content generation and semantic ranking. Before that I was an AI QA
-              Intern at SoFi AI Tech Solutions, building adversarial prompt suites and tracking
-              hallucination rates, and an AI Engineer Intern at Lamina Studios, shipping real-time
-              computer vision pipelines.
+              I'm currently a Backend AI Engineer Intern at FlyRank AI, working on LLM content
+              generation and semantic ranking. Before that I was an AI QA Intern at SoFi AI Tech
+              Solutions, building adversarial prompt suites and tracking hallucination rates, and an
+              AI Engineer Intern at Lamina Studios, shipping real-time computer vision pipelines.
             </p>
             <p className="body">
-              My focus is AI, automation, and agentic workflows — systems that keep working when
-              models don't, and that measurably save people time.
+              My focus is LLM evaluation, retrieval-augmented generation, and production
+              observability. I care about systems that keep working when models don't.
             </p>
             <div className="focus-row">
-              {["AI", "Automation", "Agentic Workflows", "LLMs", "RAG"].map((f) => (
+              {["Agentic AI", "LLMs", "RAG", "Computer Vision", "ML Evaluation"].map((f) => (
                 <span className="chip" key={f}>{f}</span>
               ))}
             </div>
@@ -507,7 +484,7 @@ function AboutSection() {
 
 function ExperienceSection() {
   return (
-    <Section id="experience" tone>
+    <Section id="experience">
       <Reveal>
         <SectionHead
           num="02"
@@ -542,62 +519,45 @@ function ExperienceSection() {
    Projects
    ───────────────────────────────────────────────────────────── */
 
-function ProjectMark({ project }) {
-  return (
-    <span className="proj-mark" aria-hidden="true">
-      <img src={project.logo} alt="" width={240} height={240} loading="lazy" decoding="async" />
-    </span>
-  );
-}
-
 function ProjectRow({ project, index, onArchitecture }) {
   const isPrivate = !!project.private;
   const primary = isPrivate ? "#contact" : project.link;
 
   return (
-    <article className={`proj-row${project.logo ? "" : " proj-row--plain"}`}>
-      {project.logo && <ProjectMark project={project} />}
+    <article className="proj-row">
+      <span className="proj-index">{String(index + 1).padStart(2, "0")}</span>
 
       <div className="proj-main">
         <div className="proj-head">
           <div className="proj-title-row">
-            <h3 className="proj-title">{project.name}</h3>
+            <h3 className="proj-title">{project.title}</h3>
             <span className="tag">{project.status}</span>
           </div>
 
           <div className="proj-actions">
+            {isPrivate ? (
+              <a className="text-link" href="#contact">Request details <ArrowUpRight size={13} /></a>
+            ) : (
+              <a className="text-link" href={primary} target="_blank" rel="noopener noreferrer">
+                View project <ArrowUpRight size={13} />
+              </a>
+            )}
             <button className="btn-ghost-sm" type="button" onClick={onArchitecture}>
-              System architecture
+              System Architecture
             </button>
-            <a
-              className="icon-link"
-              href={primary}
-              target={isPrivate ? undefined : "_blank"}
-              rel={isPrivate ? undefined : "noopener noreferrer"}
-              aria-label={isPrivate ? "Request details" : `View ${project.name} on GitHub`}
-              title={isPrivate ? "Request details" : "View project"}
-            >
-              <ArrowUpRight size={15} />
-            </a>
           </div>
         </div>
 
-        <p className="proj-desc">{project.short}</p>
+        <p className="proj-desc">{project.desc}</p>
 
         <div className="proj-sub">
-          <span className="proj-num">{String(index + 1).padStart(2, "0")}</span>
-          <span className="sep">·</span>
           <span>{project.type}</span>
           <span className="sep">·</span>
           <span>{project.year}</span>
           <span className="sep">·</span>
-          <span>
-            {project.tags.slice(0, 4).join(" / ")}
-            {project.tags.length > 4 ? ` +${project.tags.length - 4}` : ""}
-          </span>
+          <span>{project.tags.join(" / ")}</span>
         </div>
       </div>
-
     </article>
   );
 }
@@ -625,18 +585,15 @@ function ProjectsSection() {
           title="Selected work"
           lede="Applied AI systems across computer vision, NLP, and agentic workflows — built to be used, not just demoed."
         />
-        <div className="projects-layout">
-          <div className="proj-list">
-            {PROJECTS.map((project, i) => (
-              <ProjectRow
-                key={project.title}
-                project={project}
-                index={i}
-                onArchitecture={() => setArch(project)}
-              />
-            ))}
-          </div>
-          <GitHubCard />
+        <div className="proj-list">
+          {PROJECTS.map((project, i) => (
+            <ProjectRow
+              key={project.title}
+              project={project}
+              index={i}
+              onArchitecture={() => setArch(project)}
+            />
+          ))}
         </div>
       </Reveal>
 
@@ -650,16 +607,9 @@ function ProjectsSection() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="modal-head">
-              <div className="modal-head-main">
-                {arch.logo && (
-                  <span className="modal-logo" aria-hidden="true">
-                    <img src={arch.logo} alt="" width={240} height={240} />
-                  </span>
-                )}
-                <div>
-                  <h3 className="modal-title">System Architecture</h3>
-                  <p className="modal-sub">{arch.title}</p>
-                </div>
+              <div>
+                <h3 className="modal-title">System Acanrchitecture</h3>
+                <p className="modal-sub">{arch.title}</p>
               </div>
               <button className="icon-btn" onClick={() => setArch(null)} aria-label="Close">
                 <Icon size={16}><path d="M18 6 6 18M6 6l12 12" /></Icon>
@@ -679,7 +629,7 @@ function ProjectsSection() {
 
 function StackSection() {
   return (
-    <Section id="stack" tone>
+    <Section id="stack">
       <Reveal>
         <SectionHead
           num="04"
@@ -691,11 +641,7 @@ function StackSection() {
           {SKILL_GROUPS.map((group) => (
             <div className="stack-row" key={group.label}>
               <h3 className="stack-label">{group.label}</h3>
-              <div className="stack-items">
-                {group.skills.map((skill) => (
-                  <span className="stack-chip" key={skill}>{skill}</span>
-                ))}
-              </div>
+              <p className="stack-items">{group.skills.join("  ·  ")}</p>
             </div>
           ))}
         </div>
@@ -770,7 +716,7 @@ function timeAgo(iso) {
   return `${Math.floor(months / 12)}y ago`;
 }
 
-function GitHubCard() {
+function GitHubSection() {
   const COLORS = useColors();
   const [data, setData] = useState(null);
   const [contributions, setContributions] = useState(null);
@@ -808,24 +754,6 @@ function GitHubCard() {
             };
           }
         }
-        if (!latestCommit && repos.length) {
-          const latestRepo = repos[0].full_name;
-          try {
-            const commitRes = await fetch(`https://api.github.com/repos/${latestRepo}/commits?per_page=1`);
-            if (commitRes.ok) {
-              const commits = await commitRes.json();
-              if (Array.isArray(commits) && commits[0]) {
-                latestCommit = {
-                  sha: commits[0].sha?.slice(0, 7),
-                  message: (commits[0].commit?.message || "").split("\n")[0],
-                  repo: latestRepo.split("/")[1],
-                };
-              }
-            }
-          } catch {
-            // Keep the card usable even if the commit lookup is rate-limited.
-          }
-        }
         if (alive) setData({ lastPush, latestCommit });
       } catch {
         if (alive) setError("Couldn't load GitHub activity right now.");
@@ -856,95 +784,88 @@ function GitHubCard() {
   }
 
   const palette = COLORS.isDark
-    ? ["rgba(255,255,255,0.06)", "rgba(229,72,77,0.22)", "rgba(229,72,77,0.42)", "rgba(229,72,77,0.68)", "#e5484d"]
-    : ["rgba(9,9,11,0.06)", "rgba(217,45,45,0.18)", "rgba(217,45,45,0.36)", "rgba(217,45,45,0.60)", "#d92d2d"];
-
-  const recentWeeks = weeks.slice(-26);
+    ? ["#1c1c1f", "#0e4429", "#006d32", "#26a641", "#39d353"]
+    : ["#ebedf0", "#c6e9c9", "#8fd694", "#4caf50", "#2e7d32"];
 
   return (
-    <aside className="gh-card">
-      <div className="gh-head">
-        <span className="mono-label">GitHub · @cdobby18</span>
-        <a
-          className="icon-link"
-          href="https://github.com/cdobby18"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Open GitHub profile"
-          title="GitHub profile"
-        >
-          <ArrowUpRight size={15} />
-        </a>
-      </div>
+    <Section id="github">
+      <Reveal>
+        <SectionHead
+          num="06"
+          label="GitHub"
+          title="Open source activity"
+          lede="A live look at what I'm shipping."
+        />
 
-      <p className="gh-total">
-        {contributions
-          ? `${total.toLocaleString()} contribution${total === 1 ? "" : "s"} in the last year`
-          : loading ? "Loading contributions…" : "Contribution activity"}
-      </p>
-
-      <p className="gh-range">Last 6 months</p>
-
-      {recentWeeks.length > 0 ? (
-        <>
-          <div className="gh-graph">
-            {recentWeeks.map((week, wi) => (
-              <div className="gh-week" key={wi}>
-                {week.map((day, di) => {
-                  if (!day) return <span className="gh-cell" key={di} style={{ background: "transparent" }} />;
-                  const level = Math.min(4, Math.max(0, day.level || 0));
-                  return (
-                    <span
-                      className="gh-cell"
-                      key={di}
-                      title={`${day.date}: ${day.count} contribution${day.count === 1 ? "" : "s"}`}
-                      style={{ background: palette[level] }}
-                    />
-                  );
-                })}
-              </div>
-            ))}
+        <div className="gh-card">
+          <div className="gh-head">
+            <div>
+              <span className="mono-label">@cdobby18</span>
+              <p className="gh-total">
+                {contributions
+                  ? `${total.toLocaleString()} contribution${total === 1 ? "" : "s"} in the last year`
+                  : loading ? "Loading contributions…" : "Contribution activity"}
+              </p>
+            </div>
+            <a className="text-link" href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer">
+              Follow on GitHub <ArrowUpRight size={13} />
+            </a>
           </div>
-          <div className="gh-legend">
-            <span>Less</span>
-            {palette.map((color) => (
-              <span className="gh-cell" key={color} style={{ background: color }} />
-            ))}
-            <span>More</span>
-          </div>
-        </>
-      ) : (
-        !loading && <p className="muted-note">{error || "Contribution graph unavailable right now."}</p>
-      )}
 
-      <div className="gh-foot">
-        <div className="commit-card">
-          {data?.latestCommit ? (
+          {weeks.length > 0 ? (
             <>
-              <div className="commit-top">
-                <span className="commit-repo">{data.latestCommit.repo}</span>
-                <span className="commit-sha">{data.latestCommit.sha}</span>
+              <div className="gh-graph">
+                {weeks.map((week, wi) => (
+                  <div className="gh-week" key={wi}>
+                    {week.map((day, di) => {
+                      if (!day) return <span className="gh-cell" key={di} style={{ background: "transparent" }} />;
+                      const level = Math.min(4, Math.max(0, day.level || 0));
+                      return (
+                        <span
+                          className="gh-cell"
+                          key={di}
+                          title={`${day.date}: ${day.count} contribution${day.count === 1 ? "" : "s"}`}
+                          style={{ background: palette[level] }}
+                        />
+                      );
+                    })}
+                  </div>
+                ))}
               </div>
-              <p className="commit-msg">{data.latestCommit.message}</p>
+              <div className="gh-legend">
+                <span>Less</span>
+                {palette.map((color) => (
+                  <span className="gh-cell" key={color} style={{ background: color }} />
+                ))}
+                <span>More</span>
+              </div>
             </>
           ) : (
-            <p className="muted-note">{loading ? "Loading latest activity…" : "No recent public commits."}</p>
+            !loading && <p className="muted-note">{error || "Contribution graph unavailable right now."}</p>
           )}
-        </div>
-        <div className="gh-meta">
-          <span><ClockIcon size={12} /> Last push {timeAgo(data?.lastPush)}</span>
-        </div>
-      </div>
 
-      <div className="gh-how">
-        <p className="gh-range">How I work</p>
-        <ol className="gh-how-list">
-          <li><span className="gh-how-num">01</span> Understand the problem before touching the model.</li>
-          <li><span className="gh-how-num">02</span> Build the smallest version that works, then measure.</li>
-          <li><span className="gh-how-num">03</span> Write code and docs someone else can maintain.</li>
-        </ol>
-      </div>
-    </aside>
+          <div className="gh-foot">
+            <div className="commit-card">
+              {data?.latestCommit ? (
+                <>
+                  <div className="commit-top">
+                    <span className="commit-repo">{data.latestCommit.repo}</span>
+                    <span className="commit-sha">{data.latestCommit.sha}</span>
+                  </div>
+                  <p className="commit-msg">{data.latestCommit.message}</p>
+                </>
+              ) : (
+                <p className="muted-note">{loading ? "Loading latest activity…" : "No recent public commits."}</p>
+              )}
+            </div>
+            <div className="gh-meta">
+              <span><ClockIcon size={12} /> Last push {timeAgo(data?.lastPush)}</span>
+              <span><GitHubIcon size={12} /> github.com/cdobby18</span>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+    </Section>
   );
 }
 
@@ -998,82 +919,74 @@ function ContactSection() {
   return (
     <Section id="contact">
       <Reveal>
-        <div className="contact-intro">
+        <div className="contact-grid">
           <div>
-            <p className="eyebrow"><em>06</em> — Contact</p>
-            <h2 className="h2">Let's build something reliable.</h2>
-          </div>
-          <div className="contact-intro-copy">
-            <p className="body">
-              I'm open to AI automation roles, agentic workflow collaborations, and production AI
-              work. If you have a process that eats hours every week, send me the manual steps —
-              I'd like to hear about it.
+            <SectionHead num="07" label="Contact" title="Let's build something reliable." />
+            <p className="body" style={{ maxWidth: 440 }}>
+              I'm open to AI engineering opportunities, agentic system collaborations, and
+              production ML work. Tell me what you're building — I usually reply within a day.
             </p>
-            <p className="contact-availability">
-              <span className="status-dot" />
-              Open to AI automation roles &amp; projects
-            </p>
-          </div>
-        </div>
 
-        <div className="contact-spread">
-          <div className="contact-direct">
-            <p className="mono-label">Direct</p>
-            <a className="contact-email" href={`mailto:${EMAIL}`}>{EMAIL}</a>
-            <div className="contact-email-actions">
-              <button className="contact-copy" type="button" onClick={copyEmail}>
-                {copied ? <><CheckIcon /> Copied</> : <><CopyIcon /> Copy email</>}
-              </button>
-              <span className="muted-note">Usually replies within a day</span>
+            <div className="contact-list">
+              <div className="contact-row">
+                <span className="contact-icon"><MailIcon /></span>
+                <div>
+                  <span className="fact-label">Email</span>
+                  <div className="contact-value">
+                    <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+                    <button className="copy-btn" type="button" onClick={copyEmail}>
+                      {copied ? <><CheckIcon /> Copied</> : <><CopyIcon /> Copy</>}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="contact-row">
+                <span className="contact-icon"><LinkedInIcon /></span>
+                <div>
+                  <span className="fact-label">LinkedIn</span>
+                  <div className="contact-value">
+                    <a href="https://linkedin.com/in/carl-joshua-coloma" target="_blank" rel="noopener noreferrer">
+                      in/carl-joshua-coloma
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="contact-row">
+                <span className="contact-icon"><GitHubIcon /></span>
+                <div>
+                  <span className="fact-label">GitHub</span>
+                  <div className="contact-value">
+                    <a href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer">
+                      github.com/cdobby18
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="contact-row">
+                <span className="contact-icon"><ClockIcon /></span>
+                <div>
+                  <span className="fact-label">Local time</span>
+                  <div className="contact-value muted">{time ? `${time} PHT` : "—"} · Manila, Philippines</div>
+                </div>
+              </div>
             </div>
 
-            <dl className="contact-meta">
-              <div className="contact-meta-row">
-                <dt>LinkedIn</dt>
-                <dd>
-                  <a href="https://linkedin.com/in/carl-joshua-coloma" target="_blank" rel="noopener noreferrer">
-                    in/carl-joshua-coloma <ArrowUpRight size={11} />
-                  </a>
-                </dd>
-              </div>
-              <div className="contact-meta-row">
-                <dt>GitHub</dt>
-                <dd>
-                  <a href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer">
-                    github.com/cdobby18 <ArrowUpRight size={11} />
-                  </a>
-                </dd>
-              </div>
-              <div className="contact-meta-row">
-                <dt>Based in</dt>
-                <dd>Manila, Philippines</dd>
-              </div>
-              <div className="contact-meta-row">
-                <dt>Local time</dt>
-                <dd>{time ? `${time} PHT` : "—"}</dd>
-              </div>
-            </dl>
-
             <a
-              className="contact-resume"
+              className="btn btn-secondary"
               href="/cv-coloma.pdf"
               target="_blank"
               rel="noopener noreferrer"
               download="Carl-Coloma-Resume.pdf"
+              style={{ marginTop: 26 }}
             >
-              <FileDown size={14} /> Download résumé
+              <FileDown /> Download résumé
             </a>
           </div>
 
-          <form className="contact-form" onSubmit={submit} noValidate>
-            <div className="contact-form-head">
-              <div>
-                <p className="mono-label">Or send a note</p>
-                <h3 className="contact-form-title">Start a conversation</h3>
-              </div>
-              <span className="muted-note">Opens in your email app</span>
-            </div>
-
+          <form className="form-card" onSubmit={submit} noValidate>
             <div className="form-row">
               <div className="field">
                 <label htmlFor="name">Name</label>
@@ -1119,16 +1032,13 @@ function ContactSection() {
                 value={form.message}
                 onChange={(e) => update("message", e.target.value)}
                 placeholder="Tell me about the role, project, or idea…"
-                rows={5}
+                rows={6}
               />
             </div>
 
-            <div className="contact-form-foot">
-              <span className="form-note">I read every message.</span>
-              <button className="btn btn-primary" type="submit">
-                Send message <ArrowUpRight />
-              </button>
-            </div>
+            <button className="btn btn-primary" type="submit" style={{ width: "100%" }}>
+              Send message <ArrowUpRight />
+            </button>
 
             {status === "error" && (
               <p className="form-status error">Please add your name, a valid email, and a message.</p>
@@ -1136,6 +1046,7 @@ function ContactSection() {
             {status === "sent" && (
               <p className="form-status success">Your email app should open with the message ready to send.</p>
             )}
+            <p className="form-note">Submitting opens your email app with the message pre-filled.</p>
           </form>
         </div>
       </Reveal>
@@ -1172,7 +1083,6 @@ export default function OnePiece() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState("");
-  const [progress, setProgress] = useState(0);
   const [isDark, setIsDark] = useState(() => {
     try {
       const stored = localStorage.getItem("op-theme");
@@ -1188,12 +1098,9 @@ export default function OnePiece() {
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 8);
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(max > 0 ? Math.min(1, window.scrollY / max) : 0);
       const y = window.scrollY + 120;
       let current = "";
       for (const link of NAV_LINKS) {
-        if (!link.id) continue;
         const el = document.getElementById(link.id);
         if (el && el.offsetTop <= y) current = link.id;
       }
@@ -1286,22 +1193,21 @@ export default function OnePiece() {
 
         .shell {
           width: 100%;
-          max-width: 1120px;
+          max-width: 1080px;
           margin: 0 auto;
           padding-left: clamp(20px, 5vw, 48px);
           padding-right: clamp(20px, 5vw, 48px);
         }
         .section { padding: clamp(64px, 8vw, 96px) 0; border-top: 1px solid var(--border); }
-        .section--tone { background: var(--surface); }
         .section-head { margin-bottom: clamp(32px, 4vw, 44px); }
         .eyebrow {
           display: flex;
           align-items: center;
           gap: 8px;
           font-family: var(--mono);
-          font-size: 11.5px;
+          font-size: 11px;
           font-weight: 500;
-          letter-spacing: 0.14em;
+          letter-spacing: 0.16em;
           text-transform: uppercase;
           color: var(--muted);
         }
@@ -1326,20 +1232,20 @@ export default function OnePiece() {
         .lede {
           margin-top: 14px;
           max-width: 620px;
-          font-size: 16px;
+          font-size: 15.5px;
           line-height: 1.75;
           color: var(--text-2);
         }
-        .body { font-size: 16px; line-height: 1.85; color: var(--text-2); }
-        .body-lg { font-size: 17.5px; line-height: 1.8; color: var(--text-2); }
+        .body { font-size: 15.5px; line-height: 1.85; color: var(--text-2); }
+        .body-lg { font-size: 17px; line-height: 1.8; color: var(--text-2); }
         .prose > p + p { margin-top: 18px; }
         .muted { color: var(--muted) !important; }
         .muted-note { font-size: 13px; color: var(--muted); line-height: 1.6; }
         .mono-label {
           font-family: var(--mono);
-          font-size: 11px;
+          font-size: 10.5px;
           font-weight: 500;
-          letter-spacing: 0.09em;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
           color: var(--muted);
         }
@@ -1359,18 +1265,6 @@ export default function OnePiece() {
           border-bottom-color: var(--border);
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
-        }
-        .scroll-progress {
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: -1px;
-          height: 1.5px;
-          background: var(--accent);
-          transform-origin: left center;
-          transform: scaleX(0);
-          opacity: 0.8;
-          pointer-events: none;
         }
         .nav-inner {
           height: 64px;
@@ -1504,7 +1398,7 @@ export default function OnePiece() {
           transition: all 0.18s ease;
         }
         .btn-primary { background: var(--text); color: var(--bg); border-color: var(--text); }
-        .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+        .btn-primary:hover { opacity: 0.85; }
         .btn-secondary { background: var(--surface); color: var(--text); border-color: var(--border-strong); }
         .btn-secondary:hover { background: var(--surface-2); border-color: var(--text-2); }
         .text-link {
@@ -1534,23 +1428,8 @@ export default function OnePiece() {
 
         /* hero */
         .hero {
-          position: relative;
-          isolation: isolate;
-          overflow-x: clip;
-          padding-top: calc(52px + clamp(28px, 5vw, 56px));
+          padding-top: calc(64px + clamp(44px, 7vw, 84px));
           padding-bottom: clamp(44px, 6vw, 72px);
-        }
-        .hero::before {
-          content: "";
-          position: absolute;
-          top: -60px;
-          right: -6%;
-          z-index: -1;
-          width: min(620px, 58vw);
-          height: 620px;
-          border-radius: 50%;
-          background: radial-gradient(circle, var(--accent-soft), transparent 68%);
-          pointer-events: none;
         }
         .hero-grid {
           display: grid;
@@ -1578,11 +1457,6 @@ export default function OnePiece() {
           background: var(--accent);
           box-shadow: 0 0 0 3px var(--accent-soft);
           flex-shrink: 0;
-          animation: statusPulse 3.4s ease-in-out infinite;
-        }
-        @keyframes statusPulse {
-          0%, 100% { box-shadow: 0 0 0 3px var(--accent-soft); }
-          50% { box-shadow: 0 0 0 5px transparent; }
         }
         .hero-title {
           margin-top: 20px;
@@ -1652,18 +1526,10 @@ export default function OnePiece() {
           position: relative;
           aspect-ratio: 4 / 5;
           border: 1px solid var(--border);
-          border-radius: 16px;
+          border-radius: 14px;
           overflow: hidden;
           background: var(--surface-2);
           box-shadow: var(--shadow);
-        }
-        .portrait::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.10);
-          pointer-events: none;
         }
         .portrait img {
           width: 100%;
@@ -1696,29 +1562,11 @@ export default function OnePiece() {
           align-items: start;
         }
         .focus-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
-        .focus-row .chip {
-          border-color: var(--accent-border);
-          background: var(--accent-soft);
-          color: var(--accent);
-        }
         .facts-card {
-          position: relative;
-          overflow: hidden;
           border: 1px solid var(--border);
           border-radius: 12px;
           background: var(--surface);
-          padding: 4px 18px 4px 22px;
-        }
-        .facts-card::before {
-          content: "";
-          position: absolute;
-          left: 0;
-          top: 20px;
-          bottom: 20px;
-          width: 2px;
-          border-radius: 2px;
-          background: var(--accent);
-          opacity: 0.55;
+          padding: 4px 18px;
         }
         .fact-row {
           display: flex;
@@ -1730,36 +1578,23 @@ export default function OnePiece() {
         .fact-row:last-child { border-bottom: 0; }
         .fact-label {
           font-family: var(--mono);
-          font-size: 10.5px;
+          font-size: 9.5px;
           font-weight: 500;
-          letter-spacing: 0.1em;
+          letter-spacing: 0.12em;
           text-transform: uppercase;
           color: var(--muted);
         }
-        .fact-value { font-size: 14px; line-height: 1.5; color: var(--text-2); }
+        .fact-value { font-size: 13.5px; line-height: 1.5; color: var(--text-2); }
 
         /* experience */
         .exp-list { display: flex; flex-direction: column; }
         .exp-item {
-          position: relative;
           display: grid;
           grid-template-columns: 210px minmax(0, 1fr);
           gap: clamp(20px, 3vw, 36px);
           padding: 28px 0;
           border-top: 1px solid var(--border);
         }
-        .exp-item::before {
-          content: "";
-          position: absolute;
-          left: -2.5px;
-          top: -2.5px;
-          width: 5px;
-          height: 5px;
-          border-radius: 50%;
-          background: var(--accent);
-          box-shadow: 0 0 0 3px var(--bg);
-        }
-        .section--tone .exp-item::before { box-shadow: 0 0 0 3px var(--surface); }
         .exp-item:last-child { border-bottom: 1px solid var(--border); }
         .exp-meta { display: flex; flex-direction: column; gap: 4px; }
         .exp-period {
@@ -1786,7 +1621,7 @@ export default function OnePiece() {
         .bullets li {
           position: relative;
           padding-left: 16px;
-          font-size: 15px;
+          font-size: 14.5px;
           line-height: 1.75;
           color: var(--text-2);
         }
@@ -1801,12 +1636,6 @@ export default function OnePiece() {
         }
 
         /* projects */
-        .projects-layout {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) 300px;
-          gap: clamp(24px, 4vw, 44px);
-          align-items: start;
-        }
         .proj-list {
           display: flex;
           flex-direction: column;
@@ -1814,37 +1643,22 @@ export default function OnePiece() {
         }
         .proj-row {
           display: grid;
-          grid-template-columns: 60px minmax(0, 1fr);
-          align-items: start;
+          grid-template-columns: 40px minmax(0, 1fr);
           gap: 18px;
-          padding: 20px 12px;
+          padding: 18px 12px;
           margin: 0 -12px;
           border-bottom: 1px solid var(--border);
           border-radius: 8px;
           transition: background 0.2s ease;
         }
         .proj-row:hover { background: var(--surface); }
-        .proj-row--plain { grid-template-columns: minmax(0, 1fr); }
-        .proj-mark {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 60px;
-          height: 60px;
-          overflow: hidden;
-          border: 1px solid var(--border);
-          border-radius: 14px;
-          background: #15181f;
-          box-shadow: var(--shadow);
+        .proj-index {
+          padding-top: 4px;
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.04em;
+          color: var(--muted);
         }
-        .proj-mark img {
-          width: 100%;
-          height: 100%;
-          display: block;
-          object-fit: cover;
-          transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .proj-row:hover .proj-mark img { transform: scale(1.06); }
         .proj-main { min-width: 0; }
         .proj-head {
           display: flex;
@@ -1862,7 +1676,7 @@ export default function OnePiece() {
         }
         .proj-title {
           font-family: var(--display);
-          font-size: 17px;
+          font-size: 16.5px;
           font-weight: 600;
           line-height: 1.35;
           letter-spacing: -0.02em;
@@ -1871,7 +1685,7 @@ export default function OnePiece() {
         .proj-desc {
           margin-top: 4px;
           max-width: 780px;
-          font-size: 14px;
+          font-size: 13.5px;
           line-height: 1.65;
           color: var(--text-2);
           display: -webkit-box;
@@ -1886,12 +1700,11 @@ export default function OnePiece() {
           flex-wrap: wrap;
           margin-top: 7px;
           font-family: var(--mono);
-          font-size: 11px;
+          font-size: 10.5px;
           letter-spacing: 0.02em;
           color: var(--muted);
         }
         .proj-sub .sep { opacity: 0.5; }
-        .proj-num { color: var(--text-2); }
         .tag {
           display: inline-flex;
           align-items: center;
@@ -1900,7 +1713,7 @@ export default function OnePiece() {
           border-radius: 5px;
           background: var(--chip-bg);
           font-family: var(--mono);
-          font-size: 10px;
+          font-size: 9.5px;
           letter-spacing: 0.06em;
           text-transform: uppercase;
           color: var(--text-2);
@@ -1928,27 +1741,9 @@ export default function OnePiece() {
           transition: all 0.18s ease;
         }
         .btn-ghost-sm:hover {
-          color: var(--accent);
-          border-color: var(--accent-border);
-          background: var(--accent-soft);
-        }
-        .icon-link {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 30px;
-          height: 30px;
-          flex-shrink: 0;
-          border: 1px solid var(--border-strong);
-          border-radius: 7px;
-          color: var(--text-2);
-          text-decoration: none;
-          transition: all 0.18s ease;
-        }
-        .icon-link:hover {
-          color: var(--accent);
-          border-color: var(--accent-border);
-          background: var(--accent-soft);
+          color: var(--text);
+          border-color: var(--text-2);
+          background: var(--chip-bg);
         }
 
         /* stack */
@@ -1972,26 +1767,9 @@ export default function OnePiece() {
           color: var(--text);
         }
         .stack-items {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 7px;
-        }
-        .stack-chip {
-          display: inline-flex;
-          align-items: center;
-          padding: 4px 9px;
-          border: 1px solid var(--chip-border);
-          border-radius: 6px;
-          background: var(--chip-bg);
-          font-size: 12px;
-          line-height: 1.55;
+          font-size: 14px;
+          line-height: 1.9;
           color: var(--text-2);
-          transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
-        }
-        .stack-chip:hover {
-          color: var(--text);
-          border-color: var(--accent-border);
-          background: var(--accent-soft);
         }
 
         /* certifications */
@@ -2010,11 +1788,7 @@ export default function OnePiece() {
           text-decoration: none;
           transition: border-color 0.2s ease, transform 0.25s ease;
         }
-        .cert-card:hover {
-          border-color: var(--accent-border);
-          transform: translateY(-2px);
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-        }
+        .cert-card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
         .cert-img {
           height: 108px;
           display: flex;
@@ -2040,67 +1814,60 @@ export default function OnePiece() {
         /* github */
         .gh-card {
           border: 1px solid var(--border);
-          border-radius: 12px;
+          border-radius: 14px;
           background: var(--surface);
-          padding: 18px;
+          padding: 20px;
         }
         .gh-head {
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           justify-content: space-between;
-          gap: 12px;
-          margin-bottom: 6px;
+          gap: 16px;
+          flex-wrap: wrap;
+          margin-bottom: 18px;
         }
-        .gh-total { font-size: 14px; font-weight: 500; line-height: 1.5; color: var(--text); }
-        .gh-range {
-          margin-top: 16px;
-          font-family: var(--mono);
-          font-size: 9.5px;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: var(--muted);
-        }
-        .gh-graph { display: flex; gap: 2px; overflow-x: auto; padding: 8px 0 4px; }
-        .gh-week { display: flex; flex-direction: column; gap: 2px; }
-        .gh-card .gh-cell { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; display: inline-block; }
+        .gh-total { margin-top: 5px; font-size: 15px; font-weight: 500; color: var(--text); }
+        .gh-graph { display: flex; gap: 3px; overflow-x: auto; padding-bottom: 6px; }
+        .gh-week { display: flex; flex-direction: column; gap: 3px; }
+        .gh-cell { width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0; display: inline-block; }
         .gh-legend {
           display: flex;
           align-items: center;
-          justify-content: flex-start;
-          gap: 3px;
-          margin-top: 8px;
+          justify-content: flex-end;
+          gap: 4px;
+          margin-top: 12px;
           font-family: var(--mono);
-          font-size: 9px;
+          font-size: 9.5px;
           color: var(--muted);
         }
         .gh-legend span:first-child { margin-right: 4px; }
         .gh-legend span:last-child { margin-left: 4px; }
         .gh-foot {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          margin-top: 16px;
-          padding-top: 14px;
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) auto;
+          gap: 16px;
+          align-items: center;
+          margin-top: 18px;
+          padding-top: 16px;
           border-top: 1px solid var(--border);
         }
         .commit-card {
           border: 1px solid var(--border);
-          border-radius: 8px;
+          border-radius: 9px;
           background: var(--bg);
           padding: 10px 12px;
           min-width: 0;
         }
         .commit-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
-        .commit-repo { font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--accent); }
+        .commit-repo { font-family: var(--mono); font-size: 10.5px; font-weight: 600; color: var(--accent); }
         .commit-sha { font-family: var(--mono); font-size: 9.5px; color: var(--muted); }
         .commit-msg {
-          font-size: 12px;
+          font-size: 12.5px;
           line-height: 1.5;
           color: var(--text);
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
           overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
         .gh-meta {
           display: flex;
@@ -2110,194 +1877,71 @@ export default function OnePiece() {
           font-size: 10px;
           letter-spacing: 0.04em;
           color: var(--muted);
+          white-space: nowrap;
         }
         .gh-meta span { display: inline-flex; align-items: center; gap: 6px; }
-        .gh-how {
-          margin-top: 16px;
-          padding-top: 14px;
-          border-top: 1px solid var(--border);
-        }
-        .gh-how .gh-range { margin-top: 0; }
-        .gh-how-list {
-          margin: 10px 0 0;
-          padding: 0;
-          list-style: none;
-          display: flex;
-          flex-direction: column;
-          gap: 9px;
-        }
-        .gh-how-list li {
-          display: grid;
-          grid-template-columns: 20px minmax(0, 1fr);
-          gap: 6px;
-          font-size: 12px;
-          line-height: 1.55;
-          color: var(--text-2);
-        }
-        .gh-how-num {
-          font-family: var(--mono);
-          font-size: 9.5px;
-          line-height: 1.9;
-          color: var(--muted);
-        }
 
         /* contact */
-        .contact-intro {
+        .contact-grid {
           display: grid;
-          grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
-          gap: clamp(26px, 5vw, 64px);
-          align-items: end;
-          padding-bottom: clamp(28px, 4vw, 40px);
+          grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+          gap: clamp(32px, 5vw, 56px);
+          align-items: start;
         }
-        .contact-intro .h2 { max-width: 15ch; }
-        .contact-intro-copy { padding-bottom: 4px; }
-        .contact-intro-copy .body { max-width: 430px; }
-        .contact-availability {
+        .contact-list { display: flex; flex-direction: column; gap: 4px; margin-top: 28px; }
+        .contact-row {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          padding: 12px 0;
+          border-bottom: 1px solid var(--border);
+        }
+        .contact-row:first-child { border-top: 1px solid var(--border); }
+        .contact-icon {
+          width: 30px; height: 30px;
           display: inline-flex;
           align-items: center;
-          gap: 9px;
-          margin-top: 16px;
-          font-family: var(--mono);
-          font-size: 10px;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: var(--muted);
+          justify-content: center;
+          border: 1px solid var(--border);
+          border-radius: 7px;
+          color: var(--text-2);
+          flex-shrink: 0;
+          margin-top: 2px;
         }
-        .contact-spread {
-          display: grid;
-          grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-          border-top: 1px solid var(--border);
-        }
-        .contact-direct {
-          padding: clamp(28px, 4vw, 38px) clamp(24px, 4vw, 44px) 0 0;
-          border-right: 1px solid var(--border);
-        }
-        .contact-email {
-          display: inline-block;
-          margin-top: 10px;
-          padding-bottom: 5px;
-          border-bottom: 1px solid var(--border-strong);
-          font-family: var(--display);
-          font-size: clamp(17px, 1.5vw, 19px);
-          font-weight: 500;
-          line-height: 1.2;
-          letter-spacing: -0.035em;
-          color: var(--text);
-          text-decoration: none;
-          overflow-wrap: anywhere;
-          transition: color 0.18s ease, border-color 0.18s ease;
-        }
-        .contact-email:hover { color: var(--accent); border-color: var(--accent); }
-        .contact-email-actions {
+        .contact-value {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 10px;
           flex-wrap: wrap;
-          margin-top: 12px;
+          margin-top: 3px;
+          font-size: 13.5px;
+          color: var(--text);
         }
-        .contact-copy {
+        .contact-value a { text-decoration: none; }
+        .contact-value a:hover { color: var(--accent); }
+        .copy-btn {
           display: inline-flex;
           align-items: center;
           gap: 5px;
-          padding: 0 0 2px;
-          border: 0;
-          border-bottom: 1px solid var(--border-strong);
-          background: none;
+          padding: 3px 8px;
+          border: 1px solid var(--chip-border);
+          border-radius: 5px;
+          background: var(--chip-bg);
           font-family: var(--mono);
           font-size: 9.5px;
-          letter-spacing: 0.1em;
+          letter-spacing: 0.08em;
           text-transform: uppercase;
           color: var(--muted);
           cursor: pointer;
-          transition: color 0.18s ease, border-color 0.18s ease;
+          transition: all 0.18s ease;
         }
-        .contact-copy:hover { color: var(--text); border-color: var(--text); }
-        .contact-meta { margin: 30px 0 0; }
-        .contact-meta-row {
-          display: grid;
-          grid-template-columns: 88px minmax(0, 1fr);
-          gap: 14px;
-          padding: 11px 0;
-          border-top: 1px solid var(--border);
+        .copy-btn:hover { color: var(--text); border-color: var(--border-strong); }
+        .form-card {
+          border: 1px solid var(--border);
+          border-radius: 14px;
+          background: var(--surface);
+          padding: clamp(18px, 3vw, 26px);
         }
-        .contact-meta-row:last-child { border-bottom: 1px solid var(--border); }
-        .contact-meta dt {
-          padding-top: 2px;
-          font-family: var(--mono);
-          font-size: 9.5px;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: var(--muted);
-        }
-        .contact-meta dd {
-          margin: 0;
-          font-size: 13.5px;
-          line-height: 1.5;
-          color: var(--text);
-        }
-        .contact-meta dd a {
-          display: inline-flex;
-          align-items: center;
-          gap: 4px;
-          text-decoration: none;
-          transition: color 0.18s ease;
-        }
-        .contact-meta dd a:hover { color: var(--accent); }
-        .contact-resume {
-          display: inline-flex;
-          align-items: center;
-          gap: 7px;
-          margin-top: 22px;
-          padding-bottom: 3px;
-          border-bottom: 1px solid var(--border-strong);
-          font-size: 12.5px;
-          color: var(--text-2);
-          text-decoration: none;
-          transition: color 0.18s ease, border-color 0.18s ease;
-        }
-        .contact-resume:hover { color: var(--accent); border-color: var(--accent); }
-        .contact-form {
-          padding: clamp(28px, 4vw, 38px) 0 0 clamp(24px, 4vw, 44px);
-        }
-        .contact-form-head {
-          display: flex;
-          align-items: flex-start;
-          justify-content: space-between;
-          gap: 18px;
-          flex-wrap: wrap;
-          margin-bottom: 24px;
-        }
-        .contact-form-title {
-          margin-top: 7px;
-          font-family: var(--display);
-          font-size: 23px;
-          font-weight: 600;
-          line-height: 1.2;
-          letter-spacing: -0.03em;
-          color: var(--text);
-        }
-        .contact-form .field { margin-bottom: 18px; }
-        .contact-form .input {
-          padding: 8px 0;
-          border: 0;
-          border-bottom: 1px solid var(--border-strong);
-          border-radius: 0;
-          background: transparent;
-        }
-        .contact-form .input:focus {
-          border-color: var(--accent);
-          box-shadow: none;
-        }
-        .contact-form .textarea { min-height: 112px; resize: vertical; }
-        .contact-form-foot {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 16px;
-          flex-wrap: wrap;
-          padding-top: 4px;
-        }
-        .contact-form-foot .form-note { margin: 0; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
         .field label {
@@ -2328,7 +1972,7 @@ export default function OnePiece() {
           box-shadow: 0 0 0 3px var(--accent-soft);
         }
         .textarea { resize: vertical; min-height: 130px; }
-        .form-note { margin-top: 10px; font-size: 11.5px; color: var(--muted); }
+        .form-note { margin-top: 10px; font-size: 11.5px; color: var(--muted); text-align: center; }
         .form-status { margin-top: 10px; font-size: 12.5px; line-height: 1.5; }
         .form-status.error { color: var(--accent); }
         .form-status.success { color: #2e9e5b; }
@@ -2400,22 +2044,6 @@ export default function OnePiece() {
           gap: 16px;
           margin-bottom: 18px;
         }
-        .modal-head-main {
-          display: flex;
-          align-items: center;
-          gap: 14px;
-          min-width: 0;
-        }
-        .modal-logo {
-          width: 46px;
-          height: 46px;
-          flex-shrink: 0;
-          overflow: hidden;
-          border: 1px solid var(--border);
-          border-radius: 11px;
-          background: #15181f;
-        }
-        .modal-logo img { width: 100%; height: 100%; display: block; object-fit: cover; }
         .modal-title {
           font-family: var(--display);
           font-size: 19px;
@@ -2433,37 +2061,30 @@ export default function OnePiece() {
         @media (min-width: 961px) {
           .menu { display: none !important; }
         }
-        @media (max-width: 1040px) {
-          .projects-layout { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-          .gh-card { max-width: 440px; }
-        }
         @media (max-width: 860px) {
           .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
           .hero-side { max-width: 300px; width: 100%; }
         }
         @media (max-width: 820px) {
           .about-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
-          .contact-intro { grid-template-columns: minmax(0, 1fr); align-items: start; gap: 20px; }
-          .contact-intro .h2 { max-width: none; }
-          .contact-spread { grid-template-columns: minmax(0, 1fr); }
-          .contact-direct { padding-right: 0; border-right: 0; }
-          .contact-form { margin-top: 28px; padding: 28px 0 0; border-top: 1px solid var(--border); }
+          .contact-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+          .gh-foot { grid-template-columns: minmax(0, 1fr); }
+          .gh-meta { flex-direction: row; flex-wrap: wrap; gap: 14px; }
         }
         @media (max-width: 760px) {
           .exp-item { grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 24px 0; }
           .exp-meta { flex-direction: row; align-items: center; gap: 10px; flex-wrap: wrap; }
           .proj-row {
-            grid-template-columns: 48px minmax(0, 1fr);
-            gap: 14px;
-            padding: 18px 0;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 0;
+            padding: 16px 0;
             margin: 0;
             border-radius: 0;
           }
-          .proj-row--plain { grid-template-columns: minmax(0, 1fr); }
-          .proj-mark { width: 48px; height: 48px; border-radius: 12px; }
+          .proj-index { display: none; }
           .proj-head { gap: 10px; }
           .proj-actions { justify-content: flex-start; width: 100%; margin-top: 4px; }
-          .stack-row { grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 14px 0; }
+          .stack-row { grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 14px 0; }
         }
         @media (max-width: 520px) {
           .form-row { grid-template-columns: minmax(0, 1fr); }
@@ -2481,23 +2102,24 @@ export default function OnePiece() {
       `}</style>
 
       <nav className={`nav${scrolled ? " scrolled" : ""}`}>
-        <span
-          className="scroll-progress"
-          aria-hidden="true"
-          style={{ transform: `scaleX(${progress})` }}
-        />
         <div className="shell nav-inner">
           <a className="brand" href="#hero">
-            <span className="brand-mark">CJ</span>
-            <span>Carl Coloma</span>
-          </a>
+          <span className="brand-mark">
+            <img
+              src="/cjlogo.png"
+              alt="CJ logo"
+              style={{ width: 16, height: 16, objectFit: "contain", display: "block" }}
+            />
+          </span>
+          <span>Carl Coloma</span>
+        </a>
 
           <div className="nav-links">
             {NAV_LINKS.map((link) => (
               <a
-                key={link.id || link.href}
-                className={`nav-link${link.id && active === link.id ? " active" : ""}`}
-                href={link.href || `#${link.id}`}
+                key={link.id}
+                className={`nav-link${active === link.id ? " active" : ""}`}
+                href={`#${link.id}`}
               >
                 {link.label}
               </a>
@@ -2530,7 +2152,7 @@ export default function OnePiece() {
 
       <div className={`menu${menuOpen ? " open" : ""}`}>
         {NAV_LINKS.map((link) => (
-          <a key={link.id || link.href} className="menu-link" href={link.href || `#${link.id}`} onClick={closeMenu}>
+          <a key={link.id} className="menu-link" href={`#${link.id}`} onClick={closeMenu}>
             {link.label}
           </a>
         ))}
@@ -2551,6 +2173,7 @@ export default function OnePiece() {
         <ProjectsSection />
         <StackSection />
         <CertificationsSection />
+        <GitHubSection />
         <ContactSection />
       </main>
 

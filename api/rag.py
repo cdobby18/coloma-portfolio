@@ -158,13 +158,34 @@ CONTACT_REPLY = (
 
 INTENTS = [
     (
-        r"^\s*(hi|hey|hello|yo|sup|good (morning|afternoon|evening))[\s!,.?]*$",
-        "I can answer questions about CJ's automation work, projects, and "
-        "technical background.",
+        r"^\s*(hi|hey|hello|yo|sup|howdy|good (morning|afternoon|evening))"
+        r"(\s+(there|again|all|everyone|friend))?[\s!,.?]*$",
+        "Hi! I'm CJ's portfolio assistant. Ask me anything about his automation "
+        "work, projects, or technical background.",
+    ),
+    (
+        r"^\s*(how are you( doing)?|how's it going|how are things|how r u|hru|what's up|what up|wassup)"
+        r"[\s!,.?]*$",
+        "Doing well, thanks for asking. What would you like to know about CJ's work?",
     ),
     (
         r"^\s*(thanks|thank you|ty|appreciate it)[\s!,.?]*$",
-        "You're welcome. Ask anything else about CJ's work.",
+        "You're welcome! Happy to keep going if you have more questions.",
+    ),
+    (
+        r"^\s*(help|what can you do|what can i ask|how does this work|capabilities)"
+        r"[\s!,.?]*$",
+        "I'm a small assistant grounded in this portfolio. Ask me about CJ's "
+        "projects, automation work, experience, stack, education, or how to reach him.",
+    ),
+    (
+        r"^\s*(bye|goodbye|see you|see ya|later|good night|take care)[\s!,.?]*$",
+        "Thanks for stopping by. If you'd like to talk, you can reach CJ at "
+        "carljoshuamcoloma@gmail.com.",
+    ),
+    (
+        r"^\s*(ok|okay|cool|nice|great|awesome|got it|sounds good)[\s!,.?]*$",
+        "Glad that helped. Ask anything else about CJ's work.",
     ),
     (
         r"\b(contact|email|e-mail|reach|get in touch|linkedin|github)\b",
@@ -295,6 +316,17 @@ def match_intent(query):
     return None
 
 
+GREETING_PREFIX = re.compile(
+    r"^\s*(hi|hey|hello|yo|sup|howdy|good (morning|afternoon|evening))"
+    r"(\s+(there|again|all|everyone|friend))?[\s,!.]*",
+    re.IGNORECASE,
+)
+
+
+def strip_greeting(query):
+    return GREETING_PREFIX.sub("", query, count=1).strip()
+
+
 def tokenize(text):
     return re.findall(r"\w+", text.lower())
 
@@ -345,25 +377,34 @@ def score_doc(query_words, doc):
 def build_answer(top_docs):
     if not top_docs:
         return (
-            "I don't have that in the portfolio context yet. The fastest way to "
-            "reach CJ is carljoshuamcoloma@gmail.com."
+            "I'm not sure about that one. Try asking about a project, CJ's "
+            "automation work, his stack, or how to get in touch. You can also "
+            "email him at carljoshuamcoloma@gmail.com."
         )
     lead, *rest = top_docs
     supporting = " and ".join(d["title"] for d in rest)
     answer = lead["text"]
     if supporting:
-        answer += f" (Also relevant: {supporting}.)"
+        answer += f" This also connects to {supporting}."
     return answer
 
 
 def run_query(query):
+    original_query = query
     intent_reply = match_intent(query) if query else None
     if intent_reply:
-        return {"query": query, "matches": [], "answer": intent_reply}
+        return {"query": original_query, "matches": [], "answer": intent_reply}
+
+    cleaned = strip_greeting(query)
+    if cleaned and cleaned != query:
+        intent_reply = match_intent(cleaned)
+        if intent_reply:
+            return {"query": original_query, "matches": [], "answer": intent_reply}
+        query = cleaned
 
     query_words = [w for w in tokenize(query) if len(w) > 2 and w not in STOP_WORDS]
     if not query_words:
-        return {"query": query, "matches": [], "answer": build_answer([])}
+        return {"query": original_query, "matches": [], "answer": build_answer([])}
 
     scored = sorted(
         ({"doc": doc, "score": score_doc(query_words, doc)} for doc in MOCK_DOCS),
@@ -372,7 +413,7 @@ def run_query(query):
     )
     matches = [r for r in scored if r["score"] > 0][:3]
     return {
-        "query": query,
+        "query": original_query,
         "matches": matches,
         "answer": build_answer([m["doc"] for m in matches]),
     }

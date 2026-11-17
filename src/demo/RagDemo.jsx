@@ -23,13 +23,33 @@ const CONTACT_REPLY =
 const INTENTS = [
   {
     id: "greeting",
-    match: /^\s*(hi|hey|hello|yo|sup|good (morning|afternoon|evening))[\s!,.?]*$/i,
-    reply: "I can answer questions about CJ's automation work, projects, and technical background.",
+    match: /^\s*(hi|hey|hello|yo|sup|howdy|good (morning|afternoon|evening))(\s+(there|again|all|everyone|friend))?[\s!,.?]*$/i,
+    reply: "Hi! I'm CJ's portfolio assistant. Ask me anything about his automation work, projects, or technical background.",
+  },
+  {
+    id: "how-are-you",
+    match: /^\s*(how are you( doing)?|how's it going|how are things|how r u|hru|what's up|what up|wassup)[\s!,.?]*$/i,
+    reply: "Doing well, thanks for asking. What would you like to know about CJ's work?",
   },
   {
     id: "thanks",
     match: /^\s*(thanks|thank you|ty|appreciate it)[\s!,.?]*$/i,
-    reply: "You're welcome. Ask anything else about CJ's work.",
+    reply: "You're welcome! Happy to keep going if you have more questions.",
+  },
+  {
+    id: "help",
+    match: /^\s*(help|what can you do|what can i ask|how does this work|capabilities)[\s!,.?]*$/i,
+    reply: "I'm a small assistant grounded in this portfolio. Ask me about CJ's projects, automation work, experience, stack, education, or how to reach him.",
+  },
+  {
+    id: "goodbye",
+    match: /^\s*(bye|goodbye|see you|see ya|later|good night|take care)[\s!,.?]*$/i,
+    reply: "Thanks for stopping by. If you'd like to talk, you can reach CJ at carljoshuamcoloma@gmail.com.",
+  },
+  {
+    id: "acknowledge",
+    match: /^\s*(ok|okay|cool|nice|great|awesome|got it|sounds good)[\s!,.?]*$/i,
+    reply: "Glad that helped. Ask anything else about CJ's work.",
   },
   {
     id: "contact",
@@ -118,14 +138,29 @@ const INTENTS = [
   },
 ];
 
+const GREETING_PREFIX =
+  /^\s*(hi|hey|hello|yo|sup|howdy|good (morning|afternoon|evening))(\s+(there|again|all|everyone|friend))?[\s,!.]*/i;
+
+function stripGreeting(text) {
+  return text.replace(GREETING_PREFIX, "").trim();
+}
+
 function localAnswer(q) {
   const text = q.trim();
-  const intent = INTENTS.find((item) => item.match.test(text));
-  if (intent) {
+  let intent = INTENTS.find((item) => item.match.test(text));
+
+  if (!intent) {
+    const cleaned = stripGreeting(text);
+    if (cleaned && cleaned !== text) {
+      intent = INTENTS.find((item) => item.match.test(cleaned));
+      if (intent) return { answer: intent.reply, matches: [] };
+      q = cleaned;
+    }
+  } else {
     return { answer: intent.reply, matches: [] };
   }
 
-  const words = text.toLowerCase().split(/\W+/).filter((w) => w.length > 1);
+  const words = q.toLowerCase().split(/\W+/).filter((w) => w.length > 1);
   const scored = LOCAL_DOCS.map((doc) => {
     const haystack = (doc.title + " " + doc.text).toLowerCase();
     let score = 0;
@@ -138,33 +173,8 @@ function localAnswer(q) {
   const top = matches.length ? matches[0].doc : null;
   const answer = top
     ? top.text
-    : "I don't have that in the portfolio context yet. The fastest way to reach CJ is carljoshuamcoloma@gmail.com.";
+    : "I'm not sure about that one. Try asking about a project, CJ's automation work, his stack, or how to get in touch. You can also email him at carljoshuamcoloma@gmail.com.";
   return { answer, matches: matches.map((m) => ({ doc: m.doc, score: m.score })) };
-}
-
-const PROMPTS = [
-  { label: "What has CJ automated?", query: "What has CJ automated?" },
-  { label: "Walk me through ReSOLVE", query: "Tell me about ReSOLVE" },
-  { label: "What's his stack?", query: "What is CJ's stack?" },
-  { label: "Is he open to roles?", query: "Is CJ open to roles?" },
-];
-
-function Sparkle({ size = 15 }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.7"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M12 3l1.9 5.4L19.5 10l-5.6 1.6L12 17l-1.9-5.4L4.5 10l5.6-1.6z" />
-    </svg>
-  );
 }
 
 function SendIcon() {
@@ -182,6 +192,14 @@ function SendIcon() {
     >
       <path d="M12 19V5M5 12l7-7 7 7" />
     </svg>
+  );
+}
+
+function AssistantAvatar() {
+  return (
+    <span className="ai-avatar" aria-hidden="true">
+      <img src="/cbot-mark.webp" alt="" width={240} height={240} loading="lazy" decoding="async" />
+    </span>
   );
 }
 
@@ -265,47 +283,53 @@ export default function RagDemo() {
 
   return (
     <div className="ai-card" aria-busy={phase !== "idle"}>
-      <div className="ai-head">
-        <div className="ai-brand">
-          <span className="ai-mark" aria-hidden="true"><Sparkle /></span>
-          <div className="ai-brand-text">
-            <p className="ai-title">Portfolio AI</p>
-            <p className="ai-sub">Answers about CJ's work, projects, and stack.</p>
-          </div>
+      <aside className="ai-side">
+        <div className="ai-side-head">
+          <span className="ai-logo" aria-hidden="true">
+            <img src="/cbot-mark.webp" alt="" width={240} height={240} />
+          </span>
+          <span className="ai-kicker">Portfolio AI</span>
         </div>
-        <div className="ai-head-actions">
+
+        <div className="ai-side-copy">
+          <h2 className="ai-heading">Ask about my work.</h2>
+          <p className="ai-desc">
+            A small assistant grounded in CJ's projects, experience, and technical stack.
+          </p>
+        </div>
+
+        <div className="ai-side-foot">
+          <span className={`ai-status${phase === "idle" ? "" : " ai-status--busy"}`}>
+            <span className="ai-status-dot" aria-hidden="true" />
+            {status}
+          </span>
           {messages.length > 0 && (
             <button type="button" onClick={reset} className="ai-new">
               New chat
             </button>
           )}
-          <span className={`ai-status${phase === "idle" ? "" : " ai-status--busy"}`}>
-            <span className="ai-status-dot" aria-hidden="true" />
-            {status}
-          </span>
         </div>
-      </div>
+      </aside>
 
-      {messages.length === 0 ? (
-        <div className="ai-empty">
-          <p className="ai-intro">
-            Ask about CJ's automation work, projects, or technical background.
-          </p>
-          <div className="ai-prompts">
-            {PROMPTS.map((prompt) => (
-              <button
-                key={prompt.query}
-                type="button"
-                className="ai-prompt"
-                onClick={() => runQuery(prompt.query)}
-              >
-                {prompt.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      ) : (
-        <div className="ai-thread" ref={scrollRef} role="log" aria-live="polite">
+      <div className="ai-main">
+        <div
+          className={`ai-thread${messages.length === 0 ? " ai-thread--empty" : ""}`}
+          ref={scrollRef}
+          role="log"
+          aria-live="polite"
+        >
+          {messages.length === 0 && (
+            <div className="ai-row">
+              <AssistantAvatar />
+              <div className="ai-answer">
+                <p className="ai-greeting">
+                  Hi! I'm CJ's portfolio assistant. Ask me anything about his automation
+                  work, projects, or technical background.
+                </p>
+              </div>
+            </div>
+          )}
+
           {messages.map((m, i) => {
             const isLast = i === messages.length - 1;
             if (m.role === "user") {
@@ -317,7 +341,7 @@ export default function RagDemo() {
             }
             return (
               <div className="ai-row" key={i}>
-                <span className="ai-avatar" aria-hidden="true"><Sparkle size={12} /></span>
+                <AssistantAvatar />
                 <div className="ai-answer">
                   <p>
                     {m.text}
@@ -338,7 +362,7 @@ export default function RagDemo() {
 
           {phase === "searching" && (
             <div className="ai-row">
-              <span className="ai-avatar" aria-hidden="true"><Sparkle size={12} /></span>
+              <AssistantAvatar />
               <div className="ai-answer">
                 <span className="ai-dots" role="status">
                   <span className="ai-sr">Searching portfolio</span>
@@ -348,142 +372,163 @@ export default function RagDemo() {
             </div>
           )}
         </div>
-      )}
 
-      <form
-        className="ai-form"
-        onSubmit={(e) => { e.preventDefault(); runQuery(query); }}
-      >
-        <input
-          id="portfolio-ai-input"
-          ref={inputRef}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder={phase === "idle" ? "Ask about my work…" : "Assistant is working…"}
-          disabled={phase !== "idle"}
-          aria-label="Ask the portfolio assistant"
-          className="ai-input"
-        />
-        <button
-          type="submit"
-          disabled={phase !== "idle" || !query.trim()}
-          aria-label="Send question"
-          className="ai-send"
+        <form
+          className="ai-form"
+          onSubmit={(e) => { e.preventDefault(); runQuery(query); }}
         >
-          <SendIcon />
-        </button>
-      </form>
+          <input
+            id="portfolio-ai-input"
+            ref={inputRef}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={phase === "idle" ? "Ask about my work…" : "Assistant is working…"}
+            disabled={phase !== "idle"}
+            aria-label="Ask the portfolio assistant"
+            className="ai-input"
+          />
+          <button
+            type="submit"
+            disabled={phase !== "idle" || !query.trim()}
+            aria-label="Send question"
+            className="ai-send"
+          >
+            <SendIcon />
+          </button>
+        </form>
+      </div>
 
       <style>{`
         .ai-card {
+          display: grid;
+          grid-template-columns: 292px minmax(0, 1fr);
+          min-height: 322px;
           overflow: hidden;
           border: 1px solid var(--border);
-          border-radius: 14px;
+          border-radius: 16px;
           background: var(--surface);
-          box-shadow: var(--shadow);
+          box-shadow: 0 1px 2px rgba(9, 9, 11, 0.04), 0 24px 60px rgba(9, 9, 11, 0.07);
         }
-        .ai-head {
+        [data-theme="dark"] .ai-card {
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 24px 60px rgba(0, 0, 0, 0.28);
+        }
+        .ai-side {
+          position: relative;
           display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 14px;
-          flex-wrap: wrap;
-          padding: 15px 18px;
-          border-bottom: 1px solid var(--border);
+          flex-direction: column;
+          padding: 22px;
+          color: #ffffff;
+          border-right: 1px solid rgba(255, 255, 255, 0.08);
+          background-image:
+            radial-gradient(150px 150px at 100% 0%, rgba(229, 72, 77, 0.20), transparent 70%),
+            linear-gradient(165deg, #16171c 0%, #0c0d11 100%);
+          background-size: auto, auto;
         }
-        .ai-brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
-        .ai-mark {
-          width: 34px;
-          height: 34px;
+        .ai-side-head { display: flex; align-items: center; gap: 10px; }
+        .ai-logo {
+          width: 38px;
+          height: 38px;
           flex-shrink: 0;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          border: 1px solid var(--accent-border);
-          border-radius: 9px;
-          background: var(--accent-soft);
-          color: var(--accent);
+          overflow: hidden;
+          border-radius: 10px;
+          box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 8px 20px rgba(0, 0, 0, 0.4);
         }
-        .ai-brand-text { min-width: 0; }
-        .ai-title {
+        .ai-logo img { width: 100%; height: 100%; display: block; object-fit: cover; }
+        .ai-kicker {
+          font-family: var(--mono);
+          font-size: 9.5px;
+          font-weight: 500;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.55);
+        }
+        .ai-side-copy { margin-top: auto; padding-top: 30px; }
+        .ai-heading {
           font-family: var(--display);
-          font-size: 14.5px;
+          font-size: 21px;
           font-weight: 600;
-          letter-spacing: -0.01em;
-          color: var(--text);
+          line-height: 1.25;
+          letter-spacing: -0.025em;
+          color: #ffffff;
+          max-width: 210px;
         }
-        .ai-sub { margin-top: 2px; font-size: 12px; color: var(--muted); }
-        .ai-head-actions {
+        .ai-desc {
+          margin-top: 8px;
+          max-width: 224px;
+          font-size: 12.5px;
+          line-height: 1.65;
+          color: rgba(255, 255, 255, 0.55);
+        }
+        .ai-side-foot {
           display: flex;
           align-items: center;
           gap: 10px;
-          flex-shrink: 0;
+          flex-wrap: wrap;
+          margin-top: 22px;
         }
         .ai-status {
           display: inline-flex;
           align-items: center;
           gap: 6px;
           padding: 4px 9px;
-          border: 1px solid var(--chip-border);
+          border: 1px solid rgba(255, 255, 255, 0.14);
           border-radius: 999px;
-          background: var(--chip-bg);
+          background: rgba(255, 255, 255, 0.06);
           font-family: var(--mono);
           font-size: 9px;
           letter-spacing: 0.09em;
           text-transform: uppercase;
-          color: var(--muted);
+          color: rgba(255, 255, 255, 0.68);
           flex-shrink: 0;
         }
         .ai-status-dot {
           width: 5px;
           height: 5px;
           border-radius: 50%;
-          background: #2e9e5b;
-          box-shadow: 0 0 0 3px rgba(46, 158, 91, 0.14);
+          background: #4ade80;
+          box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.14);
         }
         .ai-status--busy .ai-status-dot {
           background: var(--accent);
-          box-shadow: 0 0 0 3px var(--accent-soft);
+          box-shadow: 0 0 0 3px rgba(229, 72, 77, 0.22);
           animation: aiBlink 1.2s ease-in-out infinite;
         }
-        .ai-empty { padding: 16px 18px 4px; }
-        .ai-intro {
-          max-width: 620px;
-          font-size: 13.5px;
-          line-height: 1.65;
-          color: var(--text-2);
-        }
-        .ai-prompts { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
-        .ai-prompt {
-          padding: 6px 11px;
-          border: 1px solid var(--chip-border);
-          border-radius: 999px;
-          background: var(--chip-bg);
-          color: var(--text-2);
+        .ai-new {
+          flex-shrink: 0;
+          padding: 4px 0;
+          border: none;
+          background: transparent;
+          color: rgba(255, 255, 255, 0.48);
           font-family: var(--sans);
-          font-size: 12px;
-          line-height: 1.4;
-          text-align: left;
+          font-size: 11.5px;
           cursor: pointer;
-          transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+          transition: color 0.18s ease;
         }
-        .ai-prompt:hover {
-          color: var(--text);
-          border-color: var(--accent-border);
-          background: var(--accent-soft);
+        .ai-new:hover { color: #ffffff; }
+        .ai-main {
+          display: flex;
+          flex-direction: column;
+          min-width: 0;
+          background: var(--surface);
         }
         .ai-thread {
           display: flex;
+          flex: 1;
           flex-direction: column;
           gap: 14px;
-          max-height: 320px;
+          min-height: 230px;
+          max-height: 340px;
           overflow-y: auto;
-          padding: 16px 18px;
+          padding: 22px 24px;
         }
+        .ai-thread--empty { justify-content: center; padding-top: 16px; padding-bottom: 16px; }
+        .ai-thread--empty .ai-row { max-width: 560px; }
+        .ai-thread--empty .ai-avatar { width: 30px; height: 30px; border-radius: 8px; }
+        .ai-thread--empty .ai-answer p { font-size: 14px; }
         .ai-row { display: flex; align-items: flex-start; gap: 10px; }
         .ai-row--user { justify-content: flex-end; }
         .ai-user {
-          max-width: 82%;
+          max-width: 80%;
           padding: 8px 12px;
           border: 1px solid var(--chip-border);
           border-radius: 10px 10px 3px 10px;
@@ -493,25 +538,24 @@ export default function RagDemo() {
           line-height: 1.55;
         }
         .ai-avatar {
-          width: 24px;
-          height: 24px;
+          width: 26px;
+          height: 26px;
           flex-shrink: 0;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
+          overflow: hidden;
           margin-top: 1px;
-          border: 1px solid var(--accent-border);
+          border: 1px solid var(--border);
           border-radius: 7px;
-          background: var(--accent-soft);
-          color: var(--accent);
+          background: #15181f;
         }
-        .ai-answer { flex: 1; min-width: 0; max-width: 780px; }
+        .ai-avatar img { width: 100%; height: 100%; display: block; object-fit: cover; }
+        .ai-answer { flex: 1; min-width: 0; max-width: 720px; }
         .ai-answer p {
           font-size: 13.5px;
           line-height: 1.75;
           color: var(--text);
           white-space: pre-line;
         }
+        .ai-greeting { color: var(--text-2) !important; max-width: 560px; }
         .ai-caret {
           display: inline-block;
           width: 1px;
@@ -552,14 +596,14 @@ export default function RagDemo() {
           display: flex;
           align-items: center;
           gap: 8px;
-          padding: 12px 18px 14px;
+          padding: 12px 24px 16px;
           border-top: 1px solid var(--border);
         }
         .ai-input {
           flex: 1 1 auto;
           min-width: 0;
           width: 100%;
-          padding: 9px 12px;
+          padding: 10px 12px;
           border: 1px solid var(--border);
           border-radius: 8px;
           background: var(--bg);
@@ -576,8 +620,8 @@ export default function RagDemo() {
         }
         .ai-input:disabled { opacity: 0.7; }
         .ai-send {
-          width: 36px;
-          height: 36px;
+          width: 38px;
+          height: 38px;
           flex-shrink: 0;
           display: inline-flex;
           align-items: center;
@@ -591,18 +635,6 @@ export default function RagDemo() {
         }
         .ai-send:disabled { opacity: 0.45; cursor: default; }
         .ai-send:not(:disabled):hover { transform: translateY(-1px); }
-        .ai-new {
-          flex-shrink: 0;
-          padding: 4px 2px;
-          border: none;
-          background: transparent;
-          color: var(--muted);
-          font-family: var(--sans);
-          font-size: 11.5px;
-          cursor: pointer;
-          transition: color 0.18s ease;
-        }
-        .ai-new:hover { color: var(--text); }
         .ai-sr {
           position: absolute;
           width: 1px;
@@ -617,12 +649,21 @@ export default function RagDemo() {
           40% { opacity: 1; transform: translateY(-2px); }
         }
         @keyframes aiBlink { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
-        @media (max-width: 560px) {
-          .ai-head { padding: 14px 15px; }
-          .ai-empty { padding: 14px 15px 2px; }
-          .ai-thread { padding: 14px 15px; max-height: 360px; }
-          .ai-form { padding: 11px 15px 13px; }
-          .ai-sub { display: none; }
+        @media (max-width: 760px) {
+          .ai-card { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+          .ai-side {
+            flex-direction: row;
+            align-items: center;
+            padding: 14px 16px;
+            border-right: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          }
+          .ai-side-head { flex: 1; min-width: 0; }
+          .ai-side-copy { display: none; }
+          .ai-side-foot { margin: 0; }
+          .ai-logo { width: 34px; height: 34px; border-radius: 9px; }
+          .ai-thread { min-height: 170px; padding: 18px 16px; }
+          .ai-form { padding: 11px 16px 13px; }
         }
       `}</style>
     </div>

@@ -84,6 +84,7 @@ const NAV_LINKS = [
   { label: "Stack", id: "stack" },
   { label: "Certifications", id: "certs" },
   { label: "Contact", id: "contact" },
+  { label: "Blog", id: "blog", href: "/blog.html" },
 ];
 
 const SKILL_GROUPS = [
@@ -112,6 +113,43 @@ const SKILL_GROUPS = [
     skills: ["Databricks", "dbt", "Airflow", "Snowflake"],
   },
 ];
+
+const SKILL_INFO = {
+  Python: "My main language for AI, backend services, and automation.",
+  JavaScript: "Used for React front ends and small interactive tools.",
+  FastAPI: "Async Python APIs with typed request and response models.",
+  Streamlit: "Quick data apps and demos for ML prototypes.",
+  OpenCV: "Real-time image and video processing for vision pipelines.",
+  NumPy: "Array math behind data prep and model code.",
+  "scikit-learn": "Classical ML: training, evaluation, and pipelines.",
+  Pydantic: "Data validation and structured LLM outputs.",
+  RAG: "Retrieval-augmented generation grounded in your own data.",
+  LangChain: "Chains, retrievers, and agents around LLM calls.",
+  "Agentic AI": "Tool-using agents with guardrails and fallbacks.",
+  "Prompt Engineering": "Designing and testing prompts for reliable output.",
+  "LLM Integration": "Wiring LLM APIs into real products and workflows.",
+  Ollama: "Running open models locally for private, offline work.",
+  Hermes: "Agent tooling I use for agentic LLM workflows.",
+  "Exa AI": "AI-native search API for retrieval and research.",
+  OpenCode: "Open-source AI coding agent in the terminal.",
+  Git: "Version control, branching, and clean commit history.",
+  "VS Code": "My daily editor and debugging environment.",
+  Jupyter: "Notebooks for experiments and quick analysis.",
+  Obsidian: "Linked notes for research and documentation.",
+  "Google Colab": "Hosted notebooks with GPUs for training runs.",
+  pytest: "Automated tests for Python services and pipelines.",
+  Debugging: "Tracing failures down to root causes.",
+  "Technical Documentation": "READMEs and docs someone else can follow.",
+  "Code Review & PRs": "Reviewing and shipping changes through pull requests.",
+  Jira: "Tickets, sprints, and tracking team work.",
+  MySQL: "Relational data for apps and reporting.",
+  Qdrant: "Vector database for semantic search and RAG.",
+  PostgreSQL: "Relational store, with pgvector for embeddings.",
+  Databricks: "Currently learning: unified data and ML platform.",
+  dbt: "Currently learning: SQL-based data transformations.",
+  Airflow: "Currently learning: scheduling and orchestrating pipelines.",
+  Snowflake: "Currently learning: cloud data warehousing.",
+};
 
 const EXPERIENCE = [
   {
@@ -152,10 +190,16 @@ const PROJECTS = [
     type: "Computer Vision",
     year: "2025",
     status: "Best Thesis",
-    desc: "AI biomechanics analyzer for powerlifting built with YOLOv8, Kalman filtering, and SVM classification. Tracks joint positions, stabilizes motion across frames, and classifies squat, bench, and deadlift mechanics in real time — delivering automated lift assessment and performance feedback on mobile hardware.",
+    featured: true,
+    desc: "Real-time lift analysis on mobile using YOLOv8 pose tracking, Kalman filtering, and SVM classification to assess squat, bench, and deadlift form.",
     metric: "Mobile application · Overall Best Thesis",
     tags: ["Python", "YOLOv8", "Kalman Filtering", "SVM", "MoveNet"],
-    img: "/Powerlift.webp",
+    img: "/POWER.png",
+    logoWide: "/logos/powerlift-wide.webp",
+    accent: "#c9443f",
+    accentSoft: "rgba(201, 68, 63, 0.10)",
+    plate: "linear-gradient(135deg, #fcf9f5 0%, #f4eee5 100%)",
+    plateGlow: "rgba(201, 68, 63, 0.18)",
     link: "https://github.com/cdobby18/Powerlift",
   },
   {
@@ -164,10 +208,13 @@ const PROJECTS = [
     private: true,
     year: "2026",
     status: "Prototype",
-    desc: "A guided platform for aspiring AI engineers starting from zero. No fluff, no shortcuts — RAG-powered mentorship that meets you at the bottom and builds you up through fundamentals, production skills, and real-world readiness.",
+    desc: "RAG-powered mentorship that guides aspiring AI engineers from zero through fundamentals, production skills, and real-world readiness.",
     metric: "React · Python · LLMs · RAG · LangChain",
     tags: ["React", "Python", "LLMs", "RAG", "FastAPI"],
     img: "/sunny.png",
+    logo: "/logos/sunny.webp",
+    accent: "#d98a3d",
+    accentSoft: "rgba(217, 138, 61, 0.12)",
     link: "#contact",
   },
   {
@@ -175,10 +222,13 @@ const PROJECTS = [
     type: "Agentic AI",
     year: "2026",
     status: "Built",
-    desc: "AI-powered support platform that triages tickets using intent, priority, and sentiment classification, then routes requests through automated workflows or human escalation. Includes RAG-based response drafting with confidence scoring, guardrails, and deterministic fallback logic.",
+    desc: "Support platform that triages tickets by intent, priority, and sentiment, then automates replies with RAG drafting, guardrails, and human escalation.",
     metric: "FastAPI · RAG · Agents · Guardrails",
     tags: ["FastAPI", "React", "RAG", "LangChain", "PostgreSQL", "FAISS"],
     img: "/resolve.png",
+    logo: "/logos/resolve.webp",
+    accent: "#2f9e75",
+    accentSoft: "rgba(47, 158, 117, 0.12)",
     link: "https://github.com/cdobby18/ReSOLVE",
   },
   {
@@ -186,10 +236,13 @@ const PROJECTS = [
     type: "Natural Language Processing",
     year: "2025",
     status: "Pipeline",
-    desc: "Resume parsing pipeline using spaCy NER and transformer-based semantic matching to extract skills, experience, and role fit. Processes 100+ documents per minute with structured JSON output ready for downstream ranking or ATS integration.",
+    noLogo: true,
+    desc: "Parses resumes with spaCy NER and semantic matching into structured JSON for ranking or ATS use, at 100+ documents per minute.",
     metric: "Python · spaCy NER + Semantic Match",
     tags: ["NLP", "spaCy", "Transformers", "FastAPI"],
     img: "/Resume.webp",
+    accent: "#4f7fd6",
+    accentSoft: "rgba(79, 127, 214, 0.11)",
     link: "https://github.com/cdobby18/resume_analyzer",
   },
   {
@@ -197,10 +250,13 @@ const PROJECTS = [
     type: "Transformer Pipeline",
     year: "2024",
     status: "Research Build",
-    desc: "Abstractive summarization system for multi-page PDFs using BART and T5. Handles long-document chunking strategies to stay within model context limits, then merges section-level summaries into a coherent output — outperforming extractive baselines on readability.",
+    noLogo: true,
+    desc: "Abstractive PDF summarizer using BART and T5, with long-document chunking that merges section summaries into one readable output.",
     metric: "Python · NLP · BART",
     tags: ["BART", "T5", "HuggingFace", "PDF"],
     img: "/Summarize.webp",
+    accent: "#8b6fd6",
+    accentSoft: "rgba(139, 111, 214, 0.11)",
     link: "https://github.com/cdobby18/ai-summarizer",
   },
 ];
@@ -406,7 +462,16 @@ function Hero() {
 
           <div className="hero-side">
             <div className="portrait">
-              <img src="/pic.jpeg" alt="Carl Joshua Coloma" />
+              <picture>
+                <source srcSet="/pic-portrait.webp" type="image/webp" />
+                <img
+                  src="/pic.jpeg"
+                  alt="Carl Joshua Coloma"
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
+                />
+              </picture>
             </div>
             <div className="portrait-cap">
               <span><PinIcon size={12} /> Manila, PH</span>
@@ -519,43 +584,281 @@ function ExperienceSection() {
    Projects
    ───────────────────────────────────────────────────────────── */
 
-function ProjectRow({ project, index, onArchitecture }) {
-  const isPrivate = !!project.private;
-  const primary = isPrivate ? "#contact" : project.link;
+const HOW_I_WORK = [
+  ["01", "Understand the problem before reaching for a model."],
+  ["02", "Build the smallest version that works, then measure."],
+  ["03", "Write code and docs someone else can maintain."],
+];
+
+const IDE_DEFAULT_CODE = `const name = "Carl Joshua Coloma";
+const role = "AI Automation Engineer";
+console.log(\`Hi, I'm \${name}.\`);
+console.log(\`Role: \${role}\`);`;
+
+const IDE_DEFAULT_OUTPUT = [
+  "Hi, I'm Carl Joshua Coloma.",
+  "Role: AI Automation Engineer",
+];
+
+function escapeHtml(value) {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+const TOKEN_RE = /(\/\/.*$)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`)|\b(const|let|var|function|return|new|if|else|for|of|in)\b|\b(console)\b|\.([a-zA-Z_$][\w$]*)(?=\()/g;
+
+function highlightLine(line) {
+  return escapeHtml(line).replace(TOKEN_RE, (m, comment, str, kw, obj, fn) => {
+    if (comment) return `<span class="tk-c">${comment}</span>`;
+    if (str) return `<span class="tk-s">${str}</span>`;
+    if (kw) return `<span class="tk-k">${kw}</span>`;
+    if (obj) return `<span class="tk-v">${obj}</span>`;
+    if (fn) return `.<span class="tk-f">${fn}</span>`;
+    return m;
+  });
+}
+
+function runIdeInline(code) {
+  const logs = [];
+  const push = (...args) => logs.push(args.map(String).join(" "));
+  try {
+    new Function("console", code)({ log: push, info: push, warn: push, error: push });
+    return { ok: true, output: logs.length ? logs : ["(no output)"] };
+  } catch (err) {
+    return { ok: false, output: [...logs, String(err)] };
+  }
+}
+
+function runIdeCode(code) {
+  return new Promise((resolve) => {
+    const source = `
+      const logs = [];
+      const push = (...args) => logs.push(args.map(String).join(" "));
+      const fake = { log: push, info: push, warn: push, error: push };
+      try {
+        const fn = new Function("console", ${JSON.stringify(code)});
+        fn(fake);
+        self.postMessage({ ok: true, logs });
+      } catch (err) {
+        self.postMessage({ ok: false, logs: logs.concat(String(err)) });
+      }
+    `;
+    let worker = null;
+    const timer = setTimeout(() => {
+      if (worker) worker.terminate();
+      resolve({ ok: false, output: ["Timed out after 2s — infinite loop?"] });
+    }, 2000);
+    try {
+      const url = URL.createObjectURL(new Blob([source], { type: "application/javascript" }));
+      worker = new Worker(url);
+      URL.revokeObjectURL(url);
+      worker.onmessage = (event) => {
+        clearTimeout(timer);
+        worker.terminate();
+        const logs = event.data.logs || [];
+        resolve({ ok: event.data.ok, output: logs.length ? logs : ["(no output)"] });
+      };
+      worker.onerror = (event) => {
+        clearTimeout(timer);
+        worker.terminate();
+        resolve({ ok: false, output: [event.message || "Worker error"] });
+      };
+    } catch {
+      clearTimeout(timer);
+      resolve(runIdeInline(code));
+    }
+  });
+}
+
+function IdeWindow() {
+  const [code, setCode] = useState(IDE_DEFAULT_CODE);
+  const [editing, setEditing] = useState(false);
+  const [result, setResult] = useState({ ok: true, output: IDE_DEFAULT_OUTPUT });
+  const [running, setRunning] = useState(false);
+
+  const touched = code !== IDE_DEFAULT_CODE;
+  const lines = code.split("\n");
+
+  const run = async () => {
+    if (running) return;
+    setRunning(true);
+    setResult(null);
+    const [res] = await Promise.all([
+      runIdeCode(code),
+      new Promise((resolve) => setTimeout(resolve, 320)),
+    ]);
+    setResult(res);
+    setRunning(false);
+  };
+
+  const reset = () => {
+    setCode(IDE_DEFAULT_CODE);
+    setResult({ ok: true, output: IDE_DEFAULT_OUTPUT });
+  };
 
   return (
-    <article className="proj-row">
-      <span className="proj-index">{String(index + 1).padStart(2, "0")}</span>
+    <div className="ide-card">
+      <div className="ide-bar">
+        <span className="ide-dots"><i /><i /><i /></span>
+        <span className="ide-title">hello.js</span>
+        <span className="ide-actions">
+          <button className="ide-act" type="button" onClick={() => setEditing((v) => !v)} disabled={running} aria-pressed={editing}>
+            {editing ? "done" : "edit"}
+          </button>
+          {touched && (
+            <button className="ide-act" type="button" onClick={reset} disabled={running}>reset</button>
+          )}
+          <button className="ide-act ide-act--run" type="button" onClick={run} disabled={running}>
+            {running ? "…" : "▶ run"}
+          </button>
+        </span>
+      </div>
 
-      <div className="proj-main">
-        <div className="proj-head">
-          <div className="proj-title-row">
-            <h3 className="proj-title">{project.title}</h3>
-            <span className="tag">{project.status}</span>
+      <div className="ide-tabs">
+        <span className="ide-tab ide-tab--active">
+          <span className="ide-file">js</span>
+          hello.js
+          {touched && <span className="ide-edited">●</span>}
+        </span>
+        <span className="ide-tab">README.md</span>
+      </div>
+
+      {editing ? (
+        <textarea
+          className="ide-editor"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+              e.preventDefault();
+              run();
+            }
+          }}
+          spellCheck={false}
+          rows={lines.length + 1}
+          aria-label="Editable code sample"
+        />
+      ) : (
+        <div className="ide-code">
+          {lines.map((line, i) => (
+            <div className="ide-line" key={i}>
+              <span className="ide-ln">{i + 1}</span>
+              <span className="ide-src" dangerouslySetInnerHTML={{ __html: highlightLine(line) || "&nbsp;" }} />
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="ide-term">
+        <span className="ide-prompt">$</span>
+        <span>node hello.js</span>
+        {!result && <span className="ide-caret" />}
+      </div>
+
+      {result ? (
+        <div className={`ide-output${result.ok ? "" : " ide-output--err"}`}>
+          {result.output.slice(0, 12).map((line, i) => (
+            <div className="ide-out-line" key={i}>{line}</div>
+          ))}
+        </div>
+      ) : (
+        <div className="ide-output ide-output--muted">
+          <div className="ide-out-line">running…</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function BrandImg({ project, ...rest }) {
+  const src = project.logoWide || project.logo || project.img;
+  return (
+    <img
+      src={src}
+      alt=""
+      draggable={false}
+      {...rest}
+      onError={(e) => {
+        const el = e.currentTarget;
+        if (project.img && el.getAttribute("src") !== project.img) {
+          el.src = project.img; // fall back to the original image if the optimized logo is missing
+        } else {
+          el.style.display = "none";
+        }
+      }}
+    />
+  );
+}
+
+function ProjectCard({ project, featured = false, onArchitecture }) {
+  const isPrivate = !!project.private;
+  const primary = isPrivate ? "#contact" : project.link;
+  const hasBrand = !project.noLogo && !!(project.logoWide || project.logo || project.img);
+  const shownTags = project.tags.slice(0, 4);
+  const extra = project.tags.length - shownTags.length;
+
+  return (
+    <article
+      className={`proj-card${featured ? " proj-card--featured" : ""}`}
+      style={{
+        "--proj-accent": project.accent,
+        "--proj-accent-soft": project.accentSoft,
+        "--proj-plate": project.plate,
+        "--proj-plate-glow": project.plateGlow,
+      }}
+    >
+      {featured && hasBrand && (
+        <div className="proj-brand-plate">
+          <span className="proj-featured-tag">
+            <span className="proj-featured-dot" aria-hidden="true" />
+            Featured project
+          </span>
+          <BrandImg project={project} alt={`${project.title} logo`} loading="lazy" decoding="async" />
+        </div>
+      )}
+
+      <div className="proj-card-inner">
+        <div className="proj-card-head">
+          {!featured && hasBrand && (
+            <span className="proj-brand">
+              <BrandImg project={project} loading="lazy" decoding="async" />
+            </span>
+          )}
+
+          <div className="proj-card-title">
+            <div className="proj-title-row">
+              <h3 className="proj-title">{project.title}</h3>
+              <span className="tag proj-status">{project.status}</span>
+            </div>
+            <div className="proj-meta">
+              <span>{project.type}</span>
+              <span className="sep">·</span>
+              <span>{project.year}</span>
+            </div>
           </div>
 
-          <div className="proj-actions">
-            {isPrivate ? (
-              <a className="text-link" href="#contact">Request details <ArrowUpRight size={13} /></a>
-            ) : (
-              <a className="text-link" href={primary} target="_blank" rel="noopener noreferrer">
-                View project <ArrowUpRight size={13} />
-              </a>
-            )}
-            <button className="btn-ghost-sm" type="button" onClick={onArchitecture}>
-              System Architecture
-            </button>
-          </div>
+          <a
+            className="icon-link proj-link"
+            href={primary}
+            target={isPrivate ? undefined : "_blank"}
+            rel={isPrivate ? undefined : "noopener noreferrer"}
+            aria-label={isPrivate ? "Request details" : `View ${project.title} on GitHub`}
+            title={isPrivate ? "Request details" : "View on GitHub"}
+          >
+            <ArrowUpRight size={15} />
+          </a>
         </div>
 
         <p className="proj-desc">{project.desc}</p>
 
-        <div className="proj-sub">
-          <span>{project.type}</span>
-          <span className="sep">·</span>
-          <span>{project.year}</span>
-          <span className="sep">·</span>
-          <span>{project.tags.join(" / ")}</span>
+        <div className="proj-card-foot">
+          <div className="proj-tags">
+            {shownTags.map((tag) => <span className="proj-tag" key={tag}>{tag}</span>)}
+            {extra > 0 && <span className="proj-tag proj-tag--more">+{extra}</span>}
+          </div>
+          <button className="btn-ghost-sm proj-arch-btn" type="button" onClick={onArchitecture}>
+            System architecture
+            <ArrowUpRight size={12} />
+          </button>
         </div>
       </div>
     </article>
@@ -576,6 +879,14 @@ function ProjectsSection() {
     };
   }, [arch]);
 
+  const featured = PROJECTS.find((p) => p.featured) || PROJECTS[0];
+  const ORDER = ["ReSOLVE", "Sunny", "Resume", "Document"];
+  const orderOf = (p) => {
+    const i = ORDER.findIndex((k) => p.title.startsWith(k));
+    return i === -1 ? ORDER.length : i;
+  };
+  const rest = PROJECTS.filter((p) => p !== featured).sort((x, y) => orderOf(x) - orderOf(y));
+
   return (
     <Section id="projects">
       <Reveal>
@@ -585,15 +896,29 @@ function ProjectsSection() {
           title="Selected work"
           lede="Applied AI systems across computer vision, NLP, and agentic workflows — built to be used, not just demoed."
         />
-        <div className="proj-list">
-          {PROJECTS.map((project, i) => (
-            <ProjectRow
-              key={project.title}
-              project={project}
-              index={i}
-              onArchitecture={() => setArch(project)}
-            />
-          ))}
+
+        <div className="proj-split">
+          <div className="proj-col">
+            <ProjectCard project={featured} featured onArchitecture={() => setArch(featured)} />
+            <div className="proj-grid">
+              {rest.map((project) => (
+                <ProjectCard key={project.title} project={project} onArchitecture={() => setArch(project)} />
+              ))}
+            </div>
+          </div>
+
+          <aside className="side-col">
+            <GitHubCard />
+            <div className="gh-how">
+              <p className="mono-label">How I work</p>
+              <ol className="gh-how-list">
+                {HOW_I_WORK.map(([n, text]) => (
+                  <li key={n}><span className="gh-how-num">{n}</span> {text}</li>
+                ))}
+              </ol>
+            </div>
+            <IdeWindow />
+          </aside>
         </div>
       </Reveal>
 
@@ -607,9 +932,16 @@ function ProjectsSection() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="modal-head">
-              <div>
-                <h3 className="modal-title">System Acanrchitecture</h3>
-                <p className="modal-sub">{arch.title}</p>
+              <div className="modal-id">
+                {!arch.noLogo && (arch.logoWide || arch.logo || arch.img) && (
+                  <div className={`modal-logo${arch.logoWide ? " modal-logo--wide" : ""}`} aria-hidden="true">
+                    <BrandImg project={arch} />
+                  </div>
+                )}
+                <div>
+                  <h3 className="modal-title">System Architecture</h3>
+                  <p className="modal-sub">{arch.title}</p>
+                </div>
               </div>
               <button className="icon-btn" onClick={() => setArch(null)} aria-label="Close">
                 <Icon size={16}><path d="M18 6 6 18M6 6l12 12" /></Icon>
@@ -641,7 +973,16 @@ function StackSection() {
           {SKILL_GROUPS.map((group) => (
             <div className="stack-row" key={group.label}>
               <h3 className="stack-label">{group.label}</h3>
-              <p className="stack-items">{group.skills.join("  ·  ")}</p>
+              <div className="stack-items">
+                {group.skills.map((skill) => (
+                  <span className="skill" key={skill} tabIndex={0}>
+                    {skill}
+                    {SKILL_INFO[skill] && (
+                      <span className="skill-tip" role="tooltip">{SKILL_INFO[skill]}</span>
+                    )}
+                  </span>
+                ))}
+              </div>
             </div>
           ))}
         </div>
@@ -716,7 +1057,10 @@ function timeAgo(iso) {
   return `${Math.floor(months / 12)}y ago`;
 }
 
-function GitHubSection() {
+// First day shown on the contribution map (when contributions began)
+const GH_START = "2026-03-01";
+
+function GitHubCard() {
   const COLORS = useColors();
   const [data, setData] = useState(null);
   const [contributions, setContributions] = useState(null);
@@ -765,7 +1109,7 @@ function GitHubSection() {
     return () => { alive = false; };
   }, []);
 
-  const days = contributions?.contributions || [];
+  const days = (contributions?.contributions || []).filter((d) => d.date >= GH_START);
   const total = days.reduce((sum, d) => sum + (d.count || 0), 0);
 
   const weeks = [];
@@ -784,26 +1128,18 @@ function GitHubSection() {
   }
 
   const palette = COLORS.isDark
-    ? ["#1c1c1f", "#0e4429", "#006d32", "#26a641", "#39d353"]
-    : ["#ebedf0", "#c6e9c9", "#8fd694", "#4caf50", "#2e7d32"];
+    ? ["#1c1c1f", "#4a1a1c", "#7f1d22", "#c2282f", "#e5484d"]
+    : ["#ebedf0", "#f6caca", "#ee9a9a", "#e05555", "#b91c1c"];
 
   return (
-    <Section id="github">
-      <Reveal>
-        <SectionHead
-          num="06"
-          label="GitHub"
-          title="Open source activity"
-          lede="A live look at what I'm shipping."
-        />
-
+    <>
         <div className="gh-card">
           <div className="gh-head">
             <div>
               <span className="mono-label">@cdobby18</span>
               <p className="gh-total">
                 {contributions
-                  ? `${total.toLocaleString()} contribution${total === 1 ? "" : "s"} in the last year`
+                  ? `${total.toLocaleString()} contribution${total === 1 ? "" : "s"} since March 2026`
                   : loading ? "Loading contributions…" : "Contribution activity"}
               </p>
             </div>
@@ -864,8 +1200,7 @@ function GitHubSection() {
             </div>
           </div>
         </div>
-      </Reveal>
-    </Section>
+    </>
   );
 }
 
@@ -921,12 +1256,7 @@ function ContactSection() {
       <Reveal>
         <div className="contact-grid">
           <div>
-            <SectionHead num="07" label="Contact" title="Let's build something reliable." />
-            <p className="body" style={{ maxWidth: 440 }}>
-              I'm open to AI engineering opportunities, agentic system collaborations, and
-              production ML work. Tell me what you're building — I usually reply within a day.
-            </p>
-
+            <SectionHead num="06" label="Contact" title="Let's build something reliable." />
             <div className="contact-list">
               <div className="contact-row">
                 <span className="contact-icon"><MailIcon /></span>
@@ -1419,11 +1749,11 @@ export default function OnePiece() {
           display: inline-flex;
           align-items: center;
           padding: 5px 10px;
-          border: 1px solid var(--chip-border);
+          border: 1px solid var(--accent-border);
           border-radius: 999px;
-          background: var(--chip-bg);
+          background: var(--accent-soft);
           font-size: 12px;
-          color: var(--text-2);
+          color: var(--accent);
         }
 
         /* hero */
@@ -1531,6 +1861,7 @@ export default function OnePiece() {
           background: var(--surface-2);
           box-shadow: var(--shadow);
         }
+        .portrait picture { display: block; width: 100%; height: 100%; }
         .portrait img {
           width: 100%;
           height: 100%;
@@ -1564,6 +1895,7 @@ export default function OnePiece() {
         .focus-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
         .facts-card {
           border: 1px solid var(--border);
+          border-top: 2px solid var(--accent);
           border-radius: 12px;
           background: var(--surface);
           padding: 4px 18px;
@@ -1643,7 +1975,7 @@ export default function OnePiece() {
         }
         .proj-row {
           display: grid;
-          grid-template-columns: 40px minmax(0, 1fr);
+          grid-template-columns: 40px 148px minmax(0, 1fr);
           gap: 18px;
           padding: 18px 12px;
           margin: 0 -12px;
@@ -1658,6 +1990,19 @@ export default function OnePiece() {
           font-size: 11px;
           letter-spacing: 0.04em;
           color: var(--muted);
+        }
+        .proj-thumb {
+          aspect-ratio: 16 / 10;
+          border: 1px solid var(--border);
+          border-radius: 8px;
+          overflow: hidden;
+          background: var(--surface-2);
+        }
+        .proj-thumb img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
         }
         .proj-main { min-width: 0; }
         .proj-head {
@@ -1746,6 +2091,295 @@ export default function OnePiece() {
           background: var(--chip-bg);
         }
 
+
+        /* projects redesign */
+        .tag-accent { border-color: var(--accent-border); background: var(--accent-soft); color: var(--accent); }
+        .proj-split { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+        .proj-col, .side-col { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+        .side-col .gh-card { padding: 16px; }
+        .side-col .gh-foot { grid-template-columns: minmax(0, 1fr); }
+        .side-col .gh-meta { flex-direction: row; flex-wrap: wrap; gap: 14px; }
+
+        .proj-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+        .proj-card {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          min-width: 0;
+          overflow: hidden;
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          background: var(--surface);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .proj-card::before {
+          content: "";
+          position: absolute;
+          inset: 0 0 auto;
+          height: 2px;
+          background: linear-gradient(90deg, var(--proj-accent, var(--accent)), transparent 72%);
+          opacity: 0.9;
+          z-index: 1;
+        }
+        .proj-card:hover {
+          transform: translateY(-3px);
+          border-color: color-mix(in srgb, var(--proj-accent, var(--accent)) 42%, var(--border));
+          box-shadow: 0 22px 44px -24px rgba(0, 0, 0, 0.32), 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+        .proj-card-inner { display: flex; flex: 1; flex-direction: column; gap: 12px; padding: 18px; }
+        .proj-brand-plate {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 42px 28px 26px;
+          border-bottom: 1px solid rgba(9, 9, 11, 0.07);
+          background-image:
+            radial-gradient(360px 170px at 84% -30%, var(--proj-plate-glow, rgba(201, 68, 63, 0.18)), transparent 70%),
+            radial-gradient(280px 140px at 6% 130%, var(--proj-plate-glow, rgba(201, 68, 63, 0.10)), transparent 70%),
+            var(--proj-plate, linear-gradient(135deg, #fcf9f5 0%, #f4eee5 100%));
+        }
+        .proj-brand-plate img {
+          display: block;
+          width: auto;
+          height: auto;
+          max-width: min(100%, 320px);
+          max-height: 120px;
+          filter: drop-shadow(0 14px 26px rgba(74, 34, 24, 0.18));
+        }
+        .proj-featured-tag {
+          position: absolute;
+          top: 12px;
+          left: 14px;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 4px 9px;
+          border: 1px solid rgba(9, 9, 11, 0.08);
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.72);
+          backdrop-filter: blur(6px);
+          font-family: var(--mono);
+          font-size: 9.5px;
+          font-weight: 500;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #6d4a43;
+        }
+        .proj-featured-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--proj-accent, var(--accent)); }
+        .proj-card-head { display: flex; align-items: flex-start; gap: 12px; }
+        .proj-brand {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 68px;
+          height: 68px;
+          flex-shrink: 0;
+          overflow: hidden;
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          background: var(--surface-2);
+          box-shadow: 0 8px 18px -12px rgba(0, 0, 0, 0.4);
+        }
+        .proj-brand img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .proj-card:hover .proj-brand img { transform: scale(1.06); }
+        .proj-card-title { flex: 1; min-width: 0; }
+        .proj-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; }
+        .proj-card .proj-title { font-size: 15.5px; line-height: 1.32; }
+        .proj-card--featured .proj-title { font-size: 18px; }
+        .proj-status {
+          flex-shrink: 0;
+          border-color: color-mix(in srgb, var(--proj-accent, var(--accent)) 34%, var(--chip-border));
+          background: var(--proj-accent-soft, var(--accent-soft));
+          color: color-mix(in srgb, var(--proj-accent, var(--accent)) 62%, var(--text));
+        }
+        .proj-meta {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          flex-wrap: wrap;
+          margin-top: 6px;
+          font-family: var(--mono);
+          font-size: 10px;
+          letter-spacing: 0.07em;
+          text-transform: uppercase;
+          color: var(--muted);
+        }
+        .proj-meta .sep { opacity: 0.45; }
+        .proj-link { flex-shrink: 0; }
+        .proj-card .proj-desc {
+          margin: 0;
+          max-width: none;
+          display: block;
+          overflow: visible;
+          -webkit-line-clamp: unset;
+          font-size: 13px;
+          line-height: 1.65;
+          color: var(--text-2);
+        }
+        .proj-card-foot {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          margin-top: auto;
+          padding-top: 14px;
+          border-top: 1px dashed var(--border);
+        }
+        .proj-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+        .proj-tag {
+          display: inline-flex;
+          align-items: center;
+          padding: 3px 8px;
+          border: 1px solid var(--chip-border);
+          border-radius: 999px;
+          background: var(--chip-bg);
+          font-family: var(--mono);
+          font-size: 10px;
+          letter-spacing: 0.03em;
+          color: var(--text-2);
+          transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+        }
+        .proj-tag:hover {
+          color: var(--text);
+          border-color: color-mix(in srgb, var(--proj-accent, var(--accent)) 38%, var(--chip-border));
+          background: var(--proj-accent-soft, var(--accent-soft));
+        }
+        .proj-arch-btn { align-self: flex-start; gap: 7px; padding: 7px 11px; border-radius: 8px; }
+        .proj-arch-btn svg { transition: transform 0.2s ease; }
+        .proj-arch-btn:hover svg { transform: translate(1px, -1px); }
+        .btn-ghost-sm:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+        .icon-link {
+          width: 30px;
+          height: 30px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid var(--border-strong);
+          border-radius: 8px;
+          color: var(--text-2);
+          text-decoration: none;
+          transition: all 0.18s ease;
+        }
+        .icon-link:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+        .modal-id { display: flex; align-items: center; gap: 14px; min-width: 0; }
+        .modal-logo {
+          width: 56px;
+          height: 56px;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          border: 1px solid var(--border);
+          border-radius: 11px;
+          background: var(--surface-2);
+        }
+        .modal-logo img { width: 100%; height: 100%; display: block; object-fit: cover; }
+        .modal-logo--wide {
+          width: 158px;
+          padding: 6px 9px;
+          border-color: rgba(201, 68, 63, 0.24);
+          background: linear-gradient(135deg, #fcf9f5 0%, #f4eee5 100%);
+        }
+        .modal-logo--wide img { object-fit: contain; }
+
+        /* workspace: github + how i work + ide */
+        .gh-how {
+          padding: 20px;
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          background: var(--surface);
+        }
+        .gh-how-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
+        .gh-how-list li { display: flex; gap: 12px; font-size: 14px; line-height: 1.6; color: var(--text-2); }
+        .gh-how-num { font-family: var(--mono); font-size: 11px; color: var(--accent); padding-top: 2px; }
+
+        .ide-card {
+          overflow: hidden;
+          border: 1px solid rgba(255, 255, 255, 0.09);
+          border-radius: 11px;
+          background: #1e1e1e;
+          box-shadow: 0 18px 36px -26px rgba(0, 0, 0, 0.55);
+          font-family: var(--mono);
+        }
+        .ide-bar { display: flex; align-items: center; gap: 8px; padding: 8px 11px; background: #181818; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .ide-dots { display: inline-flex; align-items: center; gap: 5px; flex-shrink: 0; }
+        .ide-dots i { width: 8px; height: 8px; border-radius: 50%; background: #4a4a4a; }
+        .ide-dots i:nth-child(1) { background: #ff5f57; }
+        .ide-dots i:nth-child(2) { background: #febc2e; }
+        .ide-dots i:nth-child(3) { background: #28c840; }
+        .ide-title { flex: 1; min-width: 0; overflow: hidden; text-align: center; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; letter-spacing: 0.04em; color: #8b8b8b; }
+        .ide-actions { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; }
+        .ide-act {
+          padding: 2px 7px;
+          border: 1px solid rgba(255,255,255,0.14);
+          border-radius: 4px;
+          background: transparent;
+          color: #cbd5e1;
+          font-family: var(--mono);
+          font-size: 9.5px;
+          line-height: 1.5;
+          cursor: pointer;
+          transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+        }
+        .ide-act:hover:not(:disabled) { color: #fff; border-color: rgba(229,72,77,0.65); }
+        .ide-act:disabled { opacity: 0.55; cursor: not-allowed; }
+        .ide-act--run { border-color: #e5484d; background: #e5484d; color: #fff; font-weight: 600; }
+        .ide-act--run:hover:not(:disabled) { background: #f05256; }
+        .ide-tabs { display: flex; align-items: stretch; background: #252526; border-bottom: 1px solid #2d2d2d; overflow: hidden; }
+        .ide-tab { display: inline-flex; align-items: center; gap: 6px; padding: 7px 11px; border-right: 1px solid #2d2d2d; font-size: 10.5px; color: #8b8b8b; white-space: nowrap; }
+        .ide-tab--active { background: #1e1e1e; color: #d4d4d4; box-shadow: inset 0 2px 0 #e5484d; }
+        .ide-edited { font-size: 7px; color: #e5484d; }
+        .ide-file { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 3px; background: rgba(229,72,77,0.16); font-size: 7.5px; font-weight: 600; color: #e5484d; }
+        .ide-code { padding: 10px 0 11px; font-size: 11px; line-height: 1.85; color: #d4d4d4; overflow-x: auto; }
+        .ide-line { display: flex; gap: 10px; padding: 0 12px; white-space: pre; }
+        .ide-ln { width: 12px; flex-shrink: 0; text-align: right; font-size: 10px; color: #5a5a5a; user-select: none; }
+        .ide-src { display: block; }
+        .ide-editor {
+          display: block;
+          width: 100%;
+          min-height: 100px;
+          margin: 0;
+          padding: 10px 12px;
+          border: 0;
+          outline: 0;
+          resize: vertical;
+          background: #1e1e1e;
+          color: #d4d4d4;
+          caret-color: #e5484d;
+          font-family: var(--mono);
+          font-size: 11px;
+          line-height: 1.85;
+        }
+        .tk-c { color: #6a9955; }
+        .tk-k { color: #569cd6; }
+        .tk-v { color: #9cdcfe; }
+        .tk-f { color: #dcdcaa; }
+        .tk-s { color: #ce9178; }
+        .ide-term { display: flex; align-items: center; gap: 6px; padding: 7px 12px; border-top: 1px solid rgba(255,255,255,0.07); background: #181818; font-size: 10px; color: #d4d4d4; white-space: nowrap; overflow: hidden; }
+        .ide-prompt { color: #e5484d; font-weight: 600; }
+        .ide-caret { width: 5px; height: 11px; flex-shrink: 0; background: #d4d4d4; animation: ide-blink 1.1s steps(1) infinite; }
+        @keyframes ide-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+        .ide-output {
+          max-height: 70px;
+          overflow-y: auto;
+          padding: 6px 12px 8px;
+          border-top: 1px solid rgba(255,255,255,0.04);
+          background: #181818;
+          font-size: 10px;
+          line-height: 1.65;
+          color: #89d185;
+        }
+        .ide-output--err { color: #f48771; }
+        .ide-output--muted { color: #8b8b8b; }
+        .ide-out-line { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+        /* hero logo portrait */
+        .portrait--logo { aspect-ratio: 1 / 1; background: #fbfaf4; }
+        .portrait--logo img { object-position: center; filter: none; transform: scale(1.28); transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+        .portrait--logo:hover img { transform: scale(1.32); }
+
         /* stack */
         .stack-list {
           display: flex;
@@ -1766,11 +2400,46 @@ export default function OnePiece() {
           letter-spacing: -0.01em;
           color: var(--text);
         }
-        .stack-items {
-          font-size: 14px;
-          line-height: 1.9;
+        .stack-items { display: flex; flex-wrap: wrap; gap: 8px; }
+        .skill {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          padding: 4px 11px;
+          border: 1px solid var(--chip-border);
+          border-radius: 999px;
+          background: var(--chip-bg);
+          font-size: 13px;
           color: var(--text-2);
+          cursor: default;
+          transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
         }
+        .skill:hover, .skill:focus-visible {
+          color: var(--accent);
+          border-color: var(--accent);
+          background: var(--accent-soft);
+          transform: translateY(-1px);
+          z-index: 20;
+        }
+        .skill-tip {
+          position: absolute;
+          bottom: calc(100% + 8px);
+          left: 50%;
+          width: max-content;
+          max-width: 210px;
+          padding: 8px 10px;
+          border-radius: 8px;
+          background: var(--text);
+          color: var(--bg);
+          font-size: 12px;
+          line-height: 1.5;
+          text-align: left;
+          pointer-events: none;
+          opacity: 0;
+          transform: translate(-50%, 4px);
+          transition: opacity 0.16s ease, transform 0.16s ease;
+        }
+        .skill:hover .skill-tip, .skill:focus-visible .skill-tip { opacity: 1; transform: translate(-50%, 0); }
 
         /* certifications */
         .cert-grid {
@@ -2082,6 +2751,7 @@ export default function OnePiece() {
             border-radius: 0;
           }
           .proj-index { display: none; }
+          .proj-thumb { width: 100%; max-width: 360px; margin-bottom: 12px; }
           .proj-head { gap: 10px; }
           .proj-actions { justify-content: flex-start; width: 100%; margin-top: 4px; }
           .stack-row { grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 14px 0; }
@@ -2090,6 +2760,15 @@ export default function OnePiece() {
           .form-row { grid-template-columns: minmax(0, 1fr); }
           .hero-stats { gap: 24px; }
           .portrait-cap { font-size: 9px; }
+        }
+        @media (max-width: 1000px) {
+          .proj-split { grid-template-columns: minmax(0, 1fr); }
+        }
+        @media (max-width: 640px) {
+          .proj-grid { grid-template-columns: minmax(0, 1fr); }
+          .proj-brand-plate { padding: 40px 22px 24px; }
+          .proj-brand-plate img { max-height: 100px; }
+          .modal-logo--wide { width: 118px; height: 48px; }
         }
         @media (prefers-reduced-motion: reduce) {
           *, *::before, *::after {
@@ -2104,22 +2783,22 @@ export default function OnePiece() {
       <nav className={`nav${scrolled ? " scrolled" : ""}`}>
         <div className="shell nav-inner">
           <a className="brand" href="#hero">
-          <span className="brand-mark">
-            <img
-              src="/cjlogo.png"
-              alt="CJ logo"
-              style={{ width: 16, height: 16, objectFit: "contain", display: "block" }}
-            />
-          </span>
-          <span>Carl Coloma</span>
-        </a>
+            <span className="brand-mark">
+              <img
+                src="/cjlogo.png"
+                alt="CJ logo"
+                style={{ width: 16, height: 16, objectFit: "contain", display: "block" }}
+              />
+            </span>
+            <span>Carl Coloma</span>
+          </a>
 
           <div className="nav-links">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.id}
                 className={`nav-link${active === link.id ? " active" : ""}`}
-                href={`#${link.id}`}
+                href={link.href || `#${link.id}`}
               >
                 {link.label}
               </a>
@@ -2152,7 +2831,7 @@ export default function OnePiece() {
 
       <div className={`menu${menuOpen ? " open" : ""}`}>
         {NAV_LINKS.map((link) => (
-          <a key={link.id} className="menu-link" href={`#${link.id}`} onClick={closeMenu}>
+          <a key={link.id} className="menu-link" href={link.href || `#${link.id}`} onClick={closeMenu}>
             {link.label}
           </a>
         ))}
@@ -2173,7 +2852,6 @@ export default function OnePiece() {
         <ProjectsSection />
         <StackSection />
         <CertificationsSection />
-        <GitHubSection />
         <ContactSection />
       </main>
 

@@ -1536,6 +1536,7 @@ export default function OnePiece() {
         .hero {
           position: relative;
           isolation: isolate;
+          overflow-x: clip;
           padding-top: calc(52px + clamp(28px, 5vw, 56px));
           padding-bottom: clamp(44px, 6vw, 72px);
         }

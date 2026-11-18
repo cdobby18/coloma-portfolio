@@ -114,43 +114,6 @@ const SKILL_GROUPS = [
   },
 ];
 
-const SKILL_INFO = {
-  Python: "My main language for AI, backend services, and automation.",
-  JavaScript: "Used for React front ends and small interactive tools.",
-  FastAPI: "Async Python APIs with typed request and response models.",
-  Streamlit: "Quick data apps and demos for ML prototypes.",
-  OpenCV: "Real-time image and video processing for vision pipelines.",
-  NumPy: "Array math behind data prep and model code.",
-  "scikit-learn": "Classical ML: training, evaluation, and pipelines.",
-  Pydantic: "Data validation and structured LLM outputs.",
-  RAG: "Retrieval-augmented generation grounded in your own data.",
-  LangChain: "Chains, retrievers, and agents around LLM calls.",
-  "Agentic AI": "Tool-using agents with guardrails and fallbacks.",
-  "Prompt Engineering": "Designing and testing prompts for reliable output.",
-  "LLM Integration": "Wiring LLM APIs into real products and workflows.",
-  Ollama: "Running open models locally for private, offline work.",
-  Hermes: "Agent tooling I use for agentic LLM workflows.",
-  "Exa AI": "AI-native search API for retrieval and research.",
-  OpenCode: "Open-source AI coding agent in the terminal.",
-  Git: "Version control, branching, and clean commit history.",
-  "VS Code": "My daily editor and debugging environment.",
-  Jupyter: "Notebooks for experiments and quick analysis.",
-  Obsidian: "Linked notes for research and documentation.",
-  "Google Colab": "Hosted notebooks with GPUs for training runs.",
-  pytest: "Automated tests for Python services and pipelines.",
-  Debugging: "Tracing failures down to root causes.",
-  "Technical Documentation": "READMEs and docs someone else can follow.",
-  "Code Review & PRs": "Reviewing and shipping changes through pull requests.",
-  Jira: "Tickets, sprints, and tracking team work.",
-  MySQL: "Relational data for apps and reporting.",
-  Qdrant: "Vector database for semantic search and RAG.",
-  PostgreSQL: "Relational store, with pgvector for embeddings.",
-  Databricks: "Currently learning: unified data and ML platform.",
-  dbt: "Currently learning: SQL-based data transformations.",
-  Airflow: "Currently learning: scheduling and orchestrating pipelines.",
-  Snowflake: "Currently learning: cloud data warehousing.",
-};
-
 const EXPERIENCE = [
   {
     role: "Backend AI Engineer Intern",
@@ -233,7 +196,7 @@ const PROJECTS = [
   },
   {
     title: "Resume Analyzer",
-    type: "Natural Language Processing",
+    type: "NLP Pipeline",
     year: "2025",
     status: "Pipeline",
     noLogo: true,
@@ -585,9 +548,11 @@ function ExperienceSection() {
    ───────────────────────────────────────────────────────────── */
 
 const HOW_I_WORK = [
-  ["01", "Understand the problem before reaching for a model."],
-  ["02", "Build the smallest version that works, then measure."],
-  ["03", "Write code and docs someone else can maintain."],
+  ["01", "Understand the problem", "Read the existing workflow and define what a good output actually looks like."],
+  ["02", "Plan the smallest version", "Pick the data, model, and failure paths a first usable slice really needs."],
+  ["03", "Build feature by feature", "Ship one testable piece at a time instead of a big-bang demo."],
+  ["04", "Test before shipping", "Unit tests, eval sets, and adversarial prompts against real cases."],
+  ["05", "Document the handoff", "Setup notes, prompts, and a runbook so someone else can run it."],
 ];
 
 const IDE_DEFAULT_CODE = `const name = "Carl Joshua Coloma";
@@ -812,40 +777,54 @@ function ProjectCard({ project, featured = false, onArchitecture }) {
             <span className="proj-featured-dot" aria-hidden="true" />
             Featured project
           </span>
+          <span className="proj-plate-actions">
+            <span className="tag proj-status proj-status--plate">{project.status}</span>
+            <a
+              className="icon-link proj-link proj-link--plate"
+              href={primary}
+              target={isPrivate ? undefined : "_blank"}
+              rel={isPrivate ? undefined : "noopener noreferrer"}
+              aria-label={isPrivate ? "Request details" : `View ${project.title} on GitHub`}
+              title={isPrivate ? "Request details" : "View on GitHub"}
+            >
+              <ArrowUpRight size={15} />
+            </a>
+          </span>
           <BrandImg project={project} alt={`${project.title} logo`} loading="lazy" decoding="async" />
         </div>
       )}
 
       <div className="proj-card-inner">
-        <div className="proj-card-head">
-          {!featured && hasBrand && (
-            <span className="proj-brand">
-              <BrandImg project={project} loading="lazy" decoding="async" />
-            </span>
-          )}
+        {(!featured || !hasBrand) && (
+          <div className="proj-card-top">
+            {!featured && hasBrand && (
+              <span className="proj-brand">
+                <BrandImg project={project} loading="lazy" decoding="async" />
+              </span>
+            )}
 
-          <div className="proj-card-title">
-            <div className="proj-title-row">
-              <h3 className="proj-title">{project.title}</h3>
-              <span className="tag proj-status">{project.status}</span>
-            </div>
-            <div className="proj-meta">
-              <span>{project.type}</span>
-              <span className="sep">·</span>
-              <span>{project.year}</span>
-            </div>
+            <span className="tag proj-status">{project.status}</span>
+
+            <a
+              className="icon-link proj-link"
+              href={primary}
+              target={isPrivate ? undefined : "_blank"}
+              rel={isPrivate ? undefined : "noopener noreferrer"}
+              aria-label={isPrivate ? "Request details" : `View ${project.title} on GitHub`}
+              title={isPrivate ? "Request details" : "View on GitHub"}
+            >
+              <ArrowUpRight size={15} />
+            </a>
           </div>
+        )}
 
-          <a
-            className="icon-link proj-link"
-            href={primary}
-            target={isPrivate ? undefined : "_blank"}
-            rel={isPrivate ? undefined : "noopener noreferrer"}
-            aria-label={isPrivate ? "Request details" : `View ${project.title} on GitHub`}
-            title={isPrivate ? "Request details" : "View on GitHub"}
-          >
-            <ArrowUpRight size={15} />
-          </a>
+        <div className="proj-card-title">
+          <h3 className="proj-title">{project.title}</h3>
+          <div className="proj-meta">
+            <span>{project.type}</span>
+            <span className="sep">·</span>
+            <span>{project.year}</span>
+          </div>
         </div>
 
         <p className="proj-desc">{project.desc}</p>
@@ -912,8 +891,14 @@ function ProjectsSection() {
             <div className="gh-how">
               <p className="mono-label">How I work</p>
               <ol className="gh-how-list">
-                {HOW_I_WORK.map(([n, text]) => (
-                  <li key={n}><span className="gh-how-num">{n}</span> {text}</li>
+                {HOW_I_WORK.map(([n, title, body]) => (
+                  <li key={n}>
+                    <span className="gh-how-num">{n}</span>
+                    <span className="gh-how-text">
+                      <span className="gh-how-title">{title}</span>
+                      <span className="gh-how-body">{body}</span>
+                    </span>
+                  </li>
                 ))}
               </ol>
             </div>
@@ -975,12 +960,7 @@ function StackSection() {
               <h3 className="stack-label">{group.label}</h3>
               <div className="stack-items">
                 {group.skills.map((skill) => (
-                  <span className="skill" key={skill} tabIndex={0}>
-                    {skill}
-                    {SKILL_INFO[skill] && (
-                      <span className="skill-tip" role="tooltip">{SKILL_INFO[skill]}</span>
-                    )}
-                  </span>
+                  <span className="skill" key={skill}>{skill}</span>
                 ))}
               </div>
             </div>
@@ -1087,14 +1067,41 @@ function GitHubCard() {
         const pushedEvents = Array.isArray(events) ? events.filter((e) => e.type === "PushEvent") : [];
         const lastPush = repos.length ? repos[0].pushed_at : null;
         let latestCommit = null;
-        if (pushedEvents.length) {
+
+        // Public events don't always include commit details, so read the latest
+        // commit straight from the most recently pushed repository instead.
+        if (repos.length) {
+          try {
+            const latest = repos[0];
+            const commitRes = await fetch(
+              `https://api.github.com/repos/${latest.full_name}/commits?per_page=1`
+            );
+            if (commitRes.ok) {
+              const commits = await commitRes.json();
+              if (Array.isArray(commits) && commits[0]) {
+                latestCommit = {
+                  sha: commits[0].sha?.slice(0, 7),
+                  message: (commits[0].commit?.message || "").split("\n")[0],
+                  repo: latest.name,
+                  date: commits[0].commit?.committer?.date || latest.pushed_at,
+                };
+              }
+            }
+          } catch {
+            // Fall back to the events payload below.
+          }
+        }
+
+        if (!latestCommit && pushedEvents.length) {
           const pe = pushedEvents[0];
           const commits = pe.payload?.commits || [];
           if (commits.length) {
+            const last = commits[commits.length - 1];
             latestCommit = {
-              sha: commits[commits.length - 1].sha?.slice(0, 7),
-              message: commits[commits.length - 1].message,
+              sha: last.sha?.slice(0, 7),
+              message: last.message,
               repo: pe.repo?.name,
+              date: pe.created_at,
             };
           }
         }
@@ -1187,6 +1194,9 @@ function GitHubCard() {
                   <div className="commit-top">
                     <span className="commit-repo">{data.latestCommit.repo}</span>
                     <span className="commit-sha">{data.latestCommit.sha}</span>
+                    {data.latestCommit.date && (
+                      <span className="commit-time">{timeAgo(data.latestCommit.date)}</span>
+                    )}
                   </div>
                   <p className="commit-msg">{data.latestCommit.message}</p>
                 </>
@@ -1758,7 +1768,7 @@ export default function OnePiece() {
 
         /* hero */
         .hero {
-          padding-top: calc(64px + clamp(44px, 7vw, 84px));
+          padding-top: calc(64px + clamp(30px, 4.5vw, 56px));
           padding-bottom: clamp(44px, 6vw, 72px);
         }
         .hero-grid {
@@ -2133,7 +2143,7 @@ export default function OnePiece() {
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 42px 28px 26px;
+          padding: 34px 26px 22px;
           border-bottom: 1px solid rgba(9, 9, 11, 0.07);
           background-image:
             radial-gradient(360px 170px at 84% -30%, var(--proj-plate-glow, rgba(201, 68, 63, 0.18)), transparent 70%),
@@ -2168,28 +2178,48 @@ export default function OnePiece() {
           color: #6d4a43;
         }
         .proj-featured-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--proj-accent, var(--accent)); }
-        .proj-card-head { display: flex; align-items: flex-start; gap: 12px; }
+        .proj-plate-actions {
+          position: absolute;
+          top: 12px;
+          right: 14px;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .proj-status--plate,
+        .proj-link--plate {
+          border-color: rgba(9, 9, 11, 0.09);
+          background: rgba(255, 255, 255, 0.74);
+          backdrop-filter: blur(6px);
+          color: #6d4a43;
+        }
+        .proj-link--plate:hover {
+          color: var(--proj-accent, var(--accent));
+          border-color: var(--proj-accent, var(--accent));
+          background: #ffffff;
+        }
+        .proj-card-top { display: flex; align-items: center; gap: 8px; }
         .proj-brand {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          width: 68px;
-          height: 68px;
+          width: 44px;
+          height: 44px;
           flex-shrink: 0;
           overflow: hidden;
           border: 1px solid var(--border);
-          border-radius: 16px;
+          border-radius: 11px;
           background: var(--surface-2);
           box-shadow: 0 8px 18px -12px rgba(0, 0, 0, 0.4);
         }
         .proj-brand img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .proj-card:hover .proj-brand img { transform: scale(1.06); }
-        .proj-card-title { flex: 1; min-width: 0; }
-        .proj-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; }
-        .proj-card .proj-title { font-size: 15.5px; line-height: 1.32; }
-        .proj-card--featured .proj-title { font-size: 18px; }
+        .proj-card-title { min-width: 0; }
+        .proj-card .proj-title { font-size: 15.5px; line-height: 1.34; }
+        .proj-card--featured .proj-title { font-size: 18px; line-height: 1.3; }
         .proj-status {
           flex-shrink: 0;
+          margin-left: auto;
           border-color: color-mix(in srgb, var(--proj-accent, var(--accent)) 34%, var(--chip-border));
           background: var(--proj-accent-soft, var(--accent-soft));
           color: color-mix(in srgb, var(--proj-accent, var(--accent)) 62%, var(--text));
@@ -2291,9 +2321,26 @@ export default function OnePiece() {
           border-radius: 12px;
           background: var(--surface);
         }
-        .gh-how-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
-        .gh-how-list li { display: flex; gap: 12px; font-size: 14px; line-height: 1.6; color: var(--text-2); }
-        .gh-how-num { font-family: var(--mono); font-size: 11px; color: var(--accent); padding-top: 2px; }
+        .gh-how-list { list-style: none; display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+        .gh-how-list li { display: flex; align-items: flex-start; gap: 11px; }
+        .gh-how-num {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 22px;
+          height: 22px;
+          flex-shrink: 0;
+          margin-top: 1px;
+          border: 1px solid var(--border);
+          border-radius: 6px;
+          background: var(--chip-bg);
+          font-family: var(--mono);
+          font-size: 10px;
+          color: var(--muted);
+        }
+        .gh-how-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+        .gh-how-title { font-size: 13.5px; font-weight: 600; line-height: 1.35; color: var(--text); }
+        .gh-how-body { font-size: 12.5px; line-height: 1.55; color: var(--muted); }
 
         .ide-card {
           overflow: hidden;
@@ -2405,41 +2452,22 @@ export default function OnePiece() {
           position: relative;
           display: inline-flex;
           align-items: center;
-          padding: 4px 11px;
+          padding: 5px 10px;
           border: 1px solid var(--chip-border);
-          border-radius: 999px;
+          border-radius: 6px;
           background: var(--chip-bg);
           font-size: 13px;
+          line-height: 1.2;
           color: var(--text-2);
           cursor: default;
           transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
         }
         .skill:hover, .skill:focus-visible {
-          color: var(--accent);
+          color: #ffffff;
           border-color: var(--accent);
-          background: var(--accent-soft);
+          background: var(--accent);
           transform: translateY(-1px);
-          z-index: 20;
         }
-        .skill-tip {
-          position: absolute;
-          bottom: calc(100% + 8px);
-          left: 50%;
-          width: max-content;
-          max-width: 210px;
-          padding: 8px 10px;
-          border-radius: 8px;
-          background: var(--text);
-          color: var(--bg);
-          font-size: 12px;
-          line-height: 1.5;
-          text-align: left;
-          pointer-events: none;
-          opacity: 0;
-          transform: translate(-50%, 4px);
-          transition: opacity 0.16s ease, transform 0.16s ease;
-        }
-        .skill:hover .skill-tip, .skill:focus-visible .skill-tip { opacity: 1; transform: translate(-50%, 0); }
 
         /* certifications */
         .cert-grid {
@@ -2530,6 +2558,7 @@ export default function OnePiece() {
         .commit-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
         .commit-repo { font-family: var(--mono); font-size: 10.5px; font-weight: 600; color: var(--accent); }
         .commit-sha { font-family: var(--mono); font-size: 9.5px; color: var(--muted); }
+        .commit-time { margin-left: auto; font-family: var(--mono); font-size: 9.5px; color: var(--muted); }
         .commit-msg {
           font-size: 12.5px;
           line-height: 1.5;

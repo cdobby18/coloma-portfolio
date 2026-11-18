@@ -7,7 +7,7 @@ const LOCAL_DOCS = [
   { id: "doc-summarizer", title: "Document Summarizer", text: "Abstractive summarization for multi-page PDFs using BART and T5 with chunking and section-level synthesis." },
   { id: "resolve", title: "ReSOLVE — Customer Support Automation", text: "An agentic support platform that triages tickets by intent, priority, and sentiment, drafts grounded responses with RAG confidence scoring, and escalates to humans with deterministic fallbacks." },
   { id: "automation", title: "AI Automation Focus", text: "CJ builds LLM-powered workflows for support triage, document intake, and research operations. He starts by mapping the manual process, then automates one step at a time with deterministic fallbacks, citations, human approval for irreversible actions, retries, idempotency, and audit logs. ReSOLVE is his featured automation project." },
-  { id: "flyrank", title: "Backend AI Engineer Intern — FlyRank AI", text: "Built LLM-powered content generation and semantic ranking pipelines with embeddings and vector search. Worked on prompt engineering for production AI features. Internship ran July to October 2026." },
+  { id: "flyrank", title: "Backend AI Engineer Intern — FlyRank AI", text: "CJ built LLM-powered content generation and semantic ranking pipelines with embeddings and vector search. Worked on prompt engineering for production AI features. Internship ran July to October 2026." },
   { id: "sofi-qa", title: "AI QA Intern — SoFi AI Tech Solutions", text: "Designed adversarial prompt test suites targeting hallucination, refusal, and instruction-following failures in chatbots. Evaluated responses at scale. Internship ran April to July 2026." },
   { id: "lamina", title: "AI Engineer Intern — Lamina Studios", text: "Built real-time YOLOv8 object detection pipelines with OpenCV at production-ready inference speeds, trained XGBoost models, automated retraining. Internship ran December 2025 to April 2026." },
   { id: "internships", title: "Internship Experience Overview", text: "Completed three AI engineering internships: Lamina Studios in computer vision (Dec 2025 to Apr 2026), SoFi AI Tech Solutions in AI QA (Apr to Jul 2026), and FlyRank AI in backend AI engineering (Jul to Oct 2026)." },
@@ -18,38 +18,41 @@ const LOCAL_DOCS = [
 ];
 
 const CONTACT_REPLY =
-  "You can reach CJ at carljoshuamcoloma@gmail.com. GitHub is github.com/cdobby18, and LinkedIn is linkedin.com/in/carl-joshua-coloma.";
+  "You can reach CJ through the following channels:\n\n- **Email:** carljoshuamcoloma@gmail.com\n- **GitHub:** github.com/cdobby18\n- **LinkedIn:** linkedin.com/in/carl-joshua-coloma";
 
 const INTENTS = [
   {
     id: "greeting",
     match: /^\s*(hi|hey|hello|yo|sup|howdy|good (morning|afternoon|evening))(\s+(there|again|all|everyone|friend))?[\s!,.?]*$/i,
-    reply: "Hi! I'm CJ's portfolio assistant. Ask me anything about his automation work, projects, or technical background.",
+    reply:
+      "Hello. I'm CJ's portfolio assistant. You can ask about his projects, automation work, technical stack, experience, or contact details.",
   },
   {
     id: "how-are-you",
     match: /^\s*(how are you( doing)?|how's it going|how are things|how r u|hru|what's up|what up|wassup)[\s!,.?]*$/i,
-    reply: "Doing well, thanks for asking. What would you like to know about CJ's work?",
+    reply: "I'm running normally. What would you like to know about CJ's work?",
   },
   {
     id: "thanks",
     match: /^\s*(thanks|thank you|ty|appreciate it)[\s!,.?]*$/i,
-    reply: "You're welcome! Happy to keep going if you have more questions.",
+    reply: "You're welcome. Let me know if you have further questions about CJ's work.",
   },
   {
     id: "help",
     match: /^\s*(help|what can you do|what can i ask|how does this work|capabilities)[\s!,.?]*$/i,
-    reply: "I'm a small assistant grounded in this portfolio. Ask me about CJ's projects, automation work, experience, stack, education, or how to reach him.",
+    reply:
+      "I can answer questions about CJ's projects, automation work, experience, technical stack, education, and contact details. Try asking about his stack, ReSOLVE, or the Powerlift thesis.",
   },
   {
     id: "goodbye",
     match: /^\s*(bye|goodbye|see you|see ya|later|good night|take care)[\s!,.?]*$/i,
-    reply: "Thanks for stopping by. If you'd like to talk, you can reach CJ at carljoshuamcoloma@gmail.com.",
+    reply:
+      "Thank you for stopping by. To get in touch directly, email carljoshuamcoloma@gmail.com.",
   },
   {
     id: "acknowledge",
     match: /^\s*(ok|okay|cool|nice|great|awesome|got it|sounds good)[\s!,.?]*$/i,
-    reply: "Glad that helped. Ask anything else about CJ's work.",
+    reply: "Understood. Let me know if you would like details on anything else.",
   },
   {
     id: "contact",
@@ -59,82 +62,97 @@ const INTENTS = [
   {
     id: "availability",
     match: /\b(available|availability|open to work|open to roles|hiring|hire|recruit|job opportunity|full[- ]time role|looking for a role)\b/i,
-    reply: "CJ is open to AI automation roles and select workflow projects, especially work around LLM workflows, agentic systems, and human-in-the-loop operations. His most recent internship at FlyRank AI ended in October 2026, so he's available now. Email is the fastest way to reach him: carljoshuamcoloma@gmail.com.",
+    reply:
+      "CJ is available for AI automation roles and select workflow projects.\n\n- **Focus areas:** LLM workflows, agentic systems, and human-in-the-loop operations\n- **Availability:** Immediate — most recent internship concluded October 2026\n- **Best contact:** carljoshuamcoloma@gmail.com",
   },
   {
     id: "current",
     match: /\b(currently|current work|right now|working on|these days|latest role|recent role|most recent|now)\b/i,
-    reply: "CJ's most recent role was a Backend AI Engineer internship at FlyRank AI, which ended in October 2026. He's now focused on AI automation — building LLM workflows with guardrails and human oversight — and is open to new roles.",
+    reply:
+      "CJ's most recent role was a Backend AI Engineer internship at FlyRank AI, completed in October 2026. He currently focuses on AI automation — LLM workflows with guardrails, evaluation, and human oversight — and is open to new roles.",
   },
   {
     id: "flyrank",
     match: /\bflyrank\b/i,
-    reply: "CJ was a Backend AI Engineer Intern at FlyRank AI from July to October 2026. He built LLM-powered content generation and semantic ranking pipelines, integrated embedding models with vector search, and worked on prompt engineering for production AI features.",
+    reply:
+      "**Backend AI Engineer Intern — FlyRank AI** (July–October 2026)\n\n- Built LLM-powered content generation and semantic ranking pipelines\n- Integrated embedding models with vector search for semantic retrieval\n- Contributed to prompt engineering and output quality evaluation for production AI features",
   },
   {
     id: "sofi",
     match: /\bsofi\b/i,
-    reply: "CJ was an AI QA Intern at SoFi AI Tech Solutions from April to July 2026. He designed adversarial prompt test suites for hallucination, refusal, and instruction-following failures, evaluated chatbot responses at scale, and worked with ML teams to reduce error rates.",
+    reply:
+      "**AI QA Intern — SoFi AI Tech Solutions** (April–July 2026)\n\n- Designed adversarial prompt test suites for hallucination, refusal, and instruction-following failures\n- Evaluated chatbot responses at scale and tracked error rates\n- Worked with ML teams to turn evaluation findings into model behavior improvements",
   },
   {
     id: "lamina",
     match: /\blamina\b/i,
-    reply: "CJ was an AI Engineer Intern at Lamina Studios from December 2025 to April 2026. He built real-time YOLOv8 object detection pipelines with OpenCV, trained XGBoost models on time-series data, and automated model retraining.",
+    reply:
+      "**AI Engineer Intern — Lamina Studios** (December 2025–April 2026)\n\n- Built real-time YOLOv8 object detection pipelines with OpenCV at production-ready inference speeds\n- Trained XGBoost classification models on time-series data\n- Automated model retraining and evaluation workflows",
   },
   {
     id: "automation",
     match: /\b(automation|automate|automated|workflows?|triage|human[- ]in[- ]the[- ]loop|guardrails?)\b/i,
-    reply: "CJ builds LLM-powered workflows for support triage, document intake, and research operations. He starts by mapping the manual process, then automates one step at a time with deterministic fallbacks, citations, human approval for irreversible actions, retries, idempotency, and audit logs. ReSOLVE is his featured automation project — a support platform that triages tickets and drafts grounded replies with human escalation.",
+    reply:
+      "CJ builds LLM-powered workflows for support triage, document intake, and research operations. The approach:\n\n- Map the manual process before writing code\n- Automate one step at a time with deterministic fallbacks\n- Add citations and confidence scoring to grounded outputs\n- Require human approval for irreversible actions\n- Use retries, idempotency, and audit logs for reliability\n\nReSOLVE is the featured automation project.",
   },
   {
     id: "ai-focus",
     match: /\b(rag|retrieval|llms?|agents?|agentic|prompt engineering|computer vision)\b/i,
-    reply: "CJ's AI work centers on LLMs, RAG, and agentic systems. He's built retrieval pipelines with embeddings and vector search at FlyRank, a RAG-based mentor with LangChain for Sunny AI, and adversarial evaluation for chatbots at SoFi. His computer vision work includes real-time YOLOv8 detection and the Powerlift thesis.",
+    reply:
+      "CJ's AI work centers on LLMs, RAG, and agentic systems.\n\n- **Retrieval:** embedding pipelines and vector search at FlyRank AI\n- **RAG:** a LangChain-based mentor for Sunny AI\n- **Evaluation:** adversarial prompt testing for chatbots at SoFi\n- **Computer vision:** real-time YOLOv8 detection and the Powerlift thesis",
   },
   {
     id: "internships",
     match: /\b(internships?|interns?|work experience|experience|worked|companies)\b/i,
-    reply: "CJ has completed three AI engineering internships: Lamina Studios in computer vision (Dec 2025–Apr 2026), SoFi AI Tech Solutions in AI QA (Apr–Jul 2026), and FlyRank AI in backend AI engineering (Jul–Oct 2026). FlyRank was the most recent, and that internship has wrapped up.",
+    reply:
+      "CJ has completed three AI engineering internships:\n\n- **Lamina Studios** — AI Engineer Intern, computer vision (Dec 2025–Apr 2026)\n- **SoFi AI Tech Solutions** — AI QA Intern (Apr–Jul 2026)\n- **FlyRank AI** — Backend AI Engineer Intern (Jul–Oct 2026)\n\nFlyRank AI was the most recent and has concluded.",
   },
   {
     id: "powerlift",
     match: /\bpowerlift\b/i,
-    reply: "Powerlift is CJ's thesis project: an AI biomechanics analyzer for powerlifting. It combines YOLOv8 pose estimation, Kalman filtering for motion stabilization, and an SVM for lift-phase classification, all running in real time on mobile hardware. It won Overall Best Thesis in the Computer Vision category in November 2025.",
+    reply:
+      "**Powerlift — Overall Best Thesis, Computer Vision (November 2025)**\n\nAn AI biomechanics analyzer for powerlifting, running in real time on mobile hardware.\n\n- **Pose estimation:** YOLOv8 for joint tracking\n- **Stabilization:** Kalman filtering for motion smoothing\n- **Classification:** SVM for lift-phase detection",
   },
   {
     id: "sunny",
     match: /\bsunny\b/i,
-    reply: "Sunny AI is a guided platform CJ built for aspiring AI engineers — React and FastAPI on the outside, LLMs and RAG with LangChain underneath. It mentors learners from zero to job-ready by mixing fundamentals with production AI practices.",
+    reply:
+      "**Sunny AI — RAG-built mentor**\n\nA guided platform for aspiring AI engineers, built with React, FastAPI, LLMs, and RAG via LangChain. It structures the path from fundamentals through production AI practices.",
   },
   {
     id: "resume",
     match: /\b(resume|résumé|ats)\b/i,
-    reply: "The AI Resume Analyzer is an NLP pipeline that extracts skills and experience from resumes using spaCy NER plus transformer-based semantic matching, then returns structured JSON for ranking or ATS use. It processes more than 100 documents a minute and is built with Python and FastAPI.",
+    reply:
+      "**AI Resume Analyzer — NLP pipeline**\n\n- **Extraction:** spaCy named-entity recognition\n- **Matching:** transformer-based semantic similarity\n- **Output:** structured JSON for ranking or ATS use\n- **Throughput:** 100+ documents per minute\n- **Stack:** Python, FastAPI",
   },
   {
     id: "summarizer",
     match: /\b(summarizer|summarization|summarize|bart|t5)\b/i,
-    reply: "The Document Summarizer is an abstractive summarization system for long PDFs. It uses BART and T5, chunks documents to fit context limits, then merges section-level summaries into one coherent output.",
+    reply:
+      "**Document Summarizer — abstractive summarization**\n\n- **Models:** BART and T5 (Hugging Face)\n- **Approach:** chunk long PDFs to fit context limits, then merge section-level summaries\n- **Output:** one coherent, readable summary\n- **Stack:** Python",
   },
   {
     id: "projects",
     match: /\b(projects?|portfolio|built|what has cj built)\b/i,
-    reply: "CJ's main projects are ReSOLVE, Powerlift, Sunny AI, the AI Resume Analyzer, and the Document Summarizer. ReSOLVE is the automation showcase — a support platform that triages tickets, drafts grounded replies, and escalates to humans. Powerlift won Overall Best Thesis in Computer Vision. He's happy to go deeper on any of them.",
+    reply:
+      "CJ's main projects:\n\n- **ReSOLVE** — agentic customer support automation with RAG drafting and human escalation\n- **Powerlift** — real-time pose estimation for powerlifting; Overall Best Thesis, Computer Vision (2025)\n- **Sunny AI** — RAG-based mentorship platform for aspiring AI engineers\n- **AI Resume Analyzer** — NLP pipeline for resume parsing and ranking\n- **Document Summarizer** — BART/T5 summarization for long PDFs\n\nAsk about any project for more detail.",
   },
   {
     id: "stack",
     match: /\b(stack|skills?|tech|tools|technologies|languages?|frameworks?)\b/i,
-    reply: "CJ's core stack is Python and JavaScript. For AI/ML he works with PyTorch, scikit-learn, OpenCV, LangChain, Transformers, RAG, and prompt engineering; for data, MySQL, PostgreSQL, and Qdrant; and for tooling, FastAPI, React, Git, pytest, and Jupyter. He's also building up on the data-engineering side with SQL, dbt, Airflow, and Databricks.",
+    reply:
+      "CJ's stack, grouped by area:\n\n- **Languages:** Python, JavaScript\n- **AI and LLMs:** PyTorch, scikit-learn, OpenCV, LangChain, Transformers, RAG, agentic workflows, prompt engineering\n- **Data:** MySQL, PostgreSQL, Qdrant\n- **Backend and frontend:** FastAPI, React\n- **Tooling:** Git, pytest, Jupyter, VS Code\n- **Currently exploring:** dbt, Airflow, Databricks, Snowflake",
   },
   {
     id: "education",
     match: /\b(education|school|university|degree|study|studied|student|feu)\b/i,
-    reply: "CJ graduated with a BS in Computer Science from FEU Institute of Technology (2026).",
+    reply: "**BS Computer Science** — FEU Institute of Technology (2026)",
   },
   {
     id: "about",
     match: /\b(about cj|about you|about him|about yourself|who is cj|who are you|your background|his background|what do you do)\b/i,
-    reply: "CJ is Carl Joshua Coloma, an AI automation engineer and BS Computer Science graduate from FEU Tech. His hands-on work spans computer vision, LLMs, RAG, and agentic workflows, and he cares most about building AI that works in production — with guardrails, fallbacks, and a human in the loop.",
+    reply:
+      "CJ is Carl Joshua Coloma, an AI automation engineer and BS Computer Science graduate of FEU Institute of Technology (2026).\n\n- **Focus:** AI automation, LLM workflows, and agentic systems\n- **Experience:** three AI engineering internships across computer vision, AI QA, and backend AI\n- **Approach:** production-first — guardrails, fallbacks, evaluation, and a human in the loop",
   },
 ];
 
@@ -173,12 +191,82 @@ function localAnswer(q) {
   const top = matches.length ? matches[0].doc : null;
   const answer = top
     ? top.text
-    : "I'm not sure about that one. Try asking about a project, CJ's automation work, his stack, or how to get in touch. You can also email him at carljoshuamcoloma@gmail.com.";
+    : "I don't have a specific answer for that. Try asking about a project, CJ's automation work, the technical stack, or contact details.\n\n- **Direct email:** carljoshuamcoloma@gmail.com";
   return { answer, matches: matches.map((m) => ({ doc: m.doc, score: m.score })) };
 }
 
-function SendIcon() {
-  return (
+/* Answer formatting: plain lines become paragraphs, "- " lines become bullets. */
+function parseAnswer(text) {
+  const blocks = [];
+  let list = null;
+  for (const raw of (text || "").split("\n")) {
+    const line = raw.trim();
+    const bullet = line.match(/^[-*•]\s+(.*)$/);
+    if (bullet) {
+      if (!list) {
+        list = { type: "ul", items: [] };
+        blocks.push(list);
+      }
+      list.items.push(bullet[1]);
+    } else if (line) {
+      list = null;
+      blocks.push({ type: "p", text: line });
+    } else {
+      list = null;
+    }
+  }
+  return blocks;
+}
+
+/* Hide the opening marker of a bold span that is still streaming in. */
+function cleanStreaming(text) {
+  return (text.match(/\*\*/g) || []).length % 2
+    ? text.replace(/\*\*([^*]*)$/, "$1")
+    : text;
+}
+
+function renderInline(text) {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith("**") && part.endsWith("**") && part.length > 4
+      ? <strong key={i}>{part.slice(2, -2)}</strong>
+      : part
+  );
+}
+
+function AnswerBody({ text, typing }) {
+  const blocks = parseAnswer(typing ? cleanStreaming(text) : text);
+
+  if (!blocks.length) {
+    return <p>{typing && <span className="ai-caret" aria-hidden="true" />}</p>;
+  }
+
+  return blocks.map((block, bi) => {
+    const isLastBlock = bi === blocks.length - 1;
+    const caret = typing && isLastBlock ? <span className="ai-caret" aria-hidden="true" /> : null;
+
+    if (block.type === "ul") {
+      return (
+        <ul className="ai-list" key={bi}>
+          {block.items.map((item, ii) => (
+            <li key={ii}>
+              {renderInline(item)}
+              {ii === block.items.length - 1 ? caret : null}
+            </li>
+          ))}
+        </ul>
+      );
+    }
+
+    return (
+      <p key={bi}>
+        {renderInline(block.text)}
+        {caret}
+      </p>
+    );
+  });
+}
+
+function SendIcon() {  return (
     <svg
       width="15"
       height="15"
@@ -236,27 +324,25 @@ export default function RagDemo() {
 
   function streamAnswer(answer) {
     clearInterval(streamRef.current);
-    const parts = (answer.match(/[^.!?\s][^.!?]*[.!?]+|\S[^.!?]*$/g) || [answer])
-      .map((s) => s.trim())
-      .filter(Boolean);
+    const tokens = (answer || "").split(/(\s+)/).filter(Boolean);
     setPhase("typing");
     let i = 0;
     streamRef.current = setInterval(() => {
-      i += 1;
+      i = Math.min(tokens.length, i + 2);
       setMessages((m) => {
         const copy = [...m];
         const last = copy[copy.length - 1];
         if (last && last.role === "ai") {
-          copy[copy.length - 1] = { ...last, text: parts.slice(0, i).join(" ") };
+          copy[copy.length - 1] = { ...last, text: tokens.slice(0, i).join("") };
         }
         return copy;
       });
-      if (i >= parts.length) {
+      if (i >= tokens.length) {
         clearInterval(streamRef.current);
         streamRef.current = null;
         setPhase("idle");
       }
-    }, 150);
+    }, 24);
   }
 
   async function runQuery(q) {
@@ -323,8 +409,8 @@ export default function RagDemo() {
               <AssistantAvatar />
               <div className="ai-answer">
                 <p className="ai-greeting">
-                  Hi! I'm CJ's portfolio assistant. Ask me anything about his automation
-                  work, projects, or technical background.
+                  Hello. I'm CJ's portfolio assistant. Ask about his projects, automation work,
+                  or technical stack.
                 </p>
               </div>
             </div>
@@ -343,10 +429,7 @@ export default function RagDemo() {
               <div className="ai-row" key={i}>
                 <AssistantAvatar />
                 <div className="ai-answer">
-                  <p>
-                    {m.text}
-                    {phase === "typing" && isLast && <span className="ai-caret" aria-hidden="true" />}
-                  </p>
+                  <AnswerBody text={m.text} typing={phase === "typing" && isLast} />
                   {(m.matches || []).length > 0 && !(phase === "typing" && isLast) && (
                     <div className="ai-sources">
                       <span className="ai-sources-label">Sources</span>
@@ -551,9 +634,38 @@ export default function RagDemo() {
         .ai-answer { flex: 1; min-width: 0; max-width: 720px; }
         .ai-answer p {
           font-size: 13.5px;
-          line-height: 1.75;
+          line-height: 1.7;
           color: var(--text);
           white-space: pre-line;
+        }
+        .ai-answer p + p { margin-top: 8px; }
+        .ai-answer strong { font-weight: 600; color: var(--text); }
+        .ai-list {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          margin: 8px 0 0;
+          padding: 0;
+          list-style: none;
+        }
+        .ai-list:first-child { margin-top: 0; }
+        .ai-list + p { margin-top: 8px; }
+        .ai-list li {
+          position: relative;
+          padding-left: 15px;
+          font-size: 13.5px;
+          line-height: 1.65;
+          color: var(--text);
+        }
+        .ai-list li::before {
+          content: "";
+          position: absolute;
+          top: 0.64em;
+          left: 1px;
+          width: 4px;
+          height: 4px;
+          border-radius: 1px;
+          background: var(--accent);
         }
         .ai-greeting { color: var(--text-2) !important; max-width: 560px; }
         .ai-caret {

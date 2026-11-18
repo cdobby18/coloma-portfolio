@@ -104,7 +104,7 @@ MOCK_DOCS = [
         "id": "flyrank",
         "title": "Backend AI Engineer Intern — FlyRank AI",
         "text": (
-            "Built LLM-powered content generation and semantic ranking "
+            "CJ built LLM-powered content generation and semantic ranking "
             "pipelines, integrated embedding models with vector search for semantic "
             "retrieval, and contributed to prompt engineering workflows for production "
             "AI features. Internship ran July to October 2026."
@@ -152,40 +152,43 @@ MOCK_DOCS = [
 ]
 
 CONTACT_REPLY = (
-    "You can reach CJ at carljoshuamcoloma@gmail.com. GitHub is "
-    "github.com/cdobby18, and LinkedIn is linkedin.com/in/carl-joshua-coloma."
+    "You can reach CJ through the following channels:\n\n"
+    "- **Email:** carljoshuamcoloma@gmail.com\n"
+    "- **GitHub:** github.com/cdobby18\n"
+    "- **LinkedIn:** linkedin.com/in/carl-joshua-coloma"
 )
 
 INTENTS = [
     (
         r"^\s*(hi|hey|hello|yo|sup|howdy|good (morning|afternoon|evening))"
         r"(\s+(there|again|all|everyone|friend))?[\s!,.?]*$",
-        "Hi! I'm CJ's portfolio assistant. Ask me anything about his automation "
-        "work, projects, or technical background.",
+        "Hello. I'm CJ's portfolio assistant. You can ask about his projects, "
+        "automation work, technical stack, experience, or contact details.",
     ),
     (
         r"^\s*(how are you( doing)?|how's it going|how are things|how r u|hru|what's up|what up|wassup)"
         r"[\s!,.?]*$",
-        "Doing well, thanks for asking. What would you like to know about CJ's work?",
+        "I'm running normally. What would you like to know about CJ's work?",
     ),
     (
         r"^\s*(thanks|thank you|ty|appreciate it)[\s!,.?]*$",
-        "You're welcome! Happy to keep going if you have more questions.",
+        "You're welcome. Let me know if you have further questions about CJ's work.",
     ),
     (
         r"^\s*(help|what can you do|what can i ask|how does this work|capabilities)"
         r"[\s!,.?]*$",
-        "I'm a small assistant grounded in this portfolio. Ask me about CJ's "
-        "projects, automation work, experience, stack, education, or how to reach him.",
+        "I can answer questions about CJ's projects, automation work, experience, "
+        "technical stack, education, and contact details. Try asking about his stack, "
+        "ReSOLVE, or the Powerlift thesis.",
     ),
     (
         r"^\s*(bye|goodbye|see you|see ya|later|good night|take care)[\s!,.?]*$",
-        "Thanks for stopping by. If you'd like to talk, you can reach CJ at "
+        "Thank you for stopping by. To get in touch directly, email "
         "carljoshuamcoloma@gmail.com.",
     ),
     (
         r"^\s*(ok|okay|cool|nice|great|awesome|got it|sounds good)[\s!,.?]*$",
-        "Glad that helped. Ask anything else about CJ's work.",
+        "Understood. Let me know if you would like details on anything else.",
     ),
     (
         r"\b(contact|email|e-mail|reach|get in touch|linkedin|github)\b",
@@ -193,118 +196,129 @@ INTENTS = [
     ),
     (
         r"\b(available|availability|open to work|open to roles|hiring|hire|recruit|job opportunity|full[- ]time role|looking for a role)\b",
-        "CJ is open to AI automation roles and select workflow projects, especially "
-        "work around LLM workflows, agentic systems, and human-in-the-loop operations. "
-        "His most recent internship "
-        "at FlyRank AI ended in October 2026, so he's available now. Email is the "
-        "fastest way to reach him: carljoshuamcoloma@gmail.com.",
+        "CJ is available for AI automation roles and select workflow projects.\n\n"
+        "- **Focus areas:** LLM workflows, agentic systems, and human-in-the-loop operations\n"
+        "- **Availability:** Immediate — most recent internship concluded October 2026\n"
+        "- **Best contact:** carljoshuamcoloma@gmail.com",
     ),
     (
         r"\b(currently|current work|right now|working on|these days|latest role|recent role|most recent|now)\b",
         "CJ's most recent role was a Backend AI Engineer internship at FlyRank AI, "
-        "which ended in October 2026. He's now focused on AI automation — building "
-        "LLM workflows with guardrails and human oversight — and is open to new roles.",
+        "completed in October 2026. He currently focuses on AI automation — LLM "
+        "workflows with guardrails, evaluation, and human oversight — and is open to "
+        "new roles.",
     ),
     (
         r"\bflyrank\b",
-        "CJ was a Backend AI Engineer Intern at FlyRank AI from July to October 2026. "
-        "He built LLM-powered content generation and semantic ranking pipelines, "
-        "integrated embedding models with vector search, and worked on prompt "
-        "engineering for production AI features.",
+        "**Backend AI Engineer Intern — FlyRank AI** (July–October 2026)\n\n"
+        "- Built LLM-powered content generation and semantic ranking pipelines\n"
+        "- Integrated embedding models with vector search for semantic retrieval\n"
+        "- Contributed to prompt engineering and output quality evaluation for production AI features",
     ),
     (
         r"\bsofi\b",
-        "CJ was an AI QA Intern at SoFi AI Tech Solutions from April to July 2026. "
-        "He designed adversarial prompt test suites for hallucination, refusal, and "
-        "instruction-following failures, evaluated chatbot responses at scale, and "
-        "worked with ML teams to reduce error rates.",
+        "**AI QA Intern — SoFi AI Tech Solutions** (April–July 2026)\n\n"
+        "- Designed adversarial prompt test suites for hallucination, refusal, and instruction-following failures\n"
+        "- Evaluated chatbot responses at scale and tracked error rates\n"
+        "- Worked with ML teams to turn evaluation findings into model behavior improvements",
     ),
     (
         r"\blamina\b",
-        "CJ was an AI Engineer Intern at Lamina Studios from December 2025 to April "
-        "2026. He built real-time YOLOv8 object detection pipelines with OpenCV, "
-        "trained XGBoost models on time-series data, and automated model retraining.",
+        "**AI Engineer Intern — Lamina Studios** (December 2025–April 2026)\n\n"
+        "- Built real-time YOLOv8 object detection pipelines with OpenCV at production-ready inference speeds\n"
+        "- Trained XGBoost classification models on time-series data\n"
+        "- Automated model retraining and evaluation workflows",
     ),
     (
         r"\b(automation|automate|automated|workflows?|triage|human[- ]in[- ]the[- ]loop|guardrails?)\b",
         "CJ builds LLM-powered workflows for support triage, document intake, and "
-        "research operations. He starts by mapping the manual process, then automates "
-        "one step at a time with deterministic fallbacks, citations, human approval for "
-        "irreversible actions, retries, idempotency, and audit logs. ReSOLVE is his "
-        "featured automation project — a support platform that triages tickets and "
-        "drafts grounded replies with human escalation.",
+        "research operations. The approach:\n\n"
+        "- Map the manual process before writing code\n"
+        "- Automate one step at a time with deterministic fallbacks\n"
+        "- Add citations and confidence scoring to grounded outputs\n"
+        "- Require human approval for irreversible actions\n"
+        "- Use retries, idempotency, and audit logs for reliability\n\n"
+        "ReSOLVE is the featured automation project.",
     ),
     (
         r"\b(rag|retrieval|llms?|agents?|agentic|prompt engineering|computer vision)\b",
-        "CJ's AI work centers on LLMs, RAG, and agentic systems. He's built retrieval "
-        "pipelines with embeddings and vector search at FlyRank, a RAG-based mentor "
-        "with LangChain for Sunny AI, and adversarial evaluation for chatbots at SoFi. "
-        "His computer vision work includes real-time YOLOv8 detection and the "
-        "Powerlift thesis.",
+        "CJ's AI work centers on LLMs, RAG, and agentic systems.\n\n"
+        "- **Retrieval:** embedding pipelines and vector search at FlyRank AI\n"
+        "- **RAG:** a LangChain-based mentor for Sunny AI\n"
+        "- **Evaluation:** adversarial prompt testing for chatbots at SoFi\n"
+        "- **Computer vision:** real-time YOLOv8 detection and the Powerlift thesis",
     ),
     (
         r"\b(internships?|interns?|work experience|experience|worked|companies)\b",
-        "CJ has completed three AI engineering internships: Lamina Studios in computer "
-        "vision (Dec 2025–Apr 2026), SoFi AI Tech Solutions in AI QA (Apr–Jul 2026), "
-        "and FlyRank AI in backend AI engineering (Jul–Oct 2026). FlyRank was the most "
-        "recent, and that internship has wrapped up.",
+        "CJ has completed three AI engineering internships:\n\n"
+        "- **Lamina Studios** — AI Engineer Intern, computer vision (Dec 2025–Apr 2026)\n"
+        "- **SoFi AI Tech Solutions** — AI QA Intern (Apr–Jul 2026)\n"
+        "- **FlyRank AI** — Backend AI Engineer Intern (Jul–Oct 2026)\n\n"
+        "FlyRank AI was the most recent and has concluded.",
     ),
     (
         r"\bpowerlift\b",
-        "Powerlift is CJ's thesis project: an AI biomechanics analyzer for powerlifting. "
-        "It combines YOLOv8 pose estimation, Kalman filtering for motion stabilization, "
-        "and an SVM for lift-phase classification, all running in real time on mobile "
-        "hardware. It won Overall Best Thesis in the Computer Vision category in "
-        "November 2025.",
+        "**Powerlift — Overall Best Thesis, Computer Vision (November 2025)**\n\n"
+        "An AI biomechanics analyzer for powerlifting, running in real time on mobile hardware.\n\n"
+        "- **Pose estimation:** YOLOv8 for joint tracking\n"
+        "- **Stabilization:** Kalman filtering for motion smoothing\n"
+        "- **Classification:** SVM for lift-phase detection",
     ),
     (
         r"\bsunny\b",
-        "Sunny AI is a guided platform CJ built for aspiring AI engineers — React and "
-        "FastAPI on the outside, LLMs and RAG with LangChain underneath. It mentors "
-        "learners from zero to job-ready by mixing fundamentals with production AI "
-        "practices.",
+        "**Sunny AI — RAG-built mentor**\n\n"
+        "A guided platform for aspiring AI engineers, built with React, FastAPI, LLMs, "
+        "and RAG via LangChain. It structures the path from fundamentals through "
+        "production AI practices.",
     ),
     (
         r"\b(resume|résumé|ats)\b",
-        "The AI Resume Analyzer is an NLP pipeline that extracts skills and experience "
-        "from resumes using spaCy NER plus transformer-based semantic matching, then "
-        "returns structured JSON for ranking or ATS use. It processes more than 100 "
-        "documents a minute and is built with Python and FastAPI.",
+        "**AI Resume Analyzer — NLP pipeline**\n\n"
+        "- **Extraction:** spaCy named-entity recognition\n"
+        "- **Matching:** transformer-based semantic similarity\n"
+        "- **Output:** structured JSON for ranking or ATS use\n"
+        "- **Throughput:** 100+ documents per minute\n"
+        "- **Stack:** Python, FastAPI",
     ),
     (
         r"\b(summarizer|summarization|summarize|bart|t5)\b",
-        "The Document Summarizer is an abstractive summarization system for long PDFs. "
-        "It uses BART and T5, chunks documents to fit context limits, then merges "
-        "section-level summaries into one coherent output.",
+        "**Document Summarizer — abstractive summarization**\n\n"
+        "- **Models:** BART and T5 (Hugging Face)\n"
+        "- **Approach:** chunk long PDFs to fit context limits, then merge section-level summaries\n"
+        "- **Output:** one coherent, readable summary\n"
+        "- **Stack:** Python",
     ),
     (
         r"\b(projects?|portfolio|built|what has cj built)\b",
-        "CJ's main projects are ReSOLVE, Powerlift, Sunny AI, the AI Resume Analyzer, "
-        "and the Document Summarizer. ReSOLVE is the automation showcase — a support "
-        "platform that triages tickets, drafts grounded replies, and escalates to "
-        "humans. Powerlift won Overall Best Thesis in Computer Vision. He's happy to "
-        "go deeper on any of them.",
+        "CJ's main projects:\n\n"
+        "- **ReSOLVE** — agentic customer support automation with RAG drafting and human escalation\n"
+        "- **Powerlift** — real-time pose estimation for powerlifting; Overall Best Thesis, Computer Vision (2025)\n"
+        "- **Sunny AI** — RAG-based mentorship platform for aspiring AI engineers\n"
+        "- **AI Resume Analyzer** — NLP pipeline for resume parsing and ranking\n"
+        "- **Document Summarizer** — BART/T5 summarization for long PDFs\n\n"
+        "Ask about any project for more detail.",
     ),
     (
         r"\b(stack|skills?|tech|tools|technologies|languages?|frameworks?)\b",
-        "CJ's core stack is Python and JavaScript. For AI/ML he works with PyTorch, "
-        "scikit-learn, OpenCV, LangChain, Transformers, RAG, and prompt engineering; "
-        "for data, MySQL, PostgreSQL, and Qdrant; and for tooling, FastAPI, React, Git, "
-        "pytest, and Jupyter. He's also building up on the data-engineering side with "
-        "SQL, dbt, Airflow, and Databricks.",
+        "CJ's stack, grouped by area:\n\n"
+        "- **Languages:** Python, JavaScript\n"
+        "- **AI and LLMs:** PyTorch, scikit-learn, OpenCV, LangChain, Transformers, RAG, agentic workflows, prompt engineering\n"
+        "- **Data:** MySQL, PostgreSQL, Qdrant\n"
+        "- **Backend and frontend:** FastAPI, React\n"
+        "- **Tooling:** Git, pytest, Jupyter, VS Code\n"
+        "- **Currently exploring:** dbt, Airflow, Databricks, Snowflake",
     ),
     (
         r"\b(education|school|university|degree|study|studied|student|feu)\b",
-        "CJ graduated with a BS in Computer Science from FEU Institute of Technology "
-        "(2026).",
+        "**BS Computer Science** — FEU Institute of Technology (2026)",
     ),
     (
         r"\b(about cj|about you|about him|about yourself|who is cj|who are you|your background|his background|what do you do)\b",
         "CJ is Carl Joshua Coloma, an AI automation engineer and BS Computer Science "
-        "graduate from FEU Tech (2026). His focus is AI, automation, and agentic "
-        "workflows — with hands-on work spanning LLMs, RAG, computer vision, and "
-        "evaluation. He cares most about building AI that works in production, with "
-        "guardrails, fallbacks, and a human in the loop.",
+        "graduate of FEU Institute of Technology (2026).\n\n"
+        "- **Focus:** AI automation, LLM workflows, and agentic systems\n"
+        "- **Experience:** three AI engineering internships across computer vision, AI QA, and backend AI\n"
+        "- **Approach:** production-first — guardrails, fallbacks, evaluation, and a human in the loop",
     ),
 ]
 
@@ -377,15 +391,16 @@ def score_doc(query_words, doc):
 def build_answer(top_docs):
     if not top_docs:
         return (
-            "I'm not sure about that one. Try asking about a project, CJ's "
-            "automation work, his stack, or how to get in touch. You can also "
-            "email him at carljoshuamcoloma@gmail.com."
+            "I don't have a specific answer for that. Try asking about a project, "
+            "CJ's automation work, the technical stack, or contact details.\n\n"
+            "- **Direct email:** carljoshuamcoloma@gmail.com\n"
+            "- **Projects:** ReSOLVE, Powerlift, Sunny AI, AI Resume Analyzer, Document Summarizer"
         )
     lead, *rest = top_docs
-    supporting = " and ".join(d["title"] for d in rest)
+    supporting = ", ".join(d["title"] for d in rest)
     answer = lead["text"]
     if supporting:
-        answer += f" This also connects to {supporting}."
+        answer += f"\n\nRelated: {supporting}."
     return answer
 
 

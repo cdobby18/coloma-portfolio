@@ -81,11 +81,12 @@ const NAV_LINKS = [
   { label: "About", id: "about" },
   { label: "Experience", id: "experience" },
   { label: "Projects", id: "projects" },
-  { label: "Stack", id: "stack" },
-  { label: "Certifications", id: "certs" },
   { label: "Contact", id: "contact" },
-  { label: "Blog", id: "blog", href: "/blog.html" },
+  { label: "Blog", id: "blog", href: "/blog.html", external: true },
 ];
+
+// Every section the scroll spy tracks, including ones without a nav link.
+const SECTION_SPY = ["hero", "about", "experience", "projects", "stack", "certs", "contact"];
 
 const SKILL_GROUPS = [
   {
@@ -369,7 +370,7 @@ function Hero() {
               Available for AI engineering roles
             </span>
 
-            <h1 className="hero-title">Carl Joshua<br />Coloma</h1>
+            <h1 className="hero-title">Carl Joshua{" "}<br />Coloma</h1>
 
             <p className="hero-role">
               AI &amp; Automation Engineer
@@ -1223,8 +1224,8 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function ContactSection() {
   const time = useManilaTime();
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
-  const [status, setStatus] = useState(null); // "sent" | "error"
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "", company: "" });
+  const [status, setStatus] = useState(null); // "sending" | "sent" | "error" | "fallback"
   const [copied, setCopied] = useState(false);
 
   const update = (key, value) => {
@@ -1247,18 +1248,52 @@ function ContactSection() {
     setTimeout(() => setCopied(false), 1800);
   };
 
-  const submit = (e) => {
-    e.preventDefault();
-    if (!form.name.trim() || !EMAIL_RE.test(form.email.trim()) || !form.message.trim()) {
-      setStatus("error");
-      return;
-    }
+  const mailtoFallback = () => {
     const subject = encodeURIComponent(form.subject.trim() || `Portfolio enquiry from ${form.name.trim()}`);
     const body = encodeURIComponent(
       `Name: ${form.name.trim()}\nEmail: ${form.email.trim()}\n\n${form.message.trim()}`
     );
     window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
-    setStatus("sent");
+    setStatus("fallback");
+  };
+
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!form.name.trim() || !EMAIL_RE.test(form.email.trim()) || !form.message.trim()) {
+      setStatus("error");
+      return;
+    }
+
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          subject: form.subject.trim(),
+          message: form.message.trim(),
+          company: form.company,
+        }),
+      });
+
+      if (res.ok) {
+        setForm({ name: "", email: "", subject: "", message: "", company: "" });
+        setStatus("sent");
+        return;
+      }
+
+      // 4xx means the submission itself was rejected; anything else
+      // (endpoint missing locally, provider down) falls back to email.
+      if (res.status >= 400 && res.status < 500 && res.status !== 404) {
+        setStatus("failed");
+        return;
+      }
+      mailtoFallback();
+    } catch {
+      mailtoFallback();
+    }
   };
 
   return (
@@ -1376,17 +1411,43 @@ function ContactSection() {
               />
             </div>
 
-            <button className="btn btn-primary" type="submit" style={{ width: "100%" }}>
-              Send message <ArrowUpRight />
+            <div className="hp-field" aria-hidden="true">
+              <label htmlFor="company">Company</label>
+              <input
+                id="company"
+                tabIndex={-1}
+                autoComplete="off"
+                value={form.company}
+                onChange={(e) => update("company", e.target.value)}
+              />
+            </div>
+
+            <button
+              className="btn btn-primary"
+              type="submit"
+              style={{ width: "100%" }}
+              disabled={status === "sending"}
+            >
+              {status === "sending" ? "Sending…" : "Send message"} <ArrowUpRight />
             </button>
 
-            {status === "error" && (
-              <p className="form-status error">Please add your name, a valid email, and a message.</p>
-            )}
-            {status === "sent" && (
-              <p className="form-status success">Your email app should open with the message ready to send.</p>
-            )}
-            <p className="form-note">Submitting opens your email app with the message pre-filled.</p>
+            <div aria-live="polite">
+              {status === "error" && (
+                <p className="form-status error">Please add your name, a valid email, and a message.</p>
+              )}
+              {status === "sent" && (
+                <p className="form-status success">Message sent. Expect a reply within 24 hours.</p>
+              )}
+              {status === "fallback" && (
+                <p className="form-status info">Couldn't reach the server — opening your email app instead.</p>
+              )}
+              {status === "failed" && (
+                <p className="form-status error">
+                  That didn't send. Email <a href={`mailto:${EMAIL}`}>{EMAIL}</a> directly.
+                </p>
+              )}
+            </div>
+            <p className="form-note">Goes straight to my inbox. Replies usually within 24 hours.</p>
           </form>
         </div>
       </Reveal>
@@ -1419,7 +1480,7 @@ function BackToTop() {
   );
 }
 
-export default function OnePiece() {
+export default function Portfolio() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState("");
@@ -1440,11 +1501,16 @@ export default function OnePiece() {
       setScrolled(window.scrollY > 8);
       const y = window.scrollY + 120;
       let current = "";
-      for (const link of NAV_LINKS) {
-        const el = document.getElementById(link.id);
-        if (el && el.offsetTop <= y) current = link.id;
+      for (const id of SECTION_SPY) {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= y) current = id;
       }
-      setActive(current);
+      // The last section can never reach the spy line on short pages.
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80) {
+        current = SECTION_SPY[SECTION_SPY.length - 1];
+      }
+      // Sections without a nav link (stack, certs) keep the bar neutral.
+      setActive(NAV_LINKS.some((link) => link.id === current) ? current : "");
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -1583,7 +1649,7 @@ export default function OnePiece() {
         .muted-note { font-size: 13px; color: var(--muted); line-height: 1.6; }
         .mono-label {
           font-family: var(--mono);
-          font-size: 10.5px;
+          font-size: 11px;
           font-weight: 500;
           letter-spacing: 0.1em;
           text-transform: uppercase;
@@ -1634,12 +1700,15 @@ export default function OnePiece() {
           border-radius: 6px;
           background: var(--surface);
           font-family: var(--mono);
-          font-size: 10.5px;
+          font-size: 11px;
           font-weight: 600;
         }
         .nav-links { display: flex; align-items: center; gap: 2px; }
         .nav-link {
           position: relative;
+          display: inline-flex;
+          align-items: center;
+          gap: 3px;
           padding: 8px 10px;
           border-radius: 6px;
           font-size: 13px;
@@ -1711,6 +1780,10 @@ export default function OnePiece() {
         }
         .menu.open { display: flex; }
         .menu-link {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
           padding: 13px 2px;
           font-size: 15px;
           color: var(--text-2);
@@ -1787,7 +1860,7 @@ export default function OnePiece() {
           background: var(--accent-soft);
           color: var(--text-2);
           font-family: var(--mono);
-          font-size: 10.5px;
+          font-size: 11px;
           letter-spacing: 0.1em;
           text-transform: uppercase;
         }
@@ -1856,7 +1929,7 @@ export default function OnePiece() {
         }
         .stat-label {
           font-family: var(--mono);
-          font-size: 10px;
+          font-size: 11px;
           letter-spacing: 0.12em;
           text-transform: uppercase;
           color: var(--muted);
@@ -1887,7 +1960,7 @@ export default function OnePiece() {
           gap: 10px;
           margin-top: 10px;
           font-family: var(--mono);
-          font-size: 10px;
+          font-size: 11px;
           letter-spacing: 0.1em;
           text-transform: uppercase;
           color: var(--muted);
@@ -1920,7 +1993,7 @@ export default function OnePiece() {
         .fact-row:last-child { border-bottom: 0; }
         .fact-label {
           font-family: var(--mono);
-          font-size: 9.5px;
+          font-size: 11px;
           font-weight: 500;
           letter-spacing: 0.12em;
           text-transform: uppercase;
@@ -2055,7 +2128,7 @@ export default function OnePiece() {
           flex-wrap: wrap;
           margin-top: 7px;
           font-family: var(--mono);
-          font-size: 10.5px;
+          font-size: 11px;
           letter-spacing: 0.02em;
           color: var(--muted);
         }
@@ -2068,7 +2141,7 @@ export default function OnePiece() {
           border-radius: 5px;
           background: var(--chip-bg);
           font-family: var(--mono);
-          font-size: 9.5px;
+          font-size: 11px;
           letter-spacing: 0.06em;
           text-transform: uppercase;
           color: var(--text-2);
@@ -2171,7 +2244,7 @@ export default function OnePiece() {
           background: rgba(255, 255, 255, 0.72);
           backdrop-filter: blur(6px);
           font-family: var(--mono);
-          font-size: 9.5px;
+          font-size: 11px;
           font-weight: 500;
           letter-spacing: 0.12em;
           text-transform: uppercase;
@@ -2231,7 +2304,7 @@ export default function OnePiece() {
           flex-wrap: wrap;
           margin-top: 6px;
           font-family: var(--mono);
-          font-size: 10px;
+          font-size: 11px;
           letter-spacing: 0.07em;
           text-transform: uppercase;
           color: var(--muted);
@@ -2265,7 +2338,7 @@ export default function OnePiece() {
           border-radius: 999px;
           background: var(--chip-bg);
           font-family: var(--mono);
-          font-size: 10px;
+          font-size: 11px;
           letter-spacing: 0.03em;
           color: var(--text-2);
           transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
@@ -2335,7 +2408,7 @@ export default function OnePiece() {
           border-radius: 6px;
           background: var(--chip-bg);
           font-family: var(--mono);
-          font-size: 10px;
+          font-size: 11px;
           color: var(--muted);
         }
         .gh-how-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
@@ -2534,7 +2607,7 @@ export default function OnePiece() {
           gap: 4px;
           margin-top: 12px;
           font-family: var(--mono);
-          font-size: 9.5px;
+          font-size: 11px;
           color: var(--muted);
         }
         .gh-legend span:first-child { margin-right: 4px; }
@@ -2556,9 +2629,9 @@ export default function OnePiece() {
           min-width: 0;
         }
         .commit-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
-        .commit-repo { font-family: var(--mono); font-size: 10.5px; font-weight: 600; color: var(--accent); }
-        .commit-sha { font-family: var(--mono); font-size: 9.5px; color: var(--muted); }
-        .commit-time { margin-left: auto; font-family: var(--mono); font-size: 9.5px; color: var(--muted); }
+        .commit-repo { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--accent); }
+        .commit-sha { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+        .commit-time { margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--muted); }
         .commit-msg {
           font-size: 12.5px;
           line-height: 1.5;
@@ -2572,7 +2645,7 @@ export default function OnePiece() {
           flex-direction: column;
           gap: 6px;
           font-family: var(--mono);
-          font-size: 10px;
+          font-size: 11px;
           letter-spacing: 0.04em;
           color: var(--muted);
           white-space: nowrap;
@@ -2626,7 +2699,7 @@ export default function OnePiece() {
           border-radius: 5px;
           background: var(--chip-bg);
           font-family: var(--mono);
-          font-size: 9.5px;
+          font-size: 11px;
           letter-spacing: 0.08em;
           text-transform: uppercase;
           color: var(--muted);
@@ -2644,7 +2717,7 @@ export default function OnePiece() {
         .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
         .field label {
           font-family: var(--mono);
-          font-size: 10px;
+          font-size: 11px;
           font-weight: 500;
           letter-spacing: 0.12em;
           text-transform: uppercase;
@@ -2670,10 +2743,21 @@ export default function OnePiece() {
           box-shadow: 0 0 0 3px var(--accent-soft);
         }
         .textarea { resize: vertical; min-height: 130px; }
+        .hp-field {
+          position: absolute;
+          width: 1px; height: 1px;
+          margin: -1px; padding: 0;
+          overflow: hidden;
+          clip: rect(0 0 0 0);
+          white-space: nowrap;
+          border: 0;
+        }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
         .form-note { margin-top: 10px; font-size: 11.5px; color: var(--muted); text-align: center; }
         .form-status { margin-top: 10px; font-size: 12.5px; line-height: 1.5; }
         .form-status.error { color: var(--accent); }
         .form-status.success { color: #2e9e5b; }
+        .form-status.info { color: var(--muted); }
 
         /* footer */
         .footer { border-top: 1px solid var(--border); padding: 28px 0; }
@@ -2753,7 +2837,7 @@ export default function OnePiece() {
 
         @media (max-width: 960px) {
           .nav-links { display: none; }
-          .kbd-btn { display: none; }
+          .nav-actions .kbd-btn { display: none; }
           .hamburger { display: inline-flex; }
         }
         @media (min-width: 961px) {
@@ -2788,7 +2872,7 @@ export default function OnePiece() {
         @media (max-width: 520px) {
           .form-row { grid-template-columns: minmax(0, 1fr); }
           .hero-stats { gap: 24px; }
-          .portrait-cap { font-size: 9px; }
+          .portrait-cap { font-size: 10.5px; }
         }
         @media (max-width: 1000px) {
           .proj-split { grid-template-columns: minmax(0, 1fr); }
@@ -2830,6 +2914,7 @@ export default function OnePiece() {
                 href={link.href || `#${link.id}`}
               >
                 {link.label}
+                {link.external && <ArrowUpRight size={10} />}
               </a>
             ))}
           </div>
@@ -2862,6 +2947,7 @@ export default function OnePiece() {
         {NAV_LINKS.map((link) => (
           <a key={link.id} className="menu-link" href={link.href || `#${link.id}`} onClick={closeMenu}>
             {link.label}
+            {link.external && <ArrowUpRight size={12} />}
           </a>
         ))}
         <div className="menu-foot">

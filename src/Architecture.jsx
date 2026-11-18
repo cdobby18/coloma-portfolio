@@ -1,4 +1,4 @@
-import { useColors } from "./OnePiece";
+import { useColors } from "./portfolio";
 
 const ARCHITECTURES = {
   "Powerlift: Precision Pose Estimation for Powerlifting Performance Metrics": {

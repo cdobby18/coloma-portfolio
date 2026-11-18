@@ -12,13 +12,14 @@ Live: [carlcoloma.vercel.app](https://carlcoloma.vercel.app/)
 - Experience timeline across FlyRank AI, SoFi AI, and Lamina Studios
 - Project list with system-architecture modals
 - Interactive portfolio assistant (`/api/rag`) with a local keyword fallback
+- Contact form that sends through Resend (`/api/contact`) with a mailto fallback
 - Live GitHub activity card
 - Certifications, contact details, and résumé download
 
 ## Tech stack
 
 - **Frontend:** React 18, Vite, plain CSS (inlined in the app component), no router
-- **Backend:** Python serverless function on Vercel (`api/rag.py`)
+- **Backend:** Python serverless functions on Vercel (`api/rag.py`, `api/contact.py`)
 - **Deployment:** Vercel
 - **Static pages:** `public/blog.html`, `public/404.html`
 
@@ -29,7 +30,7 @@ npm install
 npm run dev
 ```
 
-The portfolio assistant calls `/api/rag`. Locally, Vite does not run the Python function, so the UI falls back to its built-in keyword answers.
+The portfolio assistant calls `/api/rag`. Locally, Vite does not run the Python functions, so the UI falls back to its built-in keyword answers and the contact form falls back to opening a mailto draft.
 
 Build and preview:
 
@@ -42,14 +43,25 @@ npm run preview
 
 ```
 api/rag.py           # Serverless assistant endpoint (keyword retrieval + intents)
-public/              # Static assets, blog, 404, résumé, images
-src/OnePiece.jsx     # App shell, sections, theme, inline styles
+api/contact.py       # Serverless contact endpoint (Resend delivery + honeypot)
+public/              # Static assets, blog, 404, résumé, images, OG card
+src/portfolio.jsx    # App shell, sections, theme, inline styles
 src/Architecture.jsx # System-architecture data and pipeline diagram
 src/demo/RagDemo.jsx # Portfolio assistant UI + local fallback answers
 index.html           # Metadata, fonts, JSON-LD
 ```
 
+## Environment variables
+
+Set these in Vercel (Project → Settings → Environment Variables):
+
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `RESEND_API_KEY` | yes (for the form) | Resend API key. Without it `/api/contact` returns 503 and the form falls back to mailto. |
+| `CONTACT_TO` | no | Recipient. Defaults to `carljoshuamcoloma@gmail.com`. |
+| `CONTACT_FROM` | no | Verified sender. Defaults to `Portfolio <onboarding@resend.dev>`. |
+
 ## Notes
 
-- Content is currently duplicated across `src/OnePiece.jsx`, `src/demo/RagDemo.jsx`, and `api/rag.py`. Moving it to a single content module is planned.
+- Content is currently duplicated across `src/portfolio.jsx`, `src/demo/RagDemo.jsx`, and `api/rag.py`. Moving it to a single content module is planned.
 - The portfolio assistant is a keyword/intent demo, not a vector-based RAG pipeline. It is labeled honestly in the UI copy and slated for a real retrieval upgrade.

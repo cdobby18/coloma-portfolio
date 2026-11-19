@@ -1,4 +1,4 @@
-import { useColors } from "./portfolio";
+import { useColors } from "./theme";
 
 const ARCHITECTURES = {
   "Powerlift: Precision Pose Estimation for Powerlifting Performance Metrics": {

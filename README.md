@@ -18,7 +18,7 @@ Live: [carlcoloma.vercel.app](https://carlcoloma.vercel.app/)
 
 ## Tech stack
 
-- **Frontend:** React 18, Vite, plain CSS (inlined in the app component), no router
+- **Frontend:** React 18, Vite, plain CSS generated from theme tokens, no router
 - **Backend:** Python serverless functions on Vercel (`api/rag.py`, `api/contact.py`)
 - **Deployment:** Vercel
 - **Static pages:** `public/blog.html`, `public/404.html`
@@ -42,13 +42,18 @@ npm run preview
 ## Project structure
 
 ```
-api/rag.py           # Serverless assistant endpoint (keyword retrieval + intents)
-api/contact.py       # Serverless contact endpoint (Resend delivery + honeypot)
-public/              # Static assets, blog, 404, résumé, images, OG card
-src/portfolio.jsx    # App shell, sections, theme, inline styles
-src/Architecture.jsx # System-architecture data and pipeline diagram
-src/demo/RagDemo.jsx # Portfolio assistant UI + local fallback answers
-index.html           # Metadata, fonts, JSON-LD
+api/rag.py             # Serverless assistant endpoint (keyword retrieval + intents)
+api/contact.py         # Serverless contact endpoint (Resend delivery + honeypot)
+public/                # Static assets, blog, 404, résumé, images, OG card
+src/portfolio.jsx      # App shell: nav, theme toggle, scroll spy, footer
+src/theme.js           # Theme tokens (light/dark) + context
+src/content.js         # Projects, experience, skills, and site copy
+src/components/        # Shared primitives, IDE window, GitHub card
+src/sections/          # Hero, About, Experience, Projects, Stack, Certs, Contact
+src/styles/            # Theme-aware global stylesheet
+src/Architecture.jsx   # System-architecture data and pipeline diagram
+src/demo/RagDemo.jsx   # Portfolio assistant UI + local fallback answers
+index.html             # Metadata, fonts, JSON-LD
 ```
 
 ## Environment variables

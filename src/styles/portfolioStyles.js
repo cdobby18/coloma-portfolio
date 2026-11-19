@@ -696,6 +696,7 @@ export const buildStyles = (theme) => `
           font-weight: 500;
           cursor: pointer;
           white-space: nowrap;
+          text-decoration: none;
           transition: all 0.18s ease;
         }
         .btn-ghost-sm:hover {
@@ -882,6 +883,18 @@ export const buildStyles = (theme) => `
         .proj-arch-btn svg { transition: transform 0.2s ease; }
         .proj-arch-btn:hover svg { transform: translate(1px, -1px); }
         .btn-ghost-sm:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+        .proj-foot-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+        .proj-case-btn {
+          border-color: var(--proj-accent, var(--accent));
+          color: var(--proj-accent, var(--accent));
+        }
+        .proj-case-btn:hover {
+          border-color: var(--proj-accent, var(--accent));
+          color: var(--proj-accent, var(--accent));
+          background: var(--proj-accent-soft, var(--accent-soft));
+        }
+        .proj-case-btn svg { transition: transform 0.2s ease; }
+        .proj-case-btn:hover svg { transform: translate(1px, -1px); }
         .icon-link {
           width: 30px;
           height: 30px;

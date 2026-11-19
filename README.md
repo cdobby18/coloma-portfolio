@@ -21,7 +21,7 @@ Live: [carlcoloma.vercel.app](https://carlcoloma.vercel.app/)
 - **Frontend:** React 18, Vite, plain CSS generated from theme tokens, no router
 - **Backend:** Python serverless functions on Vercel (`api/rag.py`, `api/contact.py`)
 - **Deployment:** Vercel
-- **Static pages:** `public/blog.html`, `public/404.html`
+- **Static pages:** `public/blog.html`, `public/work/*.html`, `public/404.html`
 
 ## Running locally
 
@@ -44,7 +44,9 @@ npm run preview
 ```
 api/rag.py             # Serverless assistant endpoint (keyword retrieval + intents)
 api/contact.py         # Serverless contact endpoint (Resend delivery + honeypot)
-public/                # Static assets, blog, 404, résumé, images, OG card
+public/                # Static assets, blog, case studies, 404, résumé, OG card
+public/case-study.css  # Shared styles for /work case-study pages
+public/work/           # ReSOLVE and Powerlift case studies
 src/portfolio.jsx      # App shell: nav, theme toggle, scroll spy, footer
 src/theme.js           # Theme tokens (light/dark) + context
 src/content.js         # Projects, experience, skills, and site copy

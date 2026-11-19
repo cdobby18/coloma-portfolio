@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en" class="theme-powerlift">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Powerlift — Pose Estimation for Real-Time Lift Feedback | Carl Joshua Coloma</title>
+  <meta name="description" content="Case study: an on-device pipeline using YOLOv8 pose, Kalman smoothing, and an SVM to classify powerlifting phases and score reps from a phone." />
+  <meta name="author" content="Carl Joshua Coloma" />
+  <link rel="canonical" href="https://carlcoloma.vercel.app/work/powerlift.html" />
+  <link rel="icon" href="/favicon.ico?v=7" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=7" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=7" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=7" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Powerlift — Pose Estimation for Real-Time Lift Feedback" />
+  <meta property="og:description" content="YOLOv8 pose, Kalman smoothing, and an SVM on a phone — pose, phase, and a per-rep score without a cloud round-trip." />
+  <meta property="og:url" content="https://carlcoloma.vercel.app/work/powerlift.html" />
+  <meta property="og:image" content="https://carlcoloma.vercel.app/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Carl Joshua Coloma — AI and automation engineering portfolio" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Powerlift — Pose Estimation for Real-Time Lift Feedback" />
+  <meta name="twitter:description" content="YOLOv8 pose, Kalman smoothing, and an SVM on a phone — pose, phase, and a per-rep score without a cloud round-trip." />
+  <meta name="twitter:image" content="https://carlcoloma.vercel.app/og.png" />
+  <meta name="twitter:image:alt" content="Carl Joshua Coloma — AI and automation engineering portfolio" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/case-study.css" />
+
+  <script>
+    (function () {
+      var stored = null;
+      try { stored = localStorage.getItem("op-theme"); } catch (e) {}
+      var isDark = stored ? stored !== "light" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+    })();
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Powerlift — Pose Estimation for Real-Time Lift Feedback",
+    "description": "Case study of an on-device computer vision pipeline for powerlifting: YOLOv8 pose, Kalman smoothing, SVM phase classification, and per-rep scoring.",
+    "author": { "@type": "Person", "name": "Carl Joshua Coloma" },
+    "url": "https://carlcoloma.vercel.app/work/powerlift.html"
+  }
+  </script>
+</head>
+<body>
+  <div id="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Reading progress"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-nav">
+    <div class="shell nav-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark">CJ</span>
+        <span>Carl Coloma</span>
+      </a>
+      <div class="nav-right">
+        <a class="nav-back" href="/#projects">← Portfolio</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" type="button"></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell" id="main">
+    <div class="cs-head">
+      <span class="cs-eyebrow">Case study · Computer vision</span>
+      <h1 class="cs-title">
+        <span class="cs-title-name">Powerlift</span>
+        <span class="cs-title-sub">Pose estimation that holds still long enough to score a lift</span>
+      </h1>
+      <p class="cs-lede">
+        A mobile app that reads a lift from video, stabilizes the skeleton, classifies the
+        phase, and scores the rep — <strong>on the phone, while the set is happening</strong>.
+      </p>
+      <div class="cs-meta">
+        <span>2025</span>
+        <span class="sep">·</span>
+        <span>Overall Best Thesis</span>
+        <span class="sep">·</span>
+        <span>Python · YOLOv8 · Mobile</span>
+      </div>
+      <div class="chip-row">
+        <span class="chip chip--accent">Computer vision</span>
+        <span class="chip">Python</span>
+        <span class="chip">YOLOv8</span>
+        <span class="chip">Kalman filter</span>
+        <span class="chip">SVM</span>
+        <span class="chip">scikit-learn</span>
+        <span class="chip">ONNX / TFLite</span>
+      </div>
+    </div>
+
+    <div class="summary">
+      <div class="summary-cell">
+        <span class="summary-label">Scope</span>
+        <span class="summary-value">Pipeline, models, mobile app</span>
+      </div>
+      <div class="summary-cell">
+        <span class="summary-label">Type</span>
+        <span class="summary-value">Computer vision · Mobile</span>
+      </div>
+      <div class="summary-cell">
+        <span class="summary-label">Recognition</span>
+        <span class="summary-value">Overall Best Thesis, 2025</span>
+      </div>
+      <div class="summary-cell">
+        <span class="summary-label">Code</span>
+        <span class="summary-value"><a href="https://github.com/cdobby18/Powerlift" target="_blank" rel="noopener noreferrer">github.com/cdobby18/Powerlift ↗</a></span>
+      </div>
+    </div>
+
+    <div class="cs-layout">
+      <nav class="cs-toc" aria-label="On this page">
+        <span class="toc-label">On this page</span>
+        <a class="toc-link" href="#problem"><span class="toc-num">01</span> The problem</a>
+        <a class="toc-link" href="#constraints"><span class="toc-num">02</span> Constraints</a>
+        <a class="toc-link" href="#how"><span class="toc-num">03</span> How it works</a>
+        <a class="toc-link" href="#decisions"><span class="toc-num">04</span> Decisions</a>
+        <a class="toc-link" href="#outcome"><span class="toc-num">05</span> Outcome</a>
+        <a class="toc-link" href="#next"><span class="toc-num">06</span> What I'd change</a>
+      </nav>
+
+      <article class="cs-article">
+        <section class="cs-section" id="problem">
+          <div class="cs-sec-head">
+            <span class="cs-sec-num">01</span>
+            <h2>The problem</h2>
+          </div>
+          <div class="prose">
+            <p>
+              A lifter finishes a set with a video and an opinion. Form feedback usually arrives
+              later, from a coach, if it arrives at all. The gap is not a lack of footage — it is
+              a lack of anything objective to say about it in the moment.
+            </p>
+            <p>
+              Pose estimation looks like the answer until you try to score with it. Keypoints
+              flicker frame to frame, and a scorer built on raw coordinates produces confident
+              nonsense. Before form means anything, the lift also has to be identified — squat,
+              bench, or deadlift — and split into phases.
+            </p>
+            <p>
+              Powerlift was built to close that loop on the device: pose, smoothing, features,
+              classification, and a per-rep score, without a cloud round-trip.
+            </p>
+            <p class="pull">
+              The hard part was never finding the joints. It was making them hold still.
+            </p>
+          </div>
+        </section>
+
+        <section class="cs-section" id="constraints">
+          <div class="cs-sec-head">
+            <span class="cs-sec-num">02</span>
+            <h2>Constraints</h2>
+          </div>
+          <div class="prose">
+            <p>
+              Mobile hardware set the rules. Every constraint below removes a design that would
+              be simpler on a server.
+            </p>
+          </div>
+          <ul class="constraints">
+            <li class="constraint">
+              <h3>On-device inference</h3>
+              <p>The phone is both sensor and computer. Frames stay on the device; there is no upload path.</p>
+            </li>
+            <li class="constraint">
+              <h3>Real time</h3>
+              <p>Feedback has to land during or right after the rep, not in a batch job.</p>
+            </li>
+            <li class="constraint">
+              <h3>Noisy input</h3>
+              <p>Keypoints jitter from frame to frame. Smoothing is part of the pipeline, not a polish step.</p>
+            </li>
+            <li class="constraint">
+              <h3>Phase before score</h3>
+              <p>Identify the lift and its phase before judging form, or the score has nothing to attach to.</p>
+            </li>
+            <li class="constraint">
+              <h3>Exportable models</h3>
+              <p>Training happens in Python; inference ships as ONNX or TFLite. An unexportable model is not a result.</p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="cs-section" id="how">
+          <div class="cs-sec-head">
+            <span class="cs-sec-num">03</span>
+            <h2>How it works</h2>
+          </div>
+          <div class="prose">
+            <p>
+              Six stages, one of them a filter that exists only because raw keypoints are not
+              trustworthy enough to classify.
+            </p>
+          </div>
+
+          <div class="diagram" role="img" aria-label="Pipeline: camera frame, YOLOv8 pose, Kalman filter, landmark features, SVM classifier, then lift score and UI.">
+            <div class="diagram-rail">
+              <div class="node node--io">
+                <span class="node-idx">01</span>
+                <span class="node-name">Camera frame</span>
+                <span class="node-kind">Input</span>
+              </div>
+              <span class="node-arrow" aria-hidden="true"></span>
+              <div class="node node--ai">
+                <span class="node-idx">02</span>
+                <span class="node-name">YOLOv8 pose</span>
+                <span class="node-kind">AI / ML</span>
+              </div>
+              <span class="node-arrow" aria-hidden="true"></span>
+              <div class="node node--proc">
+                <span class="node-idx">03</span>
+                <span class="node-name">Kalman filter</span>
+                <span class="node-kind">Process</span>
+              </div>
+              <span class="node-arrow" aria-hidden="true"></span>
+              <div class="node node--proc">
+                <span class="node-idx">04</span>
+                <span class="node-name">Landmark features</span>
+                <span class="node-kind">Process</span>
+              </div>
+              <span class="node-arrow" aria-hidden="true"></span>
+              <div class="node node--ai">
+                <span class="node-idx">05</span>
+                <span class="node-name">SVM classifier</span>
+                <span class="node-kind">AI / ML</span>
+              </div>
+              <span class="node-arrow" aria-hidden="true"></span>
+              <div class="node node--io">
+                <span class="node-idx">06</span>
+                <span class="node-name">Lift score + UI</span>
+                <span class="node-kind">Output</span>
+              </div>
+            </div>
+            <div class="legend">
+              <span><i class="k-io"></i> I/O</span>
+              <span><i class="k-ai"></i> AI / ML</span>
+              <span><i class="k-proc"></i> Process</span>
+            </div>
+          </div>
+
+          <ol class="steps">
+            <li class="step">
+              <span class="step-num"></span>
+              <div>
+                <h3>Capture</h3>
+                <p>
+                  Camera frames stream from the phone. Nothing is uploaded; the frame never leaves
+                  the device.
+                </p>
+              </div>
+            </li>
+            <li class="step">
+              <span class="step-num"></span>
+              <div>
+                <h3>Pose</h3>
+                <p>
+                  YOLOv8 extracts body keypoints per frame. One pass handles both detection and
+                  keypoints, which keeps the per-frame budget on mobile realistic.
+                </p>
+              </div>
+            </li>
+            <li class="step">
+              <span class="step-num"></span>
+              <div>
+                <h3>Stabilize</h3>
+                <p>
+                  A Kalman filter smooths landmark trajectories across frames. It trades a little
+                  lag for a lot less jitter — and jitter is what makes a classifier flip.
+                </p>
+              </div>
+            </li>
+            <li class="step">
+              <span class="step-num"></span>
+              <div>
+                <h3>Features</h3>
+                <p>
+                  Smoothed keypoints become engineered features — angles between joints and
+                  how they change over time — instead of raw coordinates fed straight to a model.
+                </p>
+              </div>
+            </li>
+            <li class="step">
+              <span class="step-num"></span>
+              <div>
+                <h3>Classify</h3>
+                <p>
+                  An SVM labels the lift phase from those features. It is small enough to run
+                  beside pose inference, and its decisions can be inspected.
+                </p>
+              </div>
+            </li>
+            <li class="step">
+              <span class="step-num"></span>
+              <div>
+                <h3>Score</h3>
+                <p>
+                  The per-rep score and a skeleton overlay render in the app, so the output is
+                  attached to the frame it describes.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <section class="cs-section" id="decisions">
+          <div class="cs-sec-head">
+            <span class="cs-sec-num">04</span>
+            <h2>Decisions &amp; tradeoffs</h2>
+          </div>
+          <div class="prose">
+            <p>
+              Every choice favored latency and size over peak accuracy. That was deliberate for a
+              phone, and it is the cost line in each card.
+            </p>
+          </div>
+
+          <div class="decisions">
+            <div class="decision">
+              <h3>One pose model, not a stack</h3>
+              <p>
+                YOLOv8 handles detection and keypoints in a single pass, which keeps the pipeline
+                short enough to run per frame.
+              </p>
+              <p class="tradeoff"><b>Tradeoff</b> Less keypoint precision than a heavier multi-stage pipeline. Acceptable when the output is a score band, not a clinical measurement.</p>
+            </div>
+
+            <div class="decision">
+              <h3>Kalman filter over raw landmarks</h3>
+              <p>
+                Smoothed trajectories stop flicker from flipping classifications, and the filter
+                is cheap enough to sit in the frame loop.
+              </p>
+              <p class="tradeoff"><b>Tradeoff</b> Process noise has to be tuned per lift, and smoothing adds a little lag on the fastest reps.</p>
+            </div>
+
+            <div class="decision">
+              <h3>SVM over a sequence model</h3>
+              <p>
+                Small, interpretable, and fast on device — the classifier runs inside the same
+                frame budget as pose.
+              </p>
+              <p class="tradeoff"><b>Tradeoff</b> It only knows the features I engineered. A new lift means new feature work and new labels, not just more data.</p>
+            </div>
+
+            <div class="decision">
+              <h3>On-device over cloud</h3>
+              <p>
+                Frames stay private, the app works offline, and there is no per-inference bill.
+              </p>
+              <p class="tradeoff"><b>Tradeoff</b> Frame rate and thermal limits are set by the weakest phone worth supporting.</p>
+            </div>
+
+            <div class="decision">
+              <h3>Export, don't port</h3>
+              <p>
+                One Python training codebase, exported to ONNX or TFLite for the app.
+              </p>
+              <p class="tradeoff"><b>Tradeoff</b> Conversion gaps: an op can train fine and fail to export. The exported model needs its own check, not just the trained one.</p>
+            </div>
+          </div>
+
+          <div class="callout">
+            <b>Evaluation gate</b>
+            A model is promoted only after the eval harness clears its FPS and accuracy
+            thresholds. On-device FPS, inference latency, and classification confidence are
+            logged, so a slow or degrading build shows up instead of shipping quietly.
+          </div>
+        </section>
+
+        <section class="cs-section" id="outcome">
+          <div class="cs-sec-head">
+            <span class="cs-sec-num">05</span>
+            <h2>Outcome</h2>
+          </div>
+          <div class="prose">
+            <p>
+              Powerlift was built as a mobile application and named
+              <strong>Overall Best Thesis in 2025</strong>. I don't have a published benchmark for
+              it, so I won't quote accuracy or FPS figures without a method behind them.
+            </p>
+          </div>
+
+          <div class="proof">
+            <div class="proof-col proof-col--can">
+              <span class="proof-label">What exists</span>
+              <ul class="proof-list">
+                <li>An end-to-end on-device path: capture → pose → smoothing → features → classification → score</li>
+                <li>YOLOv8 pose estimation with Kalman-smoothed landmarks</li>
+                <li>SVM lift-phase classification from engineered features</li>
+                <li>A mobile interface with a skeleton overlay and per-rep score</li>
+                <li>Overall Best Thesis, 2025</li>
+              </ul>
+            </div>
+            <div class="proof-col">
+              <span class="proof-label">What I can't claim</span>
+              <p>
+                Accuracy, FPS, or device coverage figures. Those need a held-out set, a named
+                device, and a measurement method. This page won't invent them — the next section
+                is how I'd get them.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="cs-section" id="next">
+          <div class="cs-sec-head">
+            <span class="cs-sec-num">06</span>
+            <h2>What I'd change next</h2>
+          </div>
+          <ol class="next-list">
+            <li class="next-item">
+              <div>
+                <b>Publish the evaluation</b>
+                <span>A labeled set per lift, per-class precision and recall, and the method used to get them. A thesis claim should come with its denominator.</span>
+              </div>
+            </li>
+            <li class="next-item">
+              <div>
+                <b>Compare the classifier</b>
+                <span>Run a small temporal model — a 1D CNN or GRU — on the same features and compare it against the SVM on accuracy and on-device latency.</span>
+              </div>
+            </li>
+            <li class="next-item">
+              <div>
+                <b>Measure the device floor</b>
+                <span>Log FPS, latency, and thermal state on named phones, then state the hardware the app actually supports.</span>
+              </div>
+            </li>
+            <li class="next-item">
+              <div>
+                <b>Calibrate per lifter</b>
+                <span>Thresholds shouldn't be tuned to one body. A short calibration set before the first scored rep would make the output portable.</span>
+              </div>
+            </li>
+            <li class="next-item">
+              <div>
+                <b>Close the retraining loop</b>
+                <span>Let corrections in the app become labels, and feed them back into the retraining path the pipeline already has.</span>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <footer class="cs-footer">
+          <a class="next-case" href="/work/resolve.html">
+            <span class="next-case-copy">
+              <span class="next-case-label">Next case study</span>
+              <span class="next-case-title">ReSOLVE</span>
+              <span class="next-case-sub">Triage, grounded drafting, and a human on the send button.</span>
+            </span>
+            <span class="next-case-arrow" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+            </span>
+          </a>
+          <div class="cs-foot-row">
+            <span>Carl Joshua Coloma · 2025</span>
+            <a class="back" href="/#projects">← Back to projects</a>
+          </div>
+        </footer>
+      </article>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var btn = document.getElementById("themeToggle");
+      var progress = document.getElementById("progress");
+      var links = Array.prototype.slice.call(document.querySelectorAll(".toc-link"));
+
+      var sunSvg = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+      var moonSvg = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+
+      var sections = links.map(function (link) {
+        return document.getElementById(link.getAttribute("href").slice(1));
+      }).filter(Boolean);
+
+      function currentTheme() {
+        return root.getAttribute("data-theme");
+      }
+
+      function updateButton(isDark) {
+        btn.innerHTML = isDark ? sunSvg : moonSvg;
+        btn.setAttribute("aria-label", isDark ? "Switch to light theme" : "Switch to dark theme");
+      }
+
+      function update() {
+        var max = root.scrollHeight - window.innerHeight;
+        var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+        progress.style.width = pct + "%";
+        progress.setAttribute("aria-valuenow", String(Math.round(pct)));
+
+        var marker = window.scrollY + 140;
+        var active = sections[0];
+        sections.forEach(function (section) {
+          if (section.getBoundingClientRect().top + window.scrollY <= marker) active = section;
+        });
+        if (window.innerHeight + window.scrollY >= root.scrollHeight - 2) {
+          active = sections[sections.length - 1];
+        }
+        links.forEach(function (link) {
+          if (active && link.getAttribute("href") === "#" + active.id) {
+            link.setAttribute("aria-current", "true");
+          } else {
+            link.removeAttribute("aria-current");
+          }
+        });
+      }
+
+      updateButton(currentTheme() === "dark");
+
+      btn.addEventListener("click", function () {
+        var next = currentTheme() === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("op-theme", next); } catch (e) {}
+        updateButton(next === "dark");
+      });
+
+      window.addEventListener("scroll", update, { passive: true });
+      window.addEventListener("resize", update);
+      update();
+    })();
+  </script>
+</body>
+</html>

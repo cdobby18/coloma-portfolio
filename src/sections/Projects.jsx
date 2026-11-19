@@ -105,10 +105,18 @@ export function ProjectCard({ project, featured = false, onArchitecture }) {
             {shownTags.map((tag) => <span className="proj-tag" key={tag}>{tag}</span>)}
             {extra > 0 && <span className="proj-tag proj-tag--more">+{extra}</span>}
           </div>
-          <button className="btn-ghost-sm proj-arch-btn" type="button" onClick={onArchitecture}>
-            System architecture
-            <ArrowUpRight size={12} />
-          </button>
+          <div className="proj-foot-actions">
+            {project.caseStudy && (
+              <a className="btn-ghost-sm proj-case-btn" href={project.caseStudy}>
+                Case study
+                <ArrowUpRight size={12} />
+              </a>
+            )}
+            <button className="btn-ghost-sm proj-arch-btn" type="button" onClick={onArchitecture}>
+              System architecture
+              <ArrowUpRight size={12} />
+            </button>
+          </div>
         </div>
       </div>
     </article>

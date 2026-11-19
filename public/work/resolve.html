@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en" class="theme-resolve">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ReSOLVE — Support Automation With a Human in the Loop | Carl Joshua Coloma</title>
+  <meta name="description" content="Case study: a support platform that triages tickets by intent, priority, and sentiment, drafts grounded replies with RAG, and leaves the send decision to a human." />
+  <meta name="author" content="Carl Joshua Coloma" />
+  <link rel="canonical" href="https://carlcoloma.vercel.app/work/resolve.html" />
+  <link rel="icon" href="/favicon.ico?v=7" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=7" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=7" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=7" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="ReSOLVE — Support Automation With a Human in the Loop" />
+  <meta property="og:description" content="Triage, grounded drafting, and escalation for support tickets — with the send decision left to a person." />
+  <meta property="og:url" content="https://carlcoloma.vercel.app/work/resolve.html" />
+  <meta property="og:image" content="https://carlcoloma.vercel.app/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Carl Joshua Coloma — AI and automation engineering portfolio" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ReSOLVE — Support Automation With a Human in the Loop" />
+  <meta name="twitter:description" content="Triage, grounded drafting, and escalation for support tickets — with the send decision left to a person." />
+  <meta name="twitter:image" content="https://carlcoloma.vercel.app/og.png" />
+  <meta name="twitter:image:alt" content="Carl Joshua Coloma — AI and automation engineering portfolio" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/case-study.css" />
+
+  <script>
+    (function () {
+      var stored = null;
+      try { stored = localStorage.getItem("op-theme"); } catch (e) {}
+      var isDark = stored ? stored !== "light" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+    })();
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "ReSOLVE — Support Automation With a Human in the Loop",
+    "description": "Case study of a customer support platform that triages tickets, drafts grounded replies with RAG, and escalates to a human.",
+    "author": { "@type": "Person", "name": "Carl Joshua Coloma" },
+    "url": "https://carlcoloma.vercel.app/work/resolve.html"
+  }
+  </script>
+</head>
+<body>
+  <div id="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Reading progress"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-nav">
+    <div class="shell nav-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark">CJ</span>
+        <span>Carl Coloma</span>
+      </a>
+      <div class="nav-right">
+        <a class="nav-back" href="/#projects">← Portfolio</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" type="button"></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell" id="main">
+    <div class="cs-head">
+      <span class="cs-eyebrow">Case study · Agentic AI</span>
+      <h1 class="cs-title">
+        <span class="cs-title-name">ReSOLVE</span>
+        <span class="cs-title-sub">Support automation with a human in the loop</span>
+      </h1>
+      <p class="cs-lede">
+        A customer support platform that triages every ticket, drafts a reply grounded in the
+        knowledge base, and stops — <strong>leaving the send decision to a person</strong>.
+      </p>
+      <div class="cs-meta">
+        <span>2026</span>
+        <span class="sep">·</span>
+        <span>Built</span>
+        <span class="sep">·</span>
+        <span>FastAPI · React · RAG</span>
+      </div>
+      <div class="chip-row">
+        <span class="chip chip--accent">Agentic AI</span>
+        <span class="chip">FastAPI</span>
+        <span class="chip">React</span>
+        <span class="chip">RAG</span>
+        <span class="chip">LangChain</span>
+        <span class="chip">PostgreSQL</span>
+        <span class="chip">FAISS</span>
+        <span class="chip">Celery</span>
+      </div>
+    </div>
+
+    <div class="summary">
+      <div class="summary-cell">
+        <span class="summary-label">Scope</span>
+        <span class="summary-value">Backend, agents, interface</span>
+      </div>
+      <div class="summary-cell">
+        <span class="summary-label">Type</span>
+        <span class="summary-value">Agentic AI · Support</span>
+      </div>
+      <div class="summary-cell">
+        <span class="summary-label">Status</span>
+        <span class="summary-value">Built</span>
+      </div>
+      <div class="summary-cell">
+        <span class="summary-label">Code</span>
+        <span class="summary-value"><a href="https://github.com/cdobby18/ReSOLVE" target="_blank" rel="noopener noreferrer">github.com/cdobby18/ReSOLVE ↗</a></span>
+      </div>
+    </div>
+
+    <div class="cs-layout">
+      <nav class="cs-toc" aria-label="On this page">
+        <span class="toc-label">On this page</span>
+        <a class="toc-link" href="#problem"><span class="toc-num">01</span> The problem</a>
+        <a class="toc-link" href="#constraints"><span class="toc-num">02</span> Constraints</a>
+        <a class="toc-link" href="#how"><span class="toc-num">03</span> How it works</a>
+        <a class="toc-link" href="#decisions"><span class="toc-num">04</span> Decisions</a>
+        <a class="toc-link" href="#outcome"><span class="toc-num">05</span> Outcome</a>
+        <a class="toc-link" href="#next"><span class="toc-num">06</span> What I'd change</a>
+      </nav>
+
+      <article class="cs-article">
+        <section class="cs-section" id="problem">
+          <div class="cs-sec-head">
+            <span class="cs-sec-num">01</span>
+            <h2>The problem</h2>
+          </div>
+          <div class="prose">
+            <p>
+              Support work is mostly judgment repeated at volume. Every ticket has to be read,
+              graded for urgency, matched against policy, and answered in a tone that fits the
+              customer. Experienced agents do it in seconds. Everyone else — and everyone on a
+              busy day — does it unevenly.
+            </p>
+            <p>
+              The obvious automation is to let a model answer. That moves the failure rather than
+              removing it. A fluent reply that isn't grounded in policy is worse than a slow one,
+              because it looks correct.
+            </p>
+            <p>
+              So the build started from a narrower question: how much of the loop can a model take
+              without taking the decision away from a person?
+            </p>
+            <p class="pull">
+              The answer I implemented: everything up to the send button.
+            </p>
+          </div>
+        </section>
+
+        <section class="cs-section" id="constraints">
+          <div class="cs-sec-head">
+            <span class="cs-sec-num">02</span>
+            <h2>Constraints</h2>
+          </div>
+          <div class="prose">
+            <p>
+              These were fixed before the first endpoint. Each one removes an easier design.
+            </p>
+          </div>
+          <ul class="constraints">
+            <li class="constraint">
+              <h3>Human authority</h3>
+              <p>The model drafts, a person sends. There is no autonomous reply path in the product.</p>
+            </li>
+            <li class="constraint">
+              <h3>Grounded or abstain</h3>
+              <p>Drafts come from the knowledge base and carry citations plus a confidence signal. "No good passage" is an allowed outcome.</p>
+            </li>
+            <li class="constraint">
+              <h3>Fail closed</h3>
+              <p>If the model call fails, triage falls back to deterministic rules so the ticket still routes.</p>
+            </li>
+            <li class="constraint">
+              <h3>Idempotent intake</h3>
+              <p>Inbound webhooks are HMAC-verified and deduplicated before a ticket is created.</p>
+            </li>
+            <li class="constraint">
+              <h3>Slow work off the request path</h3>
+              <p>Notifications and side effects go through a queue instead of blocking the response.</p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="cs-section" id="how">
+          <div class="cs-sec-head">
+            <span class="cs-sec-num">03</span>
+            <h2>How it works</h2>
+          </div>
+          <div class="prose">
+            <p>
+              One path from inbound message to a reviewed reply. The dashed node is where the
+              system deliberately stops.
+            </p>
+          </div>
+
+          <div class="diagram" role="img" aria-label="Pipeline: ticket intake, guardrails, triage agent, RAG draft, then a human decision.">
+            <div class="diagram-rail">
+              <div class="node node--io">
+                <span class="node-idx">01</span>
+                <span class="node-name">Ticket intake</span>
+                <span class="node-kind">Input</span>
+              </div>
+              <span class="node-arrow" aria-hidden="true"></span>
+              <div class="node node--proc">
+                <span class="node-idx">02</span>
+                <span class="node-name">Guardrails</span>
+                <span class="node-kind">Process</span>
+              </div>
+              <span class="node-arrow" aria-hidden="true"></span>
+              <div class="node node--ai">
+                <span class="node-idx">03</span>
+                <span class="node-name">Triage agent</span>
+                <span class="node-kind">AI / ML</span>
+              </div>
+              <span class="node-arrow" aria-hidden="true"></span>
+              <div class="node node--ai">
+                <span class="node-idx">04</span>
+                <span class="node-name">RAG draft</span>
+                <span class="node-kind">AI / ML</span>
+              </div>
+              <span class="node-arrow" aria-hidden="true"></span>
+              <div class="node node--decision">
+                <span class="node-idx">05</span>
+                <span class="node-name">Human decision</span>
+                <span class="node-kind">Decision</span>
+              </div>
+            </div>
+            <div class="legend">
+              <span><i class="k-io"></i> I/O</span>
+              <span><i class="k-ai"></i> AI / ML</span>
+              <span><i class="k-proc"></i> Process</span>
+              <span><i class="k-decision"></i> Human</span>
+            </div>
+          </div>
+
+          <ol class="steps">
+            <li class="step">
+              <span class="step-num"></span>
+              <div>
+                <h3>Intake</h3>
+                <p>
+                  Tickets arrive from the app or a signed webhook. Verification and an
+                  idempotency check run before anything is written, so a retried delivery never
+                  becomes a duplicate ticket.
+                </p>
+              </div>
+            </li>
+            <li class="step">
+              <span class="step-num"></span>
+              <div>
+                <h3>Guardrails</h3>
+                <p>
+                  Input checks run before the model sees text, and generated drafts are checked
+                  again before they reach the queue.
+                </p>
+              </div>
+            </li>
+            <li class="step">
+              <span class="step-num"></span>
+              <div>
+                <h3>Triage</h3>
+                <p>
+                  An agent labels intent, priority, and sentiment. If the model is unavailable,
+                  deterministic rules produce the same three fields so the ticket still lands in
+                  a queue.
+                </p>
+              </div>
+            </li>
+            <li class="step">
+              <span class="step-num"></span>
+              <div>
+                <h3>Retrieve and draft</h3>
+                <p>
+                  Retrieval pulls the closest passages from a FAISS index over the Markdown
+                  knowledge base. The model writes a reply grounded in those passages, with
+                  citations and a confidence score attached.
+                </p>
+              </div>
+            </li>
+            <li class="step">
+              <span class="step-num"></span>
+              <div>
+                <h3>Decide</h3>
+                <p>
+                  The draft appears next to the ticket with its sources. A human edits, sends, or
+                  escalates — and a risk score routes the sensitive ones to escalation rather than
+                  the general queue.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <section class="cs-section" id="decisions">
+          <div class="cs-sec-head">
+            <span class="cs-sec-num">04</span>
+            <h2>Decisions &amp; tradeoffs</h2>
+          </div>
+          <div class="prose">
+            <p>
+              Each choice below bought something and cost something. The cost is the part worth
+              reading.
+            </p>
+          </div>
+
+          <div class="decisions">
+            <div class="decision">
+              <h3>Retrieval over free generation</h3>
+              <p>
+                A draft that cites the passage it came from is auditable, and "nothing relevant
+                found" is a usable answer.
+              </p>
+              <p class="tradeoff"><b>Tradeoff</b> More abstentions than a model that always replies. I'd rather show a gap than ship a confident fabrication.</p>
+            </div>
+
+            <div class="decision">
+              <h3>A deterministic path beside the agent</h3>
+              <p>
+                Triage falls back to rules when the model is down, so routing keeps working.
+              </p>
+              <p class="tradeoff"><b>Tradeoff</b> Rule labels are coarser, and the two paths have to be kept in agreement — a second implementation to test.</p>
+            </div>
+
+            <div class="decision">
+              <h3>Human in the loop, not out of it</h3>
+              <p>
+                Nothing sends itself. The system compresses the read, search, and first-draft
+                steps; the judgment stays with an agent.
+              </p>
+              <p class="tradeoff"><b>Tradeoff</b> It saves drafting time, not headcount — and it puts pressure on review speed. A slow queue defeats the purpose, which is why the board is keyboard-first.</p>
+            </div>
+
+            <div class="decision">
+              <h3>FAISS instead of a managed vector store</h3>
+              <p>
+                The index sits next to the app and rebuilds from Markdown, so there is one less
+                service to run and the source of truth stays readable.
+              </p>
+              <p class="tradeoff"><b>Tradeoff</b> Indexing and re-indexing are mine to operate, and there is no built-in hybrid search.</p>
+            </div>
+
+            <div class="decision">
+              <h3>PostgreSQL in production, SQLite locally</h3>
+              <p>
+                The same models and queries work in both, so a new checkout runs with one command.
+              </p>
+              <p class="tradeoff"><b>Tradeoff</b> A few dialect edges to watch, and local behavior is not a perfect stand-in for production.</p>
+            </div>
+
+            <div class="decision">
+              <h3>Celery with an eager mode</h3>
+              <p>
+                Notifications run asynchronously in production and synchronously in development.
+              </p>
+              <p class="tradeoff"><b>Tradeoff</b> Fast setup, but dev and prod differ in timing, so ordering bugs can hide until deploy.</p>
+            </div>
+          </div>
+
+          <div class="callout">
+            <b>Observability</b>
+            Structured JSON logs, Prometheus metrics, optional OpenTelemetry traces, bounded
+            retries, and dead-letter handling. A failed draft or a dropped webhook should be
+            visible, not silent.
+          </div>
+        </section>
+
+        <section class="cs-section" id="outcome">
+          <div class="cs-sec-head">
+            <span class="cs-sec-num">05</span>
+            <h2>Outcome</h2>
+          </div>
+          <div class="prose">
+            <p>
+              ReSOLVE is built. I don't have measurements from a live support queue, so I'm not
+              going to quote a resolution rate or hours saved — there is no baseline behind those
+              numbers yet.
+            </p>
+          </div>
+
+          <div class="proof">
+            <div class="proof-col proof-col--can">
+              <span class="proof-label">What exists</span>
+              <ul class="proof-list">
+                <li>The full intake → triage → draft → human decision path</li>
+                <li>A deterministic triage fallback when the model is unavailable</li>
+                <li>Grounded drafting with citations and a confidence score</li>
+                <li>A review interface, plus an audit trail on ticket events</li>
+              </ul>
+            </div>
+            <div class="proof-col">
+              <span class="proof-label">What I can't claim</span>
+              <p>
+                Resolution rate, time saved, deflection, or production traffic. Those need a
+                deployment and a baseline, and I don't have measurements from one yet. The next
+                section is the measurement plan I'd run first.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="cs-section" id="next">
+          <div class="cs-sec-head">
+            <span class="cs-sec-num">06</span>
+            <h2>What I'd change next</h2>
+          </div>
+          <ol class="next-list">
+            <li class="next-item">
+              <div>
+                <b>Label a ticket set</b>
+                <span>Build a labeled sample and report triage precision and recall per intent class. An accuracy claim needs a denominator.</span>
+              </div>
+            </li>
+            <li class="next-item">
+              <div>
+                <b>Measure draft acceptance</b>
+                <span>Track how often a human sends the draft unchanged, and where they edit. That is the number that decides whether drafting is worth it.</span>
+              </div>
+            </li>
+            <li class="next-item">
+              <div>
+                <b>Evaluate retrieval separately</b>
+                <span>Measure recall@k over the knowledge base before touching prompts, so a bad answer is traceable to retrieval or to generation.</span>
+              </div>
+            </li>
+            <li class="next-item">
+              <div>
+                <b>Price the automation</b>
+                <span>Log tokens, model latency, and queue time per ticket so the system has a cost per reply, not just a demo.</span>
+              </div>
+            </li>
+            <li class="next-item">
+              <div>
+                <b>Replay from the audit log</b>
+                <span>Turn stored tickets into a regression harness, so prompt and retrieval changes can be compared against a fixed set instead of vibes.</span>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <footer class="cs-footer">
+          <a class="next-case" href="/work/powerlift.html">
+            <span class="next-case-copy">
+              <span class="next-case-label">Next case study</span>
+              <span class="next-case-title">Powerlift</span>
+              <span class="next-case-sub">Pose estimation that holds still long enough to score a lift.</span>
+            </span>
+            <span class="next-case-arrow" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+            </span>
+          </a>
+          <div class="cs-foot-row">
+            <span>Carl Joshua Coloma · 2026</span>
+            <a class="back" href="/#projects">← Back to projects</a>
+          </div>
+        </footer>
+      </article>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var btn = document.getElementById("themeToggle");
+      var progress = document.getElementById("progress");
+      var links = Array.prototype.slice.call(document.querySelectorAll(".toc-link"));
+
+      var sunSvg = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+      var moonSvg = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+
+      var sections = links.map(function (link) {
+        return document.getElementById(link.getAttribute("href").slice(1));
+      }).filter(Boolean);
+
+      function currentTheme() {
+        return root.getAttribute("data-theme");
+      }
+
+      function updateButton(isDark) {
+        btn.innerHTML = isDark ? sunSvg : moonSvg;
+        btn.setAttribute("aria-label", isDark ? "Switch to light theme" : "Switch to dark theme");
+      }
+
+      function update() {
+        var max = root.scrollHeight - window.innerHeight;
+        var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+        progress.style.width = pct + "%";
+        progress.setAttribute("aria-valuenow", String(Math.round(pct)));
+
+        var marker = window.scrollY + 140;
+        var active = sections[0];
+        sections.forEach(function (section) {
+          if (section.getBoundingClientRect().top + window.scrollY <= marker) active = section;
+        });
+        if (window.innerHeight + window.scrollY >= root.scrollHeight - 2) {
+          active = sections[sections.length - 1];
+        }
+        links.forEach(function (link) {
+          if (active && link.getAttribute("href") === "#" + active.id) {
+            link.setAttribute("aria-current", "true");
+          } else {
+            link.removeAttribute("aria-current");
+          }
+        });
+      }
+
+      updateButton(currentTheme() === "dark");
+
+      btn.addEventListener("click", function () {
+        var next = currentTheme() === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("op-theme", next); } catch (e) {}
+        updateButton(next === "dark");
+      });
+
+      window.addEventListener("scroll", update, { passive: true });
+      window.addEventListener("resize", update);
+      update();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+{
+  "docs": [
+    {
+      "id": "resolve",
+      "title": "ReSOLVE — Customer Support Automation",
+      "url": "/work/resolve.html",
+      "chunks": [
+        {
+          "heading": "Overview",
+          "text": "ReSOLVE is an agentic customer support platform. It triages tickets by intent, priority, and sentiment, drafts replies grounded in a knowledge base, attaches citations and a confidence score, and leaves the send decision to a human."
+        },
+        {
+          "heading": "Pipeline",
+          "text": "The pipeline is ticket intake, guardrails, a triage agent, RAG drafting, and a human decision. Inbound webhooks are HMAC-verified and idempotent, and notifications run through Celery with Redis."
+        },
+        {
+          "heading": "Retrieval and data",
+          "text": "RAG drafting retrieves from a FAISS inner-product index over a Markdown knowledge base. PostgreSQL stores tickets, users, sessions, and the audit trail in production; SQLite is the local stand-in."
+        },
+        {
+          "heading": "Guardrails",
+          "text": "ReSOLVE fails closed. If the model call fails, triage falls back to deterministic rules so the ticket still routes. Guardrails check inputs before the model sees text and check drafts before they reach the queue. There is no autonomous send path."
+        },
+        {
+          "heading": "Tradeoffs",
+          "text": "The main tradeoffs: retrieval can abstain more often than free generation, the deterministic fallback has to stay aligned with the agent, and human review puts pressure on queue speed. FAISS is simple to operate but has no managed hybrid search."
+        },
+        {
+          "heading": "Outcome",
+          "text": "ReSOLVE is built, not a measured deployment. The case study states that resolution rate, time saved, deflection, and production traffic cannot be claimed without a deployment and a baseline."
+        }
+      ]
+    },
+    {
+      "id": "powerlift",
+      "title": "Powerlift — Pose Estimation Thesis",
+      "url": "/work/powerlift.html",
+      "chunks": [
+        {
+          "heading": "Overview",
+          "text": "Powerlift is a mobile biomechanics analyzer for powerlifting. It uses YOLOv8 pose estimation, Kalman filtering, engineered landmark features, and an SVM to classify squat, bench, and deadlift phases and score reps."
+        },
+        {
+          "heading": "Pipeline",
+          "text": "The on-device pipeline is camera frame, YOLOv8 pose, Kalman filter, landmark features, SVM classifier, then a lift score and UI. Frames are never uploaded."
+        },
+        {
+          "heading": "Decisions",
+          "text": "Powerlift favors one pose model over a heavier stack, a Kalman filter over raw landmarks, and a small SVM over a sequence model. The tradeoffs are keypoint precision, per-lift filter tuning, and hand-engineered features."
+        },
+        {
+          "heading": "Outcome",
+          "text": "Powerlift was built as a mobile application and named Overall Best Thesis in 2025. No accuracy or FPS benchmark was published, so the case study does not quote those numbers."
+        }
+      ]
+    },
+    {
+      "id": "sunny",
+      "title": "Sunny AI — RAG-Built Mentor",
+      "url": "/#projects",
+      "chunks": [
+        {
+          "heading": "Overview",
+          "text": "Sunny AI is a RAG-built mentor for aspiring AI engineers, made with React, Python, FastAPI, LLMs, and LangChain. It guides learners from fundamentals through production skills and real-world readiness."
+        }
+      ]
+    },
+    {
+      "id": "resume-analyzer",
+      "title": "AI Resume Analyzer",
+      "url": "https://github.com/cdobby18/resume_analyzer",
+      "chunks": [
+        {
+          "heading": "Overview",
+          "text": "The AI Resume Analyzer is an NLP pipeline that extracts skills and experience from resumes with spaCy named-entity recognition and transformer semantic matching, then emits structured JSON for ranking or ATS use."
+        },
+        {
+          "heading": "Performance",
+          "text": "The resume analyzer processes more than 100 documents per minute and is built with Python and FastAPI."
+        }
+      ]
+    },
+    {
+      "id": "doc-summarizer",
+      "title": "Document Summarizer",
+      "url": "https://github.com/cdobby18/ai-summarizer",
+      "chunks": [
+        {
+          "heading": "Overview",
+          "text": "The Document Summarizer performs abstractive summarization on multi-page PDFs with BART and T5 from Hugging Face. It chunks long documents to fit context limits and merges section summaries into one coherent output."
+        }
+      ]
+    },
+    {
+      "id": "flyrank",
+      "title": "Backend AI Engineer Intern — FlyRank AI",
+      "url": "/#experience",
+      "chunks": [
+        {
+          "heading": "Role",
+          "text": "CJ was a Backend AI Engineer Intern at FlyRank AI from July to October 2026. He built LLM-powered content generation and semantic ranking pipelines, integrated embedding models with vector search, and contributed to prompt engineering and output quality evaluation."
+        }
+      ]
+    },
+    {
+      "id": "sofi",
+      "title": "AI QA Intern — SoFi AI Tech Solutions",
+      "url": "/#experience",
+      "chunks": [
+        {
+          "heading": "Role",
+          "text": "CJ was an AI QA Intern at SoFi AI Tech Solutions from April to July 2026. He designed adversarial prompt test suites for hallucination, refusal, and instruction-following failures, evaluated chatbot responses at scale, and worked with ML teams to reduce error rates."
+        }
+      ]
+    },
+    {
+      "id": "lamina",
+      "title": "AI Engineer Intern — Lamina Studios",
+      "url": "/#experience",
+      "chunks": [
+        {
+          "heading": "Role",
+          "text": "CJ was an AI Engineer Intern at Lamina Studios from December 2025 to April 2026. He built real-time YOLOv8 object detection pipelines with OpenCV, trained XGBoost models on time-series data, and automated retraining and evaluation workflows."
+        }
+      ]
+    },
+    {
+      "id": "experience",
+      "title": "Internship Experience",
+      "url": "/#experience",
+      "chunks": [
+        {
+          "heading": "Overview",
+          "text": "CJ completed three AI engineering internships: Lamina Studios in computer vision from December 2025 to April 2026, SoFi AI Tech Solutions in AI QA from April to July 2026, and FlyRank AI in backend AI engineering from July to October 2026. FlyRank AI was the most recent."
+        }
+      ]
+    },
+    {
+      "id": "stack",
+      "title": "Technical Skills and Stack",
+      "url": "/#stack",
+      "chunks": [
+        {
+          "heading": "Stack",
+          "text": "CJ's languages are Python and JavaScript. Frameworks and libraries include FastAPI, React, Streamlit, OpenCV, NumPy, scikit-learn, and Pydantic. Generative AI work includes RAG, LangChain, agentic AI, prompt engineering, LLM integration, and Ollama."
+        },
+        {
+          "heading": "Data",
+          "text": "CJ works with MySQL, PostgreSQL, and Qdrant. He is currently exploring Databricks, dbt, Airflow, and Snowflake."
+        },
+        {
+          "heading": "Tooling",
+          "text": "Tools include Git, pytest, Jupyter, VS Code, Obsidian, Google Colab, OpenCode, Hermes, and Exa AI."
+        }
+      ]
+    },
+    {
+      "id": "education",
+      "title": "Education",
+      "url": "/#about",
+      "chunks": [
+        {
+          "heading": "Degree",
+          "text": "CJ is completing a BS in Computer Science at FEU Institute of Technology, class of 2026."
+        }
+      ]
+    },
+    {
+      "id": "contact",
+      "title": "Contact",
+      "url": "/#contact",
+      "chunks": [
+        {
+          "heading": "Contact",
+          "text": "Email CJ at carljoshuamcoloma@gmail.com. GitHub is github.com/cdobby18 and LinkedIn is linkedin.com/in/carl-joshua-coloma."
+        }
+      ]
+    },
+    {
+      "id": "availability",
+      "title": "Availability",
+      "url": "/#contact",
+      "chunks": [
+        {
+          "heading": "Availability",
+          "text": "CJ is available immediately for AI automation or applied AI roles, remote or hybrid, based in Manila on PHT (UTC+8). He is open to full-time roles."
+        }
+      ]
+    },
+    {
+      "id": "automation",
+      "title": "AI Automation Approach",
+      "url": "/#about",
+      "chunks": [
+        {
+          "heading": "Approach",
+          "text": "CJ maps the manual process first, then automates one step at a time with deterministic fallbacks, citations, confidence scoring, human approval for irreversible actions, retries, idempotency, and audit logs. ReSOLVE is the featured automation project."
+        },
+        {
+          "heading": "RAG",
+          "text": "CJ's RAG work uses retrieval over a knowledge base, grounded generation with citations, and evaluation before prompt changes. At FlyRank AI he integrated embedding models with vector search."
+        }
+      ]
+    },
+    {
+      "id": "about",
+      "title": "About CJ",
+      "url": "/#about",
+      "chunks": [
+        {
+          "heading": "Bio",
+          "text": "CJ is Carl Joshua Coloma, an AI automation engineer based in Manila and a BS Computer Science graduate of FEU Institute of Technology in 2026. His focus is agentic AI, LLMs, RAG, and evaluation. He is open to AI engineering roles."
+        }
+      ]
+    },
+    {
+      "id": "projects",
+      "title": "Projects Overview",
+      "url": "/#projects",
+      "chunks": [
+        {
+          "heading": "List",
+          "text": "CJ's main projects are ReSOLVE for support automation, Powerlift for pose estimation, Sunny AI for RAG mentorship, the AI Resume Analyzer, and the Document Summarizer."
+        }
+      ]
+    }
+  ],
+  "eval": [
+    { "query": "What is ReSOLVE?", "expect": ["resolve"] },
+    { "query": "How does ReSOLVE triage tickets?", "expect": ["resolve"] },
+    { "query": "Does ReSOLVE send replies automatically?", "expect": ["resolve"] },
+    { "query": "What are the tradeoffs in ReSOLVE?", "expect": ["resolve"] },
+    { "query": "What did CJ build for customer support?", "expect": ["resolve"] },
+    { "query": "Tell me about Powerlift", "expect": ["powerlift"] },
+    { "query": "What models does Powerlift use?", "expect": ["powerlift"] },
+    { "query": "How does Powerlift handle noisy keypoints?", "expect": ["powerlift"] },
+    { "query": "What award did Powerlift win?", "expect": ["powerlift"] },
+    { "query": "Did Powerlift publish accuracy numbers?", "expect": ["powerlift"] },
+    { "query": "What is Sunny AI?", "expect": ["sunny"] },
+    { "query": "How does the resume analyzer work?", "expect": ["resume-analyzer"] },
+    { "query": "How fast is the resume analyzer?", "expect": ["resume-analyzer"] },
+    { "query": "What does the document summarizer use?", "expect": ["doc-summarizer"] },
+    { "query": "Where did CJ intern?", "expect": ["experience"] },
+    { "query": "What did CJ do at FlyRank?", "expect": ["flyrank"] },
+    { "query": "Tell me about SoFi", "expect": ["sofi"] },
+    { "query": "What did CJ do at Lamina Studios?", "expect": ["lamina"] },
+    { "query": "What is CJ's tech stack?", "expect": ["stack"] },
+    { "query": "Does CJ know Python?", "expect": ["stack"] },
+    { "query": "What is CJ's education?", "expect": ["education"] },
+    { "query": "How do I contact CJ?", "expect": ["contact"] },
+    { "query": "Is CJ open to work?", "expect": ["availability"] },
+    { "query": "What is CJ's approach to automation?", "expect": ["automation"] },
+    { "query": "What is RAG?", "expect": ["automation", "stack", "resolve"] },
+    { "query": "Who is CJ?", "expect": ["about"] },
+    { "query": "What projects has CJ built?", "expect": ["projects"] },
+    { "query": "What was CJ's most recent role?", "expect": ["flyrank", "experience"] },
+    { "query": "What is human-in-the-loop?", "expect": ["automation", "resolve"] },
+    { "query": "What is CJ's focus?", "expect": ["about", "availability"] }
+  ]
+}

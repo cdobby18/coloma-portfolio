@@ -1,198 +1,399 @@
 import { useState, useEffect, useRef } from "react";
+import ASSISTANT from "../../api/data/assistant.json";
 
-const LOCAL_DOCS = [
-  { id: "powerlift", title: "Powerlift — Thesis Project", text: "Powerlift is an AI biomechanics analyzer for powerlifting combining YOLOv8 pose estimation, Kalman filtering, and SVM classification. It runs in real time on mobile and won Overall Best Thesis (Computer Vision, Nov 2025)." },
-  { id: "sunny-ai", title: "Sunny AI — RAG-Built Mentor", text: "Sunny AI is a guided platform for aspiring AI engineers built with React, Python, FastAPI, LLMs, and RAG using LangChain. It mentors learners from zero to job-ready." },
-  { id: "resume-analyzer", title: "AI Resume Analyzer", text: "An NLP pipeline using spaCy NER and transformer semantic matching to extract skills from resumes, producing structured JSON. Processes 100+ docs/min." },
-  { id: "doc-summarizer", title: "Document Summarizer", text: "Abstractive summarization for multi-page PDFs using BART and T5 with chunking and section-level synthesis." },
-  { id: "resolve", title: "ReSOLVE — Customer Support Automation", text: "An agentic support platform that triages tickets by intent, priority, and sentiment, drafts grounded responses with RAG confidence scoring, and escalates to humans with deterministic fallbacks." },
-  { id: "automation", title: "AI Automation Focus", text: "CJ builds LLM-powered workflows for support triage, document intake, and research operations. He starts by mapping the manual process, then automates one step at a time with deterministic fallbacks, citations, human approval for irreversible actions, retries, idempotency, and audit logs. ReSOLVE is his featured automation project." },
-  { id: "flyrank", title: "Backend AI Engineer Intern — FlyRank AI", text: "CJ built LLM-powered content generation and semantic ranking pipelines with embeddings and vector search. Worked on prompt engineering for production AI features. Internship ran July to October 2026." },
-  { id: "sofi-qa", title: "AI QA Intern — SoFi AI Tech Solutions", text: "Designed adversarial prompt test suites targeting hallucination, refusal, and instruction-following failures in chatbots. Evaluated responses at scale. Internship ran April to July 2026." },
-  { id: "lamina", title: "AI Engineer Intern — Lamina Studios", text: "Built real-time YOLOv8 object detection pipelines with OpenCV at production-ready inference speeds, trained XGBoost models, automated retraining. Internship ran December 2025 to April 2026." },
-  { id: "internships", title: "Internship Experience Overview", text: "Completed three AI engineering internships: Lamina Studios in computer vision (Dec 2025 to Apr 2026), SoFi AI Tech Solutions in AI QA (Apr to Jul 2026), and FlyRank AI in backend AI engineering (Jul to Oct 2026)." },
-  { id: "skills-stack", title: "Technical Skills & Stack", text: "Python, JavaScript. AI/ML: PyTorch, scikit-learn, OpenCV, LangChain, Transformers, RAG, prompt engineering, LLM integration, agentic workflows. Data: MySQL, Qdrant, PostgreSQL. Tools: FastAPI, React, Git, pytest, Jupyter." },
-  { id: "about", title: "About CJ — Carl Joshua Coloma", text: "CJ is Carl Joshua Coloma, an AI automation engineer and BS Computer Science graduate from the Philippines (FEU Tech, 2026). Focus: AI, automation, and agentic workflows, with hands-on work in LLMs, RAG, and LLM evaluation. Won Overall Best Thesis for Powerlift. Open to AI automation roles." },
-  { id: "contact", title: "Contact", text: "Email: carljoshuamcoloma@gmail.com. GitHub: github.com/cdobby18. LinkedIn: linkedin.com/in/carl-joshua-coloma." },
-  { id: "education", title: "Education", text: "BS Computer Science, FEU Institute of Technology (2026)." },
-];
+/* One document set feeds both api/rag.py and this offline fallback. */
+const DOCS = ASSISTANT.docs || [];
+const DOC_BY_ID = Object.fromEntries(DOCS.map((doc) => [doc.id, doc]));
+
+const MAX_QUERY = 400;
+
+const ABSTAIN =
+  "I don't have a grounded answer for that. Try asking about a project, " +
+  "CJ's experience, technical stack, availability, or contact details.\n\n" +
+  "- **Direct email:** carljoshuamcoloma@gmail.com\n" +
+  "- **Projects:** ReSOLVE, Powerlift, Sunny AI, AI Resume Analyzer, Document Summarizer";
+
+const STOP_WORDS = new Set([
+  "the", "and", "for", "are", "you", "your", "what", "how", "does", "did",
+  "do", "with", "about", "tell", "this", "that", "these", "those", "from",
+  "have", "has", "had", "been", "being", "into", "over", "more", "most",
+  "some", "any", "all", "use", "uses", "used", "work", "works", "worked",
+  "built", "build", "make", "made", "get", "got", "give", "please", "thanks",
+  "can", "could", "would", "should", "was", "were", "will", "his", "her",
+  "him", "she", "they", "them", "their", "our", "its", "it", "is", "of",
+  "to", "in", "on", "at", "by", "or", "but", "not", "no", "yes", "me",
+  "my", "we", "us", "i", "a", "an", "as", "if", "so", "than", "then",
+  "there", "here", "which", "who", "whom", "when", "where", "why", "cj",
+  "carl", "coloma", "joshua",
+]);
+
+const ALIASES = {
+  resolve: ["support", "customer", "ticket", "tickets", "triage", "escalation"],
+  powerlift: ["thesis", "pose", "biomechanics", "yolov8", "kalman", "svm", "lifting"],
+  sunny: ["mentor", "mentorship", "sunnyai"],
+  "resume-analyzer": ["resume", "résumé", "ats", "analyzer"],
+  "doc-summarizer": ["summarizer", "summarization", "summarize", "bart", "t5", "pdf"],
+  flyrank: ["flyrankai", "recent", "latest"],
+  sofi: ["sofiai"],
+  lamina: ["laminastudios"],
+  experience: [
+    "internship", "internships", "intern", "interns", "companies", "role",
+    "roles", "position", "positions",
+  ],
+  stack: [
+    "skills", "tech", "tools", "technologies", "languages", "frameworks",
+    "python", "javascript", "pytorch", "react", "fastapi",
+  ],
+  contact: ["email", "e-mail", "linkedin", "github", "reach"],
+  availability: ["available", "hiring", "hire", "recruit", "job", "role", "roles"],
+  automation: ["automate", "workflow", "workflows", "guardrails", "human-in-the-loop", "rag"],
+  education: ["school", "university", "degree", "feu", "student"],
+  about: ["bio", "background"],
+  projects: ["portfolio", "project"],
+};
+
+function tokenize(text) {
+  const words = (text || "").toLowerCase().match(/[a-z0-9]+/g) || [];
+  return words.filter((word) => word.length > 2 && !STOP_WORDS.has(word));
+}
+
+/* Section-level index. Heading and title terms repeat so they weigh more. */
+const CHUNKS = [];
+for (const doc of DOCS) {
+  const titleTokens = tokenize(doc.title);
+  for (const chunk of doc.chunks || []) {
+    const textTokens = tokenize(chunk.text);
+    const tokens = [
+      ...textTokens,
+      ...tokenize(chunk.heading),
+      ...titleTokens,
+      ...titleTokens,
+    ];
+    const tf = {};
+    for (const token of tokens) tf[token] = (tf[token] || 0) + 1;
+    CHUNKS.push({
+      doc_id: doc.id,
+      title: doc.title,
+      url: doc.url || "",
+      heading: chunk.heading,
+      text: chunk.text,
+      tokens,
+      tf,
+      dl: tokens.length,
+    });
+  }
+}
+
+const CHUNK_COUNT = CHUNKS.length;
+const AVGDL = CHUNKS.reduce((sum, chunk) => sum + chunk.dl, 0) / CHUNK_COUNT || 1;
+const DF = {};
+for (const chunk of CHUNKS) {
+  for (const term of new Set(chunk.tokens)) DF[term] = (DF[term] || 0) + 1;
+}
+
+const K1 = 1.2;
+const B = 0.75;
+const MIN_SCORE = 1.0;
+
+const FOLLOW_UP_RE =
+  /^\s*(and\b|so\b|why\b|how so|really\b|more\b|tell me more|go on|continue|elaborate|what about\b|how about\b|anything else)/i;
+
+function idf(term) {
+  const df = DF[term] || 0;
+  return Math.log((CHUNK_COUNT - df + 0.5) / (df + 0.5) + 1);
+}
+
+function expandQuery(query) {
+  const weights = {};
+  for (const term of tokenize(query)) {
+    weights[term] = Math.max(weights[term] || 0, 1);
+    for (const [key, aliases] of Object.entries(ALIASES)) {
+      if (term === key || aliases.includes(term)) {
+        weights[key] = Math.max(weights[key] || 0, 0.55);
+        for (const alias of aliases) {
+          weights[alias] = Math.max(weights[alias] || 0, 0.35);
+        }
+      }
+    }
+  }
+
+  if (
+    !Object.keys(weights).length &&
+    /\b(who|what)\b.*\b(cj|carl|coloma|you|him|he)\b/i.test(query)
+  ) {
+    weights.bio = 1;
+  }
+  return weights;
+}
+
+function prefixMatch(term, chunk) {
+  if (term.length < 5) return null;
+  for (const [candidate, count] of Object.entries(chunk.tf)) {
+    if (
+      candidate.length >= 5 &&
+      (candidate.startsWith(term) || term.startsWith(candidate))
+    ) {
+      return [candidate, count];
+    }
+  }
+  return null;
+}
+
+function scoreChunk(weights, chunk) {
+  let score = 0;
+  for (const [term, weight] of Object.entries(weights)) {
+    let tf = chunk.tf[term] || 0;
+    let matched = term;
+    if (!tf) {
+      const found = prefixMatch(term, chunk);
+      if (found) [matched, tf] = found;
+    }
+    if (!tf) continue;
+    const denom = tf + K1 * (1 - B + (B * chunk.dl) / AVGDL);
+    score += (weight * idf(matched) * (tf * (K1 + 1))) / denom;
+  }
+  return score;
+}
+
+function makeSnippet(text, weights = {}) {
+  const sentences = (text || "")
+    .split(/(?<=[.!?])\s+/)
+    .map((sentence) => sentence.trim())
+    .filter(Boolean);
+  if (!sentences.length) return text;
+
+  const hits = (sentence) => {
+    const words = new Set(tokenize(sentence));
+    return Object.keys(weights).filter((term) => words.has(term)).length;
+  };
+
+  let best = sentences.reduce((a, b) => (hits(b) > hits(a) ? b : a));
+  if (hits(best) === 0) best = sentences[0];
+  if (best.length > 220) {
+    best = best.slice(0, 220).replace(/\s+\S*$/, "").replace(/[,;:]$/, "") + "…";
+  }
+  return best;
+}
+
+function toMatch(chunk, score, weights) {
+  return {
+    id: chunk.doc_id,
+    doc_id: chunk.doc_id,
+    title: chunk.title,
+    heading: chunk.heading,
+    text: chunk.text,
+    snippet: makeSnippet(chunk.text, weights),
+    url: chunk.url,
+    score: Math.round(score * 1000) / 1000,
+  };
+}
+
+function retrieve(query, context, topK = 3) {
+  const weights = expandQuery(query);
+  if (!Object.keys(weights).length) return [];
+
+  const followUp = /\b(it|that|this|those|them|more|second|third|first)\b/i.test(query);
+  const scored = [];
+  for (const chunk of CHUNKS) {
+    let score = scoreChunk(weights, chunk);
+    if (context && chunk.doc_id === context) {
+      score *= followUp ? 1.8 : 1.3;
+    }
+    if (score > 0) scored.push([score, chunk]);
+  }
+  scored.sort((a, b) => b[0] - a[0]);
+
+  const matches = [];
+  const seen = new Set();
+  for (const [score, chunk] of scored) {
+    if (seen.has(chunk.doc_id)) continue;
+    seen.add(chunk.doc_id);
+    matches.push(toMatch(chunk, score, weights));
+    if (matches.length >= topK) break;
+  }
+  if (!matches.length) return [];
+  const floor = Math.max(MIN_SCORE, matches[0].score * 0.2);
+  return matches.filter((match) => match.score >= floor);
+}
+
+function docMatches(docIds) {
+  return docIds
+    .map((id) => DOC_BY_ID[id])
+    .filter(Boolean)
+    .map((doc) => {
+      const chunk = doc.chunks[0];
+      return {
+        id: doc.id,
+        doc_id: doc.id,
+        title: doc.title,
+        heading: chunk.heading,
+        text: chunk.text,
+        snippet: makeSnippet(chunk.text),
+        url: doc.url || "",
+        score: 0,
+      };
+    });
+}
+
+function buildAnswer(matches) {
+  if (!matches.length) return ABSTAIN;
+  const lead = matches[0];
+  let answer = `**${lead.title} — ${lead.heading}**\n\n${lead.text}`;
+  const floor = Math.max(MIN_SCORE, lead.score * 0.25);
+  const related = matches
+    .slice(1)
+    .filter((match) => match.doc_id !== lead.doc_id && match.score >= floor);
+  if (related.length) {
+    answer +=
+      "\n\nRelated: " +
+      related.map((match) => `${match.title} — ${match.heading}`).join("; ");
+  }
+  return answer;
+}
 
 const CONTACT_REPLY =
-  "You can reach CJ through the following channels:\n\n- **Email:** carljoshuamcoloma@gmail.com\n- **GitHub:** github.com/cdobby18\n- **LinkedIn:** linkedin.com/in/carl-joshua-coloma";
+  "You can reach CJ through the following channels:\n\n" +
+  "- **Email:** carljoshuamcoloma@gmail.com\n" +
+  "- **GitHub:** github.com/cdobby18\n" +
+  "- **LinkedIn:** linkedin.com/in/carl-joshua-coloma";
 
 const INTENTS = [
-  {
-    id: "greeting",
-    match: /^\s*(hi|hey|hello|yo|sup|howdy|good (morning|afternoon|evening))(\s+(there|again|all|everyone|friend))?[\s!,.?]*$/i,
-    reply:
-      "Hello. I'm CJ's portfolio assistant. You can ask about his projects, automation work, technical stack, experience, or contact details.",
-  },
-  {
-    id: "how-are-you",
-    match: /^\s*(how are you( doing)?|how's it going|how are things|how r u|hru|what's up|what up|wassup)[\s!,.?]*$/i,
-    reply: "I'm running normally. What would you like to know about CJ's work?",
-  },
-  {
-    id: "thanks",
-    match: /^\s*(thanks|thank you|ty|appreciate it)[\s!,.?]*$/i,
-    reply: "You're welcome. Let me know if you have further questions about CJ's work.",
-  },
-  {
-    id: "help",
-    match: /^\s*(help|what can you do|what can i ask|how does this work|capabilities)[\s!,.?]*$/i,
-    reply:
-      "I can answer questions about CJ's projects, automation work, experience, technical stack, education, and contact details. Try asking about his stack, ReSOLVE, or the Powerlift thesis.",
-  },
-  {
-    id: "goodbye",
-    match: /^\s*(bye|goodbye|see you|see ya|later|good night|take care)[\s!,.?]*$/i,
-    reply:
-      "Thank you for stopping by. To get in touch directly, email carljoshuamcoloma@gmail.com.",
-  },
-  {
-    id: "acknowledge",
-    match: /^\s*(ok|okay|cool|nice|great|awesome|got it|sounds good)[\s!,.?]*$/i,
-    reply: "Understood. Let me know if you would like details on anything else.",
-  },
-  {
-    id: "contact",
-    match: /\b(contact|email|e-mail|reach|get in touch|linkedin|github)\b/i,
-    reply: CONTACT_REPLY,
-  },
-  {
-    id: "availability",
-    match: /\b(available|availability|open to work|open to roles|hiring|hire|recruit|job opportunity|full[- ]time role|looking for a role)\b/i,
-    reply:
-      "CJ is available for AI automation roles and select workflow projects.\n\n- **Focus areas:** LLM workflows, agentic systems, and human-in-the-loop operations\n- **Availability:** Immediate — most recent internship concluded October 2026\n- **Best contact:** carljoshuamcoloma@gmail.com",
-  },
-  {
-    id: "current",
-    match: /\b(currently|current work|right now|working on|these days|latest role|recent role|most recent|now)\b/i,
-    reply:
-      "CJ's most recent role was a Backend AI Engineer internship at FlyRank AI, completed in October 2026. He currently focuses on AI automation — LLM workflows with guardrails, evaluation, and human oversight — and is open to new roles.",
-  },
-  {
-    id: "flyrank",
-    match: /\bflyrank\b/i,
-    reply:
-      "**Backend AI Engineer Intern — FlyRank AI** (July–October 2026)\n\n- Built LLM-powered content generation and semantic ranking pipelines\n- Integrated embedding models with vector search for semantic retrieval\n- Contributed to prompt engineering and output quality evaluation for production AI features",
-  },
-  {
-    id: "sofi",
-    match: /\bsofi\b/i,
-    reply:
-      "**AI QA Intern — SoFi AI Tech Solutions** (April–July 2026)\n\n- Designed adversarial prompt test suites for hallucination, refusal, and instruction-following failures\n- Evaluated chatbot responses at scale and tracked error rates\n- Worked with ML teams to turn evaluation findings into model behavior improvements",
-  },
-  {
-    id: "lamina",
-    match: /\blamina\b/i,
-    reply:
-      "**AI Engineer Intern — Lamina Studios** (December 2025–April 2026)\n\n- Built real-time YOLOv8 object detection pipelines with OpenCV at production-ready inference speeds\n- Trained XGBoost classification models on time-series data\n- Automated model retraining and evaluation workflows",
-  },
-  {
-    id: "automation",
-    match: /\b(automation|automate|automated|workflows?|triage|human[- ]in[- ]the[- ]loop|guardrails?)\b/i,
-    reply:
-      "CJ builds LLM-powered workflows for support triage, document intake, and research operations. The approach:\n\n- Map the manual process before writing code\n- Automate one step at a time with deterministic fallbacks\n- Add citations and confidence scoring to grounded outputs\n- Require human approval for irreversible actions\n- Use retries, idempotency, and audit logs for reliability\n\nReSOLVE is the featured automation project.",
-  },
-  {
-    id: "ai-focus",
-    match: /\b(rag|retrieval|llms?|agents?|agentic|prompt engineering|computer vision)\b/i,
-    reply:
-      "CJ's AI work centers on LLMs, RAG, and agentic systems.\n\n- **Retrieval:** embedding pipelines and vector search at FlyRank AI\n- **RAG:** a LangChain-based mentor for Sunny AI\n- **Evaluation:** adversarial prompt testing for chatbots at SoFi\n- **Computer vision:** real-time YOLOv8 detection and the Powerlift thesis",
-  },
-  {
-    id: "internships",
-    match: /\b(internships?|interns?|work experience|experience|worked|companies)\b/i,
-    reply:
-      "CJ has completed three AI engineering internships:\n\n- **Lamina Studios** — AI Engineer Intern, computer vision (Dec 2025–Apr 2026)\n- **SoFi AI Tech Solutions** — AI QA Intern (Apr–Jul 2026)\n- **FlyRank AI** — Backend AI Engineer Intern (Jul–Oct 2026)\n\nFlyRank AI was the most recent and has concluded.",
-  },
-  {
-    id: "powerlift",
-    match: /\bpowerlift\b/i,
-    reply:
-      "**Powerlift — Overall Best Thesis, Computer Vision (November 2025)**\n\nAn AI biomechanics analyzer for powerlifting, running in real time on mobile hardware.\n\n- **Pose estimation:** YOLOv8 for joint tracking\n- **Stabilization:** Kalman filtering for motion smoothing\n- **Classification:** SVM for lift-phase detection",
-  },
-  {
-    id: "sunny",
-    match: /\bsunny\b/i,
-    reply:
-      "**Sunny AI — RAG-built mentor**\n\nA guided platform for aspiring AI engineers, built with React, FastAPI, LLMs, and RAG via LangChain. It structures the path from fundamentals through production AI practices.",
-  },
-  {
-    id: "resume",
-    match: /\b(resume|résumé|ats)\b/i,
-    reply:
-      "**AI Resume Analyzer — NLP pipeline**\n\n- **Extraction:** spaCy named-entity recognition\n- **Matching:** transformer-based semantic similarity\n- **Output:** structured JSON for ranking or ATS use\n- **Throughput:** 100+ documents per minute\n- **Stack:** Python, FastAPI",
-  },
-  {
-    id: "summarizer",
-    match: /\b(summarizer|summarization|summarize|bart|t5)\b/i,
-    reply:
-      "**Document Summarizer — abstractive summarization**\n\n- **Models:** BART and T5 (Hugging Face)\n- **Approach:** chunk long PDFs to fit context limits, then merge section-level summaries\n- **Output:** one coherent, readable summary\n- **Stack:** Python",
-  },
-  {
-    id: "projects",
-    match: /\b(projects?|portfolio|built|what has cj built)\b/i,
-    reply:
-      "CJ's main projects:\n\n- **ReSOLVE** — agentic customer support automation with RAG drafting and human escalation\n- **Powerlift** — real-time pose estimation for powerlifting; Overall Best Thesis, Computer Vision (2025)\n- **Sunny AI** — RAG-based mentorship platform for aspiring AI engineers\n- **AI Resume Analyzer** — NLP pipeline for resume parsing and ranking\n- **Document Summarizer** — BART/T5 summarization for long PDFs\n\nAsk about any project for more detail.",
-  },
-  {
-    id: "stack",
-    match: /\b(stack|skills?|tech|tools|technologies|languages?|frameworks?)\b/i,
-    reply:
-      "CJ's stack, grouped by area:\n\n- **Languages:** Python, JavaScript\n- **AI and LLMs:** PyTorch, scikit-learn, OpenCV, LangChain, Transformers, RAG, agentic workflows, prompt engineering\n- **Data:** MySQL, PostgreSQL, Qdrant\n- **Backend and frontend:** FastAPI, React\n- **Tooling:** Git, pytest, Jupyter, VS Code\n- **Currently exploring:** dbt, Airflow, Databricks, Snowflake",
-  },
-  {
-    id: "education",
-    match: /\b(education|school|university|degree|study|studied|student|feu)\b/i,
-    reply: "**BS Computer Science** — FEU Institute of Technology (2026)",
-  },
-  {
-    id: "about",
-    match: /\b(about cj|about you|about him|about yourself|who is cj|who are you|your background|his background|what do you do)\b/i,
-    reply:
-      "CJ is Carl Joshua Coloma, an AI automation engineer and BS Computer Science graduate of FEU Institute of Technology (2026).\n\n- **Focus:** AI automation, LLM workflows, and agentic systems\n- **Experience:** three AI engineering internships across computer vision, AI QA, and backend AI\n- **Approach:** production-first — guardrails, fallbacks, evaluation, and a human in the loop",
-  },
+  [
+    /^\s*(hi|hey|hello|yo|sup|howdy|good (morning|afternoon|evening))(\s+(there|again|all|everyone|friend))?[\s!,.?]*$/i,
+    "Hello. I'm CJ's portfolio assistant. You can ask about his projects, " +
+      "automation work, technical stack, experience, or contact details.",
+    [],
+  ],
+  [
+    /^\s*(how are you( doing)?|how's it going|how are things|how r u|hru|what's up|what up|wassup)[\s!,.?]*$/i,
+    "I'm running normally. What would you like to know about CJ's work?",
+    [],
+  ],
+  [
+    /^\s*(thanks|thank you|ty|appreciate it)[\s!,.?]*$/i,
+    "You're welcome. Let me know if you have further questions about CJ's work.",
+    [],
+  ],
+  [
+    /^\s*(help|what can you do|what can i ask|how does this work|capabilities)[\s!,.?]*$/i,
+    "I answer from a small set of portfolio documents. Ask about a project, " +
+      "CJ's experience, stack, availability, or contact details. I cite the " +
+      "passage I used and say when I don't have a grounded answer.",
+    [],
+  ],
+  [
+    /^\s*(bye|goodbye|see you|see ya|later|good night|take care)[\s!,.?]*$/i,
+    "Thank you for stopping by. To get in touch directly, email carljoshuamcoloma@gmail.com.",
+    ["contact"],
+  ],
+  [
+    /^\s*(ok|okay|cool|nice|great|awesome|got it|sounds good)[\s!,.?]*$/i,
+    "Understood. Let me know if you would like details on anything else.",
+    [],
+  ],
+  [
+    /\b(contact|email|e-mail|reach|get in touch|linkedin|github)\b/i,
+    CONTACT_REPLY,
+    ["contact"],
+  ],
+  [
+    /\b(available|availability|open to work|open to roles|hiring|hire|recruit|job opportunity|full[- ]time role|looking for a role)\b/i,
+    "CJ is available immediately for AI automation or applied AI roles, remote " +
+      "or hybrid, based in Manila on PHT (UTC+8).\n\n" +
+      "- **Focus:** LLM workflows, agentic systems, and human-in-the-loop operations\n" +
+      "- **Best contact:** carljoshuamcoloma@gmail.com",
+    ["availability"],
+  ],
+  [
+    /\b(currently|current work|right now|working on|these days|latest role|recent role|most recent)\b/i,
+    "CJ's most recent role was a Backend AI Engineer internship at FlyRank AI, " +
+      "completed in October 2026. He currently focuses on AI automation and is " +
+      "open to new roles.",
+    ["flyrank", "experience"],
+  ],
 ];
 
 const GREETING_PREFIX =
   /^\s*(hi|hey|hello|yo|sup|howdy|good (morning|afternoon|evening))(\s+(there|again|all|everyone|friend))?[\s,!.]*/i;
 
-function stripGreeting(text) {
-  return text.replace(GREETING_PREFIX, "").trim();
+const INJECTION_RE =
+  /(ignore\s+(all\s+)?(previous|prior|above)\s+instructions|system\s+prompt|reveal\s+(your\s+)?prompt|you\s+are\s+now|jailbreak|developer\s+mode)/i;
+
+function matchIntent(query) {
+  for (const [pattern, reply, docIds] of INTENTS) {
+    if (pattern.test(query)) return { reply, matches: docMatches(docIds) };
+  }
+  return null;
 }
 
-function localAnswer(q) {
-  const text = q.trim();
-  let intent = INTENTS.find((item) => item.match.test(text));
+function localQuery(rawQuery, context) {
+  const original = (rawQuery || "").trim();
 
-  if (!intent) {
-    const cleaned = stripGreeting(text);
-    if (cleaned && cleaned !== text) {
-      intent = INTENTS.find((item) => item.match.test(cleaned));
-      if (intent) return { answer: intent.reply, matches: [] };
-      q = cleaned;
-    }
-  } else {
-    return { answer: intent.reply, matches: [] };
+  if (!original) {
+    return { query: original, matches: [], answer: ABSTAIN, topic: null };
   }
 
-  const words = q.toLowerCase().split(/\W+/).filter((w) => w.length > 1);
-  const scored = LOCAL_DOCS.map((doc) => {
-    const haystack = (doc.title + " " + doc.text).toLowerCase();
-    let score = 0;
-    for (const w of words) {
-      if (haystack.includes(w)) score += w.length > 2 ? 2 : 1;
+  if (original.length > MAX_QUERY) {
+    return {
+      query: original,
+      matches: [],
+      answer: `Keep questions under ${MAX_QUERY} characters so retrieval stays precise.`,
+      topic: null,
+    };
+  }
+
+  if (INJECTION_RE.test(original)) {
+    return {
+      query: original,
+      matches: [],
+      answer:
+        "I only answer questions about CJ's work and background. Ask about a project, " +
+        "his experience, stack, or contact details.",
+      topic: null,
+    };
+  }
+
+  let query = original;
+  let intent = matchIntent(query);
+  if (!intent) {
+    const cleaned = query.replace(GREETING_PREFIX, "").trim();
+    if (cleaned && cleaned !== query) {
+      query = cleaned;
+      intent = matchIntent(cleaned);
     }
-    return { doc, score };
-  }).sort((a, b) => b.score - a.score);
-  const matches = scored.filter((r) => r.score > 0).slice(0, 2);
-  const top = matches.length ? matches[0].doc : null;
-  const answer = top
-    ? top.text
-    : "I don't have a specific answer for that. Try asking about a project, CJ's automation work, the technical stack, or contact details.\n\n- **Direct email:** carljoshuamcoloma@gmail.com";
-  return { answer, matches: matches.map((m) => ({ doc: m.doc, score: m.score })) };
+  }
+  if (intent) {
+    return {
+      query,
+      matches: intent.matches,
+      answer: intent.reply,
+      topic: intent.matches[0] ? intent.matches[0].doc_id : null,
+    };
+  }
+
+  const cleaned = query.replace(GREETING_PREFIX, "").trim() || query;
+
+  if (context && !tokenize(cleaned).length && FOLLOW_UP_RE.test(cleaned) && DOC_BY_ID[context]) {
+    const matches = docMatches([context]);
+    return {
+      query: original,
+      matches,
+      answer: buildAnswer(matches),
+      topic: context,
+    };
+  }
+
+  const matches = retrieve(cleaned, context, 3);
+  if (!matches.length || matches[0].score < MIN_SCORE) {
+    return { query: original, matches: [], answer: ABSTAIN, topic: context || null };
+  }
+
+  return {
+    query: original,
+    matches,
+    answer: buildAnswer(matches),
+    topic: matches[0].doc_id,
+  };
 }
 
 /* Answer formatting: plain lines become paragraphs, "- " lines become bullets. */
@@ -295,6 +496,7 @@ export default function RagDemo() {
   const [query, setQuery] = useState("");
   const [messages, setMessages] = useState([]);
   const [phase, setPhase] = useState("idle"); // idle | searching | typing
+  const [evalStats, setEvalStats] = useState(null);
   const streamRef = useRef(null);
   const scrollRef = useRef(null);
   const inputRef = useRef(null);
@@ -306,19 +508,36 @@ export default function RagDemo() {
 
   useEffect(() => () => { if (streamRef.current) clearInterval(streamRef.current); }, []);
 
-  async function fetchAnswer(q) {
+  /* The metric comes from the eval set in api/data/assistant.json. If the
+     serverless endpoint is unavailable, the card simply omits the line. */
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/rag?eval=1", { headers: { Accept: "application/json" } })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (alive && data && data.eval) setEvalStats(data.eval);
+      })
+      .catch(() => {});
+    return () => { alive = false; };
+  }, []);
+
+  async function fetchAnswer(q, context) {
     try {
       const res = await fetch("/api/rag", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: q }),
+        body: JSON.stringify({ query: q, context }),
       });
       if (!res.ok) throw new Error("Request failed");
       const data = await res.json();
       if (!data.answer) throw new Error("Empty answer");
-      return { answer: data.answer, matches: data.matches || [] };
+      return {
+        answer: data.answer,
+        matches: data.matches || [],
+        topic: data.topic || null,
+      };
     } catch {
-      return localAnswer(q);
+      return localQuery(q, context);
     }
   }
 
@@ -348,11 +567,13 @@ export default function RagDemo() {
   async function runQuery(q) {
     const value = q.trim();
     if (!value || phase !== "idle") return;
+    const context =
+      [...messages].reverse().find((m) => m.role === "ai" && m.topic)?.topic || null;
     setQuery("");
     setMessages((m) => [...m, { role: "user", text: value }]);
     setPhase("searching");
-    const { answer, matches } = await fetchAnswer(value);
-    setMessages((m) => [...m, { role: "ai", text: "", matches }]);
+    const { answer, matches, topic } = await fetchAnswer(value, context);
+    setMessages((m) => [...m, { role: "ai", text: "", matches, topic }]);
     streamAnswer(answer);
   }
 
@@ -380,8 +601,17 @@ export default function RagDemo() {
         <div className="ai-side-copy">
           <h2 className="ai-heading">Ask about my work.</h2>
           <p className="ai-desc">
-            A small assistant grounded in CJ's projects, experience, and technical stack.
+            Grounded in CJ's projects, experience, and stack. It cites sources and abstains
+            when unsure.
           </p>
+          {evalStats && (
+            <p
+              className="ai-eval"
+              title="Share of test questions whose expected passage appears in the top three retrieved chunks."
+            >
+              Retrieval <strong>{evalStats.hit3}% hit@3</strong> · {evalStats.total} questions
+            </p>
+          )}
         </div>
 
         <div className="ai-side-foot">
@@ -433,8 +663,17 @@ export default function RagDemo() {
                   {(m.matches || []).length > 0 && !(phase === "typing" && isLast) && (
                     <div className="ai-sources">
                       <span className="ai-sources-label">Sources</span>
-                      {(m.matches || []).slice(0, 3).map(({ doc }) => (
-                        <span className="ai-source" key={doc.id}>{doc.title}</span>
+                      {(m.matches || []).slice(0, 3).map((match) => (
+                        <a
+                          className="ai-source"
+                          key={`${match.id}-${match.heading}`}
+                          href={match.url || "#projects"}
+                          target={match.url && match.url.startsWith("http") ? "_blank" : undefined}
+                          rel={match.url && match.url.startsWith("http") ? "noreferrer noopener" : undefined}
+                          title={match.snippet || match.text}
+                        >
+                          {match.title} — {match.heading}
+                        </a>
                       ))}
                     </div>
                   )}
@@ -465,6 +704,7 @@ export default function RagDemo() {
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            maxLength={MAX_QUERY}
             placeholder={phase === "idle" ? "Ask about my work…" : "Assistant is working…"}
             disabled={phase !== "idle"}
             aria-label="Ask the portfolio assistant"
@@ -542,6 +782,16 @@ export default function RagDemo() {
           line-height: 1.65;
           color: rgba(255, 255, 255, 0.55);
         }
+        .ai-eval {
+          margin-top: 14px;
+          max-width: 224px;
+          font-family: var(--mono);
+          font-size: 9.5px;
+          line-height: 1.6;
+          letter-spacing: 0.02em;
+          color: rgba(255, 255, 255, 0.45);
+        }
+        .ai-eval strong { font-weight: 500; color: rgba(255, 255, 255, 0.78); }
         .ai-side-foot {
           display: flex;
           align-items: center;
@@ -693,6 +943,16 @@ export default function RagDemo() {
           color: var(--muted);
           font-size: 10.5px;
           line-height: 1.5;
+          text-decoration: none;
+          transition: color 0.16s ease, border-color 0.16s ease;
+        }
+        .ai-source:hover {
+          color: var(--text);
+          border-color: var(--muted);
+        }
+        .ai-source:focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: 2px;
         }
         .ai-dots { display: inline-flex; align-items: center; gap: 4px; padding: 7px 0; }
         .ai-dots > span:not(.ai-sr) {

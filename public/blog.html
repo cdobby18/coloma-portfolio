@@ -800,6 +800,10 @@
 
       window.addEventListener("scroll", updateProgress, { passive: true });
       window.addEventListener("resize", updateProgress);
+      window.addEventListener("hashchange", function () {
+        var postId = (window.location.hash || "").replace(/^#/, "");
+        if (POST_META[postId]) selectPost(postId, POST_META[postId].title);
+      });
 
       btn.addEventListener("click", function () {
         var isDark = currentTheme() === "dark";

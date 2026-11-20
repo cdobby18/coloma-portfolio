@@ -774,6 +774,7 @@ main { padding: 60px 0 96px; }
 .cs-footer {
   margin-top: 60px;
   padding-top: 26px;
+  padding-bottom: 24px;
   border-top: 1px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -851,6 +852,50 @@ main { padding: 60px 0 96px; }
   transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
 }
 .back:hover { color: var(--text); border-color: var(--text-2); background: var(--chip-bg); }
+
+.cs-share {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.cs-share-label {
+  margin-right: 2px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.cs-share-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-2);
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+.cs-share-btn:hover {
+  color: var(--text);
+  border-color: var(--text-2);
+  background: var(--chip-bg);
+}
+.cs-share-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.cs-share-status {
+  font-size: 12px;
+  color: var(--muted);
+}
+.cs-share-status:empty { display: none; }
 
 @media (max-width: 900px) {
   .cs-layout { grid-template-columns: minmax(0, 1fr); gap: 30px; }
@@ -940,7 +985,7 @@ main { padding: 60px 0 96px; }
 
 @media print {
   body { background: #fff !important; color: #000 !important; }
-  .site-nav, .cs-toc, .cs-next, .next-case, .back, #progress { display: none !important; }
+  .site-nav, .cs-toc, .cs-next, .next-case, .back, .cs-share, #progress { display: none !important; }
   main { padding: 0; }
   .cs-layout { grid-template-columns: minmax(0, 1fr); }
   .cs-article { max-width: none; }

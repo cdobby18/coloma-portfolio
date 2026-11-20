@@ -426,6 +426,15 @@ function cleanStreaming(text) {
     : text;
 }
 
+/* Screen-reader announcements should not include Markdown markers. */
+function plainText(text) {
+  return (text || "")
+    .replace(/\*\*/g, "")
+    .replace(/^\s*[-*•]\s+/gm, "")
+    .replace(/\n+/g, " ")
+    .trim();
+}
+
 function renderInline(text) {
   return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
     part.startsWith("**") && part.endsWith("**") && part.length > 4
@@ -496,7 +505,7 @@ export default function RagDemo() {
   const [query, setQuery] = useState("");
   const [messages, setMessages] = useState([]);
   const [phase, setPhase] = useState("idle"); // idle | searching | typing
-  const [evalStats, setEvalStats] = useState(null);
+  const [announcement, setAnnouncement] = useState("");
   const streamRef = useRef(null);
   const scrollRef = useRef(null);
   const inputRef = useRef(null);
@@ -507,19 +516,6 @@ export default function RagDemo() {
   }, [messages, phase]);
 
   useEffect(() => () => { if (streamRef.current) clearInterval(streamRef.current); }, []);
-
-  /* The metric comes from the eval set in api/data/assistant.json. If the
-     serverless endpoint is unavailable, the card simply omits the line. */
-  useEffect(() => {
-    let alive = true;
-    fetch("/api/rag?eval=1", { headers: { Accept: "application/json" } })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (alive && data && data.eval) setEvalStats(data.eval);
-      })
-      .catch(() => {});
-    return () => { alive = false; };
-  }, []);
 
   async function fetchAnswer(q, context) {
     try {
@@ -543,6 +539,19 @@ export default function RagDemo() {
 
   function streamAnswer(answer) {
     clearInterval(streamRef.current);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setMessages((m) => {
+        const copy = [...m];
+        const last = copy[copy.length - 1];
+        if (last && last.role === "ai") {
+          copy[copy.length - 1] = { ...last, text: answer || "" };
+        }
+        return copy;
+      });
+      setPhase("idle");
+      setAnnouncement(plainText(answer));
+      return;
+    }
     const tokens = (answer || "").split(/(\s+)/).filter(Boolean);
     setPhase("typing");
     let i = 0;
@@ -560,6 +569,7 @@ export default function RagDemo() {
         clearInterval(streamRef.current);
         streamRef.current = null;
         setPhase("idle");
+        setAnnouncement(plainText(answer));
       }
     }, 24);
   }
@@ -583,6 +593,7 @@ export default function RagDemo() {
     setMessages([]);
     setQuery("");
     setPhase("idle");
+    setAnnouncement("");
     if (inputRef.current) inputRef.current.focus();
   }
 
@@ -604,14 +615,6 @@ export default function RagDemo() {
             Grounded in CJ's projects, experience, and stack. It cites sources and abstains
             when unsure.
           </p>
-          {evalStats && (
-            <p
-              className="ai-eval"
-              title="Share of test questions whose expected passage appears in the top three retrieved chunks."
-            >
-              Retrieval <strong>{evalStats.hit3}% hit@3</strong> · {evalStats.total} questions
-            </p>
-          )}
         </div>
 
         <div className="ai-side-foot">
@@ -628,11 +631,14 @@ export default function RagDemo() {
       </aside>
 
       <div className="ai-main">
+        <p className="ai-sr" role="status" aria-live="polite" aria-atomic="true">
+          {announcement}
+        </p>
         <div
           className={`ai-thread${messages.length === 0 ? " ai-thread--empty" : ""}`}
           ref={scrollRef}
           role="log"
-          aria-live="polite"
+          aria-live="off"
         >
           {messages.length === 0 && (
             <div className="ai-row">
@@ -782,16 +788,6 @@ export default function RagDemo() {
           line-height: 1.65;
           color: rgba(255, 255, 255, 0.55);
         }
-        .ai-eval {
-          margin-top: 14px;
-          max-width: 224px;
-          font-family: var(--mono);
-          font-size: 9.5px;
-          line-height: 1.6;
-          letter-spacing: 0.02em;
-          color: rgba(255, 255, 255, 0.45);
-        }
-        .ai-eval strong { font-weight: 500; color: rgba(255, 255, 255, 0.78); }
         .ai-side-foot {
           display: flex;
           align-items: center;
@@ -1021,6 +1017,12 @@ export default function RagDemo() {
           40% { opacity: 1; transform: translateY(-2px); }
         }
         @keyframes aiBlink { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+        @media (prefers-reduced-motion: reduce) {
+          .ai-caret,
+          .ai-dots > span:not(.ai-sr),
+          .ai-status--busy .ai-status-dot { animation: none !important; }
+          .ai-send:not(:disabled):hover { transform: none; }
+        }
         @media (max-width: 760px) {
           .ai-card { grid-template-columns: minmax(0, 1fr); min-height: 0; }
           .ai-side {

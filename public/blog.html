@@ -242,6 +242,48 @@
     .meta .sep { opacity: 0.45; }
     #pageTag { color: var(--text-2); }
 
+    .post-share {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 16px;
+    }
+    .post-share-label {
+      margin-right: 2px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .post-share-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--text-2);
+      font-family: inherit;
+      font-size: 12px;
+      line-height: 1.2;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+    .post-share-btn:hover {
+      color: var(--text);
+      border-color: var(--text-2);
+      background: var(--chip-bg);
+    }
+    .post-share-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .post-share-status { font-size: 12px; color: var(--muted); }
+    .post-share-status:empty { display: none; }
+
     /* layout */
     .layout {
       display: grid;
@@ -459,6 +501,7 @@
       figure img { border: none; }
     }
   </style>
+  <script src="/share.js" defer></script>
 </head>
 <body>
   <div id="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Reading progress"></div>
@@ -485,6 +528,13 @@
         Carl Joshua Coloma
         <span class="sep">·</span>
         <span id="pageTag">June 2026</span>
+      </div>
+      <div class="post-share" role="group" aria-label="Share this post">
+        <span class="post-share-label">Share</span>
+        <button class="post-share-btn" type="button" id="shareCopy" data-copy-link="https://carlcoloma.vercel.app/blog.html#still">Copy link</button>
+        <a class="post-share-btn" id="shareLinkedIn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fcarlcoloma.vercel.app%2Fblog.html%23still" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+        <a class="post-share-btn" id="shareEmail" href="mailto:?subject=Still%20Figuring%20It%20Out&amp;body=https%3A%2F%2Fcarlcoloma.vercel.app%2Fblog.html%23still">Email</a>
+        <span class="post-share-status" role="status"></span>
       </div>
     </div>
 
@@ -674,6 +724,16 @@
         if (tagEl && tagBtn && tagBtn.dataset.tag) tagEl.textContent = tagBtn.dataset.tag;
 
         var meta = POST_META[postId] || POST_META.still;
+        var postUrl = "https://carlcoloma.vercel.app/blog.html#" + postId;
+        var copyBtn = document.getElementById("shareCopy");
+        if (copyBtn) copyBtn.setAttribute("data-copy-link", postUrl);
+        var linkedIn = document.getElementById("shareLinkedIn");
+        if (linkedIn) linkedIn.href = "https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(postUrl);
+        var emailLink = document.getElementById("shareEmail");
+        if (emailLink) {
+          emailLink.href = "mailto:?subject=" + encodeURIComponent(meta.title) +
+            "&body=" + encodeURIComponent(meta.description + "\n\n" + postUrl);
+        }
         document.title = meta.title + " — Carl Joshua Coloma";
 
         var descMeta = document.querySelector('meta[name="description"]');

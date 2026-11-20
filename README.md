@@ -31,7 +31,7 @@ npm install
 npm run dev
 ```
 
-The portfolio assistant calls `/api/rag`. The Vite dev server shells out to `api/rag.py` for local requests, so retrieval, citations, context, and the eval metric behave the same as production. If the endpoint is unreachable, the UI falls back to the JSON-backed scorer in `src/demo/RagDemo.jsx`. The contact form falls back to opening a mailto draft without `RESEND_API_KEY`.
+The portfolio assistant calls `/api/rag`. The Vite dev server shells out to `api/rag.py` for local requests, so retrieval, citations, and context behave the same as production. If the endpoint is unreachable, the UI falls back to the JSON-backed scorer in `src/demo/RagDemo.jsx`. The contact form falls back to opening a mailto draft without `RESEND_API_KEY`.
 
 Build and preview:
 
@@ -46,9 +46,10 @@ npm run preview
 api/rag.py             # Serverless assistant endpoint (BM25 retrieval, guardrails, eval)
 api/data/assistant.json # Shared assistant docs, chunks, and retrieval eval cases
 api/contact.py         # Serverless contact endpoint (Resend delivery + honeypot)
-public/                # Static assets, blog, case studies, 404, résumé, OG card
+public/                # Static assets, blog, case studies, 404, résumé, OG cards
 public/case-study.css  # Shared styles for /work case-study pages
-public/work/           # ReSOLVE and Powerlift case studies
+public/share.js        # Copy-link behavior for case study and blog share bars
+public/work/           # ReSOLVE and Powerlift case studies + project OG cards
 src/portfolio.jsx      # App shell: nav, theme toggle, scroll spy, footer
 src/theme.js           # Theme tokens (light/dark) + context
 src/content.js         # Projects, experience, skills, and site copy
@@ -74,5 +75,6 @@ Set these in Vercel (Project → Settings → Environment Variables):
 
 - `api/data/assistant.json` is the single source for assistant documents, section chunks, project URLs, and the 30-question retrieval eval set. Update document text there instead of editing it in two places.
 - Retrieval is lexical BM25 over section chunks, not an embedding index. It cites the passage it used and abstains below a score threshold instead of guessing. `GET /api/rag?eval=1` returns hit@1, hit@3, MRR, chunk count, and document count.
-- The UI shows the eval hit@3 result in the assistant sidebar when `/api/rag` is available.
-- Case-study pages use HTML/CSS architecture diagrams rather than fabricated product screenshots.
+- The UI assistant streams at a readable pace and switches to an instant answer under `prefers-reduced-motion`. Final answers are announced once through a polite live region instead of on every token.
+- Case-study pages use HTML/CSS architecture diagrams rather than fabricated product screenshots. Each has a 1200×630 project-specific OG card under `public/work/`.
+- Case studies and blog posts have copy-link, LinkedIn, and email share controls. Copy falls back to a temporary textarea when the Clipboard API is unavailable.

@@ -22,7 +22,7 @@ Live: [carlcoloma.vercel.app](https://carlcoloma.vercel.app/)
 - **Frontend:** React 18, Vite, plain CSS generated from theme tokens, no router
 - **Backend:** Python serverless functions on Vercel (`api/rag.py`, `api/contact.py`)
 - **Deployment:** Vercel
-- **Static pages:** `public/blog.html`, `public/work/*.html`, `public/404.html`
+- **Static pages:** `public/blog.html` (writing index), `public/blog/*.html` (posts), `public/work/*.html` (case studies), `public/404.html`
 
 ## Running locally
 
@@ -47,8 +47,12 @@ api/rag.py             # Serverless assistant endpoint (BM25 retrieval, guardrai
 api/data/assistant.json # Shared assistant docs, chunks, and retrieval eval cases
 api/contact.py         # Serverless contact endpoint (Resend delivery + honeypot)
 public/                # Static assets, blog, case studies, 404, résumé, OG cards
+public/blog.css        # Shared styles for the writing index and post pages
+public/blog.js         # Theme toggle and reading progress for blog pages
+public/analytics.js    # Small provider-neutral event helper (Vercel, Plausible, Umami)
 public/case-study.css  # Shared styles for /work case-study pages
 public/share.js        # Copy-link behavior for case study and blog share bars
+public/blog/           # Standalone post pages with canonical URLs and metadata
 public/work/           # ReSOLVE and Powerlift case studies + project OG cards
 src/portfolio.jsx      # App shell: nav, theme toggle, scroll spy, footer
 src/theme.js           # Theme tokens (light/dark) + context
@@ -78,3 +82,5 @@ Set these in Vercel (Project → Settings → Environment Variables):
 - The UI assistant streams at a readable pace and switches to an instant answer under `prefers-reduced-motion`. Final answers are announced once through a polite live region instead of on every token.
 - Case-study pages use HTML/CSS architecture diagrams rather than fabricated product screenshots. Each has a 1200×630 project-specific OG card under `public/work/`.
 - Case studies and blog posts have copy-link, LinkedIn, and email share controls. Copy falls back to a temporary textarea when the Clipboard API is unavailable.
+- Each blog post has its own canonical URL under `/blog/` and its own social metadata. Old `/blog.html#still`, `#iv`, and `#bawz` links redirect to the standalone pages.
+- `public/analytics.js` exposes `window.cjTrack`. It forwards events to Vercel Web Analytics when available and also supports Plausible or Umami hooks without changing call sites. Vercel custom events require a Pro or Enterprise plan; pageviews still work on Hobby.

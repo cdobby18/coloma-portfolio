@@ -40,6 +40,7 @@
       var isDark = stored ? stored !== "light" : window.matchMedia("(prefers-color-scheme: dark)").matches;
       document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
     })();
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
 
   <script type="application/ld+json">
@@ -540,5 +541,7 @@
       update();
     })();
   </script>
+  <script defer src="https://va.vercel-scripts.com/v1/script.js"></script>
+  <script defer src="/analytics.js"></script>
 </body>
 </html>

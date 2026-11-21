@@ -1,5 +1,15 @@
 (function () {
-  var buttons = document.querySelectorAll("[data-copy-link]");
+  function trackShare(method, result) {
+    if (typeof window.cjTrack === "function") {
+      window.cjTrack("share", {
+        method: method,
+        result: result,
+        page: window.location.pathname,
+      });
+    }
+  }
+
+  var buttons = document.querySelectorAll("[data-copy-link], .post-share-btn, .cs-share-btn");
   if (!buttons.length) return;
 
   function legacyCopy(value) {
@@ -17,6 +27,15 @@
   }
 
   buttons.forEach(function (button) {
+    if (button.tagName === "A") {
+      button.addEventListener("click", function () {
+        var href = button.getAttribute("href") || "";
+        if (href.indexOf("linkedin.com") !== -1) trackShare("linkedin", "click");
+        else if (href.indexOf("mailto:") === 0) trackShare("email", "click");
+      });
+      return;
+    }
+
     button.addEventListener("click", function () {
       var value = button.getAttribute("data-copy-link") || window.location.href;
       var status = button.parentElement.querySelector(".cs-share-status, .post-share-status");
@@ -25,6 +44,7 @@
       function confirmCopy(ok) {
         button.textContent = ok ? "Copied" : "Copy failed";
         if (status) status.textContent = ok ? "Link copied to clipboard." : "Could not copy the link.";
+        trackShare("copy", ok ? "ok" : "failed");
         window.setTimeout(function () {
           button.textContent = original;
           if (status) status.textContent = "";

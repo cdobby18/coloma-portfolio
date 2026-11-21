@@ -120,21 +120,21 @@ main.shell { padding: 56px 28px 140px; }
   color: var(--text);
 }
 .brand-mark {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 0;
-  border-radius: 0;
-  background: var(--accent);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--surface);
   flex-shrink: 0;
 }
 .brand-mark img {
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
   object-fit: contain;
-  filter: grayscale(1) brightness(0) invert(1);
+  display: block;
 }
 .nav-right { display: flex; align-items: center; gap: 18px; }
 .nav-back {

@@ -27,7 +27,7 @@ export function Hero() {
 
             <p className="hero-bio">
               I build reliable AI systems — agentic workflows, retrieval-augmented generation,
-              and production-ready machine learning with Python. Currently a{" "}
+              and production-ready machine learning with Python. Most recently a{" "}
               <strong>Backend AI Engineer Intern at FlyRank AI</strong>, previously in AI QA at
               SoFi AI and computer vision at Lamina Studios.
             </p>

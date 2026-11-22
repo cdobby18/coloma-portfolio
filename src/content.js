@@ -41,7 +41,7 @@ export const EXPERIENCE = [
   {
     role: "Backend AI Engineer Intern",
     company: "FlyRank AI",
-    period: "July 2026 – Present",
+    period: "July 2026 – Oct 2026",
     points: [
       "Developed LLM-powered content generation and semantic ranking pipelines to improve content relevance at scale.",
       "Integrated embedding models with vector search to build semantic retrieval features across the platform.",

@@ -39,6 +39,10 @@ export const MoonIcon = () => (
   <Icon size={16}><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></Icon>
 );
 
+export const MonitorIcon = ({ size = 16 }) => (
+  <Icon size={size}><rect x="3" y="4" width="18" height="13" rx="2" /><path d="M9 21h6M12 17v4" /></Icon>
+);
+
 export const SparkIcon = ({ size = 16 }) => (
   <Icon size={size}><path d="M12 3l1.9 5.4L19.5 10l-5.6 1.6L12 17l-1.9-5.4L4.5 10l5.6-1.6z" /></Icon>
 );

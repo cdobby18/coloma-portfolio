@@ -5,7 +5,7 @@ import { useColors } from "../theme";
 
 export function AboutSection() {
   const facts = [
-    ["Current role", "Backend AI Engineer Intern · FlyRank AI"],
+    ["Latest role", "Backend AI Engineer Intern · FlyRank AI"],
     ["Focus", "Agentic AI · LLMs · RAG · Evaluation"],
     ["Education", "BS Computer Science · FEU Tech · 2026"],
     ["Upskilling", "Databricks · dbt · Airflow · Snowflake"],
@@ -24,7 +24,7 @@ export function AboutSection() {
               systems that are reliable, observable, and maintainable beyond the notebook.
             </p>
             <p className="body">
-              I'm currently a Backend AI Engineer Intern at FlyRank AI, working on LLM content
+              Most recently I was a Backend AI Engineer Intern at FlyRank AI, working on LLM content
               generation and semantic ranking. Before that I was an AI QA Intern at SoFi AI Tech
               Solutions, building adversarial prompt suites and tracking hallucination rates, and an
               AI Engineer Intern at Lamina Studios, shipping real-time computer vision pipelines.

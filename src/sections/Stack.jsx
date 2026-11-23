@@ -8,7 +8,7 @@ export function StackSection() {
     <Section id="stack">
       <Reveal>
         <SectionHead
-          num="04"
+          num="03"
           label="Stack"
           title="Technical toolkit"
           lede="The tools I reach for when building agentic systems, retrieval pipelines, and reliable backend services."

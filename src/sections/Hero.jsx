@@ -25,12 +25,25 @@ export function Hero() {
               <span className="muted">Manila, Philippines</span>
             </p>
 
-            <p className="hero-bio">
-              I build reliable AI systems — agentic workflows, retrieval-augmented generation,
-              and production-ready machine learning with Python. Most recently a{" "}
-              <strong>Backend AI Engineer Intern at FlyRank AI</strong>, previously in AI QA at
-              SoFi AI and computer vision at Lamina Studios.
-            </p>
+            <p className="hero-edu">BS Computer Science · FEU Tech · 2026</p>
+
+            <div className="hero-bio">
+              <p>
+                I build AI systems that hold up outside the notebook — agentic workflows,
+                retrieval-augmented generation, and production ML in Python.
+              </p>
+              <p>
+                Most recently a <strong>Backend AI Engineer Intern at FlyRank AI</strong>, shipping
+                LLM content generation and semantic ranking. Before that, AI QA at SoFi AI and
+                real-time computer vision at Lamina Studios.
+              </p>
+            </div>
+
+            <div className="hero-focus">
+              {["Agentic AI", "RAG", "LLM Evaluation", "Computer Vision"].map((f) => (
+                <span key={f}>{f}</span>
+              ))}
+            </div>
 
             <div className="hero-actions">
               <a className="btn btn-primary" href="#projects">View projects <ArrowUpRight /></a>

@@ -1,14 +1,15 @@
 /* Portfolio content: projects, experience, skills, and copy. */
 
 export const NAV_LINKS = [
-  { label: "About", id: "about" },
   { label: "Experience", id: "experience" },
   { label: "Projects", id: "projects" },
+  { label: "Stack", id: "stack" },
+  { label: "Certifications", id: "certs" },
   { label: "Contact", id: "contact" },
   { label: "Blog", id: "blog", href: "/blog.html", external: true },
 ];
 
-export const SECTION_SPY = ["hero", "about", "experience", "projects", "stack", "certs", "contact"];
+export const SECTION_SPY = ["hero", "experience", "projects", "stack", "certs", "contact"];
 
 export const SKILL_GROUPS = [
   {

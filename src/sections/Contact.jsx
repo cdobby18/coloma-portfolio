@@ -82,7 +82,7 @@ export function ContactSection() {
       <Reveal>
         <div className="contact-grid">
           <div>
-            <SectionHead num="06" label="Contact" title="Let's build something reliable." />
+            <SectionHead num="05" label="Contact" title="Let's build something reliable." />
             <div className="contact-list">
               <div className="contact-row">
                 <span className="contact-icon"><MailIcon /></span>

@@ -31,6 +31,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/blog.css" />
+  <link rel="stylesheet" href="/site-rail.css" />
+  <script src="/site-rail.js" defer></script>
 
   <script type="application/ld+json">
     {
@@ -47,32 +49,14 @@
     }
   </script>
 
+  <script src="/theme-init.js"></script>
   <script>
-    (function () {
-      var stored = null;
-      try { stored = localStorage.getItem("op-theme"); } catch (e) {}
-      var isDark = stored ? stored !== "light" : window.matchMedia("(prefers-color-scheme: dark)").matches;
-      document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
-    })();
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
 </head>
 <body>
   <div id="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Reading progress"></div>
   <a class="skip-link" href="#main">Skip to content</a>
-
-  <header class="site-nav">
-    <div class="shell nav-inner">
-      <a class="brand" href="/">
-        <span class="brand-mark"><img src="/cjlogo.png" alt="CJ logo" /></span>
-        <span>Carl Coloma</span>
-      </a>
-      <div class="nav-right">
-        <a class="nav-back" href="/blog.html">← Writing</a>
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" type="button"></button>
-      </div>
-    </div>
-  </header>
 
   <main class="post-main" id="main">
     <header class="post-head">

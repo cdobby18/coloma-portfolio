@@ -8,7 +8,7 @@ export function CertificationsSection() {
     <Section id="certs">
       <Reveal>
         <SectionHead
-          num="05"
+          num="04"
           label="Certifications"
           title="Verified credentials"
           lede="Completed and verifiable certificates from Anthropic, Cisco, IBM, Certiport, and Udemy."

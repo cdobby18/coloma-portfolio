@@ -7,7 +7,6 @@ import {
   GitHubIcon, LinkedInIcon, MailIcon, BackToTop,
 } from "./components/primitives";
 import { Hero } from "./sections/Hero";
-import { AboutSection } from "./sections/About";
 import { ExperienceSection } from "./sections/Experience";
 import { ProjectsSection } from "./sections/Projects";
 import { StackSection } from "./sections/Stack";
@@ -133,7 +132,7 @@ export default function Portfolio() {
       <a className="skip-link" href="#main">Skip to content</a>
 
       <aside className="rail" aria-label="Site">
-        <div className="rail-top">
+        <div className="rail-head">
           <a className="brand" href="#hero">
             <span className="brand-mark">
               <img
@@ -142,36 +141,43 @@ export default function Portfolio() {
                 style={{ width: 16, height: 16, objectFit: "contain", display: "block" }}
               />
             </span>
-            <span>Carl Coloma</span>
+            <span className="brand-text">
+              <span className="brand-name">Carl Coloma</span>
+              <span className="brand-role">AI &amp; Automation</span>
+            </span>
           </a>
         </div>
 
         <nav className="rail-links" aria-label="Sections">
-          {NAV_LINKS.map((link) => (
+          {NAV_LINKS.map((link, i) => (
             <a
               key={link.id}
               className={`rail-link${active === link.id ? " active" : ""}`}
               href={link.href || `#${link.id}`}
               aria-current={active === link.id ? "true" : undefined}
             >
-              <span>{link.label}</span>
-              {link.external && <ArrowUpRight size={11} />}
+              <span className="rail-num">{String(i + 1).padStart(2, "0")}</span>
+              <span className="rail-text">{link.label}</span>
+              <span className="rail-go" aria-hidden="true">
+                {link.external ? <ArrowUpRight size={11} /> : "→"}
+              </span>
             </a>
           ))}
         </nav>
 
-        <div className="rail-contact">
-          <p>For work, collabs &amp; everything else, reach me at</p>
-          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-        </div>
-
-        <div className="rail-foot">
+        <div className="rail-actions">
           <button className="kbd-btn rail-ask" type="button" onClick={focusAI}>
             <SparkIcon size={13} />
             Ask AI
             <span className="kbd">⌘K</span>
           </button>
           <ThemeSwitch mode={themeMode} onChange={setThemeMode} />
+        </div>
+
+        <div className="rail-contact">
+          <span className="rail-label">Contact</span>
+          <p>For work, collabs &amp; everything else, reach me at</p>
+          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
         </div>
       </aside>
 
@@ -203,16 +209,15 @@ export default function Portfolio() {
       </header>
 
       <div className={`menu${menuOpen ? " open" : ""}`}>
-        {NAV_LINKS.map((link) => (
+        {NAV_LINKS.map((link, i) => (
           <a key={link.id} className="menu-link" href={link.href || `#${link.id}`} onClick={closeMenu}>
-            {link.label}
+            <span className="menu-link-main">
+              <span className="menu-num">{String(i + 1).padStart(2, "0")}</span>
+              {link.label}
+            </span>
             {link.external && <ArrowUpRight size={12} />}
           </a>
         ))}
-        <div className="menu-contact">
-          <p>For work, collabs &amp; everything else, reach me at</p>
-          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-        </div>
         <div className="menu-foot">
           <button className="kbd-btn" type="button" onClick={focusAI}>
             <SparkIcon size={13} /> Ask AI
@@ -221,12 +226,15 @@ export default function Portfolio() {
             <FileDown /> Résumé
           </a>
         </div>
+        <div className="menu-contact">
+          <p>For work, collabs &amp; everything else, reach me at</p>
+          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+        </div>
       </div>
 
       <div className="page">
         <main id="main">
           <Hero />
-          <AboutSection />
           <ExperienceSection />
           <ProjectsSection />
           <StackSection />

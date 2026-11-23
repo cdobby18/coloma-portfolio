@@ -149,7 +149,7 @@ export function ProjectsSection() {
     <Section id="projects">
       <Reveal>
         <SectionHead
-          num="03"
+          num="02"
           label="Projects"
           title="Selected work"
           lede="Applied AI systems across computer vision, NLP, and agentic workflows — built to be used, not just demoed."

@@ -8,7 +8,7 @@ export function ExperienceSection() {
     <Section id="experience">
       <Reveal>
         <SectionHead
-          num="02"
+          num="01"
           label="Experience"
           title="Where I've worked"
           lede="Hands-on work building and evaluating AI systems in production-focused environments."

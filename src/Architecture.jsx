@@ -1,6 +1,6 @@
 import { useColors } from "./theme";
 
-const ARCHITECTURES = {
+export const ARCHITECTURES = {
   "Powerlift: Precision Pose Estimation for Powerlifting Performance Metrics": {
     overview: "End-to-end mobile biomechanics analyzer: capture lift video on-device, run pose estimation, stabilize landmarks, classify lift phase, and score form — all in real time on mobile hardware.",
     nodes: [

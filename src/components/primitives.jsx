@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { IDE_DEFAULT_CODE, IDE_DEFAULT_OUTPUT } from "../content";
+import { IDE_DEFAULT_CODE, IDE_DEFAULT_OUTPUT, IDE_FILE, IDE_CMD } from "../content";
 
 export function Icon({ children, size = 16, ...rest }) {
   return (
@@ -237,7 +237,7 @@ export function IdeWindow() {
     <div className="ide-card">
       <div className="ide-bar">
         <span className="ide-dots"><i /><i /><i /></span>
-        <span className="ide-title">hello.js</span>
+        <span className="ide-title">{IDE_FILE}</span>
         <span className="ide-actions">
           <button className="ide-act" type="button" onClick={() => setEditing((v) => !v)} disabled={running} aria-pressed={editing}>
             {editing ? "done" : "edit"}
@@ -254,10 +254,9 @@ export function IdeWindow() {
       <div className="ide-tabs">
         <span className="ide-tab ide-tab--active">
           <span className="ide-file">js</span>
-          hello.js
+          {IDE_FILE}
           {touched && <span className="ide-edited">●</span>}
         </span>
-        <span className="ide-tab">README.md</span>
       </div>
 
       {editing ? (
@@ -288,7 +287,7 @@ export function IdeWindow() {
 
       <div className="ide-term">
         <span className="ide-prompt">$</span>
-        <span>node hello.js</span>
+        <span>{IDE_CMD}</span>
         {!result && <span className="ide-caret" />}
       </div>
 

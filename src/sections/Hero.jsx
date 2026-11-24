@@ -29,13 +29,14 @@ export function Hero() {
 
             <div className="hero-bio">
               <p>
-                I build AI systems that hold up outside the notebook — agentic workflows,
-                retrieval-augmented generation, and production ML in Python.
+                I'm an early-career AI engineer who learns by shipping. My work lives where
+                LLM output meets real constraints — retrieval that cites its sources, agents
+                that escalate instead of guessing, and evals that catch what a demo hides.
               </p>
               <p>
-                Most recently a <strong>Backend AI Engineer Intern at FlyRank AI</strong>, shipping
-                LLM content generation and semantic ranking. Before that, AI QA at SoFi AI and
-                real-time computer vision at Lamina Studios.
+                Three internships shaped that: <strong>semantic ranking at FlyRank AI</strong>,
+                adversarial QA at SoFi AI, and real-time computer vision at Lamina Studios.
+                I write down what breaks in each one.
               </p>
             </div>
 
@@ -73,7 +74,7 @@ export function Hero() {
             <div className="hero-stats">
               {[
                 ["03", "Internships"],
-                ["05", "Projects shipped"],
+                ["03", "Projects shipped"],
                 ["01", "Best thesis award"],
               ].map(([n, label]) => (
                 <div className="hero-stat" key={label}>

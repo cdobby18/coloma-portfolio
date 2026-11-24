@@ -79,6 +79,12 @@ export const PROJECTS = [
     status: "Best Thesis",
     featured: true,
     desc: "Real-time lift analysis on mobile using YOLOv8 pose tracking, Kalman filtering, and SVM classification to assess squat, bench, and deadlift form.",
+    how: ["Camera frame", "YOLOv8 pose", "Kalman smoothing", "Landmark features", "SVM phase classifier", "Lift score + UI"],
+    details: [
+      "Pose inference runs on-device, so the app works without a network round trip.",
+      "Kalman filtering smooths landmark jitter across frames before features are computed.",
+      "The phase classifier separates squat, bench, and deadlift; scores are stored per rep.",
+    ],
     metric: "Mobile application · Overall Best Thesis",
     caseStudy: "/work/powerlift.html",
     tags: ["Python", "YOLOv8", "Kalman Filtering", "SVM", "MoveNet"],
@@ -97,6 +103,12 @@ export const PROJECTS = [
     year: "2026",
     status: "Prototype",
     desc: "RAG-powered mentorship that guides aspiring AI engineers from zero through fundamentals, production skills, and real-world readiness.",
+    how: ["Learner question", "Embed query", "Vector search", "Rerank", "LLM generate", "Grounded answer"],
+    details: [
+      "Qdrant stores chunked learning content; bge-small embeddings keep retrieval local and cheap.",
+      "Every answer carries citations back to the lesson it came from.",
+      "Progress is tracked per learner so the next question can build on the last.",
+    ],
     metric: "React · Python · LLMs · RAG · LangChain",
     tags: ["React", "Python", "LLMs", "RAG", "FastAPI"],
     img: "/sunny.png",
@@ -111,6 +123,12 @@ export const PROJECTS = [
     year: "2026",
     status: "Built",
     desc: "Support platform that triages tickets by intent, priority, and sentiment, then automates replies with RAG drafting, guardrails, and human escalation.",
+    how: ["Ticket intake", "Guardrails", "Triage agent", "RAG draft", "Human decision"],
+    details: [
+      "Guardrails run before the model: schema checks, policy limits, and a deterministic fallback.",
+      "Drafts cite retrieved knowledge-base passages; low confidence escalates instead of guessing.",
+      "Postgres holds tickets and audit history; FAISS indexes the Markdown knowledge base.",
+    ],
     metric: "FastAPI · RAG · Agents · Guardrails",
     caseStudy: "/work/resolve.html",
     tags: ["FastAPI", "React", "RAG", "LangChain", "PostgreSQL", "FAISS"],
@@ -119,34 +137,6 @@ export const PROJECTS = [
     accent: "#2f9e75",
     accentSoft: "rgba(47, 158, 117, 0.12)",
     link: "https://github.com/cdobby18/ReSOLVE",
-  },
-  {
-    title: "Resume Analyzer",
-    type: "NLP Pipeline",
-    year: "2025",
-    status: "Pipeline",
-    noLogo: true,
-    desc: "Parses resumes with spaCy NER and semantic matching into structured JSON for ranking or ATS use, at 100+ documents per minute.",
-    metric: "Python · spaCy NER + Semantic Match",
-    tags: ["NLP", "spaCy", "Transformers", "FastAPI"],
-    img: "/Resume.webp",
-    accent: "#4f7fd6",
-    accentSoft: "rgba(79, 127, 214, 0.11)",
-    link: "https://github.com/cdobby18/resume_analyzer",
-  },
-  {
-    title: "Document Summarizer",
-    type: "Transformer Pipeline",
-    year: "2024",
-    status: "Research Build",
-    noLogo: true,
-    desc: "Abstractive PDF summarizer using BART and T5, with long-document chunking that merges section summaries into one readable output.",
-    metric: "Python · NLP · BART",
-    tags: ["BART", "T5", "HuggingFace", "PDF"],
-    img: "/Summarize.webp",
-    accent: "#8b6fd6",
-    accentSoft: "rgba(139, 111, 214, 0.11)",
-    link: "https://github.com/cdobby18/ai-summarizer",
   },
 ];
 
@@ -167,14 +157,29 @@ export const HOW_I_WORK = [
   ["05", "Document the handoff", "Setup notes, prompts, and a runbook so someone else can run it."],
 ];
 
-export const IDE_DEFAULT_CODE = `const name = "Carl Joshua Coloma";
-const role = "AI Automation Engineer";
-console.log(\`Hi, I'm \${name}.\`);
-console.log(\`Role: \${role}\`);`;
+export const IDE_FILE = "refund-guard.js";
+export const IDE_CMD = "node refund-guard.js";
+
+export const IDE_DEFAULT_CODE = `const requests = [
+  { plan: "pro",  days: 12 },
+  { plan: "free", days: 3  },
+  { plan: "team", days: 41 },
+];
+
+const guard = ({ plan, days }) => {
+  if (!["pro", "team"].includes(plan)) {
+    return "refuse: no billing relationship";
+  }
+  if (days > 30) return "escalate: outside refund window";
+  return "allow: draft refund with citation";
+};
+
+for (const r of requests) console.log(guard(r));`;
 
 export const IDE_DEFAULT_OUTPUT = [
-  "Hi, I'm Carl Joshua Coloma.",
-  "Role: AI Automation Engineer",
+  "allow: draft refund with citation",
+  "refuse: no billing relationship",
+  "escalate: outside refund window",
 ];
 
 export const EMAIL = "carljoshuamcoloma@gmail.com";

@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef } from "react";
-import { Icon, ArrowUpRight, FileDown, CopyIcon, CheckIcon, ClockIcon, PinIcon, SunIcon, MoonIcon, SparkIcon, GitHubIcon, LinkedInIcon, MailIcon, useInView, useManilaTime, Reveal, Section, SectionHead, timeAgo, escapeHtml, TOKEN_RE, highlightLine, runIdeInline, runIdeCode, IdeWindow, BackToTop } from "../components/primitives";
-import { NAV_LINKS, SECTION_SPY, SKILL_GROUPS, EXPERIENCE, PROJECTS, CERTIFICATIONS, HOW_I_WORK, IDE_DEFAULT_CODE, IDE_DEFAULT_OUTPUT, EMAIL, EMAIL_RE, GH_START } from "../content";
-import { useColors } from "../theme";
-import Architecture from "../Architecture";
+import { Fragment, useState } from "react";
+import { ArrowUpRight, Reveal, Section, SectionHead } from "../components/primitives";
+import { PROJECTS, HOW_I_WORK } from "../content";
+import { ARCHITECTURES } from "../Architecture";
 import { GitHubCard } from "../components/GitHubCard";
 
 export function BrandImg({ project, ...rest }) {
@@ -25,12 +24,19 @@ export function BrandImg({ project, ...rest }) {
   );
 }
 
-export function ProjectCard({ project, featured = false, onArchitecture }) {
+const PROJECT_TABS = [
+  ["overview", "Overview"],
+  ["architecture", "Architecture"],
+  ["stack", "Stack"],
+];
+
+export function ProjectCard({ project, featured = false }) {
+  const [tab, setTab] = useState("overview");
   const isPrivate = !!project.private;
   const primary = isPrivate ? "#contact" : project.link;
   const hasBrand = !project.noLogo && !!(project.logoWide || project.logo || project.img);
-  const shownTags = project.tags.slice(0, 4);
-  const extra = project.tags.length - shownTags.length;
+  const archLayers = (ARCHITECTURES[project.title]?.layers || [])
+    .filter((layer) => layer.name === "AI / ML" || layer.name === "Data");
 
   return (
     <article
@@ -90,7 +96,17 @@ export function ProjectCard({ project, featured = false, onArchitecture }) {
         )}
 
         <div className="proj-card-title">
-          <h3 className="proj-title">{project.title}</h3>
+          <h3 className="proj-title">
+            <a
+              className="proj-title-link"
+              href={primary}
+              target={isPrivate ? undefined : "_blank"}
+              rel={isPrivate ? undefined : "noopener noreferrer"}
+              title={isPrivate ? "Request details" : `Open ${project.title}`}
+            >
+              {project.title}
+            </a>
+          </h3>
           <div className="proj-meta">
             <span>{project.type}</span>
             <span className="sep">·</span>
@@ -98,24 +114,83 @@ export function ProjectCard({ project, featured = false, onArchitecture }) {
           </div>
         </div>
 
-        <p className="proj-desc">{project.desc}</p>
-
-        <div className="proj-card-foot">
-          <div className="proj-tags">
-            {shownTags.map((tag) => <span className="proj-tag" key={tag}>{tag}</span>)}
-            {extra > 0 && <span className="proj-tag proj-tag--more">+{extra}</span>}
-          </div>
-          <div className="proj-foot-actions">
-            {project.caseStudy && (
-              <a className="btn-ghost-sm proj-case-btn" href={project.caseStudy}>
-                Case study
-                <ArrowUpRight size={12} />
-              </a>
-            )}
-            <button className="btn-ghost-sm proj-arch-btn" type="button" onClick={onArchitecture}>
-              System architecture
-              <ArrowUpRight size={12} />
+        <div className="proj-tabs" role="group" aria-label={`${project.title}: project details`}>
+          {PROJECT_TABS.map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              className={`proj-tab${tab === key ? " is-active" : ""}`}
+              aria-pressed={tab === key}
+              onClick={() => setTab(key)}
+            >
+              {label}
             </button>
+          ))}
+        </div>
+
+        <div className="proj-pane">
+          <div
+            className={`proj-pane-panel${tab === "overview" ? " is-active" : ""}`}
+            aria-hidden={tab !== "overview"}
+          >
+            <div className="proj-pane-body">
+              <p className="proj-desc">{project.desc}</p>
+              <span className="proj-block-label proj-block-label--notes">What makes it work</span>
+              <ul className="proj-points">
+                {project.details.map((detail) => <li key={detail}>{detail}</li>)}
+              </ul>
+            </div>
+            <div className="proj-pane-foot">{project.metric}</div>
+          </div>
+
+          <div
+            className={`proj-pane-panel${tab === "architecture" ? " is-active" : ""}`}
+            aria-hidden={tab !== "architecture"}
+          >
+            <div className="proj-pane-body">
+              <span className="proj-block-label">Pipeline</span>
+              <div className="proj-flow">
+                {project.how.map((step, i) => (
+                  <Fragment key={step}>
+                    <span className="proj-flow-item">
+                      <span className="proj-flow-num">{String(i + 1).padStart(2, "0")}</span>
+                      {step}
+                    </span>
+                    {i < project.how.length - 1 && (
+                      <span className="proj-flow-arrow" aria-hidden="true">→</span>
+                    )}
+                  </Fragment>
+                ))}
+              </div>
+              <span className="proj-block-label proj-block-label--notes">Core layers</span>
+              <div className="proj-layers">
+                {archLayers.map((layer) => (
+                  <div className="proj-layer" key={layer.name}>
+                    <span className="proj-layer-name">{layer.name}</span>
+                    <p className="proj-layer-body">{layer.body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="proj-pane-foot">{project.metric}</div>
+          </div>
+
+          <div
+            className={`proj-pane-panel${tab === "stack" ? " is-active" : ""}`}
+            aria-hidden={tab !== "stack"}
+          >
+            <div className="proj-pane-body">
+              <span className="proj-block-label">Tools &amp; frameworks</span>
+              <ul className="proj-stack">
+                {project.tags.map((tag) => (
+                  <li key={tag}>
+                    <span className="proj-stack-dot" aria-hidden="true" />
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="proj-pane-foot">{project.metric}</div>
           </div>
         </div>
       </div>
@@ -124,21 +199,8 @@ export function ProjectCard({ project, featured = false, onArchitecture }) {
 }
 
 export function ProjectsSection() {
-  const [arch, setArch] = useState(null);
-
-  useEffect(() => {
-    if (!arch) return undefined;
-    const onKey = (e) => { if (e.key === "Escape") setArch(null); };
-    window.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [arch]);
-
   const featured = PROJECTS.find((p) => p.featured) || PROJECTS[0];
-  const ORDER = ["ReSOLVE", "Sunny", "Resume", "Document"];
+  const ORDER = ["ReSOLVE", "Sunny"];
   const orderOf = (p) => {
     const i = ORDER.findIndex((k) => p.title.startsWith(k));
     return i === -1 ? ORDER.length : i;
@@ -152,69 +214,37 @@ export function ProjectsSection() {
           num="02"
           label="Projects"
           title="Selected work"
-          lede="Applied AI systems across computer vision, NLP, and agentic workflows — built to be used, not just demoed."
+          lede="Applied AI systems across computer vision, retrieval, and agentic workflows — each with its architecture and stack laid out."
         />
 
-        <div className="proj-split">
-          <div className="proj-col">
-            <ProjectCard project={featured} featured onArchitecture={() => setArch(featured)} />
-            <div className="proj-grid">
-              {rest.map((project) => (
-                <ProjectCard key={project.title} project={project} onArchitecture={() => setArch(project)} />
-              ))}
-            </div>
-          </div>
+        <ProjectCard project={featured} featured />
 
-          <aside className="side-col">
-            <GitHubCard />
-            <div className="gh-how">
-              <p className="mono-label">How I work</p>
-              <ol className="gh-how-list">
-                {HOW_I_WORK.map(([n, title, body]) => (
-                  <li key={n}>
-                    <span className="gh-how-num">{n}</span>
-                    <span className="gh-how-text">
-                      <span className="gh-how-title">{title}</span>
-                      <span className="gh-how-body">{body}</span>
-                    </span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-            <IdeWindow />
-          </aside>
+        <div className="proj-grid">
+          {rest.map((project) => (
+            <ProjectCard key={project.title} project={project} />
+          ))}
+        </div>
+
+        <GitHubCard />
+
+        <div className="gh-how">
+          <div className="gh-how-head">
+            <p className="mono-label">How I work</p>
+            <p className="gh-how-lede">The same loop on every build — from a one-off script to a production service.</p>
+          </div>
+          <ol className="gh-how-list">
+            {HOW_I_WORK.map(([n, title, body]) => (
+              <li key={n}>
+                <span className="gh-how-num">{n}</span>
+                <span className="gh-how-text">
+                  <span className="gh-how-title">{title}</span>
+                  <span className="gh-how-body">{body}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
         </div>
       </Reveal>
-
-      {arch && (
-        <div className="modal-backdrop" onClick={() => setArch(null)}>
-          <div
-            className="modal"
-            role="dialog"
-            aria-modal="true"
-            aria-label={`System architecture for ${arch.title}`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="modal-head">
-              <div className="modal-id">
-                {!arch.noLogo && (arch.logoWide || arch.logo || arch.img) && (
-                  <div className={`modal-logo${arch.logoWide ? " modal-logo--wide" : ""}`} aria-hidden="true">
-                    <BrandImg project={arch} />
-                  </div>
-                )}
-                <div>
-                  <h3 className="modal-title">System Architecture</h3>
-                  <p className="modal-sub">{arch.title}</p>
-                </div>
-              </div>
-              <button className="icon-btn" onClick={() => setArch(null)} aria-label="Close">
-                <Icon size={16}><path d="M18 6 6 18M6 6l12 12" /></Icon>
-              </button>
-            </div>
-            <Architecture project={arch.title} />
-          </div>
-        </div>
-      )}
     </Section>
   );
 }

@@ -3,6 +3,9 @@ import { useColors } from "../theme";
 import { GH_START } from "../content";
 import { ArrowUpRight, ClockIcon, GitHubIcon, timeAgo } from "./primitives";
 
+const monthLabel = (iso) =>
+  new Date(iso + "T00:00:00").toLocaleString("en-US", { month: "short", year: "numeric" });
+
 export function GitHubCard() {
   const COLORS = useColors();
   const [data, setData] = useState(null);
@@ -29,6 +32,15 @@ export function GitHubCard() {
         }
         const pushedEvents = Array.isArray(events) ? events.filter((e) => e.type === "PushEvent") : [];
         const lastPush = repos.length ? repos[0].pushed_at : null;
+        const topRepos = repos
+          .filter((r) => !r.fork && r.name !== "coloma-portfolio")
+          .slice(0, 3)
+          .map((r) => ({
+            name: r.name,
+            language: r.language,
+            stars: r.stargazers_count,
+            url: r.html_url,
+          }));
         let latestCommit = null;
 
         // Public events don't always include commit details, so read the latest
@@ -68,7 +80,7 @@ export function GitHubCard() {
             };
           }
         }
-        if (alive) setData({ lastPush, latestCommit });
+        if (alive) setData({ lastPush, latestCommit, repos: topRepos });
       } catch {
         if (alive) setError("Couldn't load GitHub activity right now.");
       } finally {
@@ -81,6 +93,8 @@ export function GitHubCard() {
 
   const days = (contributions?.contributions || []).filter((d) => d.date >= GH_START);
   const total = days.reduce((sum, d) => sum + (d.count || 0), 0);
+  const activeDays = days.filter((d) => (d.count || 0) > 0).length;
+  const bestDay = days.reduce((max, d) => Math.max(max, d.count || 0), 0);
 
   const weeks = [];
   let current = [];
@@ -101,78 +115,120 @@ export function GitHubCard() {
     ? ["#1c1c1f", "#4a1a1c", "#7f1d22", "#c2282f", "#e5484d"]
     : ["#ebedf0", "#f6caca", "#ee9a9a", "#e05555", "#b91c1c"];
 
-  return (
-    <>
-        <div className="gh-card">
-          <div className="gh-head">
-            <div>
-              <span className="mono-label">@cdobby18</span>
-              <p className="gh-total">
-                {contributions
-                  ? `${total.toLocaleString()} contribution${total === 1 ? "" : "s"} since March 2026`
-                  : loading ? "Loading contributions…" : "Contribution activity"}
-              </p>
-            </div>
-            <a className="text-link" href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer">
-              Follow on GitHub <ArrowUpRight size={13} />
-            </a>
-          </div>
+  const rangeLabel = days.length
+    ? `${monthLabel(days[0].date)} – ${monthLabel(days[days.length - 1].date)}`
+    : null;
 
-          {weeks.length > 0 ? (
-            <>
-              <div className="gh-graph">
-                {weeks.map((week, wi) => (
-                  <div className="gh-week" key={wi}>
-                    {week.map((day, di) => {
-                      if (!day) return <span className="gh-cell" key={di} style={{ background: "transparent" }} />;
-                      const level = Math.min(4, Math.max(0, day.level || 0));
-                      return (
-                        <span
-                          className="gh-cell"
-                          key={di}
-                          title={`${day.date}: ${day.count} contribution${day.count === 1 ? "" : "s"}`}
-                          style={{ background: palette[level] }}
-                        />
-                      );
-                    })}
-                  </div>
-                ))}
-              </div>
-              <div className="gh-legend">
+  return (
+    <div className="gh-card">
+      <div className="gh-main">
+        <div className="gh-head">
+          <div>
+            <span className="mono-label">@cdobby18</span>
+            <p className="gh-total">
+              {contributions ? (
+                <>
+                  <strong>{total.toLocaleString()}</strong>
+                  <span>contribution{total === 1 ? "" : "s"} since March 2026</span>
+                </>
+              ) : loading ? "Loading contributions…" : "Contribution activity"}
+            </p>
+          </div>
+          <a className="text-link" href="https://github.com/cdobby18" target="_blank" rel="noopener noreferrer">
+            Follow on GitHub <ArrowUpRight size={13} />
+          </a>
+        </div>
+
+        {weeks.length > 0 ? (
+          <>
+            <div className="gh-graph">
+              {weeks.map((week, wi) => (
+                <div className="gh-week" key={wi}>
+                  {week.map((day, di) => {
+                    if (!day) return <span className="gh-cell" key={di} style={{ background: "transparent" }} />;
+                    const level = Math.min(4, Math.max(0, day.level || 0));
+                    return (
+                      <span
+                        className="gh-cell"
+                        key={di}
+                        title={`${day.date}: ${day.count} contribution${day.count === 1 ? "" : "s"}`}
+                        style={{ background: palette[level] }}
+                      />
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+            <div className="gh-legend">
+              <span className="gh-range">{rangeLabel}</span>
+              <span className="gh-scale">
                 <span>Less</span>
                 {palette.map((color) => (
                   <span className="gh-cell" key={color} style={{ background: color }} />
                 ))}
                 <span>More</span>
+              </span>
+            </div>
+            <div className="gh-stats">
+              <div className="gh-stat">
+                <span className="gh-stat-num">{activeDays}</span>
+                <span className="gh-stat-label">active days</span>
               </div>
-            </>
-          ) : (
-            !loading && <p className="muted-note">{error || "Contribution graph unavailable right now."}</p>
-          )}
+              <div className="gh-stat">
+                <span className="gh-stat-num">{bestDay}</span>
+                <span className="gh-stat-label">best day</span>
+              </div>
+            </div>
+          </>
+        ) : (
+          !loading && <p className="muted-note">{error || "Contribution graph unavailable right now."}</p>
+        )}
+      </div>
 
-          <div className="gh-foot">
-            <div className="commit-card">
-              {data?.latestCommit ? (
-                <>
-                  <div className="commit-top">
-                    <span className="commit-repo">{data.latestCommit.repo}</span>
-                    <span className="commit-sha">{data.latestCommit.sha}</span>
-                    {data.latestCommit.date && (
-                      <span className="commit-time">{timeAgo(data.latestCommit.date)}</span>
-                    )}
-                  </div>
-                  <p className="commit-msg">{data.latestCommit.message}</p>
-                </>
-              ) : (
-                <p className="muted-note">{loading ? "Loading latest activity…" : "No recent public commits."}</p>
-              )}
-            </div>
-            <div className="gh-meta">
-              <span><ClockIcon size={12} /> Last push {timeAgo(data?.lastPush)}</span>
-              <span><GitHubIcon size={12} /> github.com/cdobby18</span>
-            </div>
+      <div className="gh-side">
+        <div className="gh-repos">
+          <span className="gh-repos-label">Recent repositories</span>
+          {data?.repos?.length ? (
+            data.repos.map((repo) => (
+              <a className="gh-repo" key={repo.name} href={repo.url} target="_blank" rel="noopener noreferrer">
+                <span className="gh-repo-name">{repo.name}</span>
+                <span className="gh-repo-meta">
+                  {repo.language && <span>{repo.language}</span>}
+                  {repo.stars > 0 && <span>★ {repo.stars}</span>}
+                </span>
+                <ArrowUpRight size={12} />
+              </a>
+            ))
+          ) : (
+            <p className="muted-note">{loading ? "Loading repositories…" : "Repositories unavailable right now."}</p>
+          )}
+        </div>
+
+        <div className="gh-foot">
+          <div className="commit-card">
+            {data?.latestCommit ? (
+              <>
+                <div className="commit-top">
+                  <span className="commit-repo">{data.latestCommit.repo}</span>
+                  <span className="commit-sha">{data.latestCommit.sha}</span>
+                  {data.latestCommit.date && (
+                    <span className="commit-time">{timeAgo(data.latestCommit.date)}</span>
+                  )}
+                </div>
+                <p className="commit-msg">{data.latestCommit.message}</p>
+              </>
+            ) : (
+              <p className="muted-note">{loading ? "Loading latest activity…" : "No recent public commits."}</p>
+            )}
+          </div>
+          <div className="gh-meta">
+            <span><ClockIcon size={12} /> Last push {timeAgo(data?.lastPush)}</span>
+            <a href="https://github.com/cdobby18?tab=repositories" target="_blank" rel="noopener noreferrer">
+              <GitHubIcon size={12} /> All repositories
+            </a>
           </div>
         </div>
-    </>
+      </div>
+    </div>
   );
 }

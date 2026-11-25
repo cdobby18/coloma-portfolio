@@ -29,14 +29,12 @@ export function Hero() {
 
             <div className="hero-bio">
               <p>
-                I'm an early-career AI engineer who learns by shipping. My work lives where
-                LLM output meets real constraints — retrieval that cites its sources, agents
-                that escalate instead of guessing, and evals that catch what a demo hides.
+                I'm an aspiring AI engineer. I build retrieval and agent systems, and these
+                days I'm focused on making LLM output <strong>hold up outside the demo</strong>.
               </p>
               <p>
-                Three internships shaped that: <strong>semantic ranking at FlyRank AI</strong>,
-                adversarial QA at SoFi AI, and real-time computer vision at Lamina Studios.
-                I write down what breaks in each one.
+                Right now I'm shipping small, honest AI systems and writing down what breaks.
+                I love turning rough ideas into tools people actually trust.
               </p>
             </div>
 

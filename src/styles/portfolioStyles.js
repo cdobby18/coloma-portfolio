@@ -797,26 +797,45 @@ export const buildStyles = (theme) => `
           flex-direction: column;
           min-width: 0;
           overflow: hidden;
-          border: 1px solid var(--border);
-          border-radius: 16px;
+          border: 1px solid var(--border-strong);
+          border-radius: 2px;
           background: var(--surface);
-          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+          box-shadow: 5px 5px 0 0 color-mix(in srgb, var(--proj-accent, var(--accent)) 15%, transparent);
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
         }
         .proj-card::before {
           content: "";
           position: absolute;
-          inset: 0 0 auto;
-          height: 2px;
-          background: linear-gradient(90deg, var(--proj-accent, var(--accent)), transparent 72%);
-          opacity: 0.9;
-          z-index: 1;
+          inset: 7px;
+          pointer-events: none;
+          z-index: 2;
+          opacity: 0.42;
+          background:
+            linear-gradient(var(--proj-accent, var(--accent)), var(--proj-accent, var(--accent))) 0 0 / 10px 1px no-repeat,
+            linear-gradient(var(--proj-accent, var(--accent)), var(--proj-accent, var(--accent))) 0 0 / 1px 10px no-repeat,
+            linear-gradient(var(--proj-accent, var(--accent)), var(--proj-accent, var(--accent))) 100% 0 / 10px 1px no-repeat,
+            linear-gradient(var(--proj-accent, var(--accent)), var(--proj-accent, var(--accent))) 100% 0 / 1px 10px no-repeat,
+            linear-gradient(var(--proj-accent, var(--accent)), var(--proj-accent, var(--accent))) 0 100% / 10px 1px no-repeat,
+            linear-gradient(var(--proj-accent, var(--accent)), var(--proj-accent, var(--accent))) 0 100% / 1px 10px no-repeat,
+            linear-gradient(var(--proj-accent, var(--accent)), var(--proj-accent, var(--accent))) 100% 100% / 10px 1px no-repeat,
+            linear-gradient(var(--proj-accent, var(--accent)), var(--proj-accent, var(--accent))) 100% 100% / 1px 10px no-repeat;
+          transition: opacity 0.3s ease;
+        }
+        .proj-card::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 64px;
+          height: 3px;
+          background: var(--proj-accent, var(--accent));
+          z-index: 3;
         }
         .proj-card:hover {
-          transform: translateY(-3px);
-          border-color: color-mix(in srgb, var(--proj-accent, var(--accent)) 42%, var(--border));
-          box-shadow: 0 22px 44px -24px rgba(0, 0, 0, 0.32), 0 2px 6px rgba(0, 0, 0, 0.05);
+          transform: translate(-2px, -2px);
+          box-shadow: 8px 8px 0 0 color-mix(in srgb, var(--proj-accent, var(--accent)) 22%, transparent);
         }
+        .proj-card:hover::before { opacity: 0.8; }
         .proj-card--featured {
           display: grid;
           grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);

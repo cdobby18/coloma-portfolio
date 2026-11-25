@@ -13,16 +13,22 @@ export function StackSection() {
           title="Technical toolkit"
           lede="The tools I reach for when building agentic systems, retrieval pipelines, and reliable backend services."
         />
-        <div className="stack-list">
-          {SKILL_GROUPS.map((group) => (
-            <div className="stack-row" key={group.label}>
-              <h3 className="stack-label">{group.label}</h3>
+        <div className="stack-grid">
+          {SKILL_GROUPS.map((group, i) => (
+            <section className="stack-group" key={group.label}>
+              <div className="stack-group-head">
+                <h3 className="stack-label">
+                  <span className="stack-num">{String(i + 1).padStart(2, "0")}</span>
+                  {group.label}
+                </h3>
+                <span className="stack-count">{String(group.skills.length).padStart(2, "0")}</span>
+              </div>
               <div className="stack-items">
                 {group.skills.map((skill) => (
                   <span className="skill" key={skill}>{skill}</span>
                 ))}
               </div>
-            </div>
+            </section>
           ))}
         </div>
       </Reveal>

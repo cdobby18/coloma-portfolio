@@ -42,10 +42,7 @@ export function ProjectCard({ project, featured = false }) {
     <article
       className={`proj-card${featured ? " proj-card--featured" : ""}`}
       style={{
-        "--proj-accent": project.accent,
-        "--proj-accent-soft": project.accentSoft,
         "--proj-plate": project.plate,
-        "--proj-plate-glow": project.plateGlow,
       }}
     >
       {featured && hasBrand && (
@@ -229,8 +226,8 @@ export function ProjectsSection() {
 
         <div className="gh-how">
           <div className="gh-how-head">
-            <p className="mono-label">How I work</p>
-            <p className="gh-how-lede">The same loop on every build — from a one-off script to a production service.</p>
+            <p className="mono-label">My AI-Native Workflow</p>
+            <p className="gh-how-lede">I use AI throughout the development process — from planning and implementation to testing, reviewing, and verifying what gets shipped.</p>
           </div>
           <ol className="gh-how-list">
             {HOW_I_WORK.map(([n, title, body]) => (

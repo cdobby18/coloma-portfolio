@@ -26,7 +26,7 @@ export const SKILL_GROUPS = [
   },
   {
     label: "AI & Developer Tools",
-    skills: ["Hermes", "Exa AI", "OpenCode", "Git", "VS Code", "Jupyter", "Obsidian", "Google Colab", "pytest", "Debugging", "Technical Documentation", "Code Review & PRs", "Jira"],
+    skills: ["Hermes", "Exa AI", "OpenCode", "Git", "VS Code", "Jupyter", "Obsidian", "Google Colab", "pytest", "Jira"],
   },
   {
     label: "Databases",
@@ -90,10 +90,7 @@ export const PROJECTS = [
     tags: ["Python", "YOLOv8", "Kalman Filtering", "SVM", "MoveNet"],
     img: "/POWER.png",
     logoWide: "/logos/powerlift-wide.webp",
-    accent: "#c9443f",
-    accentSoft: "rgba(201, 68, 63, 0.10)",
     plate: "linear-gradient(135deg, #fcf9f5 0%, #f4eee5 100%)",
-    plateGlow: "rgba(201, 68, 63, 0.18)",
     link: "https://github.com/cdobby18/Powerlift",
   },
   {
@@ -113,8 +110,6 @@ export const PROJECTS = [
     tags: ["React", "Python", "LLMs", "RAG", "FastAPI"],
     img: "/sunny.png",
     logo: "/logos/sunny.webp",
-    accent: "#d98a3d",
-    accentSoft: "rgba(217, 138, 61, 0.12)",
     link: "#contact",
   },
   {
@@ -134,8 +129,6 @@ export const PROJECTS = [
     tags: ["FastAPI", "React", "RAG", "LangChain", "PostgreSQL", "FAISS"],
     img: "/resolve.png",
     logo: "/logos/resolve.webp",
-    accent: "#2f9e75",
-    accentSoft: "rgba(47, 158, 117, 0.12)",
     link: "https://github.com/cdobby18/ReSOLVE",
   },
 ];
@@ -150,11 +143,11 @@ export const CERTIFICATIONS = [
 ];
 
 export const HOW_I_WORK = [
-  ["01", "Understand the problem", "Read the existing workflow and define what a good output actually looks like."],
-  ["02", "Plan the smallest version", "Pick the data, model, and failure paths a first usable slice really needs."],
-  ["03", "Build feature by feature", "Ship one testable piece at a time instead of a big-bang demo."],
-  ["04", "Test before shipping", "Unit tests, eval sets, and adversarial prompts against real cases."],
-  ["05", "Document the handoff", "Setup notes, prompts, and a runbook so someone else can run it."],
+  ["01", "Plan", "Define the problem, break it into tasks, and decide the expected behavior before writing code."],
+  ["02", "Implement", "Use AI-assisted development to build features incrementally while understanding the code and design decisions."],
+  ["03", "Test & Inspect", "Run tests, examine outputs, inspect generated code, and identify bugs or unexpected behavior."],
+  ["04", "Review & Revise", "Evaluate the implementation, challenge AI-generated solutions, and refine the code based on findings."],
+  ["05", "Verify", "Confirm everything works as expected, validate edge cases, and ensure the system is ready to ship."]
 ];
 
 export const IDE_FILE = "refund-guard.js";

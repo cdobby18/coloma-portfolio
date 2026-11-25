@@ -168,7 +168,7 @@ export default function Portfolio() {
         <div className="rail-actions">
           <button className="kbd-btn rail-ask" type="button" onClick={focusAI}>
             <SparkIcon size={13} />
-            Ask AI
+            Ask CJAI
             <span className="kbd">⌘K</span>
           </button>
           <ThemeSwitch mode={themeMode} onChange={setThemeMode} />

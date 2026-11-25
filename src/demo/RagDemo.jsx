@@ -606,14 +606,13 @@ export default function RagDemo() {
           <span className="ai-logo" aria-hidden="true">
             <img src="/cbot-mark.webp" alt="" width={240} height={240} />
           </span>
-          <span className="ai-kicker">Portfolio AI</span>
+          <span className="ai-kicker">CJAI</span>
         </div>
 
         <div className="ai-side-copy">
           <h2 className="ai-heading">Ask about my work.</h2>
           <p className="ai-desc">
-            Grounded in CJ's projects, experience, and stack. It cites sources and abstains
-            when unsure.
+            Knows what I use and how I like to build things. Basically, my AI sidekick.
           </p>
         </div>
 

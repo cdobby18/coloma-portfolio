@@ -29,17 +29,15 @@ export function Hero() {
 
             <div className="hero-bio">
               <p>
-                I'm an aspiring AI engineer. I build retrieval and agent systems, and these
-                days I'm focused on making LLM output <strong>hold up outside the demo</strong>.
+                I'm an aspiring AI Engineer interested in building AI applications, from retrieval-augmented generation (RAG) to AI agents and automation..
               </p>
               <p>
-                Right now I'm shipping small, honest AI systems and writing down what breaks.
-                I love turning rough ideas into tools people actually trust.
+                I enjoy turning ideas into working systems, experimenting with LLMs, and figuring out how to make AI applications more reliable beyond the demo. Currently focused on backend AI engineering, production workflows, and AI-native development.
               </p>
             </div>
 
             <div className="hero-focus">
-              {["Agentic AI", "RAG", "LLM Evaluation", "Computer Vision"].map((f) => (
+              {["Python", "Agentic AI", "GenAI", "RAG"].map((f) => (
                 <span key={f}>{f}</span>
               ))}
             </div>

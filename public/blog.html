@@ -301,6 +301,21 @@
       flex-direction: column;
       gap: 2px;
     }
+    .blog-tabs {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .blog-list-link {
+      margin-top: 10px;
+      border-top: 1px solid var(--border);
+      border-left-color: transparent;
+      border-radius: 0;
+      padding-top: 16px;
+      text-decoration: none;
+    }
+    .blog-list-link:hover { border-left-color: var(--accent); }
+    .blog-list-link .btn-title { color: var(--text); }
     .list-label {
       margin: 0 0 14px 12px;
       font-family: "JetBrains Mono", monospace;
@@ -474,6 +489,8 @@
         border-bottom: 1px solid var(--border);
       }
       .list-label { grid-column: 1 / -1; margin-left: 12px; margin-bottom: 6px; }
+      .blog-tabs { display: contents; }
+      .blog-list-link { margin-top: 4px; border-top: 0; padding-top: 12px; }
     }
     @media (max-width: 640px) {
       .shell { padding: 0 18px; }
@@ -526,7 +543,8 @@
     </div>
 
     <div class="layout">
-      <aside class="blog-list" role="tablist" aria-label="Blog posts">
+      <aside class="blog-list" aria-label="Blog posts">
+        <div class="blog-tabs" role="tablist" aria-label="Blog posts">
         <span class="list-label">Tech</span>
 
         <button type="button" class="blog-list-item" data-post="still" data-title="Still Figuring It Out" data-tag="June 2026" aria-controls="post-still" aria-selected="true" role="tab">
@@ -544,7 +562,17 @@
             <span class="btn-tags"><span class="tag">August 2026</span></span>
           </span>
         </button>
+        </div>
 
+        <a class="blog-list-item blog-list-link" href="/blog/aidlc.html">
+          <span class="post-num">03</span>
+          <span class="post-copy">
+            <span class="btn-title">AIDLC: The Workflow at a Glance</span>
+            <span class="btn-tags"><span class="tag">Engineering</span><span class="tag">Long read ↗</span></span>
+          </span>
+        </a>
+
+        <div class="blog-tabs" role="tablist" aria-label="Outside tech posts">
         <span class="list-label list-label-gap">Outside tech</span>
 
         <button type="button" class="blog-list-item" data-post="bawz" data-title="Beyond the Code: What BAWZ Taught Me" data-tag="August 2025" aria-controls="post-bawz" aria-selected="false" role="tab">
@@ -554,6 +582,7 @@
             <span class="btn-tags"><span class="tag">August 2025</span></span>
           </span>
         </button>
+        </div>
       </aside>
 
       <section class="blog-posts">
@@ -651,7 +680,7 @@
 
   <script>
     (function () {
-      var listButtons = document.querySelectorAll(".blog-list-item");
+      var listButtons = document.querySelectorAll("button.blog-list-item");
       var posts = document.querySelectorAll(".blog-post");
       var progress = document.getElementById("progress");
 

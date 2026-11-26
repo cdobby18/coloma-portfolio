@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AIDLC: The Workflow at a Glance — Carl Joshua Coloma</title>
+  <meta name="description" content="My AI-assisted development lifecycle — plan, build, test, inspect, review, revise, verify — and the work ethic that keeps AI-generated code honest." />
+  <meta name="author" content="Carl Joshua Coloma" />
+  <link rel="canonical" href="https://carlcoloma.vercel.app/blog/aidlc.html" />
+  <link rel="icon" href="/favicon.ico?v=8" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=8" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=8" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=8" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="AIDLC: The Workflow at a Glance — Carl Joshua Coloma" />
+  <meta property="og:description" content="My AI-assisted development lifecycle — plan, build, test, inspect, review, revise, verify — and the work ethic that keeps AI-generated code honest." />
+  <meta property="og:url" content="https://carlcoloma.vercel.app/blog/aidlc.html" />
+  <meta property="og:image" content="https://carlcoloma.vercel.app/og.png" />
+  <meta property="og:image:alt" content="AIDLC: an AI-assisted development lifecycle" />
+  <meta property="og:site_name" content="Carl Coloma" />
+  <meta property="article:section" content="Engineering" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AIDLC: The Workflow at a Glance — Carl Joshua Coloma" />
+  <meta name="twitter:description" content="My AI-assisted development lifecycle — plan, build, test, inspect, review, revise, verify — and the work ethic that keeps AI-generated code honest." />
+  <meta name="twitter:image" content="https://carlcoloma.vercel.app/og.png" />
+  <meta name="twitter:image:alt" content="AIDLC: an AI-assisted development lifecycle" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/blog.css" />
+  <link rel="stylesheet" href="/site-rail.css" />
+  <script src="/site-rail.js" defer></script>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "AIDLC: The Workflow at a Glance",
+      "description": "My AI-assisted development lifecycle — plan, build, test, inspect, review, revise, verify — and the work ethic that keeps AI-generated code honest.",
+      "image": "https://carlcoloma.vercel.app/og.png",
+      "author": { "@type": "Person", "name": "Carl Joshua Coloma" },
+      "publisher": { "@type": "Person", "name": "Carl Joshua Coloma" },
+      "url": "https://carlcoloma.vercel.app/blog/aidlc.html",
+      "mainEntityOfPage": "https://carlcoloma.vercel.app/blog/aidlc.html",
+      "datePublished": "2026-11-26",
+      "articleSection": "Engineering"
+    }
+  </script>
+
+  <script src="/theme-init.js"></script>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+</head>
+<body>
+  <div id="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Reading progress"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <main class="post-main" id="main">
+    <header class="post-head">
+      <span class="eyebrow">Writing / Engineering</span>
+      <h1>AIDLC: The Workflow at a Glance</h1>
+      <div class="meta">
+        Carl Joshua Coloma
+        <span class="sep">·</span>
+        <span class="meta-date">November 2026</span>
+        <span class="sep">·</span>
+        <span>5 min read</span>
+      </div>
+      <div class="post-share" role="group" aria-label="Share this post">
+        <span class="post-share-label">Share</span>
+        <a class="post-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fcarlcoloma.vercel.app%2Fblog%2Faidlc.html" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+        <a class="post-share-btn" href="mailto:?subject=AIDLC%3A%20The%20Workflow%20at%20a%20Glance&amp;body=My%20AI-assisted%20development%20lifecycle%20%E2%80%94%20plan%2C%20build%2C%20test%2C%20inspect%2C%20review%2C%20revise%2C%20verify.%0A%0Ahttps%3A%2F%2Fcarlcoloma.vercel.app%2Fblog%2Faidlc.html">Email</a>
+        <span class="post-share-status" role="status"></span>
+      </div>
+    </header>
+
+    <div class="post-body">
+      <div class="prose">
+        <p>AI can write code faster than I can read it. That is the whole problem. Speed only helps if I can still explain what shipped, prove it works, and catch the failure before a user does. AIDLC — my AI-assisted development lifecycle — is the loop I use to keep that balance.</p>
+
+        <h2>The workflow at a glance</h2>
+
+        <p>Eight steps, one loop.</p>
+
+        <ol class="workflow-steps">
+          <li>
+            <span class="step-title">Define the problem</span>
+            <p>Write down the constraints, acceptance criteria, and risks before touching code. If I cannot say what “done” looks like, I am not ready to start.</p>
+          </li>
+          <li>
+            <span class="step-title">Choose the execution mode</span>
+            <p>Direct execution for a small change. Plan mode for a larger one. The size of the change decides the ceremony — not the other way around.</p>
+          </li>
+          <li>
+            <span class="step-title">Implement in small, reviewable increments</span>
+            <p>A coding agent can do the typing. I still read the diff, understand the design decisions, and own what lands.</p>
+          </li>
+          <li>
+            <span class="step-title">Require meaningful tests</span>
+            <p>Not coverage theater. Tests that would actually fail if the behavior regressed.</p>
+          </li>
+          <li>
+            <span class="step-title">Run the full verification toolchain</span>
+            <p>Lint, typecheck, unit tests, integration tests, and build. The same checks CI will run, run locally first.</p>
+          </li>
+          <li>
+            <span class="step-title">Review the diff locally, then again in a PR</span>
+            <p>Local review catches the obvious issues early. The pull request is where the change becomes a shared artifact and someone else gets a chance to challenge it.</p>
+          </li>
+          <li>
+            <span class="step-title">Run a separate AI reviewer with fresh context</span>
+            <p>A fresh reviewer sees what the author’s context has normalized. Valid comments go back to the coding agent — not into a backlog.</p>
+          </li>
+          <li>
+            <span class="step-title">Re-test, re-review, merge</span>
+            <p>Merge only when CI, human review, and the final engineering bar all pass. A failed check sends the change back to the step that can fix it.</p>
+          </li>
+        </ol>
+
+        <p class="loop-line">plan → implement → test → inspect → review → revise → verify</p>
+
+        <h2>It’s a loop, not a straight line</h2>
+
+        <p>Most of the value is in the return path. A failed test is not a failure of the process; it is the process working. When a check fails, the change goes back to the step that can fix it: a bad assumption goes back to planning, a weak test goes back to test design, a confusing diff goes back to implementation.</p>
+
+        <p>The goal is not to move forward every time. The goal is to stop the wrong change from moving forward.</p>
+
+        <h2>What this looks like in practice</h2>
+
+        <ul>
+          <li><strong>ReSOLVE:</strong> guardrails run before the model, drafts cite the retrieved passage, and a human makes the send decision. The point is not that the agent can draft a reply. The point is that a person can see why the draft exists and decide whether to trust it.</li>
+          <li><strong>Powerlift:</strong> pose inference runs on-device and the classifier only sees smoothed landmarks. The verification step is what tells me the pipeline works outside a demo.</li>
+          <li><strong>SoFi AI:</strong> I designed adversarial prompt suites for hallucination, refusal, and instruction-following failures. The same idea applies to my own work — try to break the thing before shipping it.</li>
+        </ul>
+
+        <h2>The work ethic behind it</h2>
+
+        <p>The workflow is only useful if I am honest about what it produced.</p>
+
+        <ul>
+          <li><strong>Own the diff.</strong> If I cannot explain a line, I do not ship it.</li>
+          <li><strong>Test before shipping.</strong> If the test would not catch the regression, it is not a test.</li>
+          <li><strong>Review my own work first.</strong> Then ask for review. Review is a loop, not a gate.</li>
+          <li><strong>Document the handoff.</strong> Setup notes, prompts, and a runbook so someone else can run it.</li>
+          <li><strong>Separate built from measured.</strong> I do not claim production results, resolution rates, or time saved without a deployment and a baseline.</li>
+          <li><strong>Say what broke.</strong> The useful write-up names the failure mode, not just the wins.</li>
+        </ul>
+
+        <h2>Why I work this way</h2>
+
+        <p>I am early in my career. The fastest way to get better is to make my mistakes visible, fix them in the open, and keep a record of what changed. AIDLC is how I do that with AI in the loop: the agent can move fast, but the responsibility for the result stays with me.</p>
+
+        <blockquote>The agent can move fast. The responsibility for the result stays with me.</blockquote>
+
+        <p>If you want the short version, it is on the portfolio: plan, build, verify, iterate. The full loop is above.</p>
+      </div>
+
+      <footer class="post-footer">
+        <nav class="post-nav" aria-label="Post navigation">
+          <a class="nav-prev" href="/blog/the-gap-between-watching-and-building.html">The Gap Between Watching and Building</a>
+        </nav>
+        <div class="post-actions">
+          <a class="back" href="/blog.html">← All writing</a>
+          <a class="back" href="/">← Back to portfolio</a>
+        </div>
+      </footer>
+    </div>
+  </main>
+
+  <script defer src="https://va.vercel-scripts.com/v1/script.js"></script>
+  <script defer src="/analytics.js"></script>
+  <script defer src="/share.js"></script>
+  <script defer src="/blog.js"></script>
+</body>
+</html>

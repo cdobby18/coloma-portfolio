@@ -33,7 +33,7 @@ INJECTION_RE = re.compile(
 
 ABSTAIN = (
     "I don't have a grounded answer for that. Try asking about a project, "
-    "CJ's experience, technical stack, availability, or contact details.\n\n"
+    "CJ's experience, technical stack, availability, workflow, or contact details.\n\n"
     "- **Direct email:** carljoshuamcoloma@gmail.com\n"
     "- **Projects:** ReSOLVE, Powerlift, Sunny AI, AI Resume Analyzer, Document Summarizer"
 )
@@ -62,12 +62,12 @@ ALIASES = {
     "sunny": ["mentor", "mentorship", "sunnyai"],
     "resume-analyzer": ["resume", "résumé", "ats", "analyzer"],
     "doc-summarizer": ["summarizer", "summarization", "summarize", "bart", "t5", "pdf"],
-    "flyrank": ["flyrankai", "recent", "latest"],
+    "flyrank": ["flyrankai"],
     "sofi": ["sofiai"],
     "lamina": ["laminastudios"],
     "experience": [
         "internship", "internships", "intern", "interns", "companies", "role",
-        "roles", "position", "positions",
+        "roles", "position", "positions", "recent", "latest",
     ],
     "stack": [
         "skills", "tech", "tools", "technologies", "languages", "frameworks",
@@ -75,7 +75,11 @@ ALIASES = {
     ],
     "contact": ["email", "e-mail", "linkedin", "github", "reach"],
     "availability": ["available", "hiring", "hire", "recruit", "job", "role", "roles"],
-    "automation": ["automate", "workflow", "workflows", "guardrails", "human-in-the-loop", "rag"],
+    "automation": ["automate", "human", "guardrails", "human-in-the-loop", "rag"],
+    "workflow": [
+        "aidlc", "lifecycle", "process", "methodology", "ethic", "ethics",
+        "principles", "standards", "review", "verify", "merge", "merges", "merging",
+    ],
     "education": ["school", "university", "degree", "feu", "student"],
     "about": ["bio", "background"],
     "projects": ["portfolio", "project"],
@@ -139,6 +143,15 @@ def expand_query(query):
                 weights[key] = max(weights.get(key, 0), 0.55)
                 for alias in aliases:
                     weights[alias] = max(weights.get(alias, 0), 0.35)
+
+    if not weights and re.search(
+        r"\b(how do (you|u) (work|build|ship|review|test)|aidlc|"
+        r"(cj'?s|his|your) (workflow|process|methodology|work ethics?))\b",
+        query,
+        re.IGNORECASE,
+    ):
+        weights["workflow"] = 1.0
+        weights["aidlc"] = 1.0
 
     if not weights and re.search(
         r"\b(who|what)\b.*\b(cj|carl|coloma|you|him|he)\b", query, re.IGNORECASE
@@ -298,7 +311,7 @@ INTENTS = [
         r"^\s*(hi|hey|hello|yo|sup|howdy|good (morning|afternoon|evening))"
         r"(\s+(there|again|all|everyone|friend))?[\s!,.?]*$",
         "Hello. I'm CJ's portfolio assistant. You can ask about his projects, "
-        "automation work, technical stack, experience, or contact details.",
+        "automation work, workflow, technical stack, experience, or contact details.",
         [],
     ),
     (
@@ -316,7 +329,7 @@ INTENTS = [
         r"^\s*(help|what can you do|what can i ask|how does this work|capabilities)"
         r"[\s!,.?]*$",
         "I answer from a small set of portfolio documents. Ask about a project, "
-        "CJ's experience, stack, availability, or contact details. I cite the "
+        "CJ's experience, stack, workflow, availability, or contact details. I cite the "
         "passage I used and say when I don't have a grounded answer.",
         [],
     ),
@@ -330,6 +343,22 @@ INTENTS = [
         r"^\s*(ok|okay|cool|nice|great|awesome|got it|sounds good)[\s!,.?]*$",
         "Understood. Let me know if you would like details on anything else.",
         [],
+    ),
+    (
+        r"\b(aidlc|ai[- ]assisted development lifecycle|development lifecycle|"
+        r"work ethics?|how do (you|u) (work|build|ship|review|test)|"
+        r"(cj'?s|his|your) (workflow|process|methodology|work ethics?))\b",
+        "CJ works in a loop he calls AIDLC — an AI-assisted development lifecycle. "
+        "He defines the problem, constraints, acceptance criteria, and risks first, "
+        "then chooses direct execution for a small change or plan mode for a larger "
+        "one. The agent implements in small reviewable increments; CJ requires "
+        "meaningful tests, runs the full verification toolchain, reviews the diff "
+        "locally and in a pull request, and adds a separate AI reviewer with fresh "
+        "context. He merges only when CI, human review, and the engineering bar pass.\n\n"
+        "- **Work ethic:** own the diff, test before shipping, review his own work "
+        "first, document the handoff, and separate what was built from what was measured.\n"
+        "- **Full write-up:** /blog/aidlc.html",
+        ["workflow"],
     ),
     (
         r"\b(contact|email|e-mail|reach|get in touch|linkedin|github)\b",
@@ -389,7 +418,7 @@ def run_query(query, context=None):
             "query": original,
             "matches": [],
             "answer": "I only answer questions about CJ's work and background. "
-            "Ask about a project, his experience, stack, or contact details.",
+            "Ask about a project, his experience, stack, workflow, or contact details.",
             "topic": None,
         }
 

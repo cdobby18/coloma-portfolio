@@ -203,6 +203,49 @@
       ]
     },
     {
+      "id": "workflow",
+      "title": "AIDLC — AI-Assisted Development Lifecycle",
+      "url": "/blog/aidlc.html",
+      "chunks": [
+        {
+          "heading": "Overview",
+          "text": "CJ's workflow is AIDLC, an AI-assisted development lifecycle. He defines the problem, constraints, acceptance criteria, and risks; chooses direct execution for a small change or plan mode for a larger one; has the coding agent implement in small reviewable increments; requires meaningful tests and the project's full verification toolchain; reviews the diff locally and again in a pull request; runs a separate AI reviewer with fresh context; sends valid review comments back to the coding agent; then re-tests, re-reviews, and merges only when CI, human review, and the final engineering bar pass. It is a loop, not a straight line."
+        },
+        {
+          "heading": "Plan",
+          "text": "Before writing code CJ defines the problem, constraints, acceptance criteria, and risks. He chooses direct execution for a small change and plan mode for a larger one, so the amount of ceremony matches the size of the change. If he cannot say what done looks like, he is not ready to start."
+        },
+        {
+          "heading": "Build",
+          "text": "CJ has the coding agent implement the change in small, reviewable increments. He reads the diff, understands the design decisions, and owns what lands rather than accepting generated code blindly."
+        },
+        {
+          "heading": "Test and inspect",
+          "text": "CJ requires meaningful tests that would actually fail if the behavior regressed, not coverage theater. He runs the project's full verification toolchain locally first: lint, typecheck, unit tests, integration tests, and build."
+        },
+        {
+          "heading": "Review and revise",
+          "text": "CJ reviews the diff himself locally, then again in a pull request or code-review surface. He runs a separate AI reviewer with fresh context because a fresh reviewer sees what the author's context has normalized. Valid review comments go back to the coding agent, and the change is re-tested and re-reviewed."
+        },
+        {
+          "heading": "Merge bar and loop",
+          "text": "CJ merges only when CI, human review, and the final engineering bar all pass. A failed check sends the change back to the earlier step that can fix it: a bad assumption goes back to planning, a weak test goes back to test design, and a confusing diff goes back to implementation. The loop is plan, implement, test, inspect, review, revise, verify."
+        },
+        {
+          "heading": "Work ethic",
+          "text": "CJ's work ethic is to own the diff, test before shipping, review his own work first, document the handoff, separate what was built from what was measured, and say what broke. He does not claim production results, resolution rates, or time saved without a deployment and a baseline. His principles are ownership, honesty about evidence, and leaving the codebase easier for the next person to run."
+        },
+        {
+          "heading": "Collaboration",
+          "text": "CJ treats review as a loop rather than a gate. He writes setup notes, prompts, and runbooks so someone else can run the work, and he keeps responsibility for the result even when an agent does the typing."
+        },
+        {
+          "heading": "Full write-up",
+          "text": "The full AIDLC write-up is at /blog/aidlc.html. The portfolio's How I Work band shows the short four-phase version: plan, build, verify, iterate."
+        }
+      ]
+    },
+    {
       "id": "about",
       "title": "About CJ",
       "url": "/#about",
@@ -226,35 +269,238 @@
     }
   ],
   "eval": [
-    { "query": "What is ReSOLVE?", "expect": ["resolve"] },
-    { "query": "How does ReSOLVE triage tickets?", "expect": ["resolve"] },
-    { "query": "Does ReSOLVE send replies automatically?", "expect": ["resolve"] },
-    { "query": "What are the tradeoffs in ReSOLVE?", "expect": ["resolve"] },
-    { "query": "What did CJ build for customer support?", "expect": ["resolve"] },
-    { "query": "Tell me about Powerlift", "expect": ["powerlift"] },
-    { "query": "What models does Powerlift use?", "expect": ["powerlift"] },
-    { "query": "How does Powerlift handle noisy keypoints?", "expect": ["powerlift"] },
-    { "query": "What award did Powerlift win?", "expect": ["powerlift"] },
-    { "query": "Did Powerlift publish accuracy numbers?", "expect": ["powerlift"] },
-    { "query": "What is Sunny AI?", "expect": ["sunny"] },
-    { "query": "How does the resume analyzer work?", "expect": ["resume-analyzer"] },
-    { "query": "How fast is the resume analyzer?", "expect": ["resume-analyzer"] },
-    { "query": "What does the document summarizer use?", "expect": ["doc-summarizer"] },
-    { "query": "Where did CJ intern?", "expect": ["experience"] },
-    { "query": "What did CJ do at FlyRank?", "expect": ["flyrank"] },
-    { "query": "Tell me about SoFi", "expect": ["sofi"] },
-    { "query": "What did CJ do at Lamina Studios?", "expect": ["lamina"] },
-    { "query": "What is CJ's tech stack?", "expect": ["stack"] },
-    { "query": "Does CJ know Python?", "expect": ["stack"] },
-    { "query": "What is CJ's education?", "expect": ["education"] },
-    { "query": "How do I contact CJ?", "expect": ["contact"] },
-    { "query": "Is CJ open to work?", "expect": ["availability"] },
-    { "query": "What is CJ's approach to automation?", "expect": ["automation"] },
-    { "query": "What is RAG?", "expect": ["automation", "stack", "resolve"] },
-    { "query": "Who is CJ?", "expect": ["about"] },
-    { "query": "What projects has CJ built?", "expect": ["projects"] },
-    { "query": "What was CJ's most recent role?", "expect": ["flyrank", "experience"] },
-    { "query": "What is human-in-the-loop?", "expect": ["automation", "resolve"] },
-    { "query": "What is CJ's focus?", "expect": ["about", "availability"] }
+    {
+      "query": "What is ReSOLVE?",
+      "expect": [
+        "resolve"
+      ]
+    },
+    {
+      "query": "How does ReSOLVE triage tickets?",
+      "expect": [
+        "resolve"
+      ]
+    },
+    {
+      "query": "Does ReSOLVE send replies automatically?",
+      "expect": [
+        "resolve"
+      ]
+    },
+    {
+      "query": "What are the tradeoffs in ReSOLVE?",
+      "expect": [
+        "resolve"
+      ]
+    },
+    {
+      "query": "What did CJ build for customer support?",
+      "expect": [
+        "resolve"
+      ]
+    },
+    {
+      "query": "Tell me about Powerlift",
+      "expect": [
+        "powerlift"
+      ]
+    },
+    {
+      "query": "What models does Powerlift use?",
+      "expect": [
+        "powerlift"
+      ]
+    },
+    {
+      "query": "How does Powerlift handle noisy keypoints?",
+      "expect": [
+        "powerlift"
+      ]
+    },
+    {
+      "query": "What award did Powerlift win?",
+      "expect": [
+        "powerlift"
+      ]
+    },
+    {
+      "query": "Did Powerlift publish accuracy numbers?",
+      "expect": [
+        "powerlift"
+      ]
+    },
+    {
+      "query": "What is Sunny AI?",
+      "expect": [
+        "sunny"
+      ]
+    },
+    {
+      "query": "How does the resume analyzer work?",
+      "expect": [
+        "resume-analyzer"
+      ]
+    },
+    {
+      "query": "How fast is the resume analyzer?",
+      "expect": [
+        "resume-analyzer"
+      ]
+    },
+    {
+      "query": "What does the document summarizer use?",
+      "expect": [
+        "doc-summarizer"
+      ]
+    },
+    {
+      "query": "Where did CJ intern?",
+      "expect": [
+        "experience"
+      ]
+    },
+    {
+      "query": "What did CJ do at FlyRank?",
+      "expect": [
+        "flyrank"
+      ]
+    },
+    {
+      "query": "Tell me about SoFi",
+      "expect": [
+        "sofi"
+      ]
+    },
+    {
+      "query": "What did CJ do at Lamina Studios?",
+      "expect": [
+        "lamina"
+      ]
+    },
+    {
+      "query": "What is CJ's tech stack?",
+      "expect": [
+        "stack"
+      ]
+    },
+    {
+      "query": "Does CJ know Python?",
+      "expect": [
+        "stack"
+      ]
+    },
+    {
+      "query": "What is CJ's education?",
+      "expect": [
+        "education"
+      ]
+    },
+    {
+      "query": "How do I contact CJ?",
+      "expect": [
+        "contact"
+      ]
+    },
+    {
+      "query": "Is CJ open to work?",
+      "expect": [
+        "availability"
+      ]
+    },
+    {
+      "query": "What is CJ's approach to automation?",
+      "expect": [
+        "automation"
+      ]
+    },
+    {
+      "query": "What is RAG?",
+      "expect": [
+        "automation",
+        "stack",
+        "resolve"
+      ]
+    },
+    {
+      "query": "Who is CJ?",
+      "expect": [
+        "about"
+      ]
+    },
+    {
+      "query": "What projects has CJ built?",
+      "expect": [
+        "projects"
+      ]
+    },
+    {
+      "query": "What was CJ's most recent role?",
+      "expect": [
+        "flyrank",
+        "experience"
+      ]
+    },
+    {
+      "query": "What is human-in-the-loop?",
+      "expect": [
+        "automation",
+        "resolve"
+      ]
+    },
+    {
+      "query": "What is CJ's focus?",
+      "expect": [
+        "about",
+        "availability"
+      ]
+    },
+    {
+      "query": "How do you work?",
+      "expect": [
+        "workflow"
+      ]
+    },
+    {
+      "query": "What is CJ's workflow?",
+      "expect": [
+        "workflow"
+      ]
+    },
+    {
+      "query": "What is AIDLC?",
+      "expect": [
+        "workflow"
+      ]
+    },
+    {
+      "query": "What is CJ's work ethic?",
+      "expect": [
+        "workflow"
+      ]
+    },
+    {
+      "query": "How does CJ review AI-generated code?",
+      "expect": [
+        "workflow"
+      ]
+    },
+    {
+      "query": "What does CJ do before merging?",
+      "expect": [
+        "workflow"
+      ]
+    },
+    {
+      "query": "How does CJ test his work?",
+      "expect": [
+        "workflow"
+      ]
+    },
+    {
+      "query": "Does CJ trust AI-generated code?",
+      "expect": [
+        "workflow"
+      ]
+    }
   ]
 }

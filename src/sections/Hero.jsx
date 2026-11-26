@@ -37,7 +37,7 @@ export function Hero() {
             </div>
 
             <div className="hero-focus">
-              {["Python", "Agentic AI", "GenAI", "RAG"].map((f) => (
+              {["Python", "Agentic AI", "GenAI"].map((f) => (
                 <span key={f}>{f}</span>
               ))}
             </div>

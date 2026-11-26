@@ -145,14 +145,19 @@ export function ProjectCard({ project, featured = false }) {
             aria-hidden={tab !== "architecture"}
           >
             <div className="proj-pane-body">
-              <span className="proj-block-label">Pipeline</span>
-              <div className="proj-flow">
+              <div className="proj-block-row">
+                <span className="proj-block-label">Pipeline</span>
+                <span className="proj-scroll-hint" aria-hidden="true">scroll →</span>
+              </div>
+              <div
+                className="proj-flow"
+                tabIndex={0}
+                role="group"
+                aria-label={`${project.title} pipeline`}
+              >
                 {project.how.map((step, i) => (
                   <Fragment key={step}>
-                    <span className="proj-flow-item">
-                      <span className="proj-flow-num">{String(i + 1).padStart(2, "0")}</span>
-                      {step}
-                    </span>
+                    <span className="proj-flow-item">{step}</span>
                     {i < project.how.length - 1 && (
                       <span className="proj-flow-arrow" aria-hidden="true">→</span>
                     )}
@@ -240,6 +245,12 @@ export function ProjectsSection() {
               </li>
             ))}
           </ol>
+          <div className="gh-how-foot">
+            <span className="gh-how-loop">plan → build → test → inspect → review → revise → verify</span>
+            <a className="text-link" href="/blog/aidlc.html">
+              Read the full AIDLC workflow <ArrowUpRight size={13} />
+            </a>
+          </div>
         </div>
       </Reveal>
     </Section>

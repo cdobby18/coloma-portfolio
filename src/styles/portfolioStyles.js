@@ -981,31 +981,62 @@ export const buildStyles = (theme) => `
           color: var(--muted);
         }
         .proj-block-label--notes { margin-top: 12px; }
+        .proj-block-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          margin-bottom: 7px;
+        }
+        .proj-block-row .proj-block-label { margin-bottom: 0; }
+        .proj-scroll-hint {
+          flex-shrink: 0;
+          font-family: var(--mono);
+          font-size: 9px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: var(--muted);
+        }
         .proj-flow {
           display: flex;
-          flex-wrap: wrap;
           align-items: center;
-          gap: 5px;
+          gap: 6px;
+          overflow-x: auto;
+          overscroll-behavior-x: contain;
+          padding-right: 32px;
+          padding-bottom: 8px;
+          scrollbar-width: thin;
+          scrollbar-color: var(--border-strong) transparent;
+          -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 26px), transparent);
+          mask-image: linear-gradient(to right, #000 calc(100% - 26px), transparent);
+        }
+        .proj-flow:focus-visible {
+          outline: 2px solid var(--accent-border);
+          outline-offset: 3px;
+          border-radius: 4px;
+        }
+        .proj-flow::-webkit-scrollbar { height: 5px; }
+        .proj-flow::-webkit-scrollbar-track { background: transparent; }
+        .proj-flow::-webkit-scrollbar-thumb {
+          border-radius: 999px;
+          background: var(--border-strong);
         }
         .proj-flow-item {
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          padding: 4px 8px;
+          flex: 0 0 auto;
+          padding: 5px 9px;
           border: 1px solid var(--border);
           border-radius: 7px;
           background: var(--bg);
-          font-size: 11px;
+          font-size: 11.5px;
           line-height: 1.3;
           white-space: nowrap;
           color: var(--text-2);
         }
-        .proj-flow-num {
-          font-family: var(--mono);
-          font-size: 9px;
-          color: var(--accent);
-        }
         .proj-flow-arrow {
+          flex: 0 0 auto;
           font-size: 12px;
           line-height: 1;
           color: var(--accent);
@@ -1106,7 +1137,7 @@ export const buildStyles = (theme) => `
         .gh-how-list {
           list-style: none;
           display: grid;
-          grid-template-columns: repeat(5, minmax(0, 1fr));
+          grid-template-columns: repeat(4, minmax(0, 1fr));
           gap: 18px;
           margin-top: 26px;
         }
@@ -1137,6 +1168,23 @@ export const buildStyles = (theme) => `
         .gh-how-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
         .gh-how-title { font-size: 13.5px; font-weight: 600; line-height: 1.35; color: var(--text); }
         .gh-how-body { font-size: 12.5px; line-height: 1.55; color: var(--muted); }
+        .gh-how-foot {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          flex-wrap: wrap;
+          margin-top: 24px;
+          padding-top: 14px;
+          border-top: 1px solid var(--border);
+        }
+        .gh-how-loop {
+          font-family: var(--mono);
+          font-size: 10.5px;
+          line-height: 1.6;
+          letter-spacing: 0.02em;
+          color: var(--muted);
+        }
 
         .ide-card {
           overflow: hidden;
@@ -1227,6 +1275,7 @@ export const buildStyles = (theme) => `
         .stack-grid {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
+          align-items: start;
           gap: 16px;
         }
         .stack-group {
@@ -1237,9 +1286,14 @@ export const buildStyles = (theme) => `
           border: 1px solid var(--border);
           border-radius: 14px;
           background: var(--surface);
-          transition: border-color 0.2s ease;
+          transition: border-color 0.2s ease, background 0.2s ease;
         }
         .stack-group:hover { border-color: var(--border-strong); }
+        .stack-group--focus {
+          border-color: var(--accent-border);
+          background: color-mix(in srgb, var(--accent-soft) 55%, var(--surface));
+        }
+        .stack-group--focus:hover { border-color: var(--accent); }
         .stack-group-head {
           display: flex;
           align-items: center;
@@ -1256,21 +1310,44 @@ export const buildStyles = (theme) => `
           letter-spacing: -0.01em;
           color: var(--text);
         }
-        .stack-num {
+        .stack-icon {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          width: 22px;
-          height: 22px;
+          width: 26px;
+          height: 26px;
           flex-shrink: 0;
           border: 1px solid var(--border);
-          border-radius: 6px;
+          border-radius: 7px;
           background: var(--surface-2);
-          font-family: var(--mono);
-          font-size: 9.5px;
-          font-weight: 400;
-          letter-spacing: 0.04em;
           color: var(--accent);
+        }
+        .stack-group--focus .stack-icon {
+          border-color: var(--accent-border);
+          background: var(--surface);
+        }
+        .stack-group-meta {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          flex-shrink: 0;
+        }
+        .stack-focus {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          font-family: var(--mono);
+          font-size: 9px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--accent);
+        }
+        .stack-focus::before {
+          content: "";
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background: var(--accent);
         }
         .stack-count {
           flex-shrink: 0;
@@ -1284,11 +1361,11 @@ export const buildStyles = (theme) => `
           position: relative;
           display: inline-flex;
           align-items: center;
-          padding: 5px 10px;
+          padding: 6px 11px;
           border: 1px solid var(--chip-border);
           border-radius: 7px;
           background: var(--chip-bg);
-          font-size: 12.5px;
+          font-size: 13px;
           line-height: 1.2;
           color: var(--text-2);
           cursor: default;
@@ -1678,7 +1755,7 @@ export const buildStyles = (theme) => `
           .proj-thumb { width: 100%; max-width: 360px; margin-bottom: 12px; }
           .proj-head { gap: 10px; }
           .proj-actions { justify-content: flex-start; width: 100%; margin-top: 4px; }
-          .stack-row { grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 14px 0; }
+          .stack-grid { grid-template-columns: minmax(0, 1fr); }
         }
         @media (max-width: 520px) {
           .form-row { grid-template-columns: minmax(0, 1fr); }
@@ -1688,7 +1765,7 @@ export const buildStyles = (theme) => `
           .hero-role-sep { display: none; }
         }
         @media (max-width: 1240px) {
-          .gh-how-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+          .gh-how-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
         @media (max-width: 900px) {
           .proj-card--featured { grid-template-columns: minmax(0, 1fr); }

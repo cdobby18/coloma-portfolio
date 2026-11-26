@@ -22,6 +22,7 @@ export const SKILL_GROUPS = [
   },
   {
     label: "Generative AI & LLMs",
+    focus: true,
     skills: ["RAG", "LangChain", "Agentic AI", "Prompt Engineering", "LLM Integration", "Ollama"],
   },
   {
@@ -143,11 +144,10 @@ export const CERTIFICATIONS = [
 ];
 
 export const HOW_I_WORK = [
-  ["01", "Plan", "Define the problem, break it into tasks, and decide the expected behavior before writing code."],
-  ["02", "Implement", "Use AI-assisted development to build features incrementally while understanding the code and design decisions."],
-  ["03", "Test & Inspect", "Run tests, examine outputs, inspect generated code, and identify bugs or unexpected behavior."],
-  ["04", "Review & Revise", "Evaluate the implementation, challenge AI-generated solutions, and refine the code based on findings."],
-  ["05", "Verify", "Confirm everything works as expected, validate edge cases, and ensure the system is ready to ship."]
+  ["01", "Plan", "Define the problem, constraints, acceptance criteria, and risks. Choose direct execution for a small change or plan mode for a larger one."],
+  ["02", "Build", "Implement in small, reviewable increments with AI, while reading the code and owning the design decisions."],
+  ["03", "Verify", "Require meaningful tests, run the full toolchain, and review the diff locally and in a pull request."],
+  ["04", "Iterate", "Bring in a fresh-context AI reviewer, send valid comments back, re-test, re-review, and merge only when every check passes."],
 ];
 
 export const IDE_FILE = "refund-guard.js";

@@ -123,33 +123,6 @@
 
         <p class="loop-line">plan → implement → test → inspect → review → revise → verify</p>
 
-        <h2>It’s a loop, not a straight line</h2>
-
-        <p>Most of the value is in the return path. A failed test is not a failure of the process; it is the process working. When a check fails, the change goes back to the step that can fix it: a bad assumption goes back to planning, a weak test goes back to test design, a confusing diff goes back to implementation.</p>
-
-        <p>The goal is not to move forward every time. The goal is to stop the wrong change from moving forward.</p>
-
-        <h2>What this looks like in practice</h2>
-
-        <ul>
-          <li><strong>ReSOLVE:</strong> guardrails run before the model, drafts cite the retrieved passage, and a human makes the send decision. The point is not that the agent can draft a reply. The point is that a person can see why the draft exists and decide whether to trust it.</li>
-          <li><strong>Powerlift:</strong> pose inference runs on-device and the classifier only sees smoothed landmarks. The verification step is what tells me the pipeline works outside a demo.</li>
-          <li><strong>SoFi AI:</strong> I designed adversarial prompt suites for hallucination, refusal, and instruction-following failures. The same idea applies to my own work — try to break the thing before shipping it.</li>
-        </ul>
-
-        <h2>The work ethic behind it</h2>
-
-        <p>The workflow is only useful if I am honest about what it produced.</p>
-
-        <ul>
-          <li><strong>Own the diff.</strong> If I cannot explain a line, I do not ship it.</li>
-          <li><strong>Test before shipping.</strong> If the test would not catch the regression, it is not a test.</li>
-          <li><strong>Review my own work first.</strong> Then ask for review. Review is a loop, not a gate.</li>
-          <li><strong>Document the handoff.</strong> Setup notes, prompts, and a runbook so someone else can run it.</li>
-          <li><strong>Separate built from measured.</strong> I do not claim production results, resolution rates, or time saved without a deployment and a baseline.</li>
-          <li><strong>Say what broke.</strong> The useful write-up names the failure mode, not just the wins.</li>
-        </ul>
-
         <h2>Why I work this way</h2>
 
         <p>I am early in my career. The fastest way to get better is to make my mistakes visible, fix them in the open, and keep a record of what changed. AIDLC is how I do that with AI in the loop: the agent can move fast, but the responsibility for the result stays with me.</p>
